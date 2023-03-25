@@ -1,0 +1,61 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="TheGates"
+config/description="Building new Internet"
+run/main_scene="res://the_gates/scenes/app.tscn"
+config/features=PackedStringArray("4.1")
+config/icon="res://the_gates/icons/icon_64.png"
+config/windows_native_icon="res://the_gates/icons/icon.ico"
+
+[autoload]
+
+DataSaver="*res://the_gates/scripts/data_saver.gd"
+FileDownloader="*res://the_gates/scripts/loading/file_downloader.gd"
+Debug="*res://the_gates/scripts/debug-log/debug.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=3
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[input]
+
+show_ui={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
+}
+open_debug={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194332,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
+}
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
+[physics]
+
+2d/physics_engine="GodotPhysics2D"
+3d/physics_engine="GodotPhysics3D"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=2
+driver/threads/thread_model=2
+textures/default_filters/anisotropic_filtering_level=1
+anti_aliasing/quality/use_taa=true

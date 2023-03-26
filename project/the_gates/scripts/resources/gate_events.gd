@@ -32,4 +32,5 @@ func gate_entered_emit() -> void:
 
 func exit_gate_emit() -> void:
 	current_gate_url = ""
+	current_gate = null
 	exit_gate.emit()

@@ -5,7 +5,8 @@ class_name PackLoader
 @export var scenes_parent: Node
 
 var gate: Gate
-var p_config: PackConfig
+var c_g_script: ConfigGlobalScript
+var c_godot: ConfigGodot
 
 
 func _ready() -> void:
@@ -17,10 +18,13 @@ func load_pack(_gate: Gate) -> void:
 	var success = ProjectSettings.load_resource_pack(gate.resource_pack)
 	if not success: Debug.logerr("cannot load pck"); return
 	
-	p_config = PackConfig.new(gate.godot_config)
-	p_config.load_config()
+	c_g_script = ConfigGlobalScript.new(gate.global_script_class)
+	c_godot = ConfigGodot.new(gate.godot_config)
 	
-	var scene = load(p_config.scene_path)
+	c_g_script.load_config() # Loading order is important
+	c_godot.load_config()
+	
+	var scene = load(c_godot.scene_path)
 	scenes_parent.add_child(scene.instantiate())
 	
 	gate_events.gate_entered_emit()
@@ -32,7 +36,8 @@ func unload_pack() -> void:
 	if not success: Debug.logerr("cannot unload pck")
 	else: Debug.logr("\nunloaded " + gate.resource_pack + "\n")
 	
-	if p_config != null: p_config.unload_config()
+	if c_godot != null: c_godot.unload_config()
+	if c_g_script != null: c_g_script.unload_config()
 
 
 func _exit_tree() -> void:

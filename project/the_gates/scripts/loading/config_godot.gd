@@ -1,10 +1,9 @@
 extends ConfigBase
-class_name PackConfig
+class_name ConfigGodot
 
 var scene_path: String
 
 # for unloading
-var scripts
 var autoloads
 var actions
 
@@ -15,27 +14,14 @@ func _init(path: String) -> void:
 
 
 func load_config() -> void:
-	load_global_classes()
 	load_autoloads()
 	load_input_map()
 	load_settings()
 
 
 func unload_config() -> void:
-	unload_global_classes()
 	unload_autoloads()
 	unload_input_map()
-
-
-func load_global_classes() -> void:
-	scripts = get_value("", "_global_script_classes")
-	if scripts == null: return
-	for script in scripts: CppExposed.add_global_class(script)
-
-
-func unload_global_classes() -> void:
-	if scripts == null: return
-	for script in scripts: CppExposed.remove_global_class(script)
 
 
 func load_autoloads() -> void:

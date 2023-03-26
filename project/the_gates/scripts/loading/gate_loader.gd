@@ -2,7 +2,7 @@ extends Node
 
 @export var gate_events: GateEvents
 
-var g_config: GateConfig
+var c_gate: ConfigGate
 
 
 func _ready() -> void:
@@ -14,13 +14,14 @@ func load_gate(config_url: String) -> void:
 	
 	Debug.logr("======== " + config_url + " ========")
 	var config_path: String = await FileDownloader.download(config_url)
-	g_config = GateConfig.new(config_path, config_url)
+	c_gate = ConfigGate.new(config_path, config_url)
 	
-	var image_path = await FileDownloader.download(g_config.image_url)
-	var gate = Gate.create(config_url, g_config.title, g_config.description,
-		image_path, "", "")
+	var image_path = await FileDownloader.download(c_gate.image_url)
+	var gate = Gate.create(config_url, c_gate.title, c_gate.description,
+		image_path, "", "", "")
 	gate_events.gate_info_loaded_emit(gate)
 	
-	gate.godot_config = await FileDownloader.download(g_config.godot_config_url)
-	gate.resource_pack = await FileDownloader.download(g_config.resource_pack_url)
+	gate.godot_config = await FileDownloader.download(c_gate.godot_config_url)
+	gate.global_script_class = await FileDownloader.download(c_gate.global_script_class_url)
+	gate.resource_pack = await FileDownloader.download(c_gate.resource_pack_url)
 	gate_events.gate_loaded_emit(gate)

@@ -16,7 +16,6 @@ func _init(path: String) -> void:
 func load_config() -> void:
 	load_autoloads()
 	load_input_map()
-	load_settings()
 
 
 func unload_config() -> void:
@@ -54,15 +53,3 @@ func unload_input_map() -> void:
 	if actions == null: return
 	for action_name in actions: Input.action_release(action_name)
 	InputMap.load_from_project_settings()
-
-
-func load_settings() -> void:
-	var sections := get_sections()
-	for section in sections:
-		if section in ["application"]: continue
-		Debug.logclr(section, Color.GREEN)
-		var keys := get_section_keys(section)
-		for key in keys:
-			var value = get_value(section, key)
-			ProjectSettings.set_setting(key, value)
-			Debug.logclr(ProjectSettings.get_setting(key), Color.DARK_SEA_GREEN)

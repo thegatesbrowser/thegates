@@ -3,6 +3,10 @@ extends Node
 var folder: String = "user://gates_data"
 
 
+func _ready() -> void:
+	FileTools.remove_recursive(folder)
+
+
 func download(url: String) -> String:
 	var save_path = folder + "/" + url.md5_text() + "." + url.get_file().get_extension()
 	if FileAccess.file_exists(save_path):

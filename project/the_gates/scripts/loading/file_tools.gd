@@ -2,6 +2,8 @@ extends Node
 class_name FileTools
 
 static func remove_recursive(path: String) -> void:
+	if not DirAccess.dir_exists_absolute(path) and not FileAccess.file_exists(path): return
+	
 	var dir = DirAccess.open(path)
 	if dir:
 		# List directory content
@@ -11,11 +13,13 @@ static func remove_recursive(path: String) -> void:
 			if dir.current_is_dir():
 				remove_recursive(path + "/" + file_name)
 			else:
-				dir.remove(file_name)
+				var err = dir.remove(file_name)
+				if err != OK: Debug.logerr("Error removing: " + path + "/" + file_name)
 			file_name = dir.get_next()
 		
 		# Remove current path
-		dir.remove(path)
+		var err = dir.remove(path)
+		if err != OK: Debug.logerr("Error removing: " + path)
 	else:
 		Debug.logerr("Error removing " + path)
 

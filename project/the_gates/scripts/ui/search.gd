@@ -26,7 +26,6 @@ func _on_go_pressed() -> void:
 func open_gate() -> void:
 	if Url.is_valid(url):
 		release_focus()
-		print("open gate: %s" % url)
 		gate_events.open_gate_emit(url)
 	else:
 		shake()

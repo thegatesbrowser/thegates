@@ -12,7 +12,7 @@ var current_gate: Gate
 
 
 func open_gate_emit(url: String) -> void:
-	current_gate_url = url
+	current_gate_url = Url.fix_gate_url(url)
 	open_gate.emit()
 
 

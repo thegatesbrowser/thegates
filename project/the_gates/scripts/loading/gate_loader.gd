@@ -10,8 +10,6 @@ func _ready() -> void:
 
 
 func load_gate(config_url: String) -> void:
-	config_url = Url.fix_gate_url(config_url)
-	
 	Debug.logr("======== " + config_url + " ========")
 	var config_path: String = await FileDownloader.download(config_url)
 	c_gate = ConfigGate.new(config_path, config_url)

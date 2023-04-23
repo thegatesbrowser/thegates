@@ -15,8 +15,7 @@ func load_gate(config_url: String) -> void:
 	c_gate = ConfigGate.new(config_path, config_url)
 	
 	var image_path = await FileDownloader.download(c_gate.image_url)
-	var gate = Gate.create(config_url, c_gate.title, c_gate.description,
-		image_path, "", "", "")
+	var gate = Gate.create(config_url, c_gate.title, c_gate.description, image_path, "", "", "")
 	gate_events.gate_info_loaded_emit(gate)
 	
 	gate.godot_config = await FileDownloader.download(c_gate.godot_config_url)

@@ -8,9 +8,12 @@ var gate: Gate
 var c_g_script: ConfigGlobalScript
 var c_godot: ConfigGodot
 
+var pid: int
+
 
 func _ready() -> void:
-	gate_events.gate_loaded.connect(load_pack)
+#	gate_events.gate_loaded.connect(load_pack)
+	gate_events.gate_loaded.connect(create_process)
 
 
 func load_pack(_gate: Gate) -> void:
@@ -40,5 +43,20 @@ func unload_pack() -> void:
 	if c_g_script != null: c_g_script.unload_config()
 
 
+func create_process(_gate: Gate) -> void:
+	gate = _gate
+	
+	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
+	var args = ["--main-pack", pack_file]
+	print("./godot " + " ".join(args))
+	pid = OS.create_instance(args)
+
+
+func kill_process() -> void:
+	if OS.is_process_running(pid):
+		OS.kill(pid)
+
+
 func _exit_tree() -> void:
-	unload_pack()
+#	unload_pack()
+	kill_process()

@@ -46,10 +46,20 @@ func unload_pack() -> void:
 func create_process(_gate: Gate) -> void:
 	gate = _gate
 	
+	var rd = RenderingServer.get_rendering_device() as RenderingDevice
+	var width = get_viewport().size.x
+	var height = get_viewport().size.y
+	var fd = rd.create_external_texture(width, height)
+	
 	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
-	var args = ["--main-pack", pack_file]
-	print("./godot " + " ".join(args))
-	pid = OS.create_instance(args)
+	var sandbox_path = "/home/nordup/projects/godot/the-gates-folder/the-gates/bin/godot.linuxbsd.editor.dev.sandbox.x86_64.llvm"
+	var args = [
+		"--main-pack", pack_file,
+		"--resolution", "%dx%d" % [width, height],
+		"--external_image_fd", fd
+	]
+	print(sandbox_path + " " + " ".join(args))
+	pid = OS.create_process(sandbox_path, args)
 
 
 func kill_process() -> void:

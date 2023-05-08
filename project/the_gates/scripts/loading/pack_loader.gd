@@ -51,12 +51,15 @@ func create_process(_gate: Gate) -> void:
 	var height = get_viewport().size.y
 	var fd = rd.create_external_texture(width, height)
 	
+	var main_pid = OS.get_process_id()
+	
 	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
 	var sandbox_path = "/home/nordup/projects/godot/the-gates-folder/the-gates/bin/godot.linuxbsd.editor.dev.sandbox.x86_64.llvm"
 	var args = [
 		"--main-pack", pack_file,
 		"--resolution", "%dx%d" % [width, height],
-		"--external_image_fd", fd
+		"--external-image", fd,
+		"--main-pid", main_pid
 	]
 	print(sandbox_path + " " + " ".join(args))
 	pid = OS.create_process(sandbox_path, args)

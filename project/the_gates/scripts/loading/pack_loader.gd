@@ -2,67 +2,78 @@ extends Node
 class_name PackLoader
 
 @export var gate_events: GateEvents
-@export var scenes_parent: Node
+@export var render_result: TextureRect
 
 var gate: Gate
-var c_g_script: ConfigGlobalScript
-var c_godot: ConfigGodot
-
 var pid: int
+
+@onready var width = get_viewport().size.x
+@onready var height = get_viewport().size.y
+
+var rd: RenderingDevice
+var ext_texure_rid: RID
+var result_texture_rid: RID
 
 
 func _ready() -> void:
-#	gate_events.gate_loaded.connect(load_pack)
 	gate_events.gate_loaded.connect(create_process)
+	initialize()
 
 
-func load_pack(_gate: Gate) -> void:
-	gate = _gate
-	var success = ProjectSettings.load_resource_pack(gate.resource_pack)
-	if not success: Debug.logerr("cannot load pck"); return
-	
-	c_g_script = ConfigGlobalScript.new(gate.global_script_class)
-	c_godot = ConfigGodot.new(gate.godot_config)
-	
-	c_g_script.load_config() # Loading order is important
-	c_godot.load_config()
-	
-	var scene = load(c_godot.scene_path)
-	scenes_parent.add_child(scene.instantiate())
-	
-	gate_events.gate_entered_emit()
+func _process(_delta: float) -> void:
+	texture_update()
 
 
-func unload_pack() -> void:
-	if gate == null: return
-	var success = ProjectSettings.unload_resource_pack(gate.resource_pack)
-	if not success: Debug.logerr("cannot unload pck")
-	else: Debug.logr("\nunloaded " + gate.resource_pack + "\n")
+func initialize() -> void:
+	rd = RenderingServer.get_rendering_device()
 	
-	if c_godot != null: c_godot.unload_config()
-	if c_g_script != null: c_g_script.unload_config()
+	var image = Image.create(width, height, false, Image.FORMAT_RGBA8)
+	render_result.texture = ImageTexture.create_from_image(image)
+	result_texture_rid = RenderingServer.texture_get_rd_texture(render_result.texture.get_rid())
+	if not result_texture_rid.is_valid(): Debug.logerr("Cannot create ImageTexture")
+	else: Debug.logclr("Render result texture created", Color.AQUAMARINE)
 
 
 func create_process(_gate: Gate) -> void:
 	gate = _gate
 	
-	var rd = RenderingServer.get_rendering_device() as RenderingDevice
-	var width = get_viewport().size.x
-	var height = get_viewport().size.y
-	var fd = rd.create_external_texture(width, height)
-	
-	var main_pid = OS.get_process_id()
-	
-	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
 	var sandbox_path = "/home/nordup/projects/godot/the-gates-folder/the-gates/bin/godot.linuxbsd.editor.dev.sandbox.x86_64.llvm"
+	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
+	var main_pid = OS.get_process_id()
+	var fd = create_external_texture()
+	if fd == -1: Debug.logerr("Cannot create external texture"); return
+	else: Debug.logclr("External texture created " + str(fd), Color.AQUAMARINE)
+	
 	var args = [
 		"--main-pack", pack_file,
 		"--resolution", "%dx%d" % [width, height],
 		"--external-image", fd,
 		"--main-pid", main_pid
 	]
-	print(sandbox_path + " " + " ".join(args))
+	Debug.logclr(sandbox_path + " " + " ".join(args), Color.DARK_VIOLET)
 	pid = OS.create_process(sandbox_path, args)
+	
+	gate_events.gate_entered_emit()
+
+
+func create_external_texture() -> int:
+	var t_format: RDTextureFormat = RDTextureFormat.new()
+	t_format.format = RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM
+	t_format.usage_bits = RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
+	t_format.width = width
+	t_format.height = height
+	t_format.depth = 1
+	var t_view: RDTextureView = RDTextureView.new()
+	
+	ext_texure_rid = rd.create_external_texture(t_format, t_view)
+	return rd.get_external_texture_fd(ext_texure_rid)
+
+
+func texture_update() -> void:
+	if not ext_texure_rid.is_valid() or not result_texture_rid.is_valid(): return
+	
+	rd.texture_copy(ext_texure_rid, result_texture_rid, Vector3.ZERO, Vector3.ZERO,
+		Vector3(width, height, 1), 0, 0, 0, 0)
 
 
 func kill_process() -> void:
@@ -71,5 +82,4 @@ func kill_process() -> void:
 
 
 func _exit_tree() -> void:
-#	unload_pack()
 	kill_process()

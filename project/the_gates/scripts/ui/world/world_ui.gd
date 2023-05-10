@@ -1,6 +1,5 @@
 extends Control
 
-@export var world_viewport: SubViewport
 var mouse_mode: int = Input.MOUSE_MODE_VISIBLE
 
 
@@ -19,7 +18,6 @@ func _input(event: InputEvent) -> void:
 
 func show_ui() -> void:
 	visible = true
-	world_viewport.gui_disable_input = true
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		mouse_mode = Input.MOUSE_MODE_CAPTURED
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -29,6 +27,5 @@ func show_ui() -> void:
 
 func hide_ui() -> void:
 	visible = false
-	world_viewport.gui_disable_input = false
 	if mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

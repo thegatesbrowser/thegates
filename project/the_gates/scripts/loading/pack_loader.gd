@@ -71,6 +71,7 @@ func create_external_texture() -> int:
 	image.convert(Image.FORMAT_RGBA8)
 	image.clear_mipmaps()
 	ext_texure_rid = rd.create_external_texture(t_format, t_view, [image.get_data()])
+	Debug.logr("External texture rid " + str(ext_texure_rid))
 	return rd.get_external_texture_fd(ext_texure_rid)
 
 
@@ -84,6 +85,11 @@ func texture_update() -> void:
 func kill_process() -> void:
 	if OS.is_process_running(pid):
 		OS.kill(pid)
+		Debug.logclr("Process killed " + str(pid), Color.DIM_GRAY)
+
+	if ext_texure_rid.is_valid():
+		rd.free_rid(ext_texure_rid)
+		Debug.logclr("Rd texture freed " + str(ext_texure_rid), Color.DIM_GRAY)
 
 
 func _exit_tree() -> void:

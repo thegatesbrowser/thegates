@@ -27,7 +27,7 @@ func _process(_delta: float) -> void:
 func initialize() -> void:
 	rd = RenderingServer.get_rendering_device()
 	
-	var image = Image.create(width, height, false, Image.FORMAT_RGBA8)
+	var image = Image.create(width, height, false, Image.FORMAT_RGB8)
 	render_result.texture = ImageTexture.create_from_image(image)
 	result_texture_rid = RenderingServer.texture_get_rd_texture(render_result.texture.get_rid())
 	if not result_texture_rid.is_valid(): Debug.logerr("Cannot create ImageTexture")

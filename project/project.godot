@@ -14,6 +14,8 @@ config/name="TheGates"
 config/description="Building new Internet"
 run/main_scene="res://the_gates/scenes/app.tscn"
 config/features=PackedStringArray("4.0")
+boot_splash/image="res://the_gates/textures/background.png"
+boot_splash/fullsize=false
 config/icon="res://the_gates/icons/icon_64.png"
 config/windows_native_icon="res://the_gates/icons/icon.ico"
 

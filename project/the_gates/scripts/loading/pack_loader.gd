@@ -3,6 +3,7 @@ class_name PackLoader
 
 @export var gate_events: GateEvents
 @export var render_result: TextureRect
+@export var splash_screen: Texture2D
 
 var gate: Gate
 var pid: int
@@ -59,13 +60,17 @@ func create_process(_gate: Gate) -> void:
 func create_external_texture() -> int:
 	var t_format: RDTextureFormat = RDTextureFormat.new()
 	t_format.format = RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM
-	t_format.usage_bits = RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
+	t_format.usage_bits = RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT | \
+		RenderingDevice.TEXTURE_USAGE_CAN_UPDATE_BIT
 	t_format.width = width
 	t_format.height = height
 	t_format.depth = 1
 	var t_view: RDTextureView = RDTextureView.new()
 	
-	ext_texure_rid = rd.create_external_texture(t_format, t_view)
+	var image = splash_screen.get_image()
+	image.convert(Image.FORMAT_RGBA8)
+	image.clear_mipmaps()
+	ext_texure_rid = rd.create_external_texture(t_format, t_view, [image.get_data()])
 	return rd.get_external_texture_fd(ext_texure_rid)
 
 

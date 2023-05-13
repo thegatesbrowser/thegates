@@ -2,23 +2,23 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bj8xlyxihfske"
-path="res://.godot/imported/background.jpg-a1ed70f136d4640d0867221bacee7cad.ctex"
+uid="uid://cykx425p6ylwr"
+path="res://.godot/imported/background.png-efe0ff795f34177e7f784c17fa119300.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://the_gates/textures/background.jpg"
-dest_files=["res://.godot/imported/background.jpg-a1ed70f136d4640d0867221bacee7cad.ctex"]
+source_file="res://the_gates/textures/background.png"
+dest_files=["res://.godot/imported/background.png-efe0ff795f34177e7f784c17fa119300.ctex"]
 
 [params]
 
 compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true

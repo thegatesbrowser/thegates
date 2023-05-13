@@ -14,8 +14,8 @@
 [ext_resource type="Texture2D" uid="uid://c5hu6cmvuipg7" path="res://the_gates/textures/star_filled.png" id="8_gho7k"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://the_gates/resources/bookmarks.tres" id="8_wox3p"]
 [ext_resource type="Texture2D" uid="uid://c26q840lwxw8j" path="res://the_gates/textures/exit.png" id="9_63xhv"]
+[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://the_gates/textures/background.png" id="9_req2b"]
 [ext_resource type="Script" path="res://the_gates/scripts/ui/world/release_focus.gd" id="10_6a8ws"]
-[ext_resource type="Texture2D" uid="uid://bj8xlyxihfske" path="res://the_gates/textures/background.jpg" id="10_v058a"]
 [ext_resource type="PackedScene" path="res://the_gates/scenes/components/hint.tscn" id="11_cltj4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shmbc"]
@@ -79,6 +79,7 @@ gate_events = ExtResource("2_ot8b0")
 script = ExtResource("1_5swiq")
 gate_events = ExtResource("2_ot8b0")
 render_result = NodePath("../../WorldCanvas/RenderResult")
+splash_screen = ExtResource("9_req2b")
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
@@ -239,7 +240,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("10_v058a")
+texture = ExtResource("9_req2b")
 expand_mode = 1
 stretch_mode = 6
 

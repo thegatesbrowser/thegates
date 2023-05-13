@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://82ca8so31njy"]
 
 [ext_resource type="Script" path="res://the_gates/scripts/ui/menu/bookmark_ui.gd" id="1_bpkqj"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://the_gates/resources/gate_events.res" id="2_7i5yr"]
-[ext_resource type="Texture2D" uid="uid://bj8xlyxihfske" path="res://the_gates/textures/background.jpg" id="3_fljny"]
+[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://the_gates/textures/background.png" id="3_kgutt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qq7cx"]
 corner_radius_top_left = 25
@@ -40,8 +40,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("3_fljny")
-ignore_texture_size = true
+texture = ExtResource("3_kgutt")
+expand_mode = 1
 stretch_mode = 6
 
 [node name="Gradient" type="TextureRect" parent="."]
@@ -55,7 +55,7 @@ offset_top = -50.0
 grow_horizontal = 2
 grow_vertical = 0
 texture = SubResource("GradientTexture2D_yd20y")
-ignore_texture_size = true
+expand_mode = 1
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 1
@@ -85,6 +85,9 @@ top_level = false
 clip_children = 0
 light_mask = 1
 visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
 texture_filter = 0
 texture_repeat = 0
 material = null
@@ -111,6 +114,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 size_flags_stretch_ratio = 1.0
 auto_translate = true
+localize_numeral_system = true
 tooltip_text = ""
 focus_neighbor_left = NodePath("")
 focus_neighbor_top = NodePath("")
@@ -126,14 +130,14 @@ theme = null
 theme_type_variation = &""
 disabled = false
 toggle_mode = false
-shortcut_in_tooltip = true
 button_pressed = false
 action_mode = 1
 button_mask = 1
 keep_pressed_outside = false
+button_group = null
 shortcut = null
 shortcut_feedback = true
-button_group = null
+shortcut_in_tooltip = true
 script = null
 
 [connection signal="pressed" from="BaseButton" to="." method="_on_base_button_pressed"]

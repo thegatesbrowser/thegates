@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=3 uid="uid://5btb7nvgmfhl"]
 
-[ext_resource type="Texture2D" uid="uid://bj8xlyxihfske" path="res://the_gates/textures/background.jpg" id="3_6p5p0"]
+[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://the_gates/textures/background.png" id="1_uidjl"]
 [ext_resource type="Script" path="res://the_gates/scripts/ui/menu/exit_app.gd" id="4_2065t"]
 [ext_resource type="Script" path="res://the_gates/scripts/ui/menu/bottom_animation.gd" id="4_c1cpy"]
 [ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://the_gates/scenes/components/search.tscn" id="5_li2do"]
@@ -10,7 +10,7 @@
 [ext_resource type="Script" path="res://the_gates/scripts/ui/menu/menu_animation.gd" id="7_ljms6"]
 [ext_resource type="Texture2D" uid="uid://bpj05amcrq1cq" path="res://the_gates/textures/slide-up.png" id="7_qsgsx"]
 [ext_resource type="Script" path="res://the_gates/scripts/ui/menu/bookmark_container.gd" id="7_wj13t"]
-[ext_resource type="PackedScene" path="res://the_gates/scenes/components/bookmark.tscn" id="8_h7tks"]
+[ext_resource type="PackedScene" uid="uid://82ca8so31njy" path="res://the_gates/scenes/components/bookmark.tscn" id="8_h7tks"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pveoh"]
 
@@ -237,10 +237,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_pveoh")
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_6p5p0")
+texture = ExtResource("1_uidjl")
 expand_mode = 1
 stretch_mode = 6
 metadata/_edit_lock_ = true

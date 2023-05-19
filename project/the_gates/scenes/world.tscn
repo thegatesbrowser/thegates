@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dagj0celx6tjq"]
+[gd_scene load_steps=32 format=3 uid="uid://dagj0celx6tjq"]
 
 [ext_resource type="Script" path="res://the_gates/scripts/loading/pack_loader.gd" id="1_5swiq"]
 [ext_resource type="Script" path="res://the_gates/scripts/loading/gate_loader.gd" id="1_coscx"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://the_gates/textures/background.png" id="9_req2b"]
 [ext_resource type="Script" path="res://the_gates/scripts/ui/world/release_focus.gd" id="10_6a8ws"]
 [ext_resource type="PackedScene" path="res://the_gates/scenes/components/hint.tscn" id="11_cltj4"]
+[ext_resource type="Script" path="res://the_gates/scripts/input/input_sync.gd" id="18_rsdyb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shmbc"]
 bg_color = Color(0.3384, 0.188, 0.47, 1)
@@ -716,6 +717,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="InputSync" type="Node" parent="WorldCanvas"]
+script = ExtResource("18_rsdyb")
+gate_events = ExtResource("2_ot8b0")
 
 [connection signal="pressed" from="UICanvas/UI/Blur/HideOnPress" to="UICanvas/UI" method="hide_ui"]
 [connection signal="pressed" from="UICanvas/UI/GateInfo/Bookmark/Star" to="UICanvas/UI/GateInfo" method="_on_star_pressed"]

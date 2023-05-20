@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dagj0celx6tjq"]
+[gd_scene load_steps=33 format=3 uid="uid://dagj0celx6tjq"]
 
 [ext_resource type="Script" path="res://the_gates/scripts/loading/pack_loader.gd" id="1_5swiq"]
 [ext_resource type="Script" path="res://the_gates/scripts/loading/gate_loader.gd" id="1_coscx"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://the_gates/scripts/ui/world/loading_ui.gd" id="5_vcmvs"]
 [ext_resource type="Script" path="res://the_gates/scripts/ui/world/gate_info.gd" id="6_iwanm"]
 [ext_resource type="Texture2D" uid="uid://bvvgx8ij2mdna" path="res://the_gates/textures/star.png" id="6_mtwek"]
+[ext_resource type="Resource" uid="uid://h1gdyodd66gv" path="res://the_gates/resources/ui_events.tres" id="7_bmkgi"]
 [ext_resource type="Script" path="res://the_gates/scripts/ui/world/home.gd" id="8_bo3qr"]
 [ext_resource type="Texture2D" uid="uid://c5hu6cmvuipg7" path="res://the_gates/textures/star_filled.png" id="8_gho7k"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://the_gates/resources/bookmarks.tres" id="8_wox3p"]
@@ -167,6 +168,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_xatjs")
+ui_events = ExtResource("7_bmkgi")
 
 [node name="Blur" type="Panel" parent="UICanvas/UI"]
 material = SubResource("ShaderMaterial_kc7rv")
@@ -721,6 +723,7 @@ grow_vertical = 2
 [node name="InputSync" type="Node" parent="WorldCanvas"]
 script = ExtResource("18_rsdyb")
 gate_events = ExtResource("2_ot8b0")
+ui_events = ExtResource("7_bmkgi")
 
 [connection signal="pressed" from="UICanvas/UI/Blur/HideOnPress" to="UICanvas/UI" method="hide_ui"]
 [connection signal="pressed" from="UICanvas/UI/GateInfo/Bookmark/Star" to="UICanvas/UI/GateInfo" method="_on_star_pressed"]

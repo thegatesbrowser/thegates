@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://dagj0celx6tjq"]
+[gd_scene load_steps=36 format=3 uid="uid://dle3s7sp53jat"]
 
 [ext_resource type="Script" path="res://the_gates/scripts/loading/pack_loader.gd" id="1_5swiq"]
 [ext_resource type="Script" path="res://the_gates/scripts/loading/gate_loader.gd" id="1_coscx"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" path="res://the_gates/scripts/ui/world/loading_ui.gd" id="5_vcmvs"]
 [ext_resource type="Script" path="res://the_gates/scripts/ui/world/gate_info.gd" id="6_iwanm"]
 [ext_resource type="Texture2D" uid="uid://bvvgx8ij2mdna" path="res://the_gates/textures/star.png" id="6_mtwek"]
-[ext_resource type="Resource" uid="uid://h1gdyodd66gv" path="res://the_gates/resources/ui_events.tres" id="7_bmkgi"]
 [ext_resource type="Script" path="res://the_gates/scripts/ui/world/home.gd" id="8_bo3qr"]
 [ext_resource type="Texture2D" uid="uid://c5hu6cmvuipg7" path="res://the_gates/textures/star_filled.png" id="8_gho7k"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://the_gates/resources/bookmarks.tres" id="8_wox3p"]
@@ -18,7 +17,11 @@
 [ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://the_gates/textures/background.png" id="9_req2b"]
 [ext_resource type="Script" path="res://the_gates/scripts/ui/world/release_focus.gd" id="10_6a8ws"]
 [ext_resource type="PackedScene" path="res://the_gates/scenes/components/hint.tscn" id="11_cltj4"]
-[ext_resource type="Script" path="res://the_gates/scripts/input/input_sync.gd" id="18_rsdyb"]
+[ext_resource type="Script" path="res://the_gates/scripts/sandbox/input_sync.gd" id="19_7opuh"]
+[ext_resource type="Script" path="res://the_gates/scripts/sandbox/render_result.gd" id="19_vfqxk"]
+[ext_resource type="Script" path="res://the_gates/scripts/sandbox/command_sync.gd" id="20_js3fi"]
+[ext_resource type="Resource" uid="uid://l1quiaghft2f" path="res://the_gates/resources/command_events.res" id="22_lfk5j"]
+[ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://the_gates/resources/ui_events.res" id="22_ryq4n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shmbc"]
 bg_color = Color(0.3384, 0.188, 0.47, 1)
@@ -81,7 +84,6 @@ gate_events = ExtResource("2_ot8b0")
 script = ExtResource("1_5swiq")
 gate_events = ExtResource("2_ot8b0")
 render_result = NodePath("../../WorldCanvas/RenderResult")
-splash_screen = ExtResource("9_req2b")
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
@@ -168,7 +170,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_xatjs")
-ui_events = ExtResource("7_bmkgi")
+ui_events = ExtResource("22_ryq4n")
 
 [node name="Blur" type="Panel" parent="UICanvas/UI"]
 material = SubResource("ShaderMaterial_kc7rv")
@@ -719,11 +721,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("19_vfqxk")
+gate_events = ExtResource("2_ot8b0")
+command_events = ExtResource("22_lfk5j")
+splash_screen = ExtResource("9_req2b")
 
 [node name="InputSync" type="Node" parent="WorldCanvas"]
-script = ExtResource("18_rsdyb")
+script = ExtResource("19_7opuh")
 gate_events = ExtResource("2_ot8b0")
-ui_events = ExtResource("7_bmkgi")
+ui_events = ExtResource("22_ryq4n")
+
+[node name="CommandSync" type="CommandSync" parent="WorldCanvas"]
+script = ExtResource("20_js3fi")
+gate_events = ExtResource("2_ot8b0")
+command_events = ExtResource("22_lfk5j")
 
 [connection signal="pressed" from="UICanvas/UI/Blur/HideOnPress" to="UICanvas/UI" method="hide_ui"]
 [connection signal="pressed" from="UICanvas/UI/GateInfo/Bookmark/Star" to="UICanvas/UI/GateInfo" method="_on_star_pressed"]

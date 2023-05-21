@@ -1,6 +1,0 @@
-[gd_resource type="Resource" script_class="UiEvents" load_steps=2 format=3 uid="uid://h1gdyodd66gv"]
-
-[ext_resource type="Script" path="res://the_gates/scripts/resources/ui_events.gd" id="1_kqets"]
-
-[resource]
-script = ExtResource("1_kqets")

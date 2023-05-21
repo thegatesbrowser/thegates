@@ -12,7 +12,7 @@ var pid: int
 @onready var height = get_viewport().size.y
 
 var rd: RenderingDevice
-var ext_texure_rid: RID
+var ext_texure: ExternalTexture
 var result_texture_rid: RID
 
 
@@ -70,26 +70,22 @@ func create_external_texture() -> int:
 	var image = splash_screen.get_image()
 	image.convert(Image.FORMAT_RGBA8)
 	image.clear_mipmaps()
-	ext_texure_rid = rd.create_external_texture(t_format, t_view, [image.get_data()])
-	Debug.logr("External texture rid " + str(ext_texure_rid))
-	return rd.get_external_texture_fd(ext_texure_rid)
+	
+	ext_texure = ExternalTexture.new()
+	ext_texure.create(t_format, t_view, [image.get_data()])
+	return ext_texure.get_fd()
 
 
 func texture_update() -> void:
-	if not ext_texure_rid.is_valid() or not result_texture_rid.is_valid(): return
-	
-	rd.texture_copy(ext_texure_rid, result_texture_rid, Vector3.ZERO, Vector3.ZERO,
-		Vector3(width, height, 1), 0, 0, 0, 0)
+	if ext_texure == null or not ext_texure.get_rid().is_valid(): return
+	if not result_texture_rid.is_valid(): return
+	ext_texure.copy_to(result_texture_rid)
 
 
 func kill_process() -> void:
 	if OS.is_process_running(pid):
 		OS.kill(pid)
 		Debug.logclr("Process killed " + str(pid), Color.DIM_GRAY)
-
-	if ext_texure_rid.is_valid():
-		rd.free_rid(ext_texure_rid)
-		Debug.logclr("Rd texture freed " + str(ext_texure_rid), Color.DIM_GRAY)
 
 
 func _exit_tree() -> void:

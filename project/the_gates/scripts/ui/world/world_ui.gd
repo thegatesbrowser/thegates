@@ -1,6 +1,7 @@
 extends Control
 
 @export var ui_events: UiEvents
+@export var command_events: CommandEvents
 
 var mouse_mode: int = Input.MOUSE_MODE_VISIBLE
 
@@ -8,6 +9,12 @@ var mouse_mode: int = Input.MOUSE_MODE_VISIBLE
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	hide_ui()
+	
+	command_events.set_mouse_mode.connect(set_mouse_mode)
+
+
+func set_mouse_mode(mode: int) -> void:
+	if not visible: Input.set_mouse_mode(mode)
 
 
 func _input(event: InputEvent) -> void:

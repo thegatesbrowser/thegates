@@ -171,6 +171,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_xatjs")
 ui_events = ExtResource("22_ryq4n")
+command_events = ExtResource("22_lfk5j")
 
 [node name="Blur" type="Panel" parent="UICanvas/UI"]
 material = SubResource("ShaderMaterial_kc7rv")

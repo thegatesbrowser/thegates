@@ -17,7 +17,6 @@ func create_process(_gate: Gate) -> void:
 	
 	var sandbox_path = "/home/nordup/projects/godot/the-gates-folder/the-gates/bin/godot.linuxbsd.editor.dev.sandbox.x86_64.llvm"
 	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
-	var main_pid = OS.get_process_id()
 	
 	var args = [
 		"--main-pack", pack_file,

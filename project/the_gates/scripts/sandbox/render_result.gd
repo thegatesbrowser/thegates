@@ -16,7 +16,7 @@ var texture_rid: RID
 
 func _ready() -> void:
 	gate_events.gate_entered.connect(create_external_texture)
-	command_events.send_fd.connect(send_fd)
+	command_events.send_filehandle.connect(send_filehandle)
 	initialize()
 
 
@@ -47,14 +47,14 @@ func create_external_texture() -> void:
 	ext_texure = ExternalTexture.new()
 	var err = ext_texure.create(t_format, t_view, [image.get_data()])
 	if err: Debug.logerr("Cannot create external texture"); return
-	else: Debug.logclr("External texture created " + str(ext_texure.get_fd()), Color.AQUAMARINE)
+	else: Debug.logclr("External texture created", Color.AQUAMARINE)
 
 
-func send_fd() -> void:
-	print("Sending fd...")
+func send_filehandle() -> void:
+	print("Sending send_filehandle...")
 	var sent = false
 	while not sent:
-		sent = ext_texure.send_fd(fd_path)
+		sent = ext_texure.send_filehandle(fd_path)
 		await get_tree().create_timer(0.1).timeout
 	print("fd was sent")
 

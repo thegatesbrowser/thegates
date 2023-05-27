@@ -16,8 +16,8 @@ func _physics_process(_delta: float) -> void:
 func _execute_function(command: Command) -> Variant:
 	print("Recieved command: " + command.name)
 	match command.name:
-		"send_fd":
-			command_events.send_fd_emit()
+		"send_filehandle":
+			command_events.send_filehandle_emit()
 		"set_mouse_mode":
 			if command.args.size() != 1: push_error("Arg count should be 1"); return ""
 			command_events.set_mouse_mode_emit(command.args[0])

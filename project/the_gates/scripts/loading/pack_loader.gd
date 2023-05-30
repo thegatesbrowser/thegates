@@ -3,6 +3,7 @@ class_name PackLoader
 
 @export var gate_events: GateEvents
 @export var render_result: RenderResult
+@export var sandbox_executable: String
 
 var gate: Gate
 var pid: int
@@ -15,7 +16,8 @@ func _ready() -> void:
 func create_process(_gate: Gate) -> void:
 	gate = _gate
 	
-	var sandbox_path = "/home/nordup/projects/godot/the-gates-folder/the-gates/bin/godot.linuxbsd.editor.dev.sandbox.x86_64.llvm"
+	var executable_dir = OS.get_executable_path().get_base_dir() + "/"
+	var sandbox_path = executable_dir + sandbox_executable
 	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
 	
 	var args = [
@@ -26,6 +28,7 @@ func create_process(_gate: Gate) -> void:
 	Debug.logclr(sandbox_path + " " + " ".join(args), Color.DARK_VIOLET)
 	pid = OS.create_process(sandbox_path, args)
 	
+	if OS.get_name() == "Windows": render_result.fd_path += "|" + str(pid)
 	gate_events.gate_entered_emit()
 
 

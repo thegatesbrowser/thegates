@@ -7,14 +7,17 @@ class_name RenderResult
 
 @onready var width = get_viewport().size.x
 @onready var height = get_viewport().size.y
-var fd_path = "/tmp/external_texture"
 
+var fd_path: String
 var rd: RenderingDevice
 var ext_texure: ExternalTexture
 var texture_rid: RID
 
 
 func _ready() -> void:
+	if OS.get_name() == "Windows": fd_path = "ipc://external_texture"
+	else: fd_path = "/tmp/external_texture"
+	
 	gate_events.gate_entered.connect(create_external_texture)
 	command_events.send_filehandle.connect(send_filehandle)
 	initialize()

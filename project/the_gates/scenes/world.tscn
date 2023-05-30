@@ -84,6 +84,7 @@ gate_events = ExtResource("2_ot8b0")
 script = ExtResource("1_5swiq")
 gate_events = ExtResource("2_ot8b0")
 render_result = NodePath("../../WorldCanvas/RenderResult")
+sandbox_executable = "godot.windows.editor.dev.sandbox.x86_64.exe"
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true

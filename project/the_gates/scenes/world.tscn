@@ -1,8 +1,8 @@
-[gd_scene load_steps=36 format=3 uid="uid://dle3s7sp53jat"]
+[gd_scene load_steps=36 format=3 uid="uid://kywrsqro3d5i"]
 
-[ext_resource type="Script" path="res://the_gates/scripts/loading/pack_loader.gd" id="1_5swiq"]
 [ext_resource type="Script" path="res://the_gates/scripts/loading/gate_loader.gd" id="1_coscx"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://the_gates/resources/gate_events.res" id="2_ot8b0"]
+[ext_resource type="Script" path="res://the_gates/scripts/loading/sandbox_manager.gd" id="3_u7ft0"]
 [ext_resource type="Shader" path="res://the_gates/shaders/blur.gdshader" id="4_fnp53"]
 [ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://the_gates/scenes/components/search.tscn" id="4_sg0oy"]
 [ext_resource type="Texture2D" uid="uid://bpj05amcrq1cq" path="res://the_gates/textures/slide-up.png" id="4_x2j1m"]
@@ -74,17 +74,46 @@ font_size = 27
 
 [node name="World" type="Node"]
 
-[node name="Loaders" type="Node" parent="."]
-
-[node name="GateLoader" type="Node" parent="Loaders"]
+[node name="GateLoader" type="Node" parent="."]
 script = ExtResource("1_coscx")
 gate_events = ExtResource("2_ot8b0")
 
-[node name="PackLoader" type="Node" parent="Loaders" node_paths=PackedStringArray("render_result")]
-script = ExtResource("1_5swiq")
+[node name="SandboxManager" type="Node" parent="." node_paths=PackedStringArray("render_result")]
+script = ExtResource("3_u7ft0")
 gate_events = ExtResource("2_ot8b0")
-render_result = NodePath("../../WorldCanvas/RenderResult")
-sandbox_executable = "Sandbox.exe"
+render_result = NodePath("../WorldCanvas/RenderResult")
+sandbox_executable = "godot.linuxbsd.editor.dev.sandbox.x86_64.llvm"
+
+[node name="WorldCanvas" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="RenderResult" type="TextureRect" parent="WorldCanvas"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("19_vfqxk")
+gate_events = ExtResource("2_ot8b0")
+command_events = ExtResource("22_lfk5j")
+splash_screen = ExtResource("9_req2b")
+
+[node name="InputSync" type="Node" parent="WorldCanvas"]
+script = ExtResource("19_7opuh")
+gate_events = ExtResource("2_ot8b0")
+ui_events = ExtResource("22_ryq4n")
+
+[node name="CommandSync" type="CommandSync" parent="WorldCanvas"]
+script = ExtResource("20_js3fi")
+gate_events = ExtResource("2_ot8b0")
+command_events = ExtResource("22_lfk5j")
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
@@ -706,37 +735,6 @@ custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 texture = ExtResource("4_x2j1m")
 expand_mode = 1
-
-[node name="WorldCanvas" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_lock_ = true
-
-[node name="RenderResult" type="TextureRect" parent="WorldCanvas"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("19_vfqxk")
-gate_events = ExtResource("2_ot8b0")
-command_events = ExtResource("22_lfk5j")
-splash_screen = ExtResource("9_req2b")
-
-[node name="InputSync" type="Node" parent="WorldCanvas"]
-script = ExtResource("19_7opuh")
-gate_events = ExtResource("2_ot8b0")
-ui_events = ExtResource("22_ryq4n")
-
-[node name="CommandSync" type="CommandSync" parent="WorldCanvas"]
-script = ExtResource("20_js3fi")
-gate_events = ExtResource("2_ot8b0")
-command_events = ExtResource("22_lfk5j")
 
 [connection signal="pressed" from="UICanvas/UI/Blur/HideOnPress" to="UICanvas/UI" method="hide_ui"]
 [connection signal="pressed" from="UICanvas/UI/GateInfo/Bookmark/Star" to="UICanvas/UI/GateInfo" method="_on_star_pressed"]

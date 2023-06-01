@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://the_gates/scripts/app.gd" id="1_skc7d"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://the_gates/resources/gate_events.res" id="2_cdryv"]
 [ext_resource type="PackedScene" uid="uid://5btb7nvgmfhl" path="res://the_gates/scenes/menu.tscn" id="3_o1f7b"]
-[ext_resource type="PackedScene" uid="uid://dle3s7sp53jat" path="res://the_gates/scenes/world.tscn" id="4_cmlvo"]
+[ext_resource type="PackedScene" uid="uid://kywrsqro3d5i" path="res://the_gates/scenes/world.tscn" id="4_cmlvo"]
 [ext_resource type="Script" path="res://the_gates/scripts/bookmark_saver.gd" id="5_ev0ch"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://the_gates/resources/bookmarks.tres" id="6_rupvx"]
 [ext_resource type="PackedScene" uid="uid://byrcbqat0n2px" path="res://the_gates/scenes/debug.tscn" id="7_3xeb8"]

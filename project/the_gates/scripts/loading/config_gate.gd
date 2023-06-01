@@ -4,8 +4,6 @@ class_name ConfigGate
 var title: String
 var description: String
 var image_url: String
-var godot_config_url: String
-var global_script_class_url: String
 var resource_pack_url: String
 
 const section = "gate"
@@ -16,6 +14,4 @@ func _init(path: String, base_url: String) -> void:
 	title = get_string(section, "title")
 	description = get_string(section, "description")
 	image_url = Url.join(base_url, get_string(section, "image"))
-	godot_config_url = Url.join(base_url, get_string(section, "godot_config"))
-	global_script_class_url = Url.join(base_url, get_string(section, "global_script_class"))
 	resource_pack_url = Url.join(base_url, get_string(section, "resource_pack"))

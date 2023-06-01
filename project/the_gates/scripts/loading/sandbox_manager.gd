@@ -19,13 +19,10 @@ func create_process(gate: Gate) -> void:
 	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
 	var args = [
 		"--main-pack", pack_file,
-		"--resolution", "%dx%d" % [render_result.width, render_result.height],
-		"--fd-path", render_result.fd_path
+		"--resolution", "%dx%d" % [render_result.width, render_result.height]
 	]
 	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DARK_VIOLET)
 	sandbox_pid = OS.create_process(snbx_executable.path, args)
-	
-	if OS.get_name() == "Windows": render_result.fd_path += "|" + str(sandbox_pid)
 	
 	gate_events.gate_entered_emit()
 

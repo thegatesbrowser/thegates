@@ -8,16 +8,12 @@ class_name RenderResult
 @onready var width = get_viewport().size.x
 @onready var height = get_viewport().size.y
 
-var fd_path: String
 var rd: RenderingDevice
 var ext_texure: ExternalTexture
 var texture_rid: RID
 
 
 func _ready() -> void:
-	if OS.get_name() == "Windows": fd_path = "ipc://external_texture"
-	else: fd_path = "/tmp/external_texture"
-	
 	gate_events.gate_entered.connect(create_external_texture)
 	command_events.send_filehandle.connect(send_filehandle)
 	initialize()
@@ -30,7 +26,6 @@ func initialize() -> void:
 	self.texture = ImageTexture.create_from_image(image)
 	texture_rid = RenderingServer.texture_get_rd_texture(self.texture.get_rid())
 	if not texture_rid.is_valid(): Debug.logerr("Cannot create ImageTexture")
-	else: Debug.logclr("Render result texture created", Color.AQUAMARINE)
 
 
 func create_external_texture() -> void:
@@ -53,11 +48,11 @@ func create_external_texture() -> void:
 	else: Debug.logclr("External texture created", Color.AQUAMARINE)
 
 
-func send_filehandle() -> void:
-	Debug.logr("Sending send_filehandle...")
+func send_filehandle(filehandle_path: String) -> void:
+	Debug.logr("Sending filehandle...")
 	var sent = false
 	while not sent:
-		sent = ext_texure.send_filehandle(fd_path)
+		sent = ext_texure.send_filehandle(filehandle_path)
 		await get_tree().create_timer(0.1).timeout
 	Debug.logr("filehandle was sent")
 

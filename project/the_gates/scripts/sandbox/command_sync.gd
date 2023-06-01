@@ -14,10 +14,11 @@ func _physics_process(_delta: float) -> void:
 
 
 func _execute_function(command: Command) -> Variant:
-	Debug.logclr("Recieved command: " + command.name, Color.SANDY_BROWN)
+	Debug.logclr("Recieved command: " + command.name + ". Args: " + str(command.args), Color.SANDY_BROWN)
 	match command.name:
 		"send_filehandle":
-			command_events.send_filehandle_emit()
+			if command.args.size() != 1: Debug.logerr("Arg count should be 1"); return ""
+			command_events.send_filehandle_emit(command.args[0])
 		"set_mouse_mode":
 			if command.args.size() != 1: Debug.logerr("Arg count should be 1"); return ""
 			command_events.set_mouse_mode_emit(command.args[0])

@@ -54,12 +54,12 @@ func create_external_texture() -> void:
 
 
 func send_filehandle() -> void:
-	print("Sending send_filehandle...")
+	Debug.logr("Sending send_filehandle...")
 	var sent = false
 	while not sent:
 		sent = ext_texure.send_filehandle(fd_path)
 		await get_tree().create_timer(0.1).timeout
-	print("fd was sent")
+	Debug.logr("filehandle was sent")
 
 
 func _process(_delta: float) -> void:

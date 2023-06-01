@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SandboxExecutable" load_steps=2 format=3 uid="uid://cmb7xvbue74qa"]
+
+[ext_resource type="Script" path="res://the_gates/scripts/loading/sandbox_executable.gd" id="1_q0dqh"]
+
+[resource]
+script = ExtResource("1_q0dqh")
+linux = "Sandbox.x86_64"
+linux_debug = "godot.linuxbsd.editor.dev.sandbox.x86_64.llvm"
+windows = "Sandbox.exe"
+windows_debug = "godot.linuxbsd.editor.dev.sandbox.x86_64.exe"

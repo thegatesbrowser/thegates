@@ -1,9 +1,10 @@
-[gd_scene load_steps=36 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=37 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://the_gates/scripts/loading/gate_loader.gd" id="1_coscx"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://the_gates/resources/gate_events.res" id="2_ot8b0"]
 [ext_resource type="Script" path="res://the_gates/scripts/loading/sandbox_manager.gd" id="3_u7ft0"]
 [ext_resource type="Shader" path="res://the_gates/shaders/blur.gdshader" id="4_fnp53"]
+[ext_resource type="Resource" uid="uid://cmb7xvbue74qa" path="res://the_gates/resources/sandbox_executable.tres" id="4_s0qgl"]
 [ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://the_gates/scenes/components/search.tscn" id="4_sg0oy"]
 [ext_resource type="Texture2D" uid="uid://bpj05amcrq1cq" path="res://the_gates/textures/slide-up.png" id="4_x2j1m"]
 [ext_resource type="Script" path="res://the_gates/scripts/ui/world/world_ui.gd" id="4_xatjs"]
@@ -82,7 +83,7 @@ gate_events = ExtResource("2_ot8b0")
 script = ExtResource("3_u7ft0")
 gate_events = ExtResource("2_ot8b0")
 render_result = NodePath("../WorldCanvas/RenderResult")
-sandbox_executable = "godot.linuxbsd.editor.dev.sandbox.x86_64.llvm"
+snbx_executable = ExtResource("4_s0qgl")
 
 [node name="WorldCanvas" type="Control" parent="."]
 layout_mode = 3

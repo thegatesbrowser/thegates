@@ -7,4 +7,4 @@ script = ExtResource("1_q0dqh")
 linux = "Sandbox.x86_64"
 linux_debug = "godot.linuxbsd.editor.dev.sandbox.x86_64.llvm"
 windows = "Sandbox.exe"
-windows_debug = "godot.linuxbsd.editor.dev.sandbox.x86_64.exe"
+windows_debug = "godot.windows.editor.dev.sandbox.x86_64.exe"

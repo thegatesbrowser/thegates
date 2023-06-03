@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="BackendSettings" load_steps=2 format=3 uid="uid://cjcdum6fm4ta0"]
+
+[ext_resource type="Script" path="res://the_gates/scripts/analytics/backend_settings.gd" id="1_8fkk2"]
+
+[resource]
+script = ExtResource("1_8fkk2")
+url = "http://95.163.241.188:8000/"

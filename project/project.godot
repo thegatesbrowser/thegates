@@ -26,6 +26,7 @@ DataSaver="*res://the_gates/scripts/data_saver.gd"
 FileDownloader="*res://the_gates/scripts/loading/file_downloader.gd"
 Debug="*res://the_gates/scripts/debug-log/debug.gd"
 Analytics="*res://the_gates/scripts/analytics/analytics.gd"
+AnalyticsEvents="*res://the_gates/scripts/analytics/analytics_events.gd"
 
 [display]
 

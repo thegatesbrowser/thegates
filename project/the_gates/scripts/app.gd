@@ -6,7 +6,7 @@ extends Node
 
 
 func _ready() -> void:
-	gate_events.open_gate.connect(switch_scene.bind(world_scene))
+	gate_events.open_gate.connect(func(_url): switch_scene(world_scene))
 	gate_events.exit_gate.connect(switch_scene.bind(menu_scene))
 	
 	$Scenes.add_child(menu_scene.instantiate())

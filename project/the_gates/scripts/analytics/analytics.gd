@@ -2,20 +2,26 @@ extends Node
 #class_name Analitycs
 
 var backend := preload("res://the_gates/resources/backend.tres")
-var user_id := "none"
+var analytics_senders = [
+	AnalyticsSenderGate.new(),
+	AnalyticsSenderApp.new()
+]
 
 
 func _ready() -> void:
 	await get_user_id()
-	send_event({
-		"event_name" : "application_enter",
-		"user_id" : user_id
-	})
+	for sender in analytics_senders:
+		add_child(sender)
 
 
-func send_event(body: Variant = []) -> void:
+func _exit_tree() -> void:
+	for sender in analytics_senders:
+		sender.exit()
+
+
+func send_event(body: Dictionary = {}) -> void:
 	var url = backend.analytics_event
-	var callback = func(result, code, headers, body):
+	var callback = func(_result, code, _headers, _body):
 		if code != 200: Debug.logerr("Request send_event failed. Code " + str(code))
 	
 	var err = await request(url, callback, body, HTTPClient.METHOD_POST)
@@ -24,10 +30,10 @@ func send_event(body: Variant = []) -> void:
 
 func get_user_id() -> void:
 	var url = backend.get_user_id + OS.get_unique_id()
-	var callback = func(result, code, headers, body):
+	var callback = func(_result, code, _headers, body):
 		if code == 200:
-			user_id = body.get_string_from_utf8()
-			Debug.logr("User id recieved: " + user_id)
+			AnalyticsEvents.user_id = body.get_string_from_utf8()
+			Debug.logr("User id recieved: " + AnalyticsEvents.user_id)
 		else: Debug.logerr("Request get_user_id failed. Code " + str(code))
 	
 	var err = await request(url, callback)
@@ -35,7 +41,7 @@ func get_user_id() -> void:
 
 
 func request(url: String, callback: Callable,
-		body: Variant = [], method: int = HTTPClient.METHOD_GET) -> Error:
+		body: Dictionary = {}, method: int = HTTPClient.METHOD_GET) -> Error:
 	var data = JSON.stringify(body)
 	var headers = []
 	

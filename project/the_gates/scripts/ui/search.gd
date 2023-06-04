@@ -24,6 +24,7 @@ func _on_go_pressed() -> void:
 
 
 func open_gate() -> void:
+	gate_events.search_pressed_emit(url)
 	if Url.is_valid(url):
 		release_focus()
 		gate_events.open_gate_emit(url)

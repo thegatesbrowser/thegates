@@ -8,6 +8,7 @@ var gate_url: String
 
 
 func _ready() -> void:
+	gate_events.search_pressed.connect(send_search_press)
 	gate_events.open_gate.connect(send_gate_open)
 	gate_events.gate_entered.connect(send_gate_enter)
 	gate_events.exit_gate.connect(send_gate_exit)
@@ -17,6 +18,10 @@ func _ready() -> void:
 	if json.is_empty(): return
 	DataSaver.set_value("analytics", "send_gate_exit", "")
 	Analytics.send_event(JSON.parse_string(json))
+
+
+func send_search_press(url: String) -> void:
+	Analytics.send_event(AnalyticsEvents.search_press(url))
 
 
 func send_gate_open(url: String) -> void:

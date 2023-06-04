@@ -28,6 +28,10 @@ Debug="*res://the_gates/scripts/debug-log/debug.gd"
 Analytics="*res://the_gates/scripts/analytics/analytics.gd"
 AnalyticsEvents="*res://the_gates/scripts/analytics/analytics_events.gd"
 
+[debug]
+
+gdscript/warnings/integer_division=0
+
 [display]
 
 window/size/viewport_width=1920

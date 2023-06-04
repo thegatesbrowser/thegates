@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BackendSettings" load_steps=2 format=3 uid="uid://cjcdum6fm4ta0"]
+
+[ext_resource type="Script" path="res://the_gates/scripts/analytics/backend.gd" id="1_6ck4k"]
+
+[resource]
+script = ExtResource("1_6ck4k")
+local_url = "http://127.0.0.1:8000"
+remote_url = "http://95.163.241.188:8000"
+host_type = 0

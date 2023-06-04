@@ -25,6 +25,7 @@ config/windows_native_icon="res://the_gates/icons/icon.ico"
 DataSaver="*res://the_gates/scripts/data_saver.gd"
 FileDownloader="*res://the_gates/scripts/loading/file_downloader.gd"
 Debug="*res://the_gates/scripts/debug-log/debug.gd"
+Analytics="*res://the_gates/scripts/analytics/analytics.gd"
 
 [display]
 

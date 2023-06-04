@@ -8,6 +8,12 @@ var heartbeat_timer: Timer
 func _ready() -> void:
 	Analytics.send_event(AnalyticsEvents.app_open())
 	start_heartbeat()
+	
+	# Send latest exit event
+	var json: String = DataSaver.get_string("analytics", "app_exit")
+	if json.is_empty(): return
+	DataSaver.set_value("analytics", "app_exit", "")
+	Analytics.send_event(JSON.parse_string(json))
 
 
 func start_heartbeat() -> void:
@@ -22,6 +28,8 @@ func send_hearbeat() -> void:
 	Analytics.send_event(AnalyticsEvents.heartbeat(time_spend))
 
 
-func exit() -> void:
+func _exit_tree() -> void:
+	# Save to send on open
 	var time_spend = int(Time.get_ticks_msec() / 1000)
-	Analytics.send_event(AnalyticsEvents.app_exit(time_spend))
+	var event = AnalyticsEvents.app_exit(time_spend)
+	DataSaver.set_value("analytics", "app_exit", JSON.stringify(event))

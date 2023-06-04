@@ -11,6 +11,12 @@ func _ready() -> void:
 	gate_events.open_gate.connect(send_gate_open)
 	gate_events.gate_entered.connect(send_gate_enter)
 	gate_events.exit_gate.connect(send_gate_exit)
+	
+	# Send latest exit event
+	var json: String = DataSaver.get_string("analytics", "send_gate_exit")
+	if json.is_empty(): return
+	DataSaver.set_value("analytics", "send_gate_exit", "")
+	Analytics.send_event(JSON.parse_string(json))
 
 
 func send_gate_open(url: String) -> void:
@@ -31,6 +37,10 @@ func send_gate_exit() -> void:
 	gate_url = ""
 
 
-func exit() -> void:
+func _exit_tree() -> void:
 	if gate_url.is_empty(): return
-	send_gate_exit()
+	
+	# Save to send on open
+	var time_spend = int(Time.get_ticks_msec() / 1000) - gate_open_time
+	var event = AnalyticsEvents.gate_exit(gate_url, time_spend)
+	DataSaver.set_value("analytics", "send_gate_exit", JSON.stringify(event))

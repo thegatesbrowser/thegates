@@ -14,11 +14,6 @@ func _ready() -> void:
 		add_child(sender)
 
 
-func _exit_tree() -> void:
-	for sender in analytics_senders:
-		sender.exit()
-
-
 func send_event(body: Dictionary = {}) -> void:
 	var url = backend.analytics_event
 	var callback = func(_result, code, _headers, _body):
@@ -33,7 +28,6 @@ func get_user_id() -> void:
 	var callback = func(_result, code, _headers, body):
 		if code == 200:
 			AnalyticsEvents.user_id = body.get_string_from_utf8()
-			Debug.logr("User id recieved: " + AnalyticsEvents.user_id)
 		else: Debug.logerr("Request get_user_id failed. Code " + str(code))
 	
 	var err = await request(url, callback)

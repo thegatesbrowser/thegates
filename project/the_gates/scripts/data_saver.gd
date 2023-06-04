@@ -1,4 +1,5 @@
 extends ConfigBase
+#class_name DataSaver
 
 var path: String = "user://resources/data_saver.cfg"
 

@@ -3,6 +3,7 @@ extends Node
 
 var backend := preload("res://the_gates/resources/backend.tres")
 var analytics_senders = [
+	AnalyticsSenderError.new(),
 	AnalyticsSenderGate.new(),
 	AnalyticsSenderApp.new()
 ]

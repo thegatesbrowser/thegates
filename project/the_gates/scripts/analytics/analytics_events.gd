@@ -49,3 +49,11 @@ func gate_exit(url: String, time_spend: int) -> Dictionary:
 	event.gate_url = url
 	event.time_spend = time_spend
 	return event
+
+
+# ERROR
+
+func error(msg: String) -> Dictionary:
+	var event = base("error")
+	event.msg = msg
+	return event

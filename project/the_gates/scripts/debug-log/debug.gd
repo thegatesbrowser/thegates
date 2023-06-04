@@ -1,6 +1,7 @@
 extends Node
 
 signal logged(msg: String)
+signal error(msg: String)
 
 
 func logr(msg) -> void:
@@ -12,6 +13,7 @@ func logerr(msg) -> void:
 	printerr(str(msg))
 	var rich_clr = "[color=%s]%s[/color]" % [Color.RED.to_html(), str(msg)]
 	logged.emit(rich_clr)
+	error.emit(msg)
 
 
 func logclr(msg, color: Color) -> void:

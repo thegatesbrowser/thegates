@@ -1,19 +1,21 @@
-extends Node
+extends AnalyticsSender
 class_name AnalyticsSenderApp
 
 const HEARTBEAT_DELAY = 60
 var heartbeat_timer: Timer
 
 
-func _ready() -> void:
-	Analytics.send_event(AnalyticsEvents.app_open())
+func start() -> void:
+	super.start()
+	
+	analytics.send_event(AnalyticsEvents.app_open())
 	start_heartbeat()
 	
 	# Send latest exit event
 	var json: String = DataSaver.get_string("analytics", "app_exit")
 	if json.is_empty(): return
 	DataSaver.set_value("analytics", "app_exit", "")
-	Analytics.send_event(JSON.parse_string(json))
+	analytics.send_event(JSON.parse_string(json))
 
 
 func start_heartbeat() -> void:
@@ -25,7 +27,7 @@ func start_heartbeat() -> void:
 
 func send_hearbeat() -> void:
 	var time_spend = int(Time.get_ticks_msec() / 1000)
-	Analytics.send_event(AnalyticsEvents.heartbeat(time_spend))
+	analytics.send_event(AnalyticsEvents.heartbeat(time_spend))
 
 
 func _exit_tree() -> void:

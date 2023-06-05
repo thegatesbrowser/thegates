@@ -17,7 +17,7 @@ config/features=PackedStringArray("4.0")
 run/max_fps=60
 boot_splash/image="res://textures/background.png"
 boot_splash/fullsize=false
-config/icon="res://icons/icon_64.png"
+config/icon="res://app_icon/icon_64.png"
 config/windows_native_icon="res://icons/icon.ico"
 
 [autoload]
@@ -25,7 +25,6 @@ config/windows_native_icon="res://icons/icon.ico"
 DataSaver="*res://scripts/data_saver.gd"
 FileDownloader="*res://scripts/loading/file_downloader.gd"
 Debug="*res://scripts/debug-log/debug.gd"
-Analytics="*res://scripts/analytics/analytics.gd"
 AnalyticsEvents="*res://scripts/analytics/analytics_events.gd"
 
 [debug]

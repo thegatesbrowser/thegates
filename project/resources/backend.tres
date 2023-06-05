@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="BackendSettings" load_steps=2 format=3 uid="uid://cjcdum6fm4ta0"]
 
-[ext_resource type="Script" path="res://scripts/analytics/backend.gd" id="1_6ck4k"]
+[ext_resource type="Script" path="res://scripts/resources/backend.gd" id="1_6ck4k"]
 
 [resource]
 script = ExtResource("1_6ck4k")

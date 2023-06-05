@@ -1,10 +1,12 @@
-extends Node
+extends AnalyticsSender
 class_name AnalyticsSenderError
 
 
-func _ready() -> void:
+func start() -> void:
+	super.start()
+	
 	Debug.error.connect(send_error)
 
 
 func send_error(msg: String) -> void:
-	Analytics.send_event(AnalyticsEvents.error(msg))
+	analytics.send_event(AnalyticsEvents.error(msg))

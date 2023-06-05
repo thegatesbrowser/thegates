@@ -1,12 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://ct8gsph3wnepl"]
+[gd_scene load_steps=13 format=3 uid="uid://ct8gsph3wnepl"]
 
 [ext_resource type="Script" path="res://scripts/app.gd" id="1_skc7d"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_cdryv"]
 [ext_resource type="PackedScene" uid="uid://5btb7nvgmfhl" path="res://scenes/menu.tscn" id="3_o1f7b"]
 [ext_resource type="PackedScene" uid="uid://kywrsqro3d5i" path="res://scenes/world.tscn" id="4_cmlvo"]
 [ext_resource type="Script" path="res://scripts/bookmark_saver.gd" id="5_ev0ch"]
+[ext_resource type="Script" path="res://scripts/analytics/analytics.gd" id="6_25d48"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="6_rupvx"]
 [ext_resource type="PackedScene" uid="uid://byrcbqat0n2px" path="res://scenes/debug.tscn" id="7_3xeb8"]
+[ext_resource type="Script" path="res://scripts/analytics/analytics_sender_app.gd" id="7_5328b"]
+[ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/backend.tres" id="7_yykjj"]
+[ext_resource type="Script" path="res://scripts/analytics/analytics_sender_error.gd" id="8_ah58q"]
+[ext_resource type="Script" path="res://scripts/analytics/analytics_sender_gate.gd" id="9_egxpy"]
 
 [node name="App" type="Node"]
 script = ExtResource("1_skc7d")
@@ -15,6 +20,20 @@ menu_scene = ExtResource("3_o1f7b")
 world_scene = ExtResource("4_cmlvo")
 
 [node name="Debug" parent="." instance=ExtResource("7_3xeb8")]
+
+[node name="Analytics" type="Node" parent="."]
+script = ExtResource("6_25d48")
+backend = ExtResource("7_yykjj")
+
+[node name="SenderApp" type="Node" parent="Analytics"]
+script = ExtResource("7_5328b")
+
+[node name="SenderError" type="Node" parent="Analytics"]
+script = ExtResource("8_ah58q")
+
+[node name="SenderGate" type="Node" parent="Analytics"]
+script = ExtResource("9_egxpy")
+gate_events = ExtResource("2_cdryv")
 
 [node name="BookmarkSaver" type="Node" parent="."]
 script = ExtResource("5_ev0ch")

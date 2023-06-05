@@ -1,18 +1,13 @@
 extends Node
-#class_name Analitycs
+class_name Analitycs
 
-var backend := preload("res://resources/backend.tres")
-var analytics_senders = [
-	AnalyticsSenderError.new(),
-	AnalyticsSenderGate.new(),
-	AnalyticsSenderApp.new()
-]
+@export var backend: BackendSettings
+signal analytics_ready
 
 
 func _ready() -> void:
 	await get_user_id()
-	for sender in analytics_senders:
-		add_child(sender)
+	analytics_ready.emit()
 
 
 func send_event(body: Dictionary = {}) -> void:

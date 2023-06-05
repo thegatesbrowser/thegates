@@ -12,21 +12,21 @@ config_version=5
 
 config/name="TheGates"
 config/description="Building new Internet"
-run/main_scene="res://the_gates/scenes/app.tscn"
+run/main_scene="res://scenes/app.tscn"
 config/features=PackedStringArray("4.0")
 run/max_fps=60
-boot_splash/image="res://the_gates/textures/background.png"
+boot_splash/image="res://textures/background.png"
 boot_splash/fullsize=false
-config/icon="res://the_gates/icons/icon_64.png"
-config/windows_native_icon="res://the_gates/icons/icon.ico"
+config/icon="res://icons/icon_64.png"
+config/windows_native_icon="res://icons/icon.ico"
 
 [autoload]
 
-DataSaver="*res://the_gates/scripts/data_saver.gd"
-FileDownloader="*res://the_gates/scripts/loading/file_downloader.gd"
-Debug="*res://the_gates/scripts/debug-log/debug.gd"
-Analytics="*res://the_gates/scripts/analytics/analytics.gd"
-AnalyticsEvents="*res://the_gates/scripts/analytics/analytics_events.gd"
+DataSaver="*res://scripts/data_saver.gd"
+FileDownloader="*res://scripts/loading/file_downloader.gd"
+Debug="*res://scripts/debug-log/debug.gd"
+Analytics="*res://scripts/analytics/analytics.gd"
+AnalyticsEvents="*res://scripts/analytics/analytics_events.gd"
 
 [debug]
 

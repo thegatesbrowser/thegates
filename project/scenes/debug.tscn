@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://byrcbqat0n2px"]
+
+[ext_resource type="Script" path="res://scripts/debug-log/debug_window.gd" id="1_j4w8w"]
+[ext_resource type="Script" path="res://scripts/debug-log/debug_log.gd" id="2_lgt6s"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eeptt"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Debug" type="Node" node_paths=PackedStringArray("window")]
+script = ExtResource("1_j4w8w")
+window = NodePath("Window")
+
+[node name="Window" type="Window" parent="."]
+disable_3d = true
+title = "Debug Log"
+position = Vector2i(560, 240)
+size = Vector2i(800, 600)
+
+[node name="Background" type="Panel" parent="Window"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_eeptt")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Window/Background"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+bbcode_enabled = true
+autowrap_mode = 1
+threaded = true
+selection_enabled = true
+script = ExtResource("2_lgt6s")
+
+[node name="WindowCopy" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 52.0
+offset_top = 75.0
+offset_right = 852.0
+offset_bottom = 675.0
+
+[connection signal="close_requested" from="Window" to="." method="_on_window_close_requested"]
+[connection signal="focus_exited" from="Window" to="." method="_on_window_focus_exited"]
+[connection signal="window_input" from="Window" to="." method="_on_window_window_input"]

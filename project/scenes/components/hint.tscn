@@ -1,0 +1,107 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/hint.gd" id="1_mhnl1"]
+[ext_resource type="Texture2D" uid="uid://w63bxq7p14av" path="res://textures/arrow.png" id="2_o5lwa"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7wdcy"]
+bg_color = Color(0.22, 0.22, 0.22, 0.631373)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+anti_aliasing_size = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_8td41"]
+
+[sub_resource type="Animation" id="Animation_a1w2o"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_tul52"]
+resource_name = "Hint"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimRoot:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -20), Vector2(0, 0), Vector2(0, -20), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l0m26"]
+_data = {
+"Bounce": SubResource("Animation_tul52"),
+"RESET": SubResource("Animation_a1w2o")
+}
+
+[node name="Hint" type="Control"]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -75.0
+offset_top = -70.0
+offset_right = 75.0
+offset_bottom = -20.0
+grow_horizontal = 2
+script = ExtResource("1_mhnl1")
+
+[node name="AnimRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="Panel" parent="AnimRoot"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7wdcy")
+
+[node name="Label" type="Label" parent="AnimRoot"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "type your hint"
+label_settings = SubResource("LabelSettings_8td41")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="AnimRoot"]
+modulate = Color(1, 1, 0, 1)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -10.0
+offset_right = 16.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 0
+rotation = 1.5708
+pivot_offset = Vector2(16, 16)
+texture = ExtResource("2_o5lwa")
+ignore_texture_size = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_l0m26")
+}

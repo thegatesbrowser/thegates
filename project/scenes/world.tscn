@@ -1,0 +1,746 @@
+[gd_scene load_steps=37 format=3 uid="uid://kywrsqro3d5i"]
+
+[ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
+[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
+[ext_resource type="Script" path="res://scripts/loading/sandbox_manager.gd" id="3_0cpfc"]
+[ext_resource type="Resource" uid="uid://cmb7xvbue74qa" path="res://resources/sandbox_executable.tres" id="4_shus3"]
+[ext_resource type="Script" path="res://scripts/sandbox/render_result.gd" id="5_nlg2s"]
+[ext_resource type="Resource" uid="uid://l1quiaghft2f" path="res://resources/command_events.res" id="6_18mgg"]
+[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://textures/background.png" id="7_52jgh"]
+[ext_resource type="Script" path="res://scripts/sandbox/input_sync.gd" id="8_1blsi"]
+[ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="9_ir58h"]
+[ext_resource type="Script" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
+[ext_resource type="Script" path="res://scripts/ui/world/loading_ui.gd" id="11_7xeus"]
+[ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
+[ext_resource type="Shader" path="res://shaders/blur.gdshader" id="13_dik1f"]
+[ext_resource type="Script" path="res://scripts/ui/world/gate_info.gd" id="14_8hca5"]
+[ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="15_6vvtg"]
+[ext_resource type="Script" path="res://scripts/ui/world/release_focus.gd" id="16_8emm0"]
+[ext_resource type="PackedScene" path="res://scenes/components/hint.tscn" id="17_rve7m"]
+[ext_resource type="Texture2D" uid="uid://bvvgx8ij2mdna" path="res://textures/star.png" id="18_o2mtq"]
+[ext_resource type="Texture2D" uid="uid://c5hu6cmvuipg7" path="res://textures/star_filled.png" id="19_y2rfc"]
+[ext_resource type="Script" path="res://scripts/ui/world/home.gd" id="20_utvcl"]
+[ext_resource type="Texture2D" uid="uid://c26q840lwxw8j" path="res://textures/exit.png" id="21_ocb0r"]
+[ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://scenes/components/search.tscn" id="22_pwygi"]
+[ext_resource type="Texture2D" uid="uid://bpj05amcrq1cq" path="res://textures/slide-up.png" id="23_d4xvm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shmbc"]
+bg_color = Color(0.3384, 0.188, 0.47, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_eyt6j"]
+font_size = 36
+
+[sub_resource type="LabelSettings" id="LabelSettings_2k6gm"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_fcbo7"]
+font_size = 18
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kc7rv"]
+shader = ExtResource("13_dik1f")
+shader_parameter/lod = 2.27
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4bcpj"]
+bg_color = Color(0.160784, 0.160784, 0.160784, 0.670588)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bm5nj"]
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_i1x1e"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_bgh10"]
+font_size = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rndqt"]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a03l7"]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sqkiq"]
+bg_color = Color(0.160784, 0.160784, 0.160784, 0.670588)
+border_width_top = 3
+border_color = Color(0.231373, 0.184314, 0.541176, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5jdc5"]
+font_size = 27
+
+[node name="World" type="Node"]
+
+[node name="GateLoader" type="Node" parent="."]
+script = ExtResource("1_uxhy6")
+gate_events = ExtResource("2_q7cvi")
+
+[node name="SandboxManager" type="Node" parent="." node_paths=PackedStringArray("render_result")]
+script = ExtResource("3_0cpfc")
+gate_events = ExtResource("2_q7cvi")
+render_result = NodePath("../WorldCanvas/RenderResult")
+snbx_executable = ExtResource("4_shus3")
+
+[node name="WorldCanvas" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="RenderResult" type="TextureRect" parent="WorldCanvas"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_nlg2s")
+gate_events = ExtResource("2_q7cvi")
+command_events = ExtResource("6_18mgg")
+splash_screen = ExtResource("7_52jgh")
+
+[node name="InputSync" type="Node" parent="WorldCanvas"]
+script = ExtResource("8_1blsi")
+gate_events = ExtResource("2_q7cvi")
+ui_events = ExtResource("9_ir58h")
+
+[node name="CommandSync" type="CommandSync" parent="WorldCanvas"]
+script = ExtResource("10_cqo55")
+gate_events = ExtResource("2_q7cvi")
+command_events = ExtResource("6_18mgg")
+
+[node name="UICanvas" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="LoadingBackground" type="Control" parent="UICanvas"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_7xeus")
+gate_events = ExtResource("2_q7cvi")
+
+[node name="Panel" type="Panel" parent="UICanvas/LoadingBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_shmbc")
+
+[node name="Label" type="Label" parent="UICanvas/LoadingBackground"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -153.5
+offset_top = -21.0
+offset_right = 153.5
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading..."
+label_settings = SubResource("LabelSettings_eyt6j")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="UICanvas/LoadingBackground"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -153.5
+offset_top = 31.0
+offset_right = 153.5
+offset_bottom = 73.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Press Esc to open menu"
+label_settings = SubResource("LabelSettings_2k6gm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="UICanvas/LoadingBackground"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -383.5
+offset_top = 460.0
+offset_right = 383.5
+offset_bottom = 502.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Gate name \"Unnamed\" and description \"No description\" probalbly means url is not valid"
+label_settings = SubResource("LabelSettings_fcbo7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UI" type="Control" parent="UICanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("12_jdwjt")
+ui_events = ExtResource("9_ir58h")
+command_events = ExtResource("6_18mgg")
+
+[node name="Blur" type="Panel" parent="UICanvas/UI"]
+material = SubResource("ShaderMaterial_kc7rv")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HideOnPress" type="TextureButton" parent="UICanvas/UI/Blur"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GateInfo" type="Control" parent="UICanvas/UI" node_paths=PackedStringArray("image", "title", "description", "url", "star", "unstar")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -640.0
+offset_bottom = -140.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("14_8hca5")
+gate_events = ExtResource("2_q7cvi")
+bookmarks = ExtResource("15_6vvtg")
+image = NodePath("ImageMask/TextureRect")
+title = NodePath("Title")
+description = NodePath("Description")
+url = NodePath("Url")
+star = NodePath("Bookmark/Star")
+unstar = NodePath("Bookmark/Unstar")
+metadata/_edit_lock_ = true
+
+[node name="Panel" type="Panel" parent="UICanvas/UI/GateInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4bcpj")
+
+[node name="ImageMask" type="Panel" parent="UICanvas/UI/GateInfo"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -210.0
+offset_right = 125.0
+offset_bottom = -50.0001
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_bm5nj")
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/GateInfo/ImageMask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_52jgh")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Title" type="Label" parent="UICanvas/UI/GateInfo"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -30.0
+offset_right = 200.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Unnamed"
+label_settings = SubResource("LabelSettings_i1x1e")
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Description" type="Label" parent="UICanvas/UI/GateInfo"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = 25.0
+offset_right = 200.0
+offset_bottom = 175.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "No description"
+label_settings = SubResource("LabelSettings_bgh10")
+horizontal_alignment = 1
+autowrap_mode = 3
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Url" type="LineEdit" parent="UICanvas/UI/GateInfo"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = 195.0
+offset_right = 200.0
+offset_bottom = 232.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxFlat_rndqt")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_a03l7")
+text = "url"
+alignment = 1
+editable = false
+script = ExtResource("16_8emm0")
+
+[node name="Bookmark" type="Control" parent="UICanvas/UI/GateInfo"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_top = 40.0
+offset_right = -60.0
+offset_bottom = 78.13
+grow_horizontal = 0
+
+[node name="Star" type="BaseButton" parent="UICanvas/UI/GateInfo/Bookmark"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+auto_translate = true
+localize_numeral_system = true
+tooltip_text = ""
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 2
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = null
+
+[node name="Hint" parent="UICanvas/UI/GateInfo/Bookmark/Star" node_paths=PackedStringArray("button") instance=ExtResource("17_rve7m")]
+layout_mode = 1
+key = "hint_star"
+button = NodePath("..")
+
+[node name="AnimRoot" parent="UICanvas/UI/GateInfo/Bookmark/Star/Hint" index="0"]
+layout_mode = 1
+
+[node name="Background" parent="UICanvas/UI/GateInfo/Bookmark/Star/Hint/AnimRoot" index="0"]
+layout_mode = 1
+
+[node name="Label" parent="UICanvas/UI/GateInfo/Bookmark/Star/Hint/AnimRoot" index="1"]
+layout_mode = 1
+text = "Bookmark gate!"
+
+[node name="TextureRect" parent="UICanvas/UI/GateInfo/Bookmark/Star/Hint/AnimRoot" index="2"]
+layout_mode = 1
+expand_mode = 1
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/GateInfo/Bookmark/Star"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("18_o2mtq")
+expand_mode = 1
+
+[node name="Unstar" type="BaseButton" parent="UICanvas/UI/GateInfo/Bookmark"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+editor_description = ""
+visible = false
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+auto_translate = true
+localize_numeral_system = true
+tooltip_text = ""
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 2
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = null
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/GateInfo/Bookmark/Unstar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_y2rfc")
+expand_mode = 1
+
+[node name="Bottom" type="Control" parent="UICanvas/UI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -130.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(960, 250)
+metadata/_edit_lock_ = true
+
+[node name="Panel" type="Panel" parent="UICanvas/UI/Bottom"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sqkiq")
+
+[node name="Home" type="BaseButton" parent="UICanvas/UI/Bottom"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 4
+anchor_left = 0.0
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_top = -20.0
+offset_right = 170.0
+offset_bottom = 20.0
+grow_horizontal = 1
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+auto_translate = true
+localize_numeral_system = true
+tooltip_text = ""
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 2
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("20_utvcl")
+gate_events = ExtResource("2_q7cvi")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UICanvas/UI/Bottom/Home"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/Bottom/Home/HBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("21_ocb0r")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="UICanvas/UI/Bottom/Home/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Home"
+label_settings = SubResource("LabelSettings_5jdc5")
+
+[node name="Search" parent="UICanvas/UI/Bottom" instance=ExtResource("22_pwygi")]
+layout_mode = 1
+
+[node name="Continue" type="BaseButton" parent="UICanvas/UI/Bottom"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+editor_description = ""
+visible = false
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -235.0
+offset_top = -30.0
+offset_right = -40.0
+offset_bottom = 30.0
+grow_horizontal = 0
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(30, 30)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+auto_translate = true
+localize_numeral_system = true
+tooltip_text = ""
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 2
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = null
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UICanvas/UI/Bottom/Continue"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="Label" type="Label" parent="UICanvas/UI/Bottom/Continue/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Continue"
+label_settings = SubResource("LabelSettings_5jdc5")
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/UI/Bottom/Continue/HBoxContainer"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+texture = ExtResource("23_d4xvm")
+expand_mode = 1
+
+[connection signal="pressed" from="UICanvas/UI/Blur/HideOnPress" to="UICanvas/UI" method="hide_ui"]
+[connection signal="pressed" from="UICanvas/UI/GateInfo/Bookmark/Star" to="UICanvas/UI/GateInfo" method="_on_star_pressed"]
+[connection signal="pressed" from="UICanvas/UI/GateInfo/Bookmark/Unstar" to="UICanvas/UI/GateInfo" method="_on_unstar_pressed"]
+[connection signal="pressed" from="UICanvas/UI/Bottom/Home" to="UICanvas/UI/Bottom/Home" method="_on_pressed"]
+[connection signal="pressed" from="UICanvas/UI/Bottom/Continue" to="UICanvas/UI" method="hide_ui"]
+
+[editable path="UICanvas/UI/GateInfo/Bookmark/Star/Hint"]

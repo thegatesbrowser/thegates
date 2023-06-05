@@ -27,6 +27,8 @@ func send_search_press(url: String) -> void:
 
 
 func send_gate_open(url: String) -> void:
+	if not gate_url.is_empty(): send_gate_exit()
+	
 	gate_url = url
 	gate_open_time = int(Time.get_ticks_msec() / 1000)
 	analytics.send_event(AnalyticsEvents.gate_open(url))

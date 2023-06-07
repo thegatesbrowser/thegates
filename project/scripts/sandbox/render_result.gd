@@ -42,6 +42,11 @@ func create_external_texture() -> void:
 	image.convert(Image.FORMAT_RGBA8)
 	image.clear_mipmaps()
 	
+	# For some reason when switching scene something is not freed
+	# So need to wait to free that up
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
 	ext_texure = ExternalTexture.new()
 	var err = ext_texure.create(t_format, t_view, [image.get_data()])
 	if err: Debug.logerr("Cannot create external texture"); return

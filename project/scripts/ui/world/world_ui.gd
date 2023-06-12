@@ -14,6 +14,7 @@ func _ready() -> void:
 
 
 func set_mouse_mode(mode: int) -> void:
+	mouse_mode = mode
 	if not visible: Input.set_mouse_mode(mode)
 
 
@@ -27,18 +28,13 @@ func _input(event: InputEvent) -> void:
 
 func show_ui() -> void:
 	visible = true
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		mouse_mode = Input.MOUSE_MODE_CAPTURED
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	else:
-		mouse_mode = Input.MOUSE_MODE_VISIBLE
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 	ui_events.visibility_changed_emit(true)
 
 
 func hide_ui() -> void:
 	visible = false
-	if mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	Input.set_mouse_mode(mouse_mode)
 	
 	ui_events.visibility_changed_emit(false)

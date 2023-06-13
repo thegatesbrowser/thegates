@@ -1,23 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://ctam0fxigbefk"]
+[gd_scene load_steps=7 format=3 uid="uid://ctam0fxigbefk"]
 
 [ext_resource type="Script" path="res://scripts/ui/search.gd" id="1_7ivk2"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_13io8"]
+[ext_resource type="Texture2D" uid="uid://c28surtqjf4st" path="res://textures/search.svg" id="3_1rllf"]
 [ext_resource type="Script" path="res://scripts/ui/search_go.gd" id="3_eayvw"]
 [ext_resource type="Texture2D" uid="uid://w63bxq7p14av" path="res://textures/arrow.png" id="4_8prhy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyysn"]
-content_margin_left = 50.0
-content_margin_right = 60.0
-bg_color = Color(0.188235, 0.180392, 0.211765, 0.380392)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
+content_margin_left = 40.0
+content_margin_right = 40.0
+bg_color = Color(0.207843, 0.164706, 0.47451, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.176471, 0.14902, 0.352941, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 corner_detail = 10
 
 [node name="Search" type="LineEdit"]
@@ -33,14 +34,29 @@ offset_right = 500.0
 offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_placeholder_color = Color(1, 1, 1, 0.75)
+auto_translate = false
+localize_numeral_system = false
+theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+theme_override_colors/font_placeholder_color = Color(1, 1, 1, 0.498039)
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_hyysn")
 theme_override_styles/focus = SubResource("StyleBoxFlat_hyysn")
-placeholder_text = "Search or enter url address"
+placeholder_text = "Search or enter address"
 script = ExtResource("1_7ivk2")
 gate_events = ExtResource("2_13io8")
+
+[node name="SearchTexture" type="TextureRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.8)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -10.0
+offset_right = 30.0
+offset_bottom = 10.0
+grow_vertical = 2
+texture = ExtResource("3_1rllf")
 
 [node name="Go" type="BaseButton" parent="."]
 _import_path = NodePath("")
@@ -48,7 +64,7 @@ unique_name_in_owner = false
 process_mode = 0
 process_priority = 0
 editor_description = ""
-visible = false
+visible = true
 modulate = Color(1, 1, 1, 1)
 self_modulate = Color(1, 1, 1, 1)
 show_behind_parent = false
@@ -67,17 +83,17 @@ clip_contents = false
 custom_minimum_size = Vector2(0, 0)
 layout_direction = 0
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_top = 0.0
-anchor_right = 0.5
-anchor_bottom = 0.0
-offset_left = 440.0
-offset_top = 22.0
-offset_right = 480.0
-offset_bottom = 62.0
-grow_horizontal = 2
-grow_vertical = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -10.0
+offset_right = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
 rotation = 0.0
 scale = Vector2(1, 1)
 pivot_offset = Vector2(20, 20)
@@ -113,6 +129,7 @@ script = ExtResource("3_eayvw")
 gate_events = ExtResource("2_13io8")
 
 [node name="TextureRect" type="TextureRect" parent="Go"]
+self_modulate = Color(1, 1, 1, 0.8)
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0

@@ -1,4 +1,4 @@
-extends HBoxContainer
+extends GridContainer
 
 @export var bookmarks: Bookmarks
 @export var bookmark_scene: PackedScene

@@ -21,6 +21,12 @@ world_scene = ExtResource("4_cmlvo")
 
 [node name="Debug" parent="." instance=ExtResource("7_3xeb8")]
 
+[node name="BookmarkSaver" type="Node" parent="."]
+script = ExtResource("5_ev0ch")
+save_dir = "user://resources"
+image_save_dir = "user://images"
+bookmarks = ExtResource("6_rupvx")
+
 [node name="Analytics" type="Node" parent="."]
 script = ExtResource("6_25d48")
 backend = ExtResource("7_yykjj")
@@ -34,11 +40,5 @@ script = ExtResource("8_ah58q")
 [node name="SenderGate" type="Node" parent="Analytics"]
 script = ExtResource("9_egxpy")
 gate_events = ExtResource("2_cdryv")
-
-[node name="BookmarkSaver" type="Node" parent="."]
-script = ExtResource("5_ev0ch")
-save_dir = "user://resources"
-image_save_dir = "user://images"
-bookmarks = ExtResource("6_rupvx")
 
 [node name="Scenes" type="Node" parent="."]

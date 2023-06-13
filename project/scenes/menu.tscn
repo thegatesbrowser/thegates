@@ -1,11 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://5btb7nvgmfhl"]
+[gd_scene load_steps=18 format=3 uid="uid://5btb7nvgmfhl"]
 
-[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://textures/background.png" id="1_uidjl"]
+[ext_resource type="Texture2D" uid="uid://dystd8vvbqwo2" path="res://textures/exit.svg" id="3_1a6fk"]
 [ext_resource type="Script" path="res://scripts/ui/menu/exit_app.gd" id="4_2065t"]
 [ext_resource type="Script" path="res://scripts/ui/menu/bottom_animation.gd" id="4_c1cpy"]
 [ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://scenes/components/search.tscn" id="5_li2do"]
 [ext_resource type="PackedScene" path="res://scenes/components/hint.tscn" id="5_nsugo"]
-[ext_resource type="Texture2D" uid="uid://c26q840lwxw8j" path="res://textures/exit.png" id="5_voba0"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="7_ern1s"]
 [ext_resource type="Script" path="res://scripts/ui/menu/menu_animation.gd" id="7_ljms6"]
 [ext_resource type="Texture2D" uid="uid://bpj05amcrq1cq" path="res://textures/slide-up.png" id="7_qsgsx"]
@@ -13,9 +12,10 @@
 [ext_resource type="PackedScene" uid="uid://82ca8so31njy" path="res://scenes/components/bookmark.tscn" id="8_h7tks"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pveoh"]
+bg_color = Color(0.156863, 0.156863, 0.156863, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_4nieu"]
-font_size = 27
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_re7ca"]
+bg_color = Color(0.231373, 0.184314, 0.541176, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugnti"]
 bg_color = Color(0.16, 0.16, 0.16, 0.67)
@@ -224,8 +224,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_lock_ = true
 
-[node name="BackgroundMask" type="Panel" parent="."]
-clip_children = 1
+[node name="Background" type="Panel" parent="."]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -233,18 +232,28 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pveoh")
 
-[node name="Background" type="TextureRect" parent="BackgroundMask"]
-layout_mode = 0
+[node name="SearchBar" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="Background" type="Panel" parent="SearchBar"]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_uidjl")
-expand_mode = 1
-stretch_mode = 6
-metadata/_edit_lock_ = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_re7ca")
 
-[node name="Exit" type="BaseButton" parent="."]
+[node name="Search" parent="SearchBar" instance=ExtResource("5_li2do")]
+layout_mode = 1
+offset_top = -20.0
+offset_bottom = 20.0
+
+[node name="Exit" type="BaseButton" parent="SearchBar"]
 _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
@@ -268,18 +277,18 @@ use_parent_material = false
 clip_contents = false
 custom_minimum_size = Vector2(0, 0)
 layout_direction = 0
-layout_mode = 3
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 40.0
-offset_top = 40.0
-offset_right = 144.0
-offset_bottom = 80.0
-grow_horizontal = 1
-grow_vertical = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -10.0
+offset_right = -20.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
 rotation = 0.0
 scale = Vector2(1, 1)
 pivot_offset = Vector2(0, 0)
@@ -313,31 +322,17 @@ shortcut_feedback = true
 shortcut_in_tooltip = true
 script = ExtResource("4_2065t")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Exit"]
-layout_mode = 0
+[node name="TextureRect" type="TextureRect" parent="SearchBar/Exit"]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -9.5
-offset_top = -12.0
-offset_right = 9.5
-offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 10
-
-[node name="TextureRect" type="TextureRect" parent="Exit/HBoxContainer"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("5_voba0")
+texture = ExtResource("3_1a6fk")
 expand_mode = 1
-
-[node name="Label" type="Label" parent="Exit/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Exit"
-label_settings = SubResource("LabelSettings_4nieu")
 
 [node name="Bottom" type="Control" parent="."]
 layout_mode = 1
@@ -549,15 +544,6 @@ rotation = 3.14159
 pivot_offset = Vector2(40, 40)
 texture = ExtResource("7_qsgsx")
 
-[node name="Search" parent="Bottom" instance=ExtResource("5_li2do")]
-layout_mode = 1
-anchors_preset = 5
-anchor_top = 0.0
-anchor_bottom = 0.0
-offset_top = -130.0
-offset_bottom = -50.0
-grow_vertical = 1
-
 [node name="Bookmarks" type="ScrollContainer" parent="Bottom"]
 layout_mode = 0
 anchor_top = 0.5
@@ -587,7 +573,7 @@ libraries = {
 }
 script = ExtResource("7_ljms6")
 
-[connection signal="pressed" from="Exit" to="Exit" method="_on_pressed"]
+[connection signal="pressed" from="SearchBar/Exit" to="SearchBar/Exit" method="_on_pressed"]
 [connection signal="pressed" from="Bottom/SlideButtons/SlideUp" to="AnimationPlayer" method="_on_slide_up_pressed"]
 [connection signal="pressed" from="Bottom/SlideButtons/SlideDown" to="AnimationPlayer" method="_on_slide_down_pressed"]
 

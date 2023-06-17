@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=22 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -10,38 +10,13 @@
 [ext_resource type="Script" path="res://scripts/sandbox/input_sync.gd" id="8_1blsi"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="9_ir58h"]
 [ext_resource type="Script" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
-[ext_resource type="Script" path="res://scripts/ui/world/loading_ui.gd" id="11_7xeus"]
 [ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
-[ext_resource type="Shader" path="res://shaders/blur.gdshader" id="13_dik1f"]
 [ext_resource type="Script" path="res://scripts/ui/world/gate_info.gd" id="14_8hca5"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="15_6vvtg"]
 [ext_resource type="Script" path="res://scripts/ui/world/release_focus.gd" id="16_8emm0"]
 [ext_resource type="PackedScene" path="res://scenes/components/hint.tscn" id="17_rve7m"]
 [ext_resource type="Texture2D" uid="uid://bvvgx8ij2mdna" path="res://textures/star.png" id="18_o2mtq"]
 [ext_resource type="Texture2D" uid="uid://c5hu6cmvuipg7" path="res://textures/star_filled.png" id="19_y2rfc"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shmbc"]
-bg_color = Color(0.3384, 0.188, 0.47, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_eyt6j"]
-font_size = 36
-
-[sub_resource type="LabelSettings" id="LabelSettings_2k6gm"]
-font_size = 24
-
-[sub_resource type="LabelSettings" id="LabelSettings_fcbo7"]
-font_size = 18
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kc7rv"]
-shader = ExtResource("13_dik1f")
-shader_parameter/lod = 2.27
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4bcpj"]
-bg_color = Color(0.160784, 0.160784, 0.160784, 0.670588)
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bm5nj"]
 corner_radius_top_left = 25
@@ -51,9 +26,6 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="LabelSettings" id="LabelSettings_i1x1e"]
 font_size = 32
-
-[sub_resource type="LabelSettings" id="LabelSettings_bgh10"]
-font_size = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rndqt"]
 draw_center = false
@@ -70,6 +42,9 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("12_jdwjt")
+ui_events = ExtResource("9_ir58h")
+command_events = ExtResource("6_18mgg")
 
 [node name="GateLoader" type="Node" parent="."]
 script = ExtResource("1_uxhy6")
@@ -78,24 +53,35 @@ gate_events = ExtResource("2_q7cvi")
 [node name="SandboxManager" type="Node" parent="." node_paths=PackedStringArray("render_result")]
 script = ExtResource("3_0cpfc")
 gate_events = ExtResource("2_q7cvi")
-render_result = NodePath("../WorldCanvas/RenderResult")
+render_result = NodePath("../HBoxContainer/WorldCanvas/RenderResult")
 snbx_executable = ExtResource("4_shus3")
 
-[node name="WorldCanvas" type="Control" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 700)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 14
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 
-[node name="RenderResult" type="TextureRect" parent="WorldCanvas"]
+[node name="WorldCanvas" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(1300, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="RenderResult" type="TextureRect" parent="HBoxContainer/WorldCanvas"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -15.6171
+offset_bottom = 15.6329
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("7_52jgh")
 expand_mode = 5
 stretch_mode = 5
 script = ExtResource("5_nlg2s")
@@ -103,168 +89,55 @@ gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
 splash_screen = ExtResource("7_52jgh")
 
-[node name="InputSync" type="Node" parent="WorldCanvas"]
+[node name="HideOnPress" type="TextureButton" parent="HBoxContainer/WorldCanvas"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InputSync" type="Node" parent="HBoxContainer/WorldCanvas"]
 script = ExtResource("8_1blsi")
 gate_events = ExtResource("2_q7cvi")
 ui_events = ExtResource("9_ir58h")
 
-[node name="CommandSync" type="CommandSync" parent="WorldCanvas"]
+[node name="CommandSync" type="CommandSync" parent="HBoxContainer/WorldCanvas"]
 script = ExtResource("10_cqo55")
 gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
 
-[node name="LoadingBackground" type="Control" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("11_7xeus")
-gate_events = ExtResource("2_q7cvi")
+[node name="Spacing" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
 
-[node name="Panel" type="Panel" parent="LoadingBackground"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_shmbc")
-
-[node name="Label" type="Label" parent="LoadingBackground"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -153.5
-offset_top = -21.0
-offset_right = 153.5
-offset_bottom = 21.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Loading..."
-label_settings = SubResource("LabelSettings_eyt6j")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="LoadingBackground"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -153.5
-offset_top = 31.0
-offset_right = 153.5
-offset_bottom = 73.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Press Esc to open menu"
-label_settings = SubResource("LabelSettings_2k6gm")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label3" type="Label" parent="LoadingBackground"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -383.5
-offset_top = 460.0
-offset_right = 383.5
-offset_bottom = 502.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Gate name \"Unnamed\" and description \"No description\" probalbly means url is not valid"
-label_settings = SubResource("LabelSettings_fcbo7")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="UI" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("12_jdwjt")
-ui_events = ExtResource("9_ir58h")
-command_events = ExtResource("6_18mgg")
-
-[node name="Blur" type="Panel" parent="UI"]
-material = SubResource("ShaderMaterial_kc7rv")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="HideOnPress" type="TextureButton" parent="UI/Blur"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="GateInfo" type="Control" parent="UI" node_paths=PackedStringArray("image", "title", "description", "url", "star", "unstar")]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -500.0
-offset_top = -640.0
-offset_bottom = -140.0
-grow_horizontal = 0
-grow_vertical = 0
+[node name="GateInfo" type="VBoxContainer" parent="HBoxContainer" node_paths=PackedStringArray("image", "title", "description", "url", "star", "unstar")]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 30
 script = ExtResource("14_8hca5")
 gate_events = ExtResource("2_q7cvi")
 bookmarks = ExtResource("15_6vvtg")
-image = NodePath("ImageMask/TextureRect")
-title = NodePath("Title")
+image = NodePath("HBoxContainer/ImageMask/TextureRect")
+title = NodePath("HBoxContainer/Title")
 description = NodePath("Description")
 url = NodePath("Url")
 star = NodePath("Bookmark/Star")
 unstar = NodePath("Bookmark/Unstar")
-metadata/_edit_lock_ = true
 
-[node name="Panel" type="Panel" parent="UI/GateInfo"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_4bcpj")
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/GateInfo"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_constants/separation = 30
 
-[node name="ImageMask" type="Panel" parent="UI/GateInfo"]
+[node name="ImageMask" type="Panel" parent="HBoxContainer/GateInfo/HBoxContainer"]
 clip_children = 1
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -125.0
-offset_top = -210.0
-offset_right = 125.0
-offset_bottom = -50.0001
-grow_horizontal = 2
-grow_vertical = 2
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_bm5nj")
 
-[node name="TextureRect" type="TextureRect" parent="UI/GateInfo/ImageMask"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/GateInfo/HBoxContainer/ImageMask"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -275,59 +148,24 @@ texture = ExtResource("7_52jgh")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Title" type="Label" parent="UI/GateInfo"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -30.0
-offset_right = 200.0
-offset_bottom = 18.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Title" type="Label" parent="HBoxContainer/GateInfo/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Unnamed"
 label_settings = SubResource("LabelSettings_i1x1e")
-horizontal_alignment = 1
 text_overrun_behavior = 3
 
-[node name="Description" type="Label" parent="UI/GateInfo"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = 25.0
-offset_right = 200.0
-offset_bottom = 175.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Description" type="RichTextLabel" parent="HBoxContainer/GateInfo"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 24
 text = "No description"
-label_settings = SubResource("LabelSettings_bgh10")
-horizontal_alignment = 1
-autowrap_mode = 3
-clip_text = true
-text_overrun_behavior = 3
+fit_content = true
 
-[node name="Url" type="LineEdit" parent="UI/GateInfo"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = 195.0
-offset_right = 200.0
-offset_bottom = 232.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Url" type="LineEdit" parent="HBoxContainer/GateInfo"]
+layout_mode = 2
 theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 20
 theme_override_styles/focus = SubResource("StyleBoxFlat_rndqt")
 theme_override_styles/read_only = SubResource("StyleBoxFlat_a03l7")
 text = "url"
@@ -337,18 +175,11 @@ caret_blink = true
 caret_blink_interval = 0.5
 script = ExtResource("16_8emm0")
 
-[node name="Bookmark" type="Control" parent="UI/GateInfo"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -100.0
-offset_top = 40.0
-offset_right = -60.0
-offset_bottom = 78.13
-grow_horizontal = 0
+[node name="Bookmark" type="Control" parent="HBoxContainer/GateInfo"]
+visible = false
+layout_mode = 2
 
-[node name="Star" type="BaseButton" parent="UI/GateInfo/Bookmark"]
+[node name="Star" type="BaseButton" parent="HBoxContainer/GateInfo/Bookmark"]
 _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
@@ -417,26 +248,26 @@ shortcut_feedback = true
 shortcut_in_tooltip = true
 script = null
 
-[node name="Hint" parent="UI/GateInfo/Bookmark/Star" node_paths=PackedStringArray("button") instance=ExtResource("17_rve7m")]
+[node name="Hint" parent="HBoxContainer/GateInfo/Bookmark/Star" node_paths=PackedStringArray("button") instance=ExtResource("17_rve7m")]
 layout_mode = 1
 key = "hint_star"
 button = NodePath("..")
 
-[node name="AnimRoot" parent="UI/GateInfo/Bookmark/Star/Hint" index="0"]
+[node name="AnimRoot" parent="HBoxContainer/GateInfo/Bookmark/Star/Hint" index="0"]
 layout_mode = 1
 
-[node name="Background" parent="UI/GateInfo/Bookmark/Star/Hint/AnimRoot" index="0"]
+[node name="Background" parent="HBoxContainer/GateInfo/Bookmark/Star/Hint/AnimRoot" index="0"]
 layout_mode = 1
 
-[node name="Label" parent="UI/GateInfo/Bookmark/Star/Hint/AnimRoot" index="1"]
+[node name="Label" parent="HBoxContainer/GateInfo/Bookmark/Star/Hint/AnimRoot" index="1"]
 layout_mode = 1
 text = "Bookmark gate!"
 
-[node name="TextureRect" parent="UI/GateInfo/Bookmark/Star/Hint/AnimRoot" index="2"]
+[node name="TextureRect" parent="HBoxContainer/GateInfo/Bookmark/Star/Hint/AnimRoot" index="2"]
 layout_mode = 1
 expand_mode = 1
 
-[node name="TextureRect" type="TextureRect" parent="UI/GateInfo/Bookmark/Star"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/GateInfo/Bookmark/Star"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -446,7 +277,7 @@ grow_vertical = 2
 texture = ExtResource("18_o2mtq")
 expand_mode = 1
 
-[node name="Unstar" type="BaseButton" parent="UI/GateInfo/Bookmark"]
+[node name="Unstar" type="BaseButton" parent="HBoxContainer/GateInfo/Bookmark"]
 _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
@@ -515,7 +346,7 @@ shortcut_feedback = true
 shortcut_in_tooltip = true
 script = null
 
-[node name="TextureRect" type="TextureRect" parent="UI/GateInfo/Bookmark/Unstar"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/GateInfo/Bookmark/Unstar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -525,8 +356,11 @@ grow_vertical = 2
 texture = ExtResource("19_y2rfc")
 expand_mode = 1
 
-[connection signal="pressed" from="UI/Blur/HideOnPress" to="UI" method="hide_ui"]
-[connection signal="pressed" from="UI/GateInfo/Bookmark/Star" to="UI/GateInfo" method="_on_star_pressed"]
-[connection signal="pressed" from="UI/GateInfo/Bookmark/Unstar" to="UI/GateInfo" method="_on_unstar_pressed"]
+[node name="Spacing2" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
 
-[editable path="UI/GateInfo/Bookmark/Star/Hint"]
+[connection signal="pressed" from="HBoxContainer/GateInfo/Bookmark/Star" to="HBoxContainer/GateInfo" method="_on_star_pressed"]
+[connection signal="pressed" from="HBoxContainer/GateInfo/Bookmark/Unstar" to="HBoxContainer/GateInfo" method="_on_unstar_pressed"]
+
+[editable path="HBoxContainer/GateInfo/Bookmark/Star/Hint"]

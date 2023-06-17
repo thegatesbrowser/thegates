@@ -5,7 +5,7 @@ extends Control
 
 @export var image: TextureRect
 @export var title: Label
-@export var description: Label
+@export var description: RichTextLabel
 @export var url: LineEdit
 
 @export var star: Control

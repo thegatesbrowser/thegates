@@ -9,8 +9,8 @@ var rd: RenderingDevice
 var ext_texure: ExternalTexture
 var texture_rid: RID
 
-var width
-var height
+@onready var width = get_viewport().size.x
+@onready var height = get_viewport().size.y
 
 
 func _ready() -> void:
@@ -21,8 +21,6 @@ func _ready() -> void:
 
 func initialize() -> void:
 	rd = RenderingServer.get_rendering_device()
-	width = size.x
-	height = size.y
 	
 	var image = Image.create(width, height, false, Image.FORMAT_RGB8)
 	self.texture = ImageTexture.create_from_image(image)

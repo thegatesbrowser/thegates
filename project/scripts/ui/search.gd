@@ -4,6 +4,16 @@ extends LineEdit
 var url: String
 
 
+func _ready() -> void:
+	gate_events.open_gate.connect(set_current_url)
+	gate_events.exit_gate.connect(set_current_url.bind(""))
+
+
+func set_current_url(_url: String) -> void:
+	url = _url
+	text = url
+
+
 func _input(event: InputEvent) -> void:
 	if (has_focus()
 			and event is InputEventMouseButton

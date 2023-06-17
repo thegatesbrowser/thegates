@@ -401,6 +401,7 @@ theme_override_font_sizes/normal_font_size = 24
 text = "No description"
 
 [node name="Url" type="LineEdit" parent="HBoxContainer/GateInfo"]
+visible = false
 layout_mode = 2
 theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20

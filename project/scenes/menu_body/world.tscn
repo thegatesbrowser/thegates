@@ -390,7 +390,7 @@ stretch_mode = 6
 [node name="Title" type="Label" parent="HBoxContainer/GateInfo/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Unnamed"
+text = "TheGates"
 label_settings = SubResource("LabelSettings_i1x1e")
 text_overrun_behavior = 3
 
@@ -398,7 +398,8 @@ text_overrun_behavior = 3
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 24
-text = "No description"
+text = "Downloading gate info...
+Please wait"
 
 [node name="Url" type="LineEdit" parent="HBoxContainer/GateInfo"]
 visible = false

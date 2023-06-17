@@ -15,14 +15,23 @@ var texture_rid: RID
 
 func _ready() -> void:
 	gate_events.gate_entered.connect(create_external_texture)
+	gate_events.gate_info_loaded.connect(initialize)
 	command_events.send_filehandle.connect(send_filehandle)
-	initialize()
 
 
-func initialize() -> void:
+func initialize(gate: Gate) -> void:
 	rd = RenderingServer.get_rendering_device()
 	
-	var image = Image.create(width, height, false, Image.FORMAT_RGB8)
+	var image: Image
+	var tex = FileTools.load_external_tex(gate.image)
+	if tex != null:
+		image = tex.get_image()
+		image.resize(width, height)
+		image.convert(Image.FORMAT_RGB8)
+		image.clear_mipmaps()
+	else:
+		image = Image.create(width, height, false, Image.FORMAT_RGB8)
+	
 	self.texture = ImageTexture.create_from_image(image)
 	texture_rid = RenderingServer.texture_get_rd_texture(self.texture.get_rid())
 	if not texture_rid.is_valid(): Debug.logerr("Cannot create ImageTexture")

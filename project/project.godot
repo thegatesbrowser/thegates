@@ -15,8 +15,8 @@ config/description="Building new Internet"
 run/main_scene="res://scenes/app.tscn"
 config/features=PackedStringArray("4.0")
 run/max_fps=60
-boot_splash/image="res://textures/background.png"
-boot_splash/fullsize=false
+boot_splash/bg_color=Color(0.156863, 0.156863, 0.156863, 1)
+boot_splash/show_image=false
 config/icon="res://app_icon/icon_64.png"
 config/windows_native_icon="res://app_icon/icon.ico"
 

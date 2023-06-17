@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://ct8gsph3wnepl"]
+[gd_scene load_steps=14 format=3 uid="uid://ct8gsph3wnepl"]
 
 [ext_resource type="Script" path="res://scripts/app.gd" id="1_skc7d"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_cdryv"]
+[ext_resource type="PackedScene" uid="uid://pgl3w7q5w84m" path="res://scenes/menu_body/bookmarks.tscn" id="3_l8glb"]
 [ext_resource type="PackedScene" uid="uid://5btb7nvgmfhl" path="res://scenes/menu.tscn" id="3_o1f7b"]
-[ext_resource type="PackedScene" uid="uid://kywrsqro3d5i" path="res://scenes/world.tscn" id="4_cmlvo"]
+[ext_resource type="PackedScene" uid="uid://kywrsqro3d5i" path="res://scenes/menu_body/world.tscn" id="4_p75rl"]
 [ext_resource type="Script" path="res://scripts/bookmark_saver.gd" id="5_ev0ch"]
 [ext_resource type="Script" path="res://scripts/analytics/analytics.gd" id="6_25d48"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="6_rupvx"]
@@ -13,13 +14,17 @@
 [ext_resource type="Script" path="res://scripts/analytics/analytics_sender_error.gd" id="8_ah58q"]
 [ext_resource type="Script" path="res://scripts/analytics/analytics_sender_gate.gd" id="9_egxpy"]
 
-[node name="App" type="Node"]
+[node name="App" type="Node" node_paths=PackedStringArray("scenes_root")]
 script = ExtResource("1_skc7d")
 gate_events = ExtResource("2_cdryv")
-menu_scene = ExtResource("3_o1f7b")
-world_scene = ExtResource("4_cmlvo")
+bookmarks = ExtResource("3_l8glb")
+world_scene = ExtResource("4_p75rl")
+scenes_root = NodePath("Menu/VBoxContainer/Body")
 
 [node name="Debug" parent="." instance=ExtResource("7_3xeb8")]
+
+[node name="Window" parent="Debug" index="0"]
+visible = false
 
 [node name="BookmarkSaver" type="Node" parent="."]
 script = ExtResource("5_ev0ch")
@@ -41,4 +46,7 @@ script = ExtResource("8_ah58q")
 script = ExtResource("9_egxpy")
 gate_events = ExtResource("2_cdryv")
 
-[node name="Scenes" type="Node" parent="."]
+[node name="Menu" parent="." instance=ExtResource("3_o1f7b")]
+
+[editable path="Debug"]
+[editable path="Menu"]

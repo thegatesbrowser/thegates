@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://pgl3w7q5w84m"]
+
+[ext_resource type="Script" path="res://scripts/ui/menu/bookmark_container.gd" id="1_vspm3"]
+[ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="2_g2k3b"]
+[ext_resource type="PackedScene" uid="uid://82ca8so31njy" path="res://scenes/components/bookmark.tscn" id="3_dyxu5"]
+
+[node name="Bookmarks" type="ScrollContainer"]
+custom_minimum_size = Vector2(1200, 400)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 70
+theme_override_constants/v_separation = 40
+columns = 6
+script = ExtResource("1_vspm3")
+bookmarks = ExtResource("2_g2k3b")
+bookmark_scene = ExtResource("3_dyxu5")

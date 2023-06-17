@@ -57,6 +57,7 @@ offset_right = 30.0
 offset_bottom = 10.0
 grow_vertical = 2
 texture = ExtResource("3_1rllf")
+expand_mode = 1
 
 [node name="Go" type="BaseButton" parent="."]
 _import_path = NodePath("")

@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://5btb7nvgmfhl"]
 
+[ext_resource type="Script" path="res://scripts/ui/world/home.gd" id="2_l5iu6"]
 [ext_resource type="Texture2D" uid="uid://dystd8vvbqwo2" path="res://textures/exit.svg" id="3_1a6fk"]
+[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_m632k"]
+[ext_resource type="Texture2D" uid="uid://bmju020v33vrv" path="res://textures/home.svg" id="4_5npup"]
 [ext_resource type="Script" path="res://scripts/ui/menu/exit_app.gd" id="4_2065t"]
 [ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://scenes/components/search.tscn" id="5_li2do"]
-[ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="7_ern1s"]
-[ext_resource type="Script" path="res://scripts/ui/menu/bookmark_container.gd" id="7_wj13t"]
-[ext_resource type="PackedScene" uid="uid://82ca8so31njy" path="res://scenes/components/bookmark.tscn" id="8_h7tks"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pveoh"]
 bg_color = Color(0.156863, 0.156863, 0.156863, 1)
@@ -51,10 +51,91 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_re7ca")
 
-[node name="Search" parent="VBoxContainer/Top" instance=ExtResource("5_li2do")]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Top"]
 layout_mode = 1
-offset_top = -20.0
-offset_bottom = 20.0
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -502.0
+offset_right = 502.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Search" parent="VBoxContainer/Top/HBoxContainer" instance=ExtResource("5_li2do")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Home" type="BaseButton" parent="VBoxContainer/Top/HBoxContainer"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(25, 25)
+layout_direction = 0
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+size_flags_stretch_ratio = 1.0
+auto_translate = true
+localize_numeral_system = true
+tooltip_text = ""
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 2
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = ExtResource("2_l5iu6")
+gate_events = ExtResource("3_m632k")
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Top/HBoxContainer/Home"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_5npup")
+expand_mode = 1
 
 [node name="Exit" type="BaseButton" parent="VBoxContainer/Top"]
 _import_path = NodePath("")
@@ -141,30 +222,5 @@ expand_mode = 1
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Bookmarks" type="ScrollContainer" parent="VBoxContainer/Body"]
-custom_minimum_size = Vector2(1200, 400)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_top = -100.0
-offset_bottom = 100.0
-grow_horizontal = 2
-grow_vertical = 2
-follow_focus = true
-horizontal_scroll_mode = 0
-
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/Body/Bookmarks"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 70
-theme_override_constants/v_separation = 40
-columns = 6
-script = ExtResource("7_wj13t")
-bookmarks = ExtResource("7_ern1s")
-bookmark_scene = ExtResource("8_h7tks")
-
+[connection signal="pressed" from="VBoxContainer/Top/HBoxContainer/Home" to="VBoxContainer/Top/HBoxContainer/Home" method="_on_pressed"]
 [connection signal="pressed" from="VBoxContainer/Top/Exit" to="VBoxContainer/Top/Exit" method="_on_pressed"]

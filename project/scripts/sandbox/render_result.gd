@@ -5,12 +5,12 @@ class_name RenderResult
 @export var command_events: CommandEvents
 @export var splash_screen: Texture2D
 
-@onready var width = get_viewport().size.x
-@onready var height = get_viewport().size.y
-
 var rd: RenderingDevice
 var ext_texure: ExternalTexture
 var texture_rid: RID
+
+var width
+var height
 
 
 func _ready() -> void:
@@ -21,6 +21,8 @@ func _ready() -> void:
 
 func initialize() -> void:
 	rd = RenderingServer.get_rendering_device()
+	width = size.x
+	height = size.y
 	
 	var image = Image.create(width, height, false, Image.FORMAT_RGB8)
 	self.texture = ImageTexture.create_from_image(image)
@@ -39,6 +41,7 @@ func create_external_texture() -> void:
 	var t_view: RDTextureView = RDTextureView.new()
 	
 	var image = splash_screen.get_image()
+	image.resize(width, height)
 	image.convert(Image.FORMAT_RGBA8)
 	image.clear_mipmaps()
 	

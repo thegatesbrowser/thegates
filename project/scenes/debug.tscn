@@ -37,14 +37,6 @@ threaded = true
 selection_enabled = true
 script = ExtResource("2_lgt6s")
 
-[node name="WindowCopy" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 52.0
-offset_top = 75.0
-offset_right = 852.0
-offset_bottom = 675.0
-
 [connection signal="close_requested" from="Window" to="." method="_on_window_close_requested"]
 [connection signal="focus_exited" from="Window" to="." method="_on_window_focus_exited"]
 [connection signal="window_input" from="Window" to="." method="_on_window_window_input"]

@@ -14,7 +14,7 @@ var current_gate: Gate
 
 func open_gate_emit(url: String) -> void:
 	current_gate_url = Url.fix_gate_url(url)
-	open_gate.emit(url)
+	open_gate.emit(current_gate_url)
 
 
 func search_pressed_emit(url: String) -> void:

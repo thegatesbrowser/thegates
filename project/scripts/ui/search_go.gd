@@ -8,4 +8,5 @@ func _ready() -> void:
 
 
 func _on_search_text_changed(_url: String) -> void:
-	visible = true if Url.is_valid(_url) else false
+#	visible = true if Url.is_valid(_url) else false
+	pass

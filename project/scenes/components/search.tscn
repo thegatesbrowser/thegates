@@ -1,10 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://ctam0fxigbefk"]
+[gd_scene load_steps=11 format=3 uid="uid://ctam0fxigbefk"]
 
 [ext_resource type="Script" path="res://scripts/ui/search.gd" id="1_7ivk2"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_13io8"]
 [ext_resource type="Texture2D" uid="uid://c28surtqjf4st" path="res://textures/search.svg" id="3_1rllf"]
 [ext_resource type="Script" path="res://scripts/ui/search_go.gd" id="3_eayvw"]
 [ext_resource type="Texture2D" uid="uid://w63bxq7p14av" path="res://textures/arrow.png" id="4_8prhy"]
+[ext_resource type="Texture2D" uid="uid://bvvgx8ij2mdna" path="res://textures/star.png" id="6_2b3tq"]
+[ext_resource type="Script" path="res://scripts/ui/menu/star.gd" id="6_iyikx"]
+[ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="7_2mijb"]
+[ext_resource type="Texture2D" uid="uid://c5hu6cmvuipg7" path="res://textures/star_filled.png" id="7_gpko1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyysn"]
 content_margin_left = 40.0
@@ -65,7 +69,7 @@ unique_name_in_owner = false
 process_mode = 0
 process_priority = 0
 editor_description = ""
-visible = true
+visible = false
 modulate = Color(1, 1, 1, 1)
 self_modulate = Color(1, 1, 1, 1)
 show_behind_parent = false
@@ -139,7 +143,186 @@ grow_vertical = 2
 texture = ExtResource("4_8prhy")
 expand_mode = 1
 
+[node name="Bookmark" type="Control" parent="." node_paths=PackedStringArray("star", "unstar")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -10.0
+offset_right = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("6_iyikx")
+gate_events = ExtResource("2_13io8")
+bookmarks = ExtResource("7_2mijb")
+star = NodePath("Star")
+unstar = NodePath("Unstar")
+
+[node name="Star" type="BaseButton" parent="Bookmark"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+auto_translate = true
+localize_numeral_system = true
+tooltip_text = ""
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 2
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = null
+
+[node name="TextureRect" type="TextureRect" parent="Bookmark/Star"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_2b3tq")
+expand_mode = 1
+
+[node name="Unstar" type="BaseButton" parent="Bookmark"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+editor_description = ""
+visible = false
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+auto_translate = true
+localize_numeral_system = true
+tooltip_text = ""
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 2
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = null
+
+[node name="TextureRect" type="TextureRect" parent="Bookmark/Unstar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_gpko1")
+expand_mode = 1
+
 [connection signal="text_changed" from="." to="." method="_on_text_changed"]
 [connection signal="text_changed" from="." to="Go" method="_on_search_text_changed"]
 [connection signal="text_submitted" from="." to="." method="_on_text_submitted"]
 [connection signal="pressed" from="Go" to="." method="_on_go_pressed"]
+[connection signal="pressed" from="Bookmark/Star" to="Bookmark" method="_on_star_pressed"]
+[connection signal="pressed" from="Bookmark/Unstar" to="Bookmark" method="_on_unstar_pressed"]

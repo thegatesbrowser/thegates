@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=23 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -12,12 +12,8 @@
 [ext_resource type="Script" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
 [ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
 [ext_resource type="Script" path="res://scripts/ui/world/gate_info.gd" id="14_8hca5"]
-[ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="15_6vvtg"]
 [ext_resource type="Script" path="res://scripts/ui/world/release_focus.gd" id="16_8emm0"]
-[ext_resource type="PackedScene" path="res://scenes/components/hint.tscn" id="17_rve7m"]
-[ext_resource type="Texture2D" uid="uid://bvvgx8ij2mdna" path="res://textures/star.png" id="18_o2mtq"]
 [ext_resource type="Script" path="res://scripts/ui/fullscreen_animation.gd" id="18_sx3kr"]
-[ext_resource type="Texture2D" uid="uid://c5hu6cmvuipg7" path="res://textures/star_filled.png" id="19_y2rfc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bm5nj"]
 corner_radius_top_left = 25
@@ -350,19 +346,16 @@ command_events = ExtResource("6_18mgg")
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="GateInfo" type="VBoxContainer" parent="HBoxContainer" node_paths=PackedStringArray("image", "title", "description", "url", "star", "unstar")]
+[node name="GateInfo" type="VBoxContainer" parent="HBoxContainer" node_paths=PackedStringArray("image", "title", "description", "url")]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 30
 script = ExtResource("14_8hca5")
 gate_events = ExtResource("2_q7cvi")
-bookmarks = ExtResource("15_6vvtg")
 image = NodePath("HBoxContainer/ImageMask/TextureRect")
 title = NodePath("HBoxContainer/Title")
 description = NodePath("Description")
 url = NodePath("Url")
-star = NodePath("Bookmark/Star")
-unstar = NodePath("Bookmark/Unstar")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/GateInfo"]
 custom_minimum_size = Vector2(0, 100)
@@ -415,187 +408,6 @@ caret_blink = true
 caret_blink_interval = 0.5
 script = ExtResource("16_8emm0")
 
-[node name="Bookmark" type="Control" parent="HBoxContainer/GateInfo"]
-visible = false
-layout_mode = 2
-
-[node name="Star" type="BaseButton" parent="HBoxContainer/GateInfo/Bookmark"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-editor_description = ""
-visible = true
-modulate = Color(1, 1, 1, 1)
-self_modulate = Color(1, 1, 1, 1)
-show_behind_parent = false
-top_level = false
-clip_children = 0
-light_mask = 1
-visibility_layer = 1
-z_index = 0
-z_as_relative = true
-y_sort_enabled = false
-texture_filter = 0
-texture_repeat = 0
-material = null
-use_parent_material = false
-clip_contents = false
-custom_minimum_size = Vector2(0, 0)
-layout_direction = 0
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 0.0
-scale = Vector2(1, 1)
-pivot_offset = Vector2(0, 0)
-size_flags_horizontal = 1
-size_flags_vertical = 1
-size_flags_stretch_ratio = 1.0
-auto_translate = true
-localize_numeral_system = true
-tooltip_text = ""
-focus_neighbor_left = NodePath("")
-focus_neighbor_top = NodePath("")
-focus_neighbor_right = NodePath("")
-focus_neighbor_bottom = NodePath("")
-focus_next = NodePath("")
-focus_previous = NodePath("")
-focus_mode = 2
-mouse_filter = 0
-mouse_force_pass_scroll_events = true
-mouse_default_cursor_shape = 2
-theme = null
-theme_type_variation = &""
-disabled = false
-toggle_mode = false
-button_pressed = false
-action_mode = 1
-button_mask = 1
-keep_pressed_outside = false
-button_group = null
-shortcut = null
-shortcut_feedback = true
-shortcut_in_tooltip = true
-script = null
-
-[node name="Hint" parent="HBoxContainer/GateInfo/Bookmark/Star" node_paths=PackedStringArray("button") instance=ExtResource("17_rve7m")]
-layout_mode = 1
-key = "hint_star"
-button = NodePath("..")
-
-[node name="AnimRoot" parent="HBoxContainer/GateInfo/Bookmark/Star/Hint" index="0"]
-layout_mode = 1
-
-[node name="Background" parent="HBoxContainer/GateInfo/Bookmark/Star/Hint/AnimRoot" index="0"]
-layout_mode = 1
-
-[node name="Label" parent="HBoxContainer/GateInfo/Bookmark/Star/Hint/AnimRoot" index="1"]
-layout_mode = 1
-text = "Bookmark gate!"
-
-[node name="TextureRect" parent="HBoxContainer/GateInfo/Bookmark/Star/Hint/AnimRoot" index="2"]
-layout_mode = 1
-expand_mode = 1
-
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/GateInfo/Bookmark/Star"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("18_o2mtq")
-expand_mode = 1
-
-[node name="Unstar" type="BaseButton" parent="HBoxContainer/GateInfo/Bookmark"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-editor_description = ""
-visible = false
-modulate = Color(1, 1, 1, 1)
-self_modulate = Color(1, 1, 1, 1)
-show_behind_parent = false
-top_level = false
-clip_children = 0
-light_mask = 1
-visibility_layer = 1
-z_index = 0
-z_as_relative = true
-y_sort_enabled = false
-texture_filter = 0
-texture_repeat = 0
-material = null
-use_parent_material = false
-clip_contents = false
-custom_minimum_size = Vector2(0, 0)
-layout_direction = 0
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 0.0
-scale = Vector2(1, 1)
-pivot_offset = Vector2(0, 0)
-size_flags_horizontal = 1
-size_flags_vertical = 1
-size_flags_stretch_ratio = 1.0
-auto_translate = true
-localize_numeral_system = true
-tooltip_text = ""
-focus_neighbor_left = NodePath("")
-focus_neighbor_top = NodePath("")
-focus_neighbor_right = NodePath("")
-focus_neighbor_bottom = NodePath("")
-focus_next = NodePath("")
-focus_previous = NodePath("")
-focus_mode = 2
-mouse_filter = 0
-mouse_force_pass_scroll_events = true
-mouse_default_cursor_shape = 2
-theme = null
-theme_type_variation = &""
-disabled = false
-toggle_mode = false
-button_pressed = false
-action_mode = 1
-button_mask = 1
-keep_pressed_outside = false
-button_group = null
-shortcut = null
-shortcut_feedback = true
-shortcut_in_tooltip = true
-script = null
-
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/GateInfo/Bookmark/Unstar"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("19_y2rfc")
-expand_mode = 1
-
 [node name="Spacing2" type="Control" parent="HBoxContainer"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -609,7 +421,3 @@ ui_events = ExtResource("9_ir58h")
 gate_events = ExtResource("2_q7cvi")
 
 [connection signal="pressed" from="HBoxContainer/WorldCanvas/RenderResult/HideOnPress" to="." method="hide_ui"]
-[connection signal="pressed" from="HBoxContainer/GateInfo/Bookmark/Star" to="HBoxContainer/GateInfo" method="_on_star_pressed"]
-[connection signal="pressed" from="HBoxContainer/GateInfo/Bookmark/Unstar" to="HBoxContainer/GateInfo" method="_on_unstar_pressed"]
-
-[editable path="HBoxContainer/GateInfo/Bookmark/Star/Hint"]

@@ -1,6 +1,7 @@
 extends LineEdit
 
 @export var gate_events: GateEvents
+
 var url: String
 
 

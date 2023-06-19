@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvvgx8ij2mdna"
-path="res://.godot/imported/star.png-2427054b39cb9271cf50ad4e459a83d6.ctex"
+uid="uid://lxx36xkotvh1"
+path="res://.godot/imported/star_filled.svg-23feaa5bc02880b444c30a399b45f0e2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/star.png"
-dest_files=["res://.godot/imported/star.png-2427054b39cb9271cf50ad4e459a83d6.ctex"]
+source_file="res://textures/star_filled.svg"
+dest_files=["res://.godot/imported/star_filled.svg-23feaa5bc02880b444c30a399b45f0e2.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=5.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

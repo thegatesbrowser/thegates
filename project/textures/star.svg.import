@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://w63bxq7p14av"
-path="res://.godot/imported/arrow.png-9a93dc3b81791fee5532cccc8c8282ef.ctex"
+uid="uid://btn6ytky782a2"
+path="res://.godot/imported/star.svg-20c89f24375010d572c8a8009c916cb1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/arrow.png"
-dest_files=["res://.godot/imported/arrow.png-9a93dc3b81791fee5532cccc8c8282ef.ctex"]
+source_file="res://textures/star.svg"
+dest_files=["res://.godot/imported/star.svg-20c89f24375010d572c8a8009c916cb1.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=5.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

@@ -4,11 +4,11 @@
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_13io8"]
 [ext_resource type="Texture2D" uid="uid://c28surtqjf4st" path="res://textures/search.svg" id="3_1rllf"]
 [ext_resource type="Script" path="res://scripts/ui/search_go.gd" id="3_eayvw"]
-[ext_resource type="Texture2D" uid="uid://w63bxq7p14av" path="res://textures/arrow.png" id="4_8prhy"]
-[ext_resource type="Texture2D" uid="uid://bvvgx8ij2mdna" path="res://textures/star.png" id="6_2b3tq"]
+[ext_resource type="Texture2D" uid="uid://byvigfpu44dnu" path="res://textures/arrow.svg" id="5_dqxpp"]
 [ext_resource type="Script" path="res://scripts/ui/menu/star.gd" id="6_iyikx"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="7_2mijb"]
-[ext_resource type="Texture2D" uid="uid://c5hu6cmvuipg7" path="res://textures/star_filled.png" id="7_gpko1"]
+[ext_resource type="Texture2D" uid="uid://btn6ytky782a2" path="res://textures/star.svg" id="8_b00p6"]
+[ext_resource type="Texture2D" uid="uid://lxx36xkotvh1" path="res://textures/star_filled.svg" id="9_2en0l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyysn"]
 content_margin_left = 40.0
@@ -140,7 +140,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_8prhy")
+texture = ExtResource("5_dqxpp")
 expand_mode = 1
 
 [node name="Bookmark" type="Control" parent="." node_paths=PackedStringArray("star", "unstar")]
@@ -238,7 +238,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("6_2b3tq")
+texture = ExtResource("8_b00p6")
 expand_mode = 1
 
 [node name="Unstar" type="BaseButton" parent="Bookmark"]
@@ -317,7 +317,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("7_gpko1")
+texture = ExtResource("9_2en0l")
 expand_mode = 1
 
 [connection signal="text_changed" from="." to="." method="_on_text_changed"]

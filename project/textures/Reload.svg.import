@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3qt47a8qdeae"
-path="res://.godot/imported/portals.png-a63fd8fa620779998718a7abdabdc591.ctex"
+uid="uid://8wvea7j0v0rx"
+path="res://.godot/imported/Reload.svg-b256d0a76db8debe7bb02e7fb6912e48.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/portals.png"
-dest_files=["res://.godot/imported/portals.png-a63fd8fa620779998718a7abdabdc591.ctex"]
+source_file="res://textures/Reload.svg"
+dest_files=["res://.godot/imported/Reload.svg-b256d0a76db8debe7bb02e7fb6912e48.ctex"]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=5.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

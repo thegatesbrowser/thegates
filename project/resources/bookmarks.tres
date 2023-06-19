@@ -8,7 +8,7 @@ script = ExtResource("1_yi510")
 url = "http://95.163.241.188:8000"
 title = "Portals"
 description = "Explore other worlds!"
-image = "res://textures/portals.png"
+image = ""
 
 [resource]
 script = ExtResource("1_1h3wl")

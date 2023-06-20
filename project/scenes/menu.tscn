@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://5btb7nvgmfhl"]
+[gd_scene load_steps=18 format=3 uid="uid://5btb7nvgmfhl"]
 
+[ext_resource type="Script" path="res://scripts/ui/menu/menu_navigation.gd" id="1_7anvm"]
 [ext_resource type="Texture2D" uid="uid://8wvea7j0v0rx" path="res://textures/Reload.svg" id="1_d6dhb"]
 [ext_resource type="Texture2D" uid="uid://byvigfpu44dnu" path="res://textures/arrow.svg" id="1_wkgtd"]
-[ext_resource type="Script" path="res://scripts/ui/world/home.gd" id="2_l5iu6"]
 [ext_resource type="Texture2D" uid="uid://dystd8vvbqwo2" path="res://textures/exit.svg" id="3_1a6fk"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_m632k"]
+[ext_resource type="Resource" uid="uid://bqgikyax6jfqa" path="res://resources/history.tres" id="3_wi554"]
 [ext_resource type="Texture2D" uid="uid://bmju020v33vrv" path="res://textures/home.svg" id="4_5npup"]
 [ext_resource type="Script" path="res://scripts/ui/menu/exit_app.gd" id="4_2065t"]
 [ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://scenes/components/search.tscn" id="5_li2do"]
@@ -183,7 +184,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_re7ca")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Top"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Top" node_paths=PackedStringArray("go_back", "go_forw", "reload", "home")]
 layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
@@ -195,6 +196,13 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 alignment = 1
+script = ExtResource("1_7anvm")
+gate_events = ExtResource("3_m632k")
+history = ExtResource("3_wi554")
+go_back = NodePath("GoBack")
+go_forw = NodePath("GoForward")
+reload = NodePath("Reload")
+home = NodePath("Home")
 
 [node name="GoBack" type="BaseButton" parent="VBoxContainer/Top/HBoxContainer"]
 _import_path = NodePath("")
@@ -457,8 +465,7 @@ button_group = null
 shortcut = null
 shortcut_feedback = true
 shortcut_in_tooltip = true
-script = ExtResource("2_l5iu6")
-gate_events = ExtResource("3_m632k")
+script = null
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/Top/HBoxContainer/Home"]
 layout_mode = 1
@@ -565,5 +572,4 @@ script = ExtResource("7_1hi62")
 ui_events = ExtResource("8_8dnbq")
 gate_events = ExtResource("3_m632k")
 
-[connection signal="pressed" from="VBoxContainer/Top/HBoxContainer/Home" to="VBoxContainer/Top/HBoxContainer/Home" method="_on_pressed"]
 [connection signal="pressed" from="VBoxContainer/Top/Exit" to="VBoxContainer/Top/Exit" method="_on_pressed"]

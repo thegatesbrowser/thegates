@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="History" load_steps=2 format=3 uid="uid://bqgikyax6jfqa"]
+
+[ext_resource type="Script" path="res://scripts/ui/menu/history.gd" id="1_oh8jq"]
+
+[resource]
+script = ExtResource("1_oh8jq")

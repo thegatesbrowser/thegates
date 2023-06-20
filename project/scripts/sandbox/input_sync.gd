@@ -4,7 +4,8 @@ extends Node
 @export var ui_events: UiEvents
 
 var input_sync: InputSync
-var should_send := true
+var should_send := false
+
 
 func _ready() -> void:
 	gate_events.gate_entered.connect(start_server)

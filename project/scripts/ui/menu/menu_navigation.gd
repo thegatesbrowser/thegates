@@ -23,15 +23,19 @@ func _ready() -> void:
 func on_open_gate(url: String) -> void:
 	history.add(url)
 	enable([go_back, reload, home])
+	if not history.can_forw():
+		disable([go_forw])
 
 
 func on_go_back() -> void:
 	var url = history.back()
-	if url == "":
-		on_home()
-	else:
-		gate_events.open_gate_emit(url)
+	
 	enable([go_forw])
+	if history.can_back():
+		gate_events.open_gate_emit(url)
+	else:
+		disable([go_back, reload, home])
+		gate_events.exit_gate_emit()
 
 
 func on_go_forw() -> void:
@@ -49,6 +53,7 @@ func on_reload() -> void:
 
 
 func on_home() -> void:
+	history.clear()
 	disable([go_back, go_forw, reload, home])
 	gate_events.exit_gate_emit()
 

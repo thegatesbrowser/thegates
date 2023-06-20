@@ -24,18 +24,18 @@ func add(url: String) -> void:
 	index += 1
 	history.resize(index)
 	history.push_back(url)
-	print(str(history) + " " + str(index))
+	print_history()
 
 
 func forw() -> String:
 	index += 1
-	print(str(history) + " " + str(index))
+	print_history()
 	return history[index]
 
 
 func back() -> String:
 	index -= 1
-	print(str(history) + " " + str(index))
+	print_history()
 	if index == -1:
 		return ""
 	return history[index]
@@ -44,4 +44,8 @@ func back() -> String:
 func clear() -> void:
 	index = -1
 	history.clear()
-	print(str(history) + " " + str(index))
+	print_history()
+
+
+func print_history() -> void:
+	Debug.logclr("History: " + str(history) + " Current: " + str(index), Color.DIM_GRAY)

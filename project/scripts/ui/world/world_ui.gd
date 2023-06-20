@@ -9,7 +9,6 @@ var _visible: bool = true
 
 
 func _ready() -> void:
-	gate_events.gate_entered.connect(hide_ui)
 	command_events.set_mouse_mode.connect(set_mouse_mode)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ct8gsph3wnepl"]
+[gd_scene load_steps=16 format=3 uid="uid://ct8gsph3wnepl"]
 
 [ext_resource type="Script" path="res://scripts/app.gd" id="1_skc7d"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_cdryv"]
@@ -14,6 +14,7 @@
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/backend.tres" id="7_yykjj"]
 [ext_resource type="Script" path="res://scripts/analytics/analytics_sender_error.gd" id="8_ah58q"]
 [ext_resource type="Script" path="res://scripts/analytics/analytics_sender_gate.gd" id="9_egxpy"]
+[ext_resource type="Script" path="res://scripts/api_add_gate.gd" id="14_enhvg"]
 
 [node name="App" type="Node" node_paths=PackedStringArray("scenes_root")]
 script = ExtResource("1_skc7d")
@@ -46,6 +47,11 @@ script = ExtResource("8_ah58q")
 
 [node name="SenderGate" type="Node" parent="Analytics"]
 script = ExtResource("9_egxpy")
+gate_events = ExtResource("2_cdryv")
+
+[node name="ApiAddGate" type="Node" parent="."]
+script = ExtResource("14_enhvg")
+backend = ExtResource("7_yykjj")
 gate_events = ExtResource("2_cdryv")
 
 [node name="Menu" parent="." instance=ExtResource("3_o1f7b")]

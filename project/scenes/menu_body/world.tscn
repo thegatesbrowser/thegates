@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=22 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
 [ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
 [ext_resource type="Script" path="res://scripts/ui/world/gate_info.gd" id="14_8hca5"]
+[ext_resource type="Script" path="res://scripts/ui/world/loading_status.gd" id="14_jjuux"]
 [ext_resource type="Script" path="res://scripts/ui/world/release_focus.gd" id="16_8emm0"]
 [ext_resource type="Script" path="res://scripts/ui/fullscreen_animation.gd" id="18_sx3kr"]
 
@@ -23,12 +24,6 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="LabelSettings" id="LabelSettings_i1x1e"]
 font_size = 32
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rndqt"]
-draw_center = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a03l7"]
-draw_center = false
 
 [sub_resource type="Animation" id="Animation_beyyv"]
 length = 0.001
@@ -346,7 +341,7 @@ command_events = ExtResource("6_18mgg")
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="GateInfo" type="VBoxContainer" parent="HBoxContainer" node_paths=PackedStringArray("image", "title", "description", "url")]
+[node name="GateInfo" type="VBoxContainer" parent="HBoxContainer" node_paths=PackedStringArray("image", "title", "description")]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 30
@@ -355,7 +350,6 @@ gate_events = ExtResource("2_q7cvi")
 image = NodePath("HBoxContainer/ImageMask/TextureRect")
 title = NodePath("HBoxContainer/Title")
 description = NodePath("Description")
-url = NodePath("Url")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/GateInfo"]
 custom_minimum_size = Vector2(0, 100)
@@ -390,23 +384,22 @@ text_overrun_behavior = 3
 [node name="Description" type="RichTextLabel" parent="HBoxContainer/GateInfo"]
 layout_mode = 2
 size_flags_vertical = 3
+focus_mode = 2
 theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
 text = "Downloading gate info...
 Please wait"
-
-[node name="Url" type="LineEdit" parent="HBoxContainer/GateInfo"]
-visible = false
-layout_mode = 2
-theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/focus = SubResource("StyleBoxFlat_rndqt")
-theme_override_styles/read_only = SubResource("StyleBoxFlat_a03l7")
-text = "url"
-alignment = 1
-editable = false
-caret_blink = true
-caret_blink_interval = 0.5
+context_menu_enabled = true
+selection_enabled = true
 script = ExtResource("16_8emm0")
+
+[node name="LoadingStatus" type="Label" parent="HBoxContainer/GateInfo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Connecting..."
+horizontal_alignment = 1
+script = ExtResource("14_jjuux")
+gate_events = ExtResource("2_q7cvi")
 
 [node name="Spacing2" type="Control" parent="HBoxContainer"]
 custom_minimum_size = Vector2(50, 0)

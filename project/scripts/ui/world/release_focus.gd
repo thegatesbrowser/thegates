@@ -1,4 +1,4 @@
-extends LineEdit
+extends Control
 
 
 func _input(event: InputEvent) -> void:

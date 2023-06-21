@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://ct8gsph3wnepl"]
+[gd_scene load_steps=15 format=3 uid="uid://ct8gsph3wnepl"]
 
 [ext_resource type="Script" path="res://scripts/app.gd" id="1_skc7d"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_cdryv"]
 [ext_resource type="PackedScene" uid="uid://pgl3w7q5w84m" path="res://scenes/menu_body/bookmarks.tscn" id="3_l8glb"]
 [ext_resource type="PackedScene" uid="uid://5btb7nvgmfhl" path="res://scenes/menu.tscn" id="3_o1f7b"]
 [ext_resource type="PackedScene" uid="uid://kywrsqro3d5i" path="res://scenes/menu_body/world.tscn" id="4_p75rl"]
+[ext_resource type="PackedScene" uid="uid://dh3owgirapji5" path="res://scenes/menu_body/search_results.tscn" id="4_phjpd"]
 [ext_resource type="Script" path="res://scripts/bookmark_saver.gd" id="5_ev0ch"]
 [ext_resource type="Script" path="res://scripts/analytics/analytics.gd" id="6_25d48"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="6_rupvx"]
@@ -18,6 +19,7 @@
 script = ExtResource("1_skc7d")
 gate_events = ExtResource("2_cdryv")
 bookmarks = ExtResource("3_l8glb")
+search_results = ExtResource("4_phjpd")
 world_scene = ExtResource("4_p75rl")
 scenes_root = NodePath("Menu/VBoxContainer/Body")
 

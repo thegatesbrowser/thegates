@@ -10,7 +10,7 @@ var gate_url: String
 func start() -> void:
 	super.start()
 	
-	gate_events.search_pressed.connect(send_search_press)
+	gate_events.search.connect(send_search)
 	gate_events.open_gate.connect(send_gate_open)
 	gate_events.gate_entered.connect(send_gate_enter)
 	gate_events.exit_gate.connect(send_gate_exit)
@@ -22,8 +22,8 @@ func start() -> void:
 	analytics.send_event(JSON.parse_string(json))
 
 
-func send_search_press(url: String) -> void:
-	analytics.send_event(AnalyticsEvents.search_press(url))
+func send_search(query: String) -> void:
+	analytics.send_event(AnalyticsEvents.search(query))
 
 
 func send_gate_open(url: String) -> void:

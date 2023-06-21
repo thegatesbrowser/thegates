@@ -10,7 +10,8 @@ extends Node
 
 
 func _ready() -> void:
-	gate_events.open_gate.connect(on_open_gate)
+	gate_events.open_gate.connect(on_new)
+	gate_events.search.connect(on_new)
 	
 	go_back.pressed.connect(on_go_back)
 	go_forw.pressed.connect(on_go_forw)
@@ -20,32 +21,32 @@ func _ready() -> void:
 	disable([go_back, go_forw, reload, home])
 
 
-func on_open_gate(url: String) -> void:
-	history.add(url)
+func on_new(location: String) -> void:
+	history.add(location)
 	enable([go_back, reload, home])
 	if not history.can_forw():
 		disable([go_forw])
 
 
 func on_go_back() -> void:
-	var url = history.back()
+	var location = history.back()
 	
 	enable([go_forw])
 	if history.can_back():
-		gate_events.open_gate_emit(url)
+		gate_events.open_gate_emit(location)
 	else:
 		disable([go_back, reload, home])
 		gate_events.exit_gate_emit()
 
 
 func on_go_forw() -> void:
-	var url = history.forw()
+	var location = history.forw()
 	
 	enable([go_back])
 	if not history.can_forw():
 		disable([go_forw])
 	
-	gate_events.open_gate_emit(url)
+	gate_events.open_gate_emit(location)
 
 
 func on_reload() -> void:

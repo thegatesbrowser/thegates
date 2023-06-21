@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://dh3owgirapji5"]
+
+[ext_resource type="Script" path="res://scripts/ui/search/search_results.gd" id="1_bycb5"]
+[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_2plpa"]
+
+[node name="search_results" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Space" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("1_bycb5")
+gate_events = ExtResource("2_2plpa")
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0.6)
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "-------------------------------------------------------------------------------------------------- Search results -------------------------------------------------------------------------------------------------"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Space2" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2

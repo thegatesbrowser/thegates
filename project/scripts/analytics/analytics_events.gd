@@ -31,9 +31,9 @@ func app_exit(time_spend: int) -> Dictionary:
 
 # GATE
 
-func search_press(url: String) -> Dictionary:
-	var event = base("search_press")
-	event.gate_url = url
+func search(query: String) -> Dictionary:
+	var event = base("search")
+	event.query = query
 	return event
 
 

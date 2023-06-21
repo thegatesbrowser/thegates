@@ -35,25 +35,8 @@ func _on_go_pressed() -> void:
 
 
 func open_gate() -> void:
-	gate_events.search_pressed_emit(url)
 	if Url.is_valid(url):
-		release_focus()
 		gate_events.open_gate_emit(url)
 	else:
-		shake()
-
-
-func shake() -> void:
+		gate_events.search_emit(url)
 	release_focus()
-	var tween = get_tree().create_tween()
-	var pos = position
-	const delta = Vector2(0, 5)
-	const duration = 0.07
-	tween.tween_property(self, "position", pos + delta, duration)
-	tween.tween_property(self, "position", pos - delta, duration)
-	tween.tween_property(self, "position", pos + delta, duration)
-	tween.tween_property(self, "position", pos - delta, duration)
-	tween.tween_property(self, "position", pos, duration)
-	await tween.finished
-	grab_focus()
-	

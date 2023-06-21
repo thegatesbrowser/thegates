@@ -26,6 +26,7 @@ DataSaver="*res://scripts/data_saver.gd"
 FileDownloader="*res://scripts/loading/file_downloader.gd"
 Debug="*res://scripts/debug-log/debug.gd"
 AnalyticsEvents="*res://scripts/analytics/analytics_events.gd"
+Backend="*res://scripts/backend.gd"
 
 [debug]
 

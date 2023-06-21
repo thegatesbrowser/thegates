@@ -18,3 +18,6 @@ var analytics_event: String :
 
 var get_user_id: String :
 	get: return url + "/api/get_user_id?device_id="
+
+var search: String :
+	get: return url + "/api/search?query="

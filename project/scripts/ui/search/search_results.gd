@@ -31,7 +31,7 @@ func search(query: String) -> void:
 
 
 func search_request(query: String):
-	var url = backend.search + query
+	var url = backend.search + query.uri_encode()
 	var callback = func(_result, code, _headers, body):
 		if code == 200:
 			result = body.get_string_from_utf8()

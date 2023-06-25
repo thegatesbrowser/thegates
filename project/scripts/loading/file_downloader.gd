@@ -26,5 +26,26 @@ func download(url: String) -> String:
 	return save_path if err == OK else ""
 
 
+# Returns directory where file was downloaded. Keeps filename
+func download_shared_lib(url: String, gate_url: String) -> String:
+	var dir = folder + "/" + gate_url.md5_text()
+	var save_path = dir + "/" + url.get_file()
+	if FileAccess.file_exists(save_path):
+		await get_tree().process_frame # TODO: remove workaround
+		return dir
+	DirAccess.make_dir_recursive_absolute(dir)
+	
+	var http = HTTPRequest.new()
+	http.use_threads = true
+	add_child(http)
+	
+	http.download_file = save_path
+	var err = http.request(url)
+	await http.request_completed
+	
+	remove_child(http)
+	return dir if err == OK else ""
+
+
 func _exit_tree() -> void:
 	FileTools.remove_recursive(folder)

@@ -17,9 +17,10 @@ func create_process(gate: Gate) -> void:
 		Debug.logerr("Sandbox executable not found at " + snbx_executable.path); return
 	
 	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
+	var shared_libs = ProjectSettings.globalize_path(gate.shared_libs_dir)
 	var args = [
 		"--main-pack", pack_file,
-		"--gdext-libs-dir", "/home/nordup/projects/godot/the-gates-folder/ServerFiles/exports/rust",
+		"--gdext-libs-dir", shared_libs,
 		"--resolution", "%dx%d" % [render_result.width, render_result.height]
 	]
 	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DARK_VIOLET)

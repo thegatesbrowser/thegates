@@ -19,4 +19,9 @@ func load_gate(config_url: String) -> void:
 	gate_events.gate_info_loaded_emit(gate)
 	
 	gate.resource_pack = await FileDownloader.download(c_gate.resource_pack_url)
+	
+	Debug.logr("Loading GDExtension libraries: " + str(c_gate.libraries))
+	for lib in c_gate.libraries:
+		var lib_path = await FileDownloader.download(lib)
+	
 	gate_events.gate_loaded_emit(gate)

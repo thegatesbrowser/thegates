@@ -19,6 +19,7 @@ func create_process(gate: Gate) -> void:
 	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
 	var args = [
 		"--main-pack", pack_file,
+		"--gdext-libs-dir", "/home/nordup/projects/godot/the-gates-folder/ServerFiles/exports/rust",
 		"--resolution", "%dx%d" % [render_result.width, render_result.height]
 	]
 	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DARK_VIOLET)

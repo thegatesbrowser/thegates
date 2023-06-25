@@ -21,6 +21,9 @@ func _init(path: String, base_url: String) -> void:
 
 
 func get_libraries(base_url: String) -> PackedStringArray:
-	var libraries = GDExtension.find_extension_library("", config).split(";")
+	var unsplit_libs = GDExtension.find_extension_library("", config)
+	if unsplit_libs.is_empty(): return []
+	
+	var libraries = unsplit_libs.split(";")
 	for i in range(libraries.size()): libraries[i] = Url.join(base_url, libraries[i])
 	return libraries

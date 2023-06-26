@@ -7,14 +7,14 @@
 [ext_resource type="PackedScene" uid="uid://kywrsqro3d5i" path="res://scenes/menu_body/world.tscn" id="4_p75rl"]
 [ext_resource type="PackedScene" uid="uid://dh3owgirapji5" path="res://scenes/menu_body/search_results.tscn" id="4_phjpd"]
 [ext_resource type="Script" path="res://scripts/bookmark_saver.gd" id="5_ev0ch"]
-[ext_resource type="Script" path="res://scripts/analytics/analytics.gd" id="6_25d48"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="6_rupvx"]
 [ext_resource type="PackedScene" uid="uid://byrcbqat0n2px" path="res://scenes/debug.tscn" id="7_3xeb8"]
-[ext_resource type="Script" path="res://scripts/analytics/analytics_sender_app.gd" id="7_5328b"]
-[ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/backend.tres" id="7_yykjj"]
-[ext_resource type="Script" path="res://scripts/analytics/analytics_sender_error.gd" id="8_ah58q"]
-[ext_resource type="Script" path="res://scripts/analytics/analytics_sender_gate.gd" id="9_egxpy"]
-[ext_resource type="Script" path="res://scripts/api_add_gate.gd" id="14_enhvg"]
+[ext_resource type="Script" path="res://scripts/api/analytics/analytics.gd" id="9_a1ttg"]
+[ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="10_04o5h"]
+[ext_resource type="Script" path="res://scripts/api/analytics/analytics_sender_app.gd" id="11_cwwqp"]
+[ext_resource type="Script" path="res://scripts/api/analytics/analytics_sender_error.gd" id="12_rfjm7"]
+[ext_resource type="Script" path="res://scripts/api/discover_gate.gd" id="13_3xhql"]
+[ext_resource type="Script" path="res://scripts/api/analytics/analytics_sender_gate.gd" id="13_jout6"]
 
 [node name="App" type="Node" node_paths=PackedStringArray("scenes_root")]
 script = ExtResource("1_skc7d")
@@ -24,35 +24,37 @@ search_results = ExtResource("4_phjpd")
 world_scene = ExtResource("4_p75rl")
 scenes_root = NodePath("Menu/VBoxContainer/Body")
 
-[node name="Debug" parent="." instance=ExtResource("7_3xeb8")]
-
-[node name="Window" parent="Debug" index="0"]
-visible = false
-
 [node name="BookmarkSaver" type="Node" parent="."]
 script = ExtResource("5_ev0ch")
 save_dir = "user://resources"
 image_save_dir = "user://images"
 bookmarks = ExtResource("6_rupvx")
 
-[node name="Analytics" type="Node" parent="."]
-script = ExtResource("6_25d48")
-backend = ExtResource("7_yykjj")
+[node name="Api" type="Node" parent="."]
 
-[node name="SenderApp" type="Node" parent="Analytics"]
-script = ExtResource("7_5328b")
+[node name="Analytics" type="Node" parent="Api"]
+script = ExtResource("9_a1ttg")
+api = ExtResource("10_04o5h")
 
-[node name="SenderError" type="Node" parent="Analytics"]
-script = ExtResource("8_ah58q")
+[node name="SenderApp" type="Node" parent="Api/Analytics"]
+script = ExtResource("11_cwwqp")
 
-[node name="SenderGate" type="Node" parent="Analytics"]
-script = ExtResource("9_egxpy")
+[node name="SenderError" type="Node" parent="Api/Analytics"]
+script = ExtResource("12_rfjm7")
+
+[node name="SenderGate" type="Node" parent="Api/Analytics"]
+script = ExtResource("13_jout6")
 gate_events = ExtResource("2_cdryv")
 
-[node name="ApiAddGate" type="Node" parent="."]
-script = ExtResource("14_enhvg")
-backend = ExtResource("7_yykjj")
+[node name="AddGate" type="Node" parent="Api"]
+script = ExtResource("13_3xhql")
+api = ExtResource("10_04o5h")
 gate_events = ExtResource("2_cdryv")
+
+[node name="Debug" parent="." instance=ExtResource("7_3xeb8")]
+
+[node name="Window" parent="Debug" index="0"]
+visible = false
 
 [node name="Menu" parent="." instance=ExtResource("3_o1f7b")]
 

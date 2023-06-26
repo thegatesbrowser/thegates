@@ -1,7 +1,7 @@
 extends VBoxContainer
 
 @export var gate_events: GateEvents
-@export var backend: BackendSettings
+@export var api: ApiSettings
 
 var result: String
 
@@ -31,7 +31,7 @@ func search(query: String) -> void:
 
 
 func search_request(query: String):
-	var url = backend.search + query.uri_encode()
+	var url = api.search + query.uri_encode()
 	var callback = func(_result, code, _headers, body):
 		if code == 200:
 			result = body.get_string_from_utf8()

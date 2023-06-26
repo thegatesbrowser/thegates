@@ -8,6 +8,8 @@ class_name Gate
 @export var description: String
 @export_file("*.png", "*.jpg") var image: String
 var resource_pack: String
+
+# local path where libs downloaded
 var shared_libs_dir: String
 
 

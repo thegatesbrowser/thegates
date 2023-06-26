@@ -1,7 +1,7 @@
 extends Node
 class_name Analitycs
 
-@export var backend: BackendSettings
+@export var api: ApiSettings
 signal analytics_ready
 
 
@@ -11,7 +11,7 @@ func _ready() -> void:
 
 
 func send_event(body: Dictionary = {}) -> void:
-	var url = backend.analytics_event
+	var url = api.analytics_event
 	var callback = func(_result, code, _headers, _body):
 		if code != 200: Debug.logclr("Request send_event failed. Code " + str(code), Color.RED)
 	
@@ -20,7 +20,7 @@ func send_event(body: Dictionary = {}) -> void:
 
 
 func get_user_id() -> void:
-	var url = backend.get_user_id + OS.get_unique_id()
+	var url = api.get_user_id + OS.get_unique_id()
 	var callback = func(_result, code, _headers, body):
 		if code == 200:
 			AnalyticsEvents.user_id = body.get_string_from_utf8()

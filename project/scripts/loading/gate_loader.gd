@@ -13,6 +13,7 @@ func load_gate(config_url: String) -> void:
 	Debug.logclr("======== " + config_url + " ========", Color.GREEN)
 	var config_path: String = await FileDownloader.download(config_url)
 	c_gate = ConfigGate.new(config_path, config_url)
+	gate_events.gate_config_loaded_emit(config_url, c_gate)
 	
 	var image_path = await FileDownloader.download(c_gate.image_url)
 	var gate = Gate.create(config_url, c_gate.title, c_gate.description, image_path, "", "")

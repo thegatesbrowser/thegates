@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/ui/search/search_results.gd" id="1_bycb5"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_2plpa"]
-[ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/backend.tres" id="3_263ma"]
+[ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="3_263ma"]
 
 [node name="search_results" type="Control"]
 layout_mode = 3
@@ -29,7 +29,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("1_bycb5")
 gate_events = ExtResource("2_2plpa")
-backend = ExtResource("3_263ma")
+api = ExtResource("3_263ma")
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0.6)

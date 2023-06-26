@@ -33,7 +33,7 @@ func on_go_back() -> void:
 	
 	enable([go_forw])
 	if history.can_back():
-		gate_events.open_gate_emit(location)
+		open(location)
 	else:
 		disable([go_back, reload, home])
 		gate_events.exit_gate_emit()
@@ -46,17 +46,24 @@ func on_go_forw() -> void:
 	if not history.can_forw():
 		disable([go_forw])
 	
-	gate_events.open_gate_emit(location)
+	open(location)
 
 
 func on_reload() -> void:
-	gate_events.open_gate_emit(history.get_current())
+	open(history.get_current())
 
 
 func on_home() -> void:
 	history.clear()
 	disable([go_back, go_forw, reload, home])
 	gate_events.exit_gate_emit()
+
+
+func open(location: String) -> void:
+	if Url.is_valid(location):
+		gate_events.open_gate_emit(location)
+	else:
+		gate_events.search_emit(location)
 
 
 func disable(buttons: Array[BaseButton]) -> void:

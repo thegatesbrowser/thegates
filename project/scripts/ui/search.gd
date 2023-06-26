@@ -7,6 +7,7 @@ var url: String
 
 func _ready() -> void:
 	gate_events.open_gate.connect(set_current_url)
+	gate_events.search.connect(set_current_url)
 	gate_events.exit_gate.connect(set_current_url.bind(""))
 
 

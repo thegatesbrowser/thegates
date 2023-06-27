@@ -25,7 +25,7 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
-[node name="result" type="Button" node_paths=PackedStringArray("url", "title", "description", "image")]
+[node name="Result" type="Button" node_paths=PackedStringArray("url", "title", "description", "image")]
 custom_minimum_size = Vector2(0, 132)
 anchors_preset = 14
 anchor_top = 0.5
@@ -38,8 +38,8 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_37xan")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_37xan")
 script = ExtResource("1_b6nfm")
 gate_events = ExtResource("2_wgd6i")
-url = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Url")
-title = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Title")
+url = NodePath("HBoxContainer/VBoxContainer/SpanLimiter/HBoxContainer/Url")
+title = NodePath("HBoxContainer/VBoxContainer/SpanLimiter/HBoxContainer/Title")
 description = NodePath("HBoxContainer/VBoxContainer/Description")
 image = NodePath("HBoxContainer/Mask/Image")
 
@@ -83,22 +83,30 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="SpanLimiter" type="Control" parent="HBoxContainer/VBoxContainer"]
+clip_contents = true
 layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/SpanLimiter"]
+layout_mode = 2
+offset_right = 1772.0
+offset_bottom = 38.0
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 
-[node name="Title" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Title" type="Label" parent="HBoxContainer/VBoxContainer/SpanLimiter/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Title"
 
-[node name="Slash" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Slash" type="Label" parent="HBoxContainer/VBoxContainer/SpanLimiter/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "/"
 
-[node name="Url" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Url" type="Label" parent="HBoxContainer/VBoxContainer/SpanLimiter/HBoxContainer"]
 self_modulate = Color(1, 1, 1, 0.8)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -111,9 +119,7 @@ size_flags_vertical = 3
 mouse_filter = 1
 theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
-text = "Description alskdhflshdflkasldfkjslakdjflasdf
-;alskdfaslkdhflaksjdfl;kasjdf
-laskdf;laskhdflkasjdf;"
+text = "Description"
 scroll_active = false
 script = ExtResource("2_nxics")
 

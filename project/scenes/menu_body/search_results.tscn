@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dh3owgirapji5"]
+[gd_scene load_steps=6 format=3 uid="uid://dh3owgirapji5"]
 
 [ext_resource type="Script" path="res://scripts/ui/search/search_results.gd" id="1_bycb5"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_2plpa"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="3_263ma"]
 [ext_resource type="PackedScene" uid="uid://i3lgu2dyypcq" path="res://scenes/components/result.tscn" id="4_yxn4t"]
 
-[node name="search_results" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1vjix"]
+bg_color = Color(1, 1, 1, 0.6)
+
+[node name="SearchResults" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,26 +28,51 @@ grow_vertical = 2
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ScrollContainer"]
+[node name="Header" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Indent" type="Panel" parent="HBoxContainer/VBoxContainer/Header"]
+custom_minimum_size = Vector2(0, 0.6)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_1vjix")
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Header"]
+self_modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Search results"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Indent2" type="Panel" parent="HBoxContainer/VBoxContainer/Header"]
+custom_minimum_size = Vector2(0, 0.6)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_1vjix")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="SearchResults" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_bycb5")
 gate_events = ExtResource("2_2plpa")
 api = ExtResource("3_263ma")
 result_scene = ExtResource("4_yxn4t")
-
-[node name="Label" type="Label" parent="HBoxContainer/ScrollContainer/VBoxContainer"]
-self_modulate = Color(1, 1, 1, 0.6)
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "-------------------------------------------------------------------------------------------------- Search results -------------------------------------------------------------------------------------------------"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Space2" type="Control" parent="HBoxContainer"]
 custom_minimum_size = Vector2(240, 0)

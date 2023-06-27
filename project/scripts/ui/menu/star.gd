@@ -15,6 +15,7 @@ func _ready() -> void:
 	unstar.visible = false
 	
 	gate_events.open_gate.connect(show_buttons)
+	gate_events.search.connect(func(_query): hide_buttons())
 	gate_events.exit_gate.connect(hide_buttons)
 	gate_events.gate_info_loaded.connect(update_info)
 

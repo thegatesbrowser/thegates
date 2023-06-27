@@ -5,17 +5,17 @@ class_name BookmarkUI
 @export var image: TextureRect
 @export var title: Label
 
-var gate: Gate
+var url: String
 
 
-func fill(_gate: Gate) -> void:
-	if _gate == null: return
-	gate = _gate
+func fill(gate: Gate) -> void:
+	if gate == null: return
 	
+	url = gate.url
 	title.text = "Unnamed" if gate.title.is_empty() else gate.title
 	image.texture = FileTools.load_external_tex(gate.image)
 
 
 func _on_base_button_pressed() -> void:
-	if gate == null or gate.url.is_empty(): return
-	gate_events.open_gate_emit(gate.url)
+	if url.is_empty(): return
+	gate_events.open_gate_emit(url)

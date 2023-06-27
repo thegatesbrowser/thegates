@@ -48,4 +48,5 @@ func clear() -> void:
 
 
 func print_history() -> void:
-	Debug.logclr("History: " + str(history) + " Current: " + str(index), Color.DIM_GRAY)
+#	Debug.logclr("History: " + str(history) + " Current: " + str(index), Color.DIM_GRAY)
+	pass

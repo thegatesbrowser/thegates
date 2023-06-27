@@ -1,0 +1,120 @@
+[gd_scene load_steps=8 format=3 uid="uid://i3lgu2dyypcq"]
+
+[ext_resource type="Script" path="res://scripts/ui/search/result.gd" id="1_b6nfm"]
+[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://textures/background.png" id="1_cbuy3"]
+[ext_resource type="Script" path="res://scripts/ui/search/one_line_text.gd" id="2_nxics"]
+[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_wgd6i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7mafe"]
+bg_color = Color(0.25098, 0.25098, 0.25098, 0)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37xan"]
+bg_color = Color(0.25098, 0.25098, 0.25098, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6os7t"]
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="result" type="Button" node_paths=PackedStringArray("url", "title", "description", "image")]
+custom_minimum_size = Vector2(0, 132)
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_7mafe")
+theme_override_styles/hover = SubResource("StyleBoxFlat_37xan")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_37xan")
+script = ExtResource("1_b6nfm")
+gate_events = ExtResource("2_wgd6i")
+url = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Url")
+title = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Title")
+description = NodePath("HBoxContainer/VBoxContainer/Description")
+image = NodePath("HBoxContainer/Mask/Image")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_right = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Mask" type="Panel" parent="HBoxContainer"]
+clip_children = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_6os7t")
+
+[node name="Image" type="TextureRect" parent="HBoxContainer/Mask"]
+custom_minimum_size = Vector2(87, 87)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_cbuy3")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Title"
+
+[node name="Slash" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "/"
+
+[node name="Url" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+self_modulate = Color(1, 1, 1, 0.8)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "http://localhost:8000"
+
+[node name="Description" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "Description alskdhflshdflkasldfkjslakdjflasdf
+;alskdfaslkdhflaksjdfl;kasjdf
+laskdf;laskhdflkasjdf;"
+scroll_active = false
+script = ExtResource("2_nxics")
+
+[connection signal="pressed" from="." to="." method="_on_button_pressed"]

@@ -36,6 +36,8 @@ func _on_go_pressed() -> void:
 
 
 func open_gate() -> void:
+	if url.is_empty(): return
+	
 	if Url.is_valid(url):
 		gate_events.open_gate_emit(url)
 	else:

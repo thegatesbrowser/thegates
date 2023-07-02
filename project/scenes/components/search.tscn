@@ -40,6 +40,7 @@ grow_horizontal = 2
 grow_vertical = 2
 auto_translate = false
 localize_numeral_system = false
+focus_mode = 1
 theme_override_colors/font_color = Color(1, 1, 1, 0.8)
 theme_override_colors/font_placeholder_color = Color(1, 1, 1, 0.498039)
 theme_override_font_sizes/font_size = 20

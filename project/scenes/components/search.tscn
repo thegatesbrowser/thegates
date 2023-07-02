@@ -51,7 +51,6 @@ theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_hyysn")
 theme_override_styles/focus = SubResource("StyleBoxFlat_hyysn")
 placeholder_text = "Search or enter address"
-select_all_on_focus = true
 script = ExtResource("1_7ivk2")
 gate_events = ExtResource("2_13io8")
 

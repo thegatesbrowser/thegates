@@ -278,6 +278,7 @@ command_events = ExtResource("6_18mgg")
 [node name="GateLoader" type="Node" parent="."]
 script = ExtResource("1_uxhy6")
 gate_events = ExtResource("2_q7cvi")
+connect_timeout = 10.0
 
 [node name="SandboxManager" type="Node" parent="." node_paths=PackedStringArray("render_result")]
 script = ExtResource("3_0cpfc")

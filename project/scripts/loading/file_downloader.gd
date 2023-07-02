@@ -22,7 +22,7 @@ func _ready() -> void:
 	FileTools.remove_recursive(DOWNLOAD_FOLDER)
 
 
-func download(url: String) -> String:
+func download(url: String, timeout: float = 0) -> String:
 	var save_path = DOWNLOAD_FOLDER + "/" + url.md5_text() + "." + url.get_file().get_extension()
 	
 	if FileAccess.file_exists(save_path):
@@ -30,7 +30,7 @@ func download(url: String) -> String:
 		return save_path
 	DirAccess.make_dir_recursive_absolute(save_path.get_base_dir())
 	
-	var result = await create_request(url, save_path)
+	var result = await create_request(url, save_path, timeout)
 	
 	if result == 200:
 		return save_path
@@ -58,10 +58,11 @@ func download_shared_lib(url: String, gate_url: String) -> String:
 		return ""
 
 
-func create_request(url: String, save_path: String) -> int:
+func create_request(url: String, save_path: String, timeout: float = 0) -> int:
 	var http = HTTPRequest.new()
 	http.download_file = save_path
 	http.use_threads = true
+	http.timeout = timeout
 	add_child(http)
 	
 	var timer = create_progress_emitter(url, http)

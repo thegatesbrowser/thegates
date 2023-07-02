@@ -1,6 +1,7 @@
 extends Node
 
 @export var gate_events: GateEvents
+@export var connect_timeout: float
 
 var c_gate: ConfigGate
 
@@ -12,7 +13,7 @@ func _ready() -> void:
 
 func load_gate(config_url: String) -> void:
 	Debug.logclr("======== " + config_url + " ========", Color.GREEN)
-	var config_path = await FileDownloader.download(config_url)
+	var config_path = await FileDownloader.download(config_url, connect_timeout)
 	if config_path.is_empty(): return error(GateEvents.GateError.NOT_FOUND)
 	
 	c_gate = ConfigGate.new(config_path, config_url)

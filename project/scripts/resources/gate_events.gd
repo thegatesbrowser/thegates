@@ -10,7 +10,7 @@ signal gate_entered
 signal exit_gate
 
 signal download_progress(url: String, body_size: int, downloaded_bytes: int)
-signal gate_error(type: GateError)
+signal gate_error(code: GateError)
 
 enum GateError
 {
@@ -68,5 +68,5 @@ func download_progress_emit(url: String, body_size: int, downloaded_bytes: int) 
 	download_progress.emit(url, body_size, downloaded_bytes)
 
 
-func gate_error_emit(type: GateError) -> void:
-	gate_error.emit(type)
+func gate_error_emit(code: GateError) -> void:
+	gate_error.emit(code)

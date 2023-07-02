@@ -9,16 +9,19 @@ signal gate_loaded(gate: Gate)
 signal gate_entered
 signal exit_gate
 
+signal download_progress(url: String, body_size: int, downloaded_bytes: int)
+signal gate_error(type: GateError)
+
+enum GateError
+{
+	NOT_FOUND,
+	MISSING_PACK,
+	MISSING_LIBS
+}
+
 var current_search_query: String
 var current_gate_url: String
 var current_gate: Gate
-
-
-func open_gate_emit(url: String) -> void:
-	current_gate_url = Url.fix_gate_url(url)
-	current_search_query = ""
-	
-	open_gate.emit(current_gate_url)
 
 
 func search_emit(query: String) -> void:
@@ -26,6 +29,13 @@ func search_emit(query: String) -> void:
 	current_gate_url = ""
 	
 	search.emit(query)
+
+
+func open_gate_emit(url: String) -> void:
+	current_gate_url = Url.fix_gate_url(url)
+	current_search_query = ""
+	
+	open_gate.emit(current_gate_url)
 
 
 func gate_config_loaded_emit(url: String, config: ConfigGate) -> void:
@@ -52,3 +62,11 @@ func exit_gate_emit() -> void:
 	current_gate = null
 	
 	exit_gate.emit()
+
+
+func download_progress_emit(url: String, body_size: int, downloaded_bytes: int) -> void:
+	download_progress.emit(url, body_size, downloaded_bytes)
+
+
+func gate_error_emit(type: GateError) -> void:
+	gate_error.emit(type)

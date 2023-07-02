@@ -388,8 +388,6 @@ size_flags_vertical = 3
 focus_mode = 2
 theme_override_font_sizes/normal_font_size = 24
 bbcode_enabled = true
-text = "Downloading gate info...
-Please wait"
 context_menu_enabled = true
 selection_enabled = true
 script = ExtResource("16_8emm0")

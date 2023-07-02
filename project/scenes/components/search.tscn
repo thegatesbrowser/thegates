@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ctam0fxigbefk"]
+[gd_scene load_steps=15 format=3 uid="uid://ctam0fxigbefk"]
 
 [ext_resource type="Script" path="res://scripts/ui/search.gd" id="1_7ivk2"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_13io8"]
@@ -6,8 +6,9 @@
 [ext_resource type="Script" path="res://scripts/ui/search/search_status.gd" id="3_3p1re"]
 [ext_resource type="Script" path="res://scripts/ui/search_go.gd" id="3_eayvw"]
 [ext_resource type="Texture2D" uid="uid://byvigfpu44dnu" path="res://textures/arrow.svg" id="5_dqxpp"]
-[ext_resource type="Texture2D" uid="uid://8wvea7j0v0rx" path="res://textures/Reload.svg" id="5_yhqf5"]
+[ext_resource type="Script" path="res://scripts/ui/search/download_animation.gd" id="6_fn1n3"]
 [ext_resource type="Script" path="res://scripts/ui/menu/star.gd" id="6_iyikx"]
+[ext_resource type="Texture2D" uid="uid://cx3xxaqo3s3eq" path="res://textures/gate.svg" id="6_twd8p"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="7_2mijb"]
 [ext_resource type="Texture2D" uid="uid://dystd8vvbqwo2" path="res://textures/exit.svg" id="7_jllve"]
 [ext_resource type="Texture2D" uid="uid://btn6ytky782a2" path="res://textures/star.svg" id="8_b00p6"]
@@ -50,6 +51,7 @@ theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_hyysn")
 theme_override_styles/focus = SubResource("StyleBoxFlat_hyysn")
 placeholder_text = "Search or enter address"
+select_all_on_focus = true
 script = ExtResource("1_7ivk2")
 gate_events = ExtResource("2_13io8")
 
@@ -59,10 +61,10 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 10.0
-offset_top = -10.0
-offset_right = 30.0
-offset_bottom = 10.0
+offset_left = 12.0
+offset_top = -8.0
+offset_right = 28.0
+offset_bottom = 8.0
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("3_3p1re")
@@ -85,7 +87,6 @@ texture = ExtResource("3_1rllf")
 expand_mode = 1
 
 [node name="Downloading" type="TextureRect" parent="SearchStatus"]
-visible = false
 self_modulate = Color(1, 1, 1, 0.8)
 layout_mode = 1
 anchors_preset = 15
@@ -93,8 +94,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_yhqf5")
+pivot_offset = Vector2(8, 8)
+texture = ExtResource("6_twd8p")
 expand_mode = 1
+script = ExtResource("6_fn1n3")
+duration = 0.5
+start_scale = 0.5
+end_scale = 1.0
 
 [node name="Success" type="TextureRect" parent="SearchStatus"]
 visible = false
@@ -105,7 +111,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_dqxpp")
+texture = ExtResource("6_twd8p")
 expand_mode = 1
 
 [node name="Error" type="TextureRect" parent="SearchStatus"]

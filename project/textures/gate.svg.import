@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dyenb2x6xyguv"
-path="res://.godot/imported/icon.svg-f3959d09c40a20b6aa50d6b4ce0c6c4f.ctex"
+uid="uid://cx3xxaqo3s3eq"
+path="res://.godot/imported/gate.svg-9bc7e6deb01386cc22f9c4279c34c183.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://app_icon/icon.svg"
-dest_files=["res://.godot/imported/icon.svg-f3959d09c40a20b6aa50d6b4ce0c6c4f.ctex"]
+source_file="res://textures/gate.svg"
+dest_files=["res://.godot/imported/gate.svg-9bc7e6deb01386cc22f9c4279c34c183.ctex"]
 
 [params]
 
-compress/mode=4
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
@@ -31,7 +31,7 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1
 svg/scale=1.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false

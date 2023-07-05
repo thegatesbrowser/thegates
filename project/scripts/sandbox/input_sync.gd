@@ -23,4 +23,6 @@ func on_ui_visibility_changed(visible: bool) -> void:
 
 func _input(event: InputEvent) -> void:
 	if input_sync == null or not should_send: return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT: return
+	
 	input_sync.send_input_event(event)

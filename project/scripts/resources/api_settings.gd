@@ -16,8 +16,8 @@ var url: String :
 var analytics_event: String :
 	get: return url + "/api/analytics_event"
 
-var get_user_id: String :
-	get: return url + "/api/get_user_id?device_id="
+var create_user_id: String :
+	get: return url + "/api/create_user_id"
 
 var discover_gate: String :
 	get: return url + "/api/discover_gate"

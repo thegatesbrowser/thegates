@@ -20,11 +20,15 @@ func send_event(body: Dictionary = {}) -> void:
 
 
 func get_user_id() -> void:
-	var url = api.get_user_id + OS.get_unique_id()
+	AnalyticsEvents.user_id = DataSaver.get_string("analytics", "user_id")
+	if not AnalyticsEvents.user_id.is_empty(): return
+	
+	var url = api.create_user_id
 	var callback = func(_result, code, _headers, body):
 		if code == 200:
 			AnalyticsEvents.user_id = body.get_string_from_utf8()
-		else: Debug.logclr("Request get_user_id failed. Code " + str(code), Color.RED)
+			DataSaver.set_value("analytics", "user_id", AnalyticsEvents.user_id)
+		else: Debug.logclr("Request create_user_id failed. Code " + str(code), Color.RED)
 	
 	var err = await Backend.request(url, callback)
-	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request get_user_id", Color.RED)
+	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request create_user_id", Color.RED)

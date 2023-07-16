@@ -58,5 +58,25 @@ visible = false
 
 [node name="Menu" parent="." instance=ExtResource("3_o1f7b")]
 
+[node name="GoBack" parent="Menu/VBoxContainer/Top/MenuNavigation" index="0"]
+process_physics_priority = 0
+process_thread_group = 0
+
+[node name="GoForward" parent="Menu/VBoxContainer/Top/MenuNavigation" index="1"]
+process_physics_priority = 0
+process_thread_group = 0
+
+[node name="Reload" parent="Menu/VBoxContainer/Top/MenuNavigation" index="2"]
+process_physics_priority = 0
+process_thread_group = 0
+
+[node name="Home" parent="Menu/VBoxContainer/Top/MenuNavigation" index="4"]
+process_physics_priority = 0
+process_thread_group = 0
+
+[node name="Exit" parent="Menu/VBoxContainer/Top" index="2"]
+process_physics_priority = 0
+process_thread_group = 0
+
 [editable path="Debug"]
 [editable path="Menu"]

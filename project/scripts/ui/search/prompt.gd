@@ -15,9 +15,9 @@ func _ready() -> void:
 func fill(prompt: Dictionary) -> void:
 	if prompt == null: return
 	
-	var text: String = prompt["prompt"].to_lower()
-	text = StringTools.to_alpha(text)
-	prompt_text.text = text
+	var txt: String = prompt["prompt"].to_lower()
+	txt = StringTools.to_alpha(txt)
+	prompt_text.text = txt
 
 
 func _on_button_pressed() -> void:

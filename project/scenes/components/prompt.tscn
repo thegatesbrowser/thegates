@@ -41,6 +41,7 @@ grow_vertical = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_wbjg7")
 theme_override_styles/hover = SubResource("StyleBoxFlat_srt8r")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_awixv")
+theme_override_styles/focus = SubResource("StyleBoxFlat_srt8r")
 script = ExtResource("1_7xv44")
 gate_events = ExtResource("2_33m26")
 prompt_text = NodePath("Label")
@@ -56,6 +57,7 @@ theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxEmpty_6fg0o")
 text = "prompt"
 vertical_alignment = 1
+text_overrun_behavior = 3
 
 [node name="SearchStatus" type="Control" parent="."]
 self_modulate = Color(1, 1, 1, 0.8)

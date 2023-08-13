@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://ctam0fxigbefk"]
+[gd_scene load_steps=21 format=3 uid="uid://ctam0fxigbefk"]
 
 [ext_resource type="Script" path="res://scripts/ui/search.gd" id="1_7ivk2"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_13io8"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://lxx36xkotvh1" path="res://textures/star_filled.svg" id="9_2en0l"]
 [ext_resource type="Script" path="res://scripts/ui/search/prompt_results.gd" id="14_0lofv"]
 [ext_resource type="Script" path="res://scripts/ui/top_level.gd" id="14_5k27g"]
+[ext_resource type="Script" path="res://scripts/ui/search/prompt_navigation.gd" id="14_h86vl"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="15_uafyh"]
 [ext_resource type="PackedScene" uid="uid://b57n6cvtqn5b7" path="res://scenes/components/prompt.tscn" id="16_lbcsd"]
 
@@ -48,7 +49,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 10
 
-[node name="Search" type="LineEdit"]
+[node name="Search" type="LineEdit" node_paths=PackedStringArray("prompt_panel")]
 custom_minimum_size = Vector2(1000, 40)
 anchors_preset = 8
 anchor_left = 0.5
@@ -73,6 +74,7 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_hyysn")
 placeholder_text = "Search or enter address"
 script = ExtResource("1_7ivk2")
 gate_events = ExtResource("2_13io8")
+prompt_panel = NodePath("Prompt/Panel")
 
 [node name="SearchStatus" type="Control" parent="." node_paths=PackedStringArray("search_line_edit", "search", "downloading", "success", "error")]
 self_modulate = Color(1, 1, 1, 0.8)
@@ -409,14 +411,18 @@ grow_vertical = 2
 texture = ExtResource("9_2en0l")
 expand_mode = 1
 
-[node name="Prompt" type="Control" parent="."]
+[node name="Prompt" type="Control" parent="." node_paths=PackedStringArray("search", "prompt_results")]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 grow_vertical = 0
+script = ExtResource("14_h86vl")
+search = NodePath("..")
+prompt_results = NodePath("Panel/VBoxContainer")
 
 [node name="Panel" type="Panel" parent="Prompt"]
+visible = false
 top_level = true
 layout_mode = 1
 anchors_preset = 5
@@ -425,22 +431,24 @@ anchor_right = 0.5
 offset_left = -500.0
 offset_top = 560.0
 offset_right = 500.0
-offset_bottom = 1060.0
+offset_bottom = 860.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mh73y")
 script = ExtResource("14_5k27g")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Prompt/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Prompt/Panel" node_paths=PackedStringArray("panel")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 script = ExtResource("14_0lofv")
 gate_events = ExtResource("2_13io8")
 api = ExtResource("15_uafyh")
 result_scene = ExtResource("16_lbcsd")
+panel = NodePath("..")
 
 [connection signal="text_changed" from="." to="." method="_on_text_changed"]
 [connection signal="text_changed" from="." to="Go" method="_on_search_text_changed"]

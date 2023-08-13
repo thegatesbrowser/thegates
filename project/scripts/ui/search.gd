@@ -1,6 +1,10 @@
 extends LineEdit
+class_name Search
+
+signal on_release_focus
 
 @export var gate_events: GateEvents
+@export var prompt_panel: Control
 
 var url: String
 
@@ -14,13 +18,16 @@ func _ready() -> void:
 func set_current_url(_url: String) -> void:
 	url = _url
 	text = url
+	
+	on_release_focus.emit()
 
 
 func _input(event: InputEvent) -> void:
-	if (has_focus()
-			and event is InputEventMouseButton
-			and not get_global_rect().has_point(event.position)):
+	if (has_focus() and event is InputEventMouseButton
+			and not get_global_rect().has_point(event.position)
+			and not prompt_panel.get_global_rect().has_point(event.position)):
 		release_focus()
+		on_release_focus.emit()
 
 
 func _on_text_changed(_url: String) -> void:
@@ -42,4 +49,6 @@ func open_gate() -> void:
 		gate_events.open_gate_emit(url)
 	else:
 		gate_events.search_emit(url)
+	
 	release_focus()
+	on_release_focus.emit()

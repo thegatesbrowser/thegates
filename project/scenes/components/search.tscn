@@ -450,7 +450,6 @@ api = ExtResource("15_uafyh")
 result_scene = ExtResource("16_lbcsd")
 panel = NodePath("..")
 
-[connection signal="text_changed" from="." to="." method="_on_text_changed"]
 [connection signal="text_changed" from="." to="Go" method="_on_search_text_changed"]
 [connection signal="text_changed" from="." to="Prompt/Panel/VBoxContainer" method="_on_search_text_changed"]
 [connection signal="text_submitted" from="." to="." method="_on_text_submitted"]

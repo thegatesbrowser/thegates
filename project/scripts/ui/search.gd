@@ -2,11 +2,10 @@ extends LineEdit
 class_name Search
 
 signal on_release_focus
+signal on_navigation(event: int)
 
 @export var gate_events: GateEvents
 @export var prompt_panel: Control
-
-var url: String
 
 
 func _ready() -> void:
@@ -16,22 +15,9 @@ func _ready() -> void:
 
 
 func set_current_url(_url: String) -> void:
-	url = _url
-	text = url
+	text = _url
 	
 	on_release_focus.emit()
-
-
-func _input(event: InputEvent) -> void:
-	if (has_focus() and event is InputEventMouseButton
-			and not get_global_rect().has_point(event.position)
-			and not prompt_panel.get_global_rect().has_point(event.position)):
-		release_focus()
-		on_release_focus.emit()
-
-
-func _on_text_changed(_url: String) -> void:
-	url = _url
 
 
 func _on_text_submitted(_url: String) -> void:
@@ -43,12 +29,29 @@ func _on_go_pressed() -> void:
 
 
 func open_gate() -> void:
-	if url.is_empty(): return
+	if text.is_empty(): return
 	
-	if Url.is_valid(url):
-		gate_events.open_gate_emit(url)
+	if Url.is_valid(text):
+		gate_events.open_gate_emit(text)
 	else:
-		gate_events.search_emit(url)
+		gate_events.search_emit(text)
 	
 	release_focus()
 	on_release_focus.emit()
+
+
+func _input(event: InputEvent) -> void:
+	if not has_focus(): return
+	
+	if (event is InputEventMouseButton
+			and not get_global_rect().has_point(event.position)
+			and not prompt_panel.get_global_rect().has_point(event.position)):
+		release_focus()
+		on_release_focus.emit()
+	
+	if event.is_action_pressed("ui_text_caret_up"):
+		on_navigation.emit(PromptNavigation.UP)
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("ui_text_caret_down"):
+		on_navigation.emit(PromptNavigation.DOWN)
+		get_viewport().set_input_as_handled()

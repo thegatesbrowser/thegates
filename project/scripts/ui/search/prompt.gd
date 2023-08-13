@@ -16,3 +16,11 @@ func fill(prompt: Dictionary) -> void:
 func _on_button_pressed() -> void:
 	if prompt_text.text.is_empty(): return
 	gate_events.search_emit(prompt_text.text)
+
+
+func focus() -> void:
+	print("focus: " + prompt_text.text)
+
+
+func unfocus() -> void:
+	print("unfocus: " + prompt_text.text)

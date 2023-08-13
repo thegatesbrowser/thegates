@@ -14,4 +14,5 @@ static func to_alpha(text: String) -> String:
 			result += " "
 			last_is_alpha = false
 	
+	result = result.strip_edges()
 	return result

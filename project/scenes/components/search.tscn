@@ -35,8 +35,6 @@ corner_radius_bottom_left = 6
 corner_detail = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mh73y"]
-content_margin_left = 40.0
-content_margin_right = 40.0
 bg_color = Color(0.207843, 0.164706, 0.47451, 1)
 border_width_left = 1
 border_width_top = 1

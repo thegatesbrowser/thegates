@@ -1,8 +1,15 @@
-extends Control
+extends Button
 class_name PromptResult
 
 @export var gate_events: GateEvents
 @export var prompt_text: Label
+@export var focus_style: StyleBox
+
+var normal_style: StyleBox
+
+
+func _ready() -> void:
+	normal_style = get_theme_stylebox("normal", "")
 
 
 func fill(prompt: Dictionary) -> void:
@@ -19,8 +26,8 @@ func _on_button_pressed() -> void:
 
 
 func focus() -> void:
-	print("focus: " + prompt_text.text)
+	add_theme_stylebox_override("normal", focus_style)
 
 
 func unfocus() -> void:
-	print("unfocus: " + prompt_text.text)
+	add_theme_stylebox_override("normal", normal_style)

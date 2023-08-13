@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b57n6cvtqn5b7"]
+[gd_scene load_steps=7 format=3 uid="uid://b57n6cvtqn5b7"]
 
 [ext_resource type="Script" path="res://scripts/ui/search/prompt.gd" id="1_7xv44"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_33m26"]
@@ -13,17 +13,17 @@ corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_srt8r"]
 bg_color = Color(0, 0, 0, 0.25098)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0)
+border_blend = true
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awixv"]
-bg_color = Color(0, 0, 0, 0.25098)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6fg0o"]
 content_margin_left = 40.0
@@ -40,11 +40,11 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_wbjg7")
 theme_override_styles/hover = SubResource("StyleBoxFlat_srt8r")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_awixv")
-theme_override_styles/focus = SubResource("StyleBoxFlat_srt8r")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_srt8r")
 script = ExtResource("1_7xv44")
 gate_events = ExtResource("2_33m26")
 prompt_text = NodePath("Label")
+focus_style = SubResource("StyleBoxFlat_srt8r")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1

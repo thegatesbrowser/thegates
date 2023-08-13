@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ctam0fxigbefk"]
+[gd_scene load_steps=20 format=3 uid="uid://ctam0fxigbefk"]
 
 [ext_resource type="Script" path="res://scripts/ui/search.gd" id="1_7ivk2"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_13io8"]
@@ -13,8 +13,27 @@
 [ext_resource type="Texture2D" uid="uid://dystd8vvbqwo2" path="res://textures/exit.svg" id="7_jllve"]
 [ext_resource type="Texture2D" uid="uid://btn6ytky782a2" path="res://textures/star.svg" id="8_b00p6"]
 [ext_resource type="Texture2D" uid="uid://lxx36xkotvh1" path="res://textures/star_filled.svg" id="9_2en0l"]
+[ext_resource type="Script" path="res://scripts/ui/search/prompt_results.gd" id="14_0lofv"]
+[ext_resource type="Script" path="res://scripts/ui/top_level.gd" id="14_5k27g"]
+[ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="15_uafyh"]
+[ext_resource type="PackedScene" uid="uid://b57n6cvtqn5b7" path="res://scenes/components/prompt.tscn" id="16_lbcsd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyysn"]
+content_margin_left = 40.0
+content_margin_right = 40.0
+bg_color = Color(0.207843, 0.164706, 0.47451, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.176471, 0.14902, 0.352941, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mh73y"]
 content_margin_left = 40.0
 content_margin_right = 40.0
 bg_color = Color(0.207843, 0.164706, 0.47451, 1)
@@ -37,13 +56,14 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -500.0
-offset_top = -24.5
+offset_top = -20.0
 offset_right = 500.0
-offset_bottom = 15.5
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 auto_translate = false
 localize_numeral_system = false
+focus_next = NodePath("Prompt")
 focus_mode = 1
 theme_override_colors/font_color = Color(1, 1, 1, 0.8)
 theme_override_colors/font_placeholder_color = Color(1, 1, 1, 0.498039)
@@ -131,6 +151,8 @@ _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
 process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
 editor_description = ""
 visible = false
 modulate = Color(1, 1, 1, 1)
@@ -230,6 +252,8 @@ _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
 process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
 editor_description = ""
 visible = true
 modulate = Color(1, 1, 1, 1)
@@ -309,6 +333,8 @@ _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
 process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
 editor_description = ""
 visible = false
 modulate = Color(1, 1, 1, 1)
@@ -383,8 +409,42 @@ grow_vertical = 2
 texture = ExtResource("9_2en0l")
 expand_mode = 1
 
+[node name="Prompt" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+
+[node name="Panel" type="Panel" parent="Prompt"]
+top_level = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -500.0
+offset_top = 560.0
+offset_right = 500.0
+offset_bottom = 1060.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mh73y")
+script = ExtResource("14_5k27g")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Prompt/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("14_0lofv")
+gate_events = ExtResource("2_13io8")
+api = ExtResource("15_uafyh")
+result_scene = ExtResource("16_lbcsd")
+
 [connection signal="text_changed" from="." to="." method="_on_text_changed"]
 [connection signal="text_changed" from="." to="Go" method="_on_search_text_changed"]
+[connection signal="text_changed" from="." to="Prompt/Panel/VBoxContainer" method="_on_search_text_changed"]
 [connection signal="text_submitted" from="." to="." method="_on_text_submitted"]
 [connection signal="pressed" from="Go" to="." method="_on_go_pressed"]
 [connection signal="pressed" from="Bookmark/Star" to="Bookmark" method="_on_star_pressed"]

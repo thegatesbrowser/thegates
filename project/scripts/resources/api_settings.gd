@@ -24,3 +24,6 @@ var discover_gate: String :
 
 var search: String :
 	get: return url + "/api/search?query="
+
+var prompt: String :
+	get: return url + "/api/prompt?query="

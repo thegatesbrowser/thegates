@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=3 uid="uid://b57n6cvtqn5b7"]
+
+[ext_resource type="Script" path="res://scripts/ui/search/prompt.gd" id="1_7xv44"]
+[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_33m26"]
+[ext_resource type="Texture2D" uid="uid://c28surtqjf4st" path="res://textures/search.svg" id="2_tk8hn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wbjg7"]
+bg_color = Color(0.25098, 0.25098, 0.25098, 0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_srt8r"]
+bg_color = Color(0, 0, 0, 0.25098)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awixv"]
+bg_color = Color(0, 0, 0, 0.25098)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6fg0o"]
+content_margin_left = 40.0
+
+[node name="prompt" type="Button" node_paths=PackedStringArray("prompt_text")]
+custom_minimum_size = Vector2(0, 40)
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_wbjg7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_srt8r")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_awixv")
+script = ExtResource("1_7xv44")
+gate_events = ExtResource("2_33m26")
+prompt_text = NodePath("Label")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_6fg0o")
+text = "prompt"
+vertical_alignment = 1
+
+[node name="SearchStatus" type="Control" parent="."]
+self_modulate = Color(1, 1, 1, 0.8)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -8.0
+offset_right = 28.0
+offset_bottom = 8.0
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Search" type="TextureRect" parent="SearchStatus"]
+self_modulate = Color(1, 1, 1, 0.8)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_tk8hn")
+expand_mode = 1
+
+[connection signal="pressed" from="." to="." method="_on_button_pressed"]

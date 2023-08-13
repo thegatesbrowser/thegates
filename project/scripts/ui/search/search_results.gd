@@ -27,7 +27,7 @@ func search(query: String) -> void:
 		Debug.logr(gate["url"])
 
 
-func search_request(query: String):
+func search_request(query: String) -> void:
 	var url = api.search + query.uri_encode()
 	var callback = func(_result, code, _headers, body):
 		if code == 200:

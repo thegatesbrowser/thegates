@@ -57,6 +57,20 @@ func gate_exit(url: String, time_spend: int) -> Dictionary:
 	return event
 
 
+# BOOKMARK
+
+func bookmark(url: String) -> Dictionary:
+	var event = base("bookmark")
+	event.gate_url = url
+	return event
+
+
+func unbookmark(url: String) -> Dictionary:
+	var event = base("unbookmark")
+	event.gate_url = url
+	return event
+
+
 # ERROR
 
 func error(msg: String) -> Dictionary:

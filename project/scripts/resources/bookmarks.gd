@@ -1,10 +1,13 @@
 extends Resource
 class_name Bookmarks
 
+signal on_star(gate: Gate)
+signal on_unstar(gate: Gate)
 signal save_image(gate: Gate)
 
 @export var featured_gates: Array[Gate]
 @export var starred_gates: Array[Gate]
+
 var gates = {}
 
 
@@ -45,7 +48,9 @@ func star(gate: Gate) -> void:
 	
 	gates[gate.url] = gate
 	starred_gates.append(gate)
+	
 	save_image.emit(gate)
+	on_star.emit(gate)
 
 
 func unstar(gate: Gate) -> void:
@@ -54,3 +59,5 @@ func unstar(gate: Gate) -> void:
 	var erase: Gate = gates[gate.url]
 	gates.erase(erase.url)
 	starred_gates.erase(erase)
+	
+	on_unstar.emit(gate)

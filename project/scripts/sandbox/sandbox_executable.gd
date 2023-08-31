@@ -17,12 +17,16 @@ func get_executable_path() -> String:
 
 
 func get_filename() -> String:
-	if OS.is_debug_build():
-		if OS.get_name() == "Windows": return windows_debug
-		else: return linux_debug
-	else:
-		if OS.get_name() == "Windows": return windows
-		else: return linux
+	var is_debug = Platform.is_debug()
+	
+	match Platform.get_platform():
+		Platform.WINDOWS:
+			return windows_debug if is_debug else windows
+		Platform.LINUX_BSD:
+			return linux_debug if is_debug else linux
+		_:
+			assert(false, "Platform is not supported")
+			return ""
 
 
 func exists() -> bool:

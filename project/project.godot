@@ -14,8 +14,7 @@ config/name="TheGates"
 config/description="Building new Internet"
 config/tags=PackedStringArray("thegates")
 run/main_scene="res://scenes/app.tscn"
-config/features=PackedStringArray("4.1")
-run/max_fps=60
+config/features=PackedStringArray("4.2")
 boot_splash/bg_color=Color(0.156863, 0.156863, 0.156863, 1)
 boot_splash/show_image=false
 config/icon="res://app_icon/icon_64.png"
@@ -37,8 +36,7 @@ gdscript/warnings/integer_division=0
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=2
-window/size/resizable=false
+window/size/mode=4
 window/size/borderless=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
@@ -68,6 +66,5 @@ pointing/emulate_touch_from_mouse=true
 [rendering]
 
 textures/canvas_textures/default_texture_filter=2
-driver/threads/thread_model=2
 textures/default_filters/anisotropic_filtering_level=1
 anti_aliasing/quality/use_taa=true

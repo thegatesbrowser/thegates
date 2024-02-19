@@ -331,10 +331,11 @@ grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
 
-[node name="InputSync" type="Node" parent="HBoxContainer/WorldCanvas"]
+[node name="InputSync" type="Node" parent="HBoxContainer/WorldCanvas" node_paths=PackedStringArray("render_result")]
 script = ExtResource("8_1blsi")
 gate_events = ExtResource("2_q7cvi")
 ui_events = ExtResource("9_ir58h")
+render_result = NodePath("../RenderResult")
 
 [node name="CommandSync" type="CommandSync" parent="HBoxContainer/WorldCanvas"]
 script = ExtResource("10_cqo55")

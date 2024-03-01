@@ -20,7 +20,7 @@ func _ready() -> void:
 	var viewport_height = ProjectSettings.get_setting("display/window/size/viewport_height", 648)
 	scale_width = float(render_result.width) / viewport_width
 	scale_height = float(render_result.height) / viewport_height
-	Debug.logclr("Mouse position scale: %fx%f" % [scale_width, scale_height], Color.DIM_GRAY)
+	Debug.logclr("Mouse position scale: %.2fx%.2f" % [scale_width, scale_height], Color.DIM_GRAY)
 
 
 func start_server() -> void:

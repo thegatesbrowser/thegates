@@ -34,7 +34,8 @@ func start_sandbox_linux(gate: Gate) -> void:
 	var args = [
 		snbx_env.start.get_base_dir(), # cd to dir
 		"--main-pack", snbx_env.main_pack,
-		"--resolution", "%dx%d" % [render_result.width, render_result.height]
+		"--resolution", "%dx%d" % [render_result.width, render_result.height],
+		"--verbose"
 	]
 	Debug.logclr(snbx_env.start + " " + " ".join(args), Color.DARK_VIOLET)
 	sandbox_pid = OS.create_process(snbx_env.start, args)

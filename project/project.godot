@@ -15,6 +15,7 @@ config/description="Building new Internet"
 config/tags=PackedStringArray("thegates")
 run/main_scene="res://scenes/app.tscn"
 config/features=PackedStringArray("4.2")
+run/max_fps=144
 boot_splash/bg_color=Color(0.156863, 0.156863, 0.156863, 1)
 boot_splash/show_image=false
 config/icon="res://app_icon/icon_64.png"
@@ -44,6 +45,7 @@ window/size/mode=4
 window/size/borderless=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/vsync/vsync_mode=3
 
 [input]
 

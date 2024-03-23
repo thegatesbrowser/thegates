@@ -56,6 +56,7 @@ func create_external_texture() -> void:
 	# So need to wait to free that up
 	await get_tree().process_frame
 	await get_tree().process_frame
+	await get_tree().process_frame
 	
 	ext_texure = ExternalTexture.new()
 	var err = ext_texure.create(t_format, t_view, [image.get_data()])

@@ -7,7 +7,7 @@ var c_gate: ConfigGate
 
 
 func _ready() -> void:
-	FileDownloader.progress.connect(gate_events.download_progress_emit)
+	FileDownloader.progress.connect(on_progress)
 	load_gate(gate_events.current_gate_url)
 
 
@@ -39,6 +39,10 @@ func error(code: GateEvents.GateError) -> void:
 	gate_events.gate_error_emit(code)
 
 
+func on_progress(url: String, body_size: int, downloaded_bytes: int) -> void:
+	gate_events.download_progress_emit(url, body_size, downloaded_bytes)
+
+
 func _exit_tree() -> void:
-	FileDownloader.progress.disconnect(gate_events.download_progress_emit)
+	FileDownloader.progress.disconnect(on_progress)
 	FileDownloader.stop_all()

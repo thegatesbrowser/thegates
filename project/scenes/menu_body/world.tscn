@@ -300,12 +300,11 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="WorldCanvas" type="Control" parent="HBoxContainer" node_paths=PackedStringArray("render_result")]
+[node name="WorldCanvas" type="Control" parent="HBoxContainer"]
 custom_minimum_size = Vector2(1300, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 script = ExtResource("9_ncfxj")
-render_result = NodePath("RenderResult")
 
 [node name="RenderResult" type="TextureRect" parent="HBoxContainer/WorldCanvas"]
 layout_mode = 1

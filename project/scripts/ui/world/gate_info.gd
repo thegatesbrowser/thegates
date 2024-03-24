@@ -14,7 +14,7 @@ func _ready() -> void:
 	gate_events.gate_error.connect(on_gate_error)
 
 
-func display_info(_gate: Gate) -> void:
+func display_info(_gate: Gate, _is_cached: bool) -> void:
 	gate = _gate
 	title.text = "Unnamed" if gate.title.is_empty() else gate.title
 	description.text = "No description" if gate.description.is_empty() else gate.description

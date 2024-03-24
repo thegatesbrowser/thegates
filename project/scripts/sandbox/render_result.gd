@@ -14,27 +14,33 @@ var texture_rid: RID
 
 
 func _ready() -> void:
-	gate_events.gate_entered.connect(create_external_texture)
 	gate_events.gate_info_loaded.connect(initialize)
+	gate_events.gate_entered.connect(create_external_texture)
 	command_events.send_filehandle.connect(send_filehandle)
+	
+	# Change size
+	var image = resize_and_convert(splash_screen.get_image(), Image.FORMAT_RGB8)
+	self.texture = ImageTexture.create_from_image(image)
 
 
-func initialize(gate: Gate) -> void:
+func initialize(gate: Gate, is_cached: bool) -> void:
 	rd = RenderingServer.get_rendering_device()
 	
-	var image: Image
-	var tex = FileTools.load_external_tex(gate.image)
-	if tex != null:
-		image = tex.get_image()
-		image.resize(width, height)
-		image.convert(Image.FORMAT_RGB8)
-		image.clear_mipmaps()
-	else:
-		image = Image.create(width, height, false, Image.FORMAT_RGB8)
+	if not is_cached: # Show thumbnail image
+		self.texture = create_gate_image(gate)
 	
-	self.texture = ImageTexture.create_from_image(image)
 	texture_rid = RenderingServer.texture_get_rd_texture(self.texture.get_rid())
 	if not texture_rid.is_valid(): Debug.logerr("Cannot create ImageTexture")
+
+
+func create_gate_image(gate: Gate) -> ImageTexture:
+	var tex = FileTools.load_external_tex(gate.image)
+	
+	var image: Image
+	if tex != null: image = resize_and_convert(tex.get_image(), Image.FORMAT_RGB8)
+	else: image = Image.create(width, height, false, Image.FORMAT_RGB8)
+	
+	return ImageTexture.create_from_image(image)
 
 
 func create_external_texture() -> void:
@@ -47,11 +53,6 @@ func create_external_texture() -> void:
 	t_format.depth = 1
 	var t_view: RDTextureView = RDTextureView.new()
 	
-	var image = splash_screen.get_image()
-	image.resize(width, height)
-	image.convert(Image.FORMAT_RGBA8)
-	image.clear_mipmaps()
-	
 	# For some reason when switching scene something is not freed
 	# So need to wait to free that up
 	await get_tree().process_frame
@@ -59,9 +60,17 @@ func create_external_texture() -> void:
 	await get_tree().process_frame
 	
 	ext_texure = ExternalTexture.new()
+	var image = resize_and_convert(splash_screen.get_image(), Image.FORMAT_RGBA8)
 	var err = ext_texure.create(t_format, t_view, [image.get_data()])
-	if err: Debug.logerr("Cannot create external texture"); return
+	if err: Debug.logerr("Cannot create external texture")
 	else: Debug.logclr("External texture created", Color.AQUAMARINE)
+
+
+func resize_and_convert(image: Image, format: Image.Format) -> Image:
+	image.resize(width, height)
+	image.convert(format)
+	image.clear_mipmaps()
+	return image
 
 
 func send_filehandle(filehandle_path: String) -> void:
@@ -76,4 +85,5 @@ func send_filehandle(filehandle_path: String) -> void:
 func _process(_delta: float) -> void:
 	if ext_texure == null or not ext_texure.get_rid().is_valid(): return
 	if not texture_rid.is_valid(): return
+	
 	ext_texure.copy_to(texture_rid)

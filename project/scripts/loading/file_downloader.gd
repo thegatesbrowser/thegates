@@ -22,6 +22,11 @@ func _ready() -> void:
 	FileTools.remove_recursive(DOWNLOAD_FOLDER)
 
 
+func is_cached(url: String) -> bool:
+	var save_path = DOWNLOAD_FOLDER + "/" + url.md5_text() + "." + url.get_file().get_extension()
+	return FileAccess.file_exists(save_path)
+
+
 func download(url: String, timeout: float = 0) -> String:
 	var save_path = DOWNLOAD_FOLDER + "/" + url.md5_text() + "." + url.get_file().get_extension()
 	
@@ -31,7 +36,6 @@ func download(url: String, timeout: float = 0) -> String:
 	DirAccess.make_dir_recursive_absolute(save_path.get_base_dir())
 	
 	var result = await create_request(url, save_path, timeout)
-	
 	if result == 200:
 		return save_path
 	else:
@@ -50,7 +54,6 @@ func download_shared_lib(url: String, gate_url: String) -> String:
 	DirAccess.make_dir_recursive_absolute(dir)
 	
 	var result = await create_request(url, save_path)
-	
 	if result == 200:
 		return dir
 	else:
@@ -108,4 +111,5 @@ func stop_all() -> void:
 
 
 func _exit_tree() -> void:
+	FileDownloader.stop_all()
 	FileTools.remove_recursive(DOWNLOAD_FOLDER)

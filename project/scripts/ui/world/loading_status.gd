@@ -4,7 +4,7 @@ extends Label
 
 
 func _ready() -> void:
-	gate_events.gate_info_loaded.connect(func(_gate): on_gate_info_loaded())
+	gate_events.gate_info_loaded.connect(func(_gate, _is_cached): on_gate_info_loaded())
 	gate_events.gate_entered.connect(on_gate_entered)
 	gate_events.gate_error.connect(on_gate_error)
 	set_text("Connecting...")

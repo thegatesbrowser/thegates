@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=24 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/sandbox/input_sync.gd" id="8_1blsi"]
 [ext_resource type="Resource" uid="uid://bo6qgr210aamc" path="res://resources/sandbox_env.tres" id="8_a6dvr"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="9_ir58h"]
+[ext_resource type="Script" path="res://scripts/ui/world/world_canvas.gd" id="9_ncfxj"]
 [ext_resource type="Script" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
 [ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
 [ext_resource type="Script" path="res://scripts/ui/world/gate_info.gd" id="14_8hca5"]
@@ -79,32 +80,32 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("HBoxContainer/WorldCanvas:custom_minimum_size")
+tracks/4/path = NodePath("HBoxContainer/WorldCanvas/RenderResult/HideOnPress:disabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1300, 0)]
+"update": 1,
+"values": [false]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("HBoxContainer/WorldCanvas/RenderResult/HideOnPress:disabled")
+tracks/5/path = NodePath("HBoxContainer/WorldCanvas:interpolate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_tper3"]
 resource_name = "fullscreen"
 length = 0.25
-step = 0.0166667
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -156,26 +157,26 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("HBoxContainer/WorldCanvas:custom_minimum_size")
-tracks/4/interp = 2
+tracks/4/path = NodePath("HBoxContainer/WorldCanvas/RenderResult/HideOnPress:disabled")
+tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.1, 0.25),
-"transitions": PackedFloat32Array(1, 1.07177),
-"update": 0,
-"values": [Vector2(1300, 0), Vector2(1920, 0)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("HBoxContainer/WorldCanvas/RenderResult/HideOnPress:disabled")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("HBoxContainer/WorldCanvas:interpolate")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.1, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
 }
 
 [sub_resource type="Animation" id="Animation_77flb"]
@@ -233,26 +234,26 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("HBoxContainer/WorldCanvas:custom_minimum_size")
-tracks/4/interp = 2
+tracks/4/path = NodePath("HBoxContainer/WorldCanvas/RenderResult/HideOnPress:disabled")
+tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.15),
-"transitions": PackedFloat32Array(1.07177, 1),
-"update": 0,
-"values": [Vector2(1920, 0), Vector2(1300, 0)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("HBoxContainer/WorldCanvas/RenderResult/HideOnPress:disabled")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("HBoxContainer/WorldCanvas:interpolate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sld6k"]
@@ -299,10 +300,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="WorldCanvas" type="Control" parent="HBoxContainer"]
+[node name="WorldCanvas" type="Control" parent="HBoxContainer" node_paths=PackedStringArray("render_result")]
 custom_minimum_size = Vector2(1300, 0)
 layout_mode = 2
 size_flags_horizontal = 0
+script = ExtResource("9_ncfxj")
+render_result = NodePath("RenderResult")
 
 [node name="RenderResult" type="TextureRect" parent="HBoxContainer/WorldCanvas"]
 layout_mode = 1
@@ -310,8 +313,8 @@ anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -365.625
-offset_bottom = 365.625
+offset_top = -409.625
+offset_bottom = 409.681
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_52jgh")

@@ -9,8 +9,8 @@ var rd: RenderingDevice
 var ext_texure: ExternalTexture
 var texture_rid: RID
 
-@onready var width = get_viewport().size.x
-@onready var height = get_viewport().size.y
+@onready var width: int = get_viewport().size.x
+@onready var height: int = get_viewport().size.y
 
 
 func _ready() -> void:

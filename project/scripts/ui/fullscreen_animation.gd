@@ -11,11 +11,11 @@ var fullscreen := false
 
 
 func _ready() -> void:
-	ui_events.visibility_changed.connect(on_visibility_changed)
-	gate_events.open_gate.connect(func(_url): on_visibility_changed(true))
+	ui_events.ui_visibility_changed.connect(on_ui_visibility_changed)
+	gate_events.open_gate.connect(func(_url): on_ui_visibility_changed(true))
 
 
-func on_visibility_changed(visible: bool) -> void:
+func on_ui_visibility_changed(visible: bool) -> void:
 	if visible and fullscreen:
 		fullscreen = false
 		play(INITIAL)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://5btb7nvgmfhl"]
+[gd_scene load_steps=19 format=3 uid="uid://5btb7nvgmfhl"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/menu_navigation.gd" id="1_7anvm"]
 [ext_resource type="Texture2D" uid="uid://8wvea7j0v0rx" path="res://textures/Reload.svg" id="1_d6dhb"]
+[ext_resource type="Script" path="res://scripts/ui/menu/menu.gd" id="1_o6vga"]
 [ext_resource type="Texture2D" uid="uid://byvigfpu44dnu" path="res://textures/arrow.svg" id="1_wkgtd"]
 [ext_resource type="Texture2D" uid="uid://dystd8vvbqwo2" path="res://textures/exit.svg" id="3_1a6fk"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_m632k"]
@@ -153,6 +154,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_o6vga")
+ui_events = ExtResource("8_8dnbq")
 
 [node name="Background" type="Panel" parent="."]
 layout_mode = 0

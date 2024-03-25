@@ -13,13 +13,10 @@ var should_send := false
 
 func _ready() -> void:
 	gate_events.gate_entered.connect(start_server)
-	ui_events.visibility_changed.connect(on_ui_visibility_changed)
+	ui_events.ui_visibility_changed.connect(on_ui_visibility_changed)
 	
-	# Scale mouse position for resolutions other than 1920x1080
-	var viewport_width = ProjectSettings.get_setting("display/window/size/viewport_width", 1152)
-	var viewport_height = ProjectSettings.get_setting("display/window/size/viewport_height", 648)
-	scale_width = float(render_result.width) / viewport_width
-	scale_height = float(render_result.height) / viewport_height
+	scale_width = float(render_result.width) / ui_events.current_ui_size.x
+	scale_height = float(render_result.height) / ui_events.current_ui_size.y
 	Debug.logclr("Mouse position scale: %.2fx%.2f" % [scale_width, scale_height], Color.DIM_GRAY)
 
 

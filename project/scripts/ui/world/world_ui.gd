@@ -31,7 +31,7 @@ func show_ui() -> void:
 	_visible = true
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	ui_events.visibility_changed_emit(true)
+	ui_events.ui_visibility_changed_emit(true)
 
 
 func hide_ui() -> void:
@@ -39,4 +39,4 @@ func hide_ui() -> void:
 	_visible = false
 	
 	Input.set_mouse_mode(mouse_mode)
-	ui_events.visibility_changed_emit(false)
+	ui_events.ui_visibility_changed_emit(false)

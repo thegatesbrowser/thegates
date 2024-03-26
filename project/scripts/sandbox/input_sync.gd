@@ -13,7 +13,7 @@ var should_send := false
 
 func _ready() -> void:
 	gate_events.gate_entered.connect(start_server)
-	ui_events.ui_visibility_changed.connect(on_ui_visibility_changed)
+	ui_events.ui_mode_changed.connect(on_ui_mode_changed)
 	
 	scale_width = float(render_result.width) / ui_events.current_ui_size.x
 	scale_height = float(render_result.height) / ui_events.current_ui_size.y
@@ -25,8 +25,8 @@ func start_server() -> void:
 	input_sync.bind()
 
 
-func on_ui_visibility_changed(visible: bool) -> void:
-	should_send = not visible
+func on_ui_mode_changed(mode: UiEvents.UiMode) -> void:
+	should_send = mode == UiEvents.UiMode.FULL_SCREEN
 
 
 func _input(event: InputEvent) -> void:

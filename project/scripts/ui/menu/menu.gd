@@ -9,4 +9,5 @@ func _ready() -> void:
 
 
 func on_resized() -> void:
+	Debug.logclr("Ui resized: %dx%d" % [size.x, size.y], Debug.SILENT_CLR)
 	ui_events.ui_size_changed_emit(size)

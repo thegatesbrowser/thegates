@@ -23,6 +23,8 @@ func start() -> void:
 
 
 func send_search(query: String) -> void:
+	if not gate_url.is_empty(): send_gate_exit()
+	
 	analytics.send_event(AnalyticsEvents.search(query))
 
 

@@ -5,27 +5,15 @@ signal on_star(gate: Gate)
 signal on_unstar(gate: Gate)
 signal save_image(gate: Gate)
 
-@export var featured_gates: Array[Gate]
 @export var starred_gates: Array[Gate]
 
 var gates = {}
 
 
 func ready() -> void:
-	var add_to_dict = func(array: Array[Gate]):
-		for gate in array:
-			if gate == null or not Url.is_valid(gate.url): continue
-			gates[gate.url] = gate
-	
-	add_to_dict.call(featured_gates)
-	add_to_dict.call(starred_gates)
-
-
-func is_featured(url: String) -> bool:
-	for gate in featured_gates:
-		if gate.url == url:
-			return true
-	return false
+	for gate in starred_gates:
+		if gate == null or not Url.is_valid(gate.url): continue
+		gates[gate.url] = gate
 
 
 func update(gate: Gate) -> void:
@@ -34,12 +22,9 @@ func update(gate: Gate) -> void:
 	var replace = gates[gate.url]
 	
 	gates[gate.url] = gate
-	if is_featured(gate.url):
-		featured_gates.erase(replace)
-		featured_gates.append(gate)
-	else:
-		starred_gates.erase(replace)
-		starred_gates.append(gate)
+	starred_gates.erase(replace)
+	starred_gates.append(gate)
+	
 	save_image.emit(gate)
 
 

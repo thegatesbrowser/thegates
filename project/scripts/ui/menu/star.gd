@@ -22,10 +22,7 @@ func _ready() -> void:
 
 func show_buttons(_url: String) -> void:
 	url = _url
-	if bookmarks.is_featured(url):
-		star.visible = false
-		unstar.visible = false
-	elif bookmarks.gates.has(url):
+	if bookmarks.gates.has(url):
 		star.visible = false
 		unstar.visible = true
 	else:
@@ -36,13 +33,13 @@ func show_buttons(_url: String) -> void:
 func hide_buttons() -> void:
 	star.visible = false
 	unstar.visible = false
+	gate = null
 
 
 func update_info(_gate: Gate, _is_cached: bool) -> void:
 	gate = _gate
 	if bookmarks.gates.has(gate.url):
 		bookmarks.update(gate)
-
 
 
 func _on_star_pressed() -> void:

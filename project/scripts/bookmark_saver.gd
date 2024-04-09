@@ -10,15 +10,18 @@ extends Node
 func _ready() -> void:
 	load_bookmarks()
 	bookmarks.ready()
+	
 	bookmarks.save_image.connect(save_image)
+	bookmarks.on_star.connect(func(_gate): save_bookmarks())
+	bookmarks.on_unstar.connect(func(_gate): save_bookmarks())
 
 
 func load_bookmarks() -> void:
 	if not FileAccess.file_exists(path): return
+	
 	var loaded = ResourceLoader.load(path) as Bookmarks
 	if loaded == null: return
 	
-	bookmarks.featured_gates = loaded.featured_gates
 	bookmarks.starred_gates = loaded.starred_gates
 
 
@@ -43,7 +46,8 @@ func clear_image_folder() -> void:
 	if not DirAccess.dir_exists_absolute(image_save_dir): return
 	
 	var used_images: Array[String] = []
-	for gate in bookmarks.gates.values(): used_images.append(gate.image.get_file())
+	for gate in bookmarks.gates.values():
+		used_images.append(gate.image.get_file())
 	
 	for file in DirAccess.get_files_at(image_save_dir):
 		if not file in used_images:

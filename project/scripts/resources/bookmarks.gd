@@ -1,6 +1,7 @@
 extends Resource
 class_name Bookmarks
 
+signal on_ready()
 signal on_star(gate: Gate)
 signal on_unstar(gate: Gate)
 signal save_image(gate: Gate)
@@ -14,6 +15,8 @@ func ready() -> void:
 	for gate in starred_gates:
 		if gate == null or not Url.is_valid(gate.url): continue
 		gates[gate.url] = gate
+	
+	on_ready.emit()
 
 
 func update(gate: Gate) -> void:

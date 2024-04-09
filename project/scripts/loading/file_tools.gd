@@ -1,6 +1,7 @@
 extends Node
 class_name FileTools
 
+
 static func remove_recursive(path: String) -> void:
 	if not DirAccess.dir_exists_absolute(path) and not FileAccess.file_exists(path): return
 	

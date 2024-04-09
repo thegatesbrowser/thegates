@@ -22,6 +22,9 @@ var create_user_id: String :
 var discover_gate: String :
 	get: return url + "/api/discover_gate"
 
+var featured_gates: String :
+	get: return url + "/api/featured_gates"
+
 var search: String :
 	get: return url + "/api/search?query="
 

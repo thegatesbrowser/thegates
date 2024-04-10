@@ -4,7 +4,7 @@ extends VBoxContainer
 @export var api: ApiSettings
 @export var result_scene: PackedScene
 
-var result_str: String
+var result_str: String = "{}"
 
 
 func _ready() -> void:

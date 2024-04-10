@@ -8,6 +8,7 @@ signal save_image(gate: Gate)
 
 @export var starred_gates: Array[Gate]
 
+var is_ready: bool
 var gates = {}
 
 
@@ -16,6 +17,7 @@ func ready() -> void:
 		if gate == null or not Url.is_valid(gate.url): continue
 		gates[gate.url] = gate
 	
+	is_ready = true
 	on_ready.emit()
 
 

@@ -26,6 +26,11 @@ search_results = ExtResource("4_phjpd")
 world_scene = ExtResource("4_p75rl")
 scenes_root = NodePath("Menu/VBoxContainer/Body")
 
+[node name="Debug" parent="." instance=ExtResource("7_3xeb8")]
+
+[node name="Window" parent="Debug" index="0"]
+visible = false
+
 [node name="BookmarkSaver" type="Node" parent="."]
 script = ExtResource("5_ev0ch")
 save_dir = "user://resources"
@@ -61,11 +66,6 @@ gate_events = ExtResource("2_cdryv")
 script = ExtResource("15_c1fxl")
 api = ExtResource("10_04o5h")
 bookmarks = ExtResource("6_rupvx")
-
-[node name="Debug" parent="." instance=ExtResource("7_3xeb8")]
-
-[node name="Window" parent="Debug" index="0"]
-visible = false
 
 [node name="Menu" parent="." instance=ExtResource("3_o1f7b")]
 

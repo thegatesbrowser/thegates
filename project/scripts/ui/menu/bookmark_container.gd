@@ -5,7 +5,12 @@ extends GridContainer
 
 
 func _ready() -> void:
+	bookmarks.on_star.connect(show_bookmark)
 	for gate in bookmarks.gates.values():
-		var bookmark: BookmarkUI = bookmark_scene.instantiate()
-		bookmark.fill(gate)
-		add_child(bookmark)
+		show_bookmark(gate)
+
+
+func show_bookmark(gate: Gate) -> void:
+	var bookmark: BookmarkUI = bookmark_scene.instantiate()
+	bookmark.fill(gate)
+	add_child(bookmark)

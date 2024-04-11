@@ -10,7 +10,7 @@ func _ready() -> void:
 		show_bookmark(gate)
 
 
-func show_bookmark(gate: Gate) -> void:
+func show_bookmark(gate: Gate, _featured: bool = false) -> void:
 	var bookmark: BookmarkUI = bookmark_scene.instantiate()
 	bookmark.fill(gate)
 	add_child(bookmark)

@@ -2,7 +2,7 @@ extends Resource
 class_name Bookmarks
 
 signal on_ready()
-signal on_star(gate: Gate)
+signal on_star(gate: Gate, featured: bool)
 signal on_unstar(gate: Gate)
 signal save_image(gate: Gate)
 
@@ -33,14 +33,14 @@ func update(gate: Gate) -> void:
 	save_image.emit(gate)
 
 
-func star(gate: Gate) -> void:
+func star(gate: Gate, featured: bool = false) -> void:
 	if gates.has(gate.url): return
 	
 	gates[gate.url] = gate
 	starred_gates.append(gate)
 	
+	on_star.emit(gate, featured)
 	save_image.emit(gate)
-	on_star.emit(gate)
 
 
 func unstar(gate: Gate) -> void:

@@ -12,7 +12,7 @@ func _ready() -> void:
 	bookmarks.ready()
 	
 	bookmarks.save_image.connect(save_image)
-	bookmarks.on_star.connect(func(_gate): save_bookmarks())
+	bookmarks.on_star.connect(func(_gate, _featured): save_bookmarks())
 	bookmarks.on_unstar.connect(func(_gate): save_bookmarks())
 
 

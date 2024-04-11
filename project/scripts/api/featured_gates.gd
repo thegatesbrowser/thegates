@@ -24,7 +24,7 @@ func on_bookmarks_ready() -> void:
 	
 	for gate in gates:
 		Debug.logr(gate["url"])
-		await star_gate(gate)
+		star_gate(gate)
 
 
 func featured_gates_request() -> void:
@@ -41,4 +41,4 @@ func star_gate(gate_d: Dictionary) -> void:
 	var image_path = await FileDownloader.download(gate_d["image"])
 	var gate = Gate.create(gate_d["url"], gate_d["title"], gate_d["description"], image_path, "", "")
 	
-	bookmarks.star(gate)
+	bookmarks.star(gate, true)

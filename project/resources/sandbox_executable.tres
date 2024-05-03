@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="SandboxExecutable" load_steps=2 format=3 uid="uid://cmb7xvbue74qa"]
 
-[ext_resource type="Script" path="res://scripts/loading/sandbox_executable.gd" id="1_q0dqh"]
+[ext_resource type="Script" path="res://scripts/sandbox/sandbox_executable.gd" id="1_q0dqh"]
 
 [resource]
 script = ExtResource("1_q0dqh")

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SandboxEnv" load_steps=2 format=3 uid="uid://bo6qgr210aamc"]
+
+[ext_resource type="Script" path="res://scripts/sandbox/sandbox_env.gd" id="1_2dvtt"]
+
+[resource]
+script = ExtResource("1_2dvtt")
+zip = "sandbox/sandbox_env.zip"
+the_gates_folder = "fakechroot_enviroment/root/GATES-FILES"
+the_gates_folder_abs = "/GATES-FILES"
+snbx_exe_name = "game"
+start_sh = "run_game.sh"
+subprocesses_sh = "list_child_processes.sh"

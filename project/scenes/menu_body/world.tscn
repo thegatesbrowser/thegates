@@ -1,13 +1,14 @@
-[gd_scene load_steps=22 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=23 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
-[ext_resource type="Script" path="res://scripts/loading/sandbox_manager.gd" id="3_0cpfc"]
 [ext_resource type="Resource" uid="uid://cmb7xvbue74qa" path="res://resources/sandbox_executable.tres" id="4_shus3"]
 [ext_resource type="Script" path="res://scripts/sandbox/render_result.gd" id="5_nlg2s"]
 [ext_resource type="Resource" uid="uid://l1quiaghft2f" path="res://resources/command_events.res" id="6_18mgg"]
+[ext_resource type="Script" path="res://scripts/sandbox/sandbox_manager.gd" id="6_368sj"]
 [ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://textures/background.png" id="7_52jgh"]
 [ext_resource type="Script" path="res://scripts/sandbox/input_sync.gd" id="8_1blsi"]
+[ext_resource type="Resource" uid="uid://bo6qgr210aamc" path="res://resources/sandbox_env.tres" id="8_a6dvr"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="9_ir58h"]
 [ext_resource type="Script" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
 [ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
@@ -281,10 +282,11 @@ gate_events = ExtResource("2_q7cvi")
 connect_timeout = 10.0
 
 [node name="SandboxManager" type="Node" parent="." node_paths=PackedStringArray("render_result")]
-script = ExtResource("3_0cpfc")
+script = ExtResource("6_368sj")
 gate_events = ExtResource("2_q7cvi")
 render_result = NodePath("../HBoxContainer/WorldCanvas/RenderResult")
 snbx_executable = ExtResource("4_shus3")
+snbx_env = ExtResource("8_a6dvr")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 700)

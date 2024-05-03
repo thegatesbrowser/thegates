@@ -12,6 +12,7 @@ config_version=5
 
 config/name="TheGates"
 config/description="Building new Internet"
+config/tags=PackedStringArray("thegates")
 run/main_scene="res://scenes/app.tscn"
 config/features=PackedStringArray("4.1")
 run/max_fps=60

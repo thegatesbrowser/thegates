@@ -1,0 +1,4 @@
+[submodule "godot"]
+	path = godot
+	url = https://github.com/thegatesbrowser/godot.git
+	branch = tg-4.2

@@ -14,7 +14,7 @@ It connects game experiences together like world wide web and allows you to easi
 
 ## Build
 
-#### 1. Build godot fork (branch tg-4.2):
+#### 1. Build godot submodule:
 
 Editor:
 ```
@@ -34,4 +34,4 @@ Copy **sandbox** folder to godot/bin (alongside with compiled editor and sandbox
 
 #### 3. Run project
 
-Start compiled godot editor and open project inside **app** folder
+Start compiled editor and open godot project inside **app** folder

@@ -6,6 +6,12 @@ It connects game experiences together like world wide web and allows you to easi
 [Documentation](https://thegates.readthedocs.io) <br/>
 [Other links](https://lnk.bio/thegates)
 
+## Screenshots
+
+<img src="screenshots\1-home.png" width="500"> <br/> <br/>
+<img src="screenshots\2-search.png" width="500"> <br/> <br/>
+<img src="screenshots\3-in-game-ui.png" width="500"> <br/> <br/>
+
 ## Build
 
 #### 1. Build godot fork (branch tg-4.2):
@@ -29,9 +35,3 @@ Copy **sandbox** folder to godot/bin (alongside with compiled editor and sandbox
 #### 3. Run project
 
 Start compiled godot editor and open project inside **app** folder
-
-## Screenshots
-
-<img src="screenshots\1-home.png" width="500"> <br/> <br/>
-<img src="screenshots\2-search.png" width="500"> <br/> <br/>
-<img src="screenshots\3-in-game-ui.png" width="500"> <br/> <br/>

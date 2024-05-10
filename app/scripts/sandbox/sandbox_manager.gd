@@ -6,6 +6,8 @@ class_name SandboxManager
 @export var snbx_executable: SandboxExecutable
 @export var snbx_env: SandboxEnv
 
+const IPC_FOLDER := "sandbox"
+
 var sandbox_pid: int
 
 
@@ -46,6 +48,8 @@ func start_sandbox_linux(gate: Gate) -> void:
 func start_sandbox_windows(gate: Gate) -> void:
 	if not snbx_executable.exists():
 		Debug.logerr("Sandbox executable not found at " + snbx_executable.path); return
+	
+	DirAccess.make_dir_recursive_absolute(IPC_FOLDER) # TODO: move to snbx_env
 	
 	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
 	var shared_libs = ProjectSettings.globalize_path(gate.shared_libs_dir)

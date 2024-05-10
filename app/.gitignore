@@ -1,2 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
+
+# for ipc files (inter process communication)
+sandbox/

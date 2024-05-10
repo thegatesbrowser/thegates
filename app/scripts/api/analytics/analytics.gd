@@ -28,6 +28,7 @@ func get_user_id() -> void:
 		if code == 200:
 			AnalyticsEvents.user_id = body.get_string_from_utf8()
 			DataSaver.set_value("analytics", "user_id", AnalyticsEvents.user_id)
+			DataSaver.save_data()
 		else: Debug.logclr("Request create_user_id failed. Code " + str(code), Color.RED)
 	
 	var err = await Backend.request(url, callback)

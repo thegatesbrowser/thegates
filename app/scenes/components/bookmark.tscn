@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/ui/menu/bookmark_ui.gd" id="1_bpkqj"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_7i5yr"]
-[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://textures/background.png" id="3_kgutt"]
+[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://assets/textures/background.png" id="3_kgutt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_40hft"]
 bg_color = Color(0.25098, 0.25098, 0.25098, 1)
@@ -36,7 +36,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 10
 
 [node name="Panel" type="Panel" parent="VBoxContainer"]
 custom_minimum_size = Vector2(130, 130)
@@ -89,6 +89,8 @@ _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
 process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
 editor_description = ""
 visible = true
 modulate = Color(1, 1, 1, 1)

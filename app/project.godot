@@ -47,6 +47,10 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/vsync/vsync_mode=3
 
+[gui]
+
+theme/custom_font="res://assets/fonts/Inter-Regular.otf"
+
 [input]
 
 show_ui={

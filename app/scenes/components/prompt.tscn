@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/ui/search/prompt.gd" id="1_7xv44"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_33m26"]
-[ext_resource type="Texture2D" uid="uid://c28surtqjf4st" path="res://textures/search.svg" id="2_tk8hn"]
+[ext_resource type="Texture2D" uid="uid://c28surtqjf4st" path="res://assets/textures/search.svg" id="2_tk8hn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wbjg7"]
 bg_color = Color(0.25098, 0.25098, 0.25098, 0)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=29 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -6,17 +6,22 @@
 [ext_resource type="Script" path="res://scripts/sandbox/render_result.gd" id="5_nlg2s"]
 [ext_resource type="Resource" uid="uid://l1quiaghft2f" path="res://resources/command_events.res" id="6_18mgg"]
 [ext_resource type="Script" path="res://scripts/sandbox/sandbox_manager.gd" id="6_368sj"]
-[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://textures/background.png" id="7_52jgh"]
 [ext_resource type="Script" path="res://scripts/sandbox/input_sync.gd" id="8_1blsi"]
 [ext_resource type="Resource" uid="uid://bo6qgr210aamc" path="res://resources/sandbox_env.tres" id="8_a6dvr"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="9_ir58h"]
 [ext_resource type="Script" path="res://scripts/ui/world/world_canvas.gd" id="9_ncfxj"]
+[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://assets/textures/background.png" id="10_23bjc"]
 [ext_resource type="Script" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
 [ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
 [ext_resource type="Script" path="res://scripts/ui/world/gate_info.gd" id="14_8hca5"]
 [ext_resource type="Script" path="res://scripts/ui/world/loading_status.gd" id="14_jjuux"]
+[ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="15_1gk43"]
 [ext_resource type="Script" path="res://scripts/ui/world/release_focus.gd" id="16_8emm0"]
+[ext_resource type="FontFile" uid="uid://c14w1y1r54wgi" path="res://assets/fonts/Inter-Bold.otf" id="16_m0ubw"]
+[ext_resource type="FontFile" uid="uid://b3xb1fpllhnf4" path="res://assets/fonts/Inter-Italic.otf" id="17_s7ouj"]
+[ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="18_qgdgb"]
 [ext_resource type="Script" path="res://scripts/ui/fullscreen_animation.gd" id="18_sx3kr"]
+[ext_resource type="FontFile" uid="uid://bjeupg0ikc2kv" path="res://assets/fonts/Monospace.ttf" id="19_ntc6f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bm5nj"]
 corner_radius_top_left = 25
@@ -317,13 +322,13 @@ offset_top = -409.625
 offset_bottom = 409.681
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("7_52jgh")
+texture = ExtResource("10_23bjc")
 expand_mode = 5
 stretch_mode = 5
 script = ExtResource("5_nlg2s")
 gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
-splash_screen = ExtResource("7_52jgh")
+splash_screen = ExtResource("10_23bjc")
 
 [node name="HideOnPress" type="TextureButton" parent="HBoxContainer/WorldCanvas/RenderResult"]
 layout_mode = 1
@@ -378,7 +383,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("7_52jgh")
+texture = ExtResource("10_23bjc")
 expand_mode = 1
 stretch_mode = 6
 
@@ -393,7 +398,16 @@ text_overrun_behavior = 3
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 2
+theme_override_fonts/normal_font = ExtResource("15_1gk43")
+theme_override_fonts/bold_font = ExtResource("16_m0ubw")
+theme_override_fonts/italics_font = ExtResource("17_s7ouj")
+theme_override_fonts/bold_italics_font = ExtResource("18_qgdgb")
+theme_override_fonts/mono_font = ExtResource("19_ntc6f")
 theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
 bbcode_enabled = true
 context_menu_enabled = true
 selection_enabled = true

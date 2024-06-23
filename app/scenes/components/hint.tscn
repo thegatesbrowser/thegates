@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://m622v03jydnq"]
 
 [ext_resource type="Script" path="res://scripts/ui/hint.gd" id="1_mhnl1"]
-[ext_resource type="Texture2D" uid="uid://byvigfpu44dnu" path="res://textures/arrow.svg" id="2_amrir"]
+[ext_resource type="Texture2D" uid="uid://byvigfpu44dnu" path="res://assets/textures/arrow.svg" id="2_amrir"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7wdcy"]
 bg_color = Color(0.22, 0.22, 0.22, 0.631373)

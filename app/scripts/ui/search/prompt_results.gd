@@ -26,7 +26,7 @@ func _on_search_text_changed(query: String) -> void:
 	await prompt_request(query)
 	clear()
 	
-	var prompts: Array = JSON.parse_string(result_str)
+	var prompts = JSON.parse_string(result_str)
 	if prompts == null or prompts.is_empty():
 		return
 	

@@ -2,4 +2,4 @@
 .godot/
 
 # for ipc files (inter process communication)
-sandbox/
+./sandbox/

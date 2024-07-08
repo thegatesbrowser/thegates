@@ -313,6 +313,7 @@ script = ExtResource("9_ncfxj")
 ui_events = ExtResource("9_ir58h")
 
 [node name="RenderResult" type="TextureRect" parent="HBoxContainer/WorldCanvas"]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -328,6 +329,7 @@ stretch_mode = 5
 script = ExtResource("5_nlg2s")
 gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
+ui_events = ExtResource("9_ir58h")
 splash_screen = ExtResource("10_23bjc")
 
 [node name="HideOnPress" type="TextureButton" parent="HBoxContainer/WorldCanvas/RenderResult"]

@@ -21,6 +21,8 @@ func start_sandbox(gate: Gate) -> void:
 			start_sandbox_windows(gate)
 		Platform.LINUX_BSD:
 			start_sandbox_linux(gate)
+		Platform.MACOS:
+			start_sandbox_macos(gate)
 		_:
 			assert(false, "Platform is not supported")
 
@@ -37,7 +39,7 @@ func start_sandbox_linux(gate: Gate) -> void:
 		snbx_env.start.get_base_dir(), # cd to dir
 		"--main-pack", snbx_env.main_pack,
 		"--resolution", "%dx%d" % [render_result.width, render_result.height],
-		"--verbose"
+		"--verbose" if OS.is_stdout_verbose() else ""
 	]
 	Debug.logclr(snbx_env.start + " " + " ".join(args), Color.DARK_VIOLET)
 	sandbox_pid = OS.create_process(snbx_env.start, args)
@@ -56,7 +58,26 @@ func start_sandbox_windows(gate: Gate) -> void:
 	var args = [
 		"--main-pack", pack_file,
 		"--gdext-libs-dir", shared_libs,
-		"--resolution", "%dx%d" % [render_result.width, render_result.height]
+		"--resolution", "%dx%d" % [render_result.width, render_result.height],
+		"--verbose" if OS.is_stdout_verbose() else ""
+	]
+	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DARK_VIOLET)
+	sandbox_pid = OS.create_process(snbx_executable.path, args)
+	
+	gate_events.gate_entered_emit()
+
+
+func start_sandbox_macos(gate: Gate) -> void:
+	if not snbx_executable.exists():
+		Debug.logerr("Sandbox executable not found at " + snbx_executable.path); return
+	
+	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
+	var shared_libs = ProjectSettings.globalize_path(gate.shared_libs_dir)
+	var args = [
+		"--main-pack", pack_file,
+		"--gdext-libs-dir", shared_libs,
+		"--resolution", "%dx%d" % [render_result.width, render_result.height],
+		"--verbose" if OS.is_stdout_verbose() else ""
 	]
 	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DARK_VIOLET)
 	sandbox_pid = OS.create_process(snbx_executable.path, args)
@@ -70,6 +91,8 @@ func kill_sandbox() -> void:
 			kill_sandbox_windows()
 		Platform.LINUX_BSD:
 			kill_sandbox_linux()
+		Platform.MACOS:
+			kill_sandbox_macos()
 		_:
 			assert(false, "Platform is not supported")
 
@@ -88,6 +111,12 @@ func kill_sandbox_linux() -> void:
 
 
 func kill_sandbox_windows() -> void:
+	if OS.is_process_running(sandbox_pid):
+		OS.kill(sandbox_pid)
+		Debug.logclr("Process killed " + str(sandbox_pid), Color.DIM_GRAY)
+
+
+func kill_sandbox_macos() -> void:
 	if OS.is_process_running(sandbox_pid):
 		OS.kill(sandbox_pid)
 		Debug.logclr("Process killed " + str(sandbox_pid), Color.DIM_GRAY)

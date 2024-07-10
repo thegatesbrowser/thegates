@@ -3,14 +3,15 @@ class_name RenderResult
 
 @export var gate_events: GateEvents
 @export var command_events: CommandEvents
+@export var ui_events: UiEvents
 @export var splash_screen: Texture2D
 
 var rd: RenderingDevice
 var ext_texure: ExternalTexture
 var texture_rid: RID
 
-@onready var width: int = get_viewport().size.x
-@onready var height: int = get_viewport().size.y
+@onready var width: int = int(ui_events.current_ui_size.x)
+@onready var height: int = int(ui_events.current_ui_size.y)
 
 
 func _ready() -> void:

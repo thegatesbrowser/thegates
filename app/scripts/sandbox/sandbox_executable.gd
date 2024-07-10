@@ -7,6 +7,9 @@ class_name SandboxExecutable
 @export var windows: String
 @export var windows_debug: String
 
+@export var macos: String
+@export var macos_debug: String
+
 var path: String :
 	get = get_executable_path
 
@@ -24,6 +27,8 @@ func get_filename() -> String:
 			return windows_debug if is_debug else windows
 		Platform.LINUX_BSD:
 			return linux_debug if is_debug else linux
+		Platform.MACOS:
+			return macos_debug if is_debug else macos
 		_:
 			assert(false, "Platform is not supported")
 			return ""

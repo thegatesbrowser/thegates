@@ -1,14 +1,18 @@
 shader_type canvas_item;
 
 uniform bool ext_texture_is_bgra;
-uniform bool fill_alpha;
+uniform bool show_render;
+
+const vec4 zero = vec4(0);
 
 void fragment() {
-	if (ext_texture_is_bgra) {
-		COLOR = COLOR.bgra; // Swizzle BGRA to RGBA
+	if (show_render) {
+		COLOR = vec4(COLOR.rgb, 1);
+	} else {
+		COLOR = zero;
 	}
 	
-	if (fill_alpha) {
-		COLOR = vec4(COLOR.r, COLOR.g, COLOR.b, 1);
+	if (ext_texture_is_bgra) {
+		COLOR = COLOR.bgra; // Swizzle BGRA to RGBA
 	}
 }

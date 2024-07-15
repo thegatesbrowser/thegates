@@ -29,7 +29,7 @@
 resource_local_to_scene = true
 shader = ExtResource("10_2auwe")
 shader_parameter/ext_texture_is_bgra = null
-shader_parameter/fill_alpha = null
+shader_parameter/show_render = null
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bm5nj"]
 corner_radius_top_left = 25

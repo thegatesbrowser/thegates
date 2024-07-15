@@ -70,7 +70,7 @@ func ext_texture_format(format: RenderingDevice.DataFormat) -> void:
 
 
 func first_frame_drawn() -> void:
-	set_param("fill_alpha", true)
+	set_param("show_render", true)
 
 
 func set_param(param: StringName, value: Variant) -> void:

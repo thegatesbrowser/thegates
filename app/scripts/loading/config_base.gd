@@ -20,8 +20,8 @@ func get_string(section: String, key: String) -> String:
 	return value
 
 
-func get_value(section: String, key: String):
-	var value
+func get_value(section: String, key: String) -> Variant:
+	var value: Variant
 	if config.has_section_key(section, key):
 		value = config.get_value(section, key)
 #		Debug.logr(key + "=" + str(value))

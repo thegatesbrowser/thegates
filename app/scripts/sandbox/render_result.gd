@@ -8,8 +8,8 @@ class_name RenderResult
 var ext_texure: ExternalTexture
 var texture_rid: RID
 
-@onready var width: int = int(ui_events.current_ui_size.x)
-@onready var height: int = int(ui_events.current_ui_size.y)
+@onready var width: int = get_viewport().size.x / (2 if Platform.is_macos() else 1)
+@onready var height: int = get_viewport().size.y / (2 if Platform.is_macos() else 1)
 
 
 func _ready() -> void:

@@ -19,6 +19,10 @@ static func is_linux() -> bool:
 	return get_platform() == LINUX_BSD
 
 
+static func is_macos() -> bool:
+	return get_platform() == MACOS
+
+
 static func is_debug() -> bool:
 	return OS.is_debug_build()
 

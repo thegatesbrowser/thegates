@@ -5,11 +5,13 @@ class_name RenderResult
 @export var command_events: CommandEvents
 @export var ui_events: UiEvents
 
+const MAX_RESOLUTION_WIDTH = 1920 # TODO: move to settings
+
 var ext_texure: ExternalTexture
 var texture_rid: RID
 
-@onready var width: int = get_viewport().size.x / (2 if Platform.is_macos() else 1)
-@onready var height: int = get_viewport().size.y / (2 if Platform.is_macos() else 1)
+var width: int
+var height: int
 
 
 func _ready() -> void:
@@ -18,6 +20,21 @@ func _ready() -> void:
 	command_events.ext_texture_format.connect(ext_texture_format)
 	command_events.first_frame_drawn.connect(first_frame_drawn)
 	
+	define_size()
+	resize_texture()
+
+
+func define_size() -> void:
+	width = get_viewport().size.x
+	height = get_viewport().size.y
+	
+	if width > MAX_RESOLUTION_WIDTH:
+		width = int(ui_events.current_ui_size.x)
+		height = int(ui_events.current_ui_size.y)
+		Debug.logclr("Max resolution applied", Color.DIM_GRAY)
+
+
+func resize_texture() -> void:
 	# Create empty texture with window size
 	var image = Image.create(width, height, false, Image.FORMAT_RGBA8)
 	self.texture = ImageTexture.create_from_image(image)

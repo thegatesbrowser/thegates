@@ -26,7 +26,9 @@ func update(gate: Gate) -> void:
 	
 	var replace = gates[gate.url]
 	
+	gates.erase(gate.url)
 	gates[gate.url] = gate
+	
 	starred_gates.erase(replace)
 	starred_gates.append(gate)
 	

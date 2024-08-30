@@ -4,6 +4,7 @@ class_name Bookmarks
 signal on_ready()
 signal on_star(gate: Gate, featured: bool)
 signal on_unstar(gate: Gate)
+signal on_update(gate: Gate)
 signal save_image(gate: Gate)
 
 @export var starred_gates: Array[Gate]
@@ -13,8 +14,9 @@ var gates = {}
 
 
 func ready() -> void:
-	for gate in starred_gates:
-		if gate == null or not Url.is_valid(gate.url): continue
+	for gate in starred_gates.duplicate():
+		if not is_instance_valid(gate) or not Url.is_valid(gate.url) or gates.has(gate.url):
+			starred_gates.erase(gate); continue # Remove invalid and duplicates
 		gates[gate.url] = gate
 	
 	is_ready = true
@@ -32,6 +34,7 @@ func update(gate: Gate) -> void:
 	starred_gates.erase(replace)
 	starred_gates.append(gate)
 	
+	on_update.emit(gate)
 	save_image.emit(gate)
 
 

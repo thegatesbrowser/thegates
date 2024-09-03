@@ -37,6 +37,10 @@ func _execute_function(command: Command) -> Variant:
 			var url = Url.join(gate_events.current_gate_url, command.args[0])
 			gate_events.open_gate_emit(url)
 			
+		"open_link":
+			if wrong_args_count(command, 1): return ERR_INVALID_PARAMETER
+			OS.shell_open(command.args[0])
+			
 		_:
 			Debug.logerr("Command %s not implemented" % [command.name])
 			return ERR_METHOD_NOT_FOUND

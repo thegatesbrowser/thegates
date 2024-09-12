@@ -40,7 +40,7 @@ func start_sandbox_linux(gate: Gate) -> void:
 		"--main-pack", snbx_env.main_pack,
 		"--resolution", "%dx%d" % [render_result.width, render_result.height]
 	]
-	if OS.is_stdout_verbose(): args.append(["--verbose"])
+	if OS.is_stdout_verbose(): args += ["--verbose"]
 	
 	Debug.logclr(snbx_env.start + " " + " ".join(args), Color.DARK_VIOLET)
 	sandbox_pid = OS.create_process(snbx_env.start, args)

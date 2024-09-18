@@ -276,7 +276,7 @@ _data = {
 "initial": SubResource("Animation_77flb")
 }
 
-[node name="World" type="Control"]
+[node name="World" type="Control" node_paths=PackedStringArray("render_result")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -289,6 +289,7 @@ script = ExtResource("12_jdwjt")
 ui_events = ExtResource("9_ir58h")
 gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
+render_result = NodePath("HBoxContainer/WorldCanvas/RenderResult")
 
 [node name="GateLoader" type="Node" parent="."]
 script = ExtResource("1_uxhy6")
@@ -336,7 +337,7 @@ ui_events = ExtResource("9_ir58h")
 splash_screen = ExtResource("10_23bjc")
 
 [node name="RenderResult" type="TextureRect" parent="HBoxContainer/WorldCanvas"]
-texture_filter = 1
+texture_filter = 2
 material = SubResource("ShaderMaterial_be6ex")
 layout_mode = 1
 anchors_preset = 15

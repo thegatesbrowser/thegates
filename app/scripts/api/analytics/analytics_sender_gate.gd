@@ -43,6 +43,8 @@ func send_gate_enter() -> void:
 
 
 func send_gate_exit() -> void:
+	if gate_url.is_empty(): return
+	
 	var time_spend = int(Time.get_ticks_msec() / 1000) - gate_open_time
 	analytics.send_event(AnalyticsEvents.gate_exit(gate_url, time_spend))
 	gate_url = ""

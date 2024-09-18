@@ -3,6 +3,7 @@ extends Control
 @export var ui_events: UiEvents
 @export var gate_events: GateEvents
 @export var command_events: CommandEvents
+@export var render_result: RenderResult
 
 var mouse_mode: int = Input.MOUSE_MODE_VISIBLE
 var _visible: bool = true
@@ -32,6 +33,7 @@ func show_ui() -> void:
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	ui_events.ui_mode_changed_emit(UiEvents.UiMode.INITIAL)
+	render_result.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 
 
 func hide_ui() -> void:
@@ -40,3 +42,4 @@ func hide_ui() -> void:
 	
 	Input.set_mouse_mode(mouse_mode)
 	ui_events.ui_mode_changed_emit(UiEvents.UiMode.FULL_SCREEN)
+	render_result.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST

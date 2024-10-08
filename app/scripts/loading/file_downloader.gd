@@ -24,11 +24,18 @@ func _ready() -> void:
 
 func is_cached(url: String) -> bool:
 	var save_path = DOWNLOAD_FOLDER + "/" + url.md5_text() + "." + url.get_file().get_extension()
+	for request in download_requests:
+		if request.save_path == save_path:
+			return false
+	
 	return FileAccess.file_exists(save_path)
 
 
 func download(url: String, timeout: float = 0) -> String:
 	var save_path = DOWNLOAD_FOLDER + "/" + url.md5_text() + "." + url.get_file().get_extension()
+	
+	if has_request(save_path):
+		await request_completed(save_path)
 	
 	if FileAccess.file_exists(save_path):
 		await get_tree().process_frame
@@ -48,6 +55,9 @@ func download_shared_lib(url: String, gate_url: String) -> String:
 	var dir = DOWNLOAD_FOLDER + "/" + gate_url.md5_text()
 	var save_path = dir + "/" + url.get_file()
 	
+	if has_request(save_path):
+		await request_completed(save_path)
+	
 	if FileAccess.file_exists(save_path):
 		await get_tree().process_frame
 		return dir
@@ -59,6 +69,16 @@ func download_shared_lib(url: String, gate_url: String) -> String:
 	else:
 		DirAccess.remove_absolute(save_path)
 		return ""
+
+
+func has_request(save_path: String) -> bool:
+	return download_requests.any(func(request: DownloadRequest): return request.save_path == save_path)
+
+
+func request_completed(save_path: String) -> void:
+	for request in download_requests:
+		if request.save_path == save_path:
+			await request.http.request_completed
 
 
 func create_request(url: String, save_path: String, timeout: float = 0) -> int:

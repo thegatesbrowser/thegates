@@ -15,6 +15,7 @@ signal gate_error(code: GateError)
 enum GateError
 {
 	NOT_FOUND,
+	INVALID_CONFIG,
 	MISSING_PACK,
 	MISSING_LIBS
 }

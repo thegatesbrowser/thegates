@@ -28,6 +28,8 @@ func on_gate_error(code: GateEvents.GateError) -> void:
 	match code:
 		GateEvents.GateError.NOT_FOUND:
 			set_text("Gate not found")
+		GateEvents.GateError.INVALID_CONFIG:
+			set_text("Invalid gate config")
 		GateEvents.GateError.MISSING_PACK, GateEvents.GateError.MISSING_LIBS:
 			set_text("Cannot load gate resources")
 		_:

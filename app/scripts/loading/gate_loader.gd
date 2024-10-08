@@ -17,6 +17,7 @@ func load_gate(config_url: String) -> void:
 	if config_path.is_empty(): return error(GateEvents.GateError.NOT_FOUND)
 	
 	c_gate = ConfigGate.new(config_path, config_url)
+	if c_gate.load_result != OK: return error(GateEvents.GateError.INVALID_CONFIG)
 	gate_events.gate_config_loaded_emit(config_url, c_gate)
 	
 	var image_path = await FileDownloader.download(c_gate.image_url)

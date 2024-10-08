@@ -3,11 +3,12 @@ class_name ConfigBase
 
 var config: ConfigFile
 var config_path: String
+var load_result: Error
 
 
 func _init(path: String) -> void:
 	config = ConfigFile.new()
-	config.load(path)
+	load_result = config.load(path)
 	config_path = path
 
 

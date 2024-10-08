@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=33 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -39,6 +39,8 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="LabelSettings" id="LabelSettings_i1x1e"]
 font_size = 32
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_27sha"]
 
 [sub_resource type="Animation" id="Animation_beyyv"]
 length = 0.001
@@ -432,6 +434,7 @@ theme_override_font_sizes/bold_font_size = 24
 theme_override_font_sizes/italics_font_size = 24
 theme_override_font_sizes/bold_italics_font_size = 24
 theme_override_font_sizes/mono_font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxEmpty_27sha")
 bbcode_enabled = true
 context_menu_enabled = true
 selection_enabled = true

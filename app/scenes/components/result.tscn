@@ -41,6 +41,7 @@ grow_vertical = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_7mafe")
 theme_override_styles/hover = SubResource("StyleBoxFlat_37xan")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_37xan")
+theme_override_styles/focus = SubResource("StyleBoxFlat_37xan")
 script = ExtResource("1_b6nfm")
 gate_events = ExtResource("2_wgd6i")
 url = NodePath("HBoxContainer/VBoxContainer/SpanLimiter/HBoxContainer/Url")

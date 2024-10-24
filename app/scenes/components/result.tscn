@@ -10,15 +10,15 @@
 [ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="7_gyppg"]
 [ext_resource type="FontFile" uid="uid://bjeupg0ikc2kv" path="res://assets/fonts/Monospace.ttf" id="8_qjqxs"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7mafe"]
-bg_color = Color(0.25098, 0.25098, 0.25098, 0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37xan"]
+bg_color = Color(0.25098, 0.25098, 0.25098, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37xan"]
-bg_color = Color(0.25098, 0.25098, 0.25098, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7mafe"]
+bg_color = Color(0.25098, 0.25098, 0.25098, 0)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
@@ -38,10 +38,10 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_7mafe")
+theme_override_styles/focus = SubResource("StyleBoxFlat_37xan")
 theme_override_styles/hover = SubResource("StyleBoxFlat_37xan")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_37xan")
-theme_override_styles/focus = SubResource("StyleBoxFlat_37xan")
+theme_override_styles/normal = SubResource("StyleBoxFlat_7mafe")
 script = ExtResource("1_b6nfm")
 gate_events = ExtResource("2_wgd6i")
 url = NodePath("HBoxContainer/VBoxContainer/SpanLimiter/HBoxContainer/Url")
@@ -124,15 +124,15 @@ layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 1
 theme_override_fonts/normal_font = ExtResource("4_tevcf")
-theme_override_fonts/bold_font = ExtResource("5_vkte5")
+theme_override_fonts/mono_font = ExtResource("8_qjqxs")
 theme_override_fonts/italics_font = ExtResource("6_10owe")
 theme_override_fonts/bold_italics_font = ExtResource("7_gyppg")
-theme_override_fonts/mono_font = ExtResource("8_qjqxs")
+theme_override_fonts/bold_font = ExtResource("5_vkte5")
+theme_override_font_sizes/bold_italics_font_size = 20
+theme_override_font_sizes/italics_font_size = 20
+theme_override_font_sizes/mono_font_size = 20
 theme_override_font_sizes/normal_font_size = 20
 theme_override_font_sizes/bold_font_size = 20
-theme_override_font_sizes/italics_font_size = 20
-theme_override_font_sizes/bold_italics_font_size = 20
-theme_override_font_sizes/mono_font_size = 20
 bbcode_enabled = true
 text = "Description"
 scroll_active = false

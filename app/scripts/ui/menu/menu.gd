@@ -20,6 +20,10 @@ func set_initial_screen() -> void:
 	
 	DisplayServer.window_set_current_screen(last_screen)
 	Debug.logclr("Initial screen: %d" % [last_screen], Debug.SILENT_CLR)
+	
+	if Platform.is_macos():
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		Debug.logclr("Setting fullscreen mode", Debug.SILENT_CLR)
 
 
 func _exit_tree() -> void:

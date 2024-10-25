@@ -2,6 +2,7 @@ extends TextureRect
 class_name SplashScreen
 
 @export var gate_events: GateEvents
+@export var command_events: CommandEvents
 @export var ui_events: UiEvents
 @export var splash_screen: Texture2D
 
@@ -12,6 +13,7 @@ class_name SplashScreen
 func _ready():
 	gate_events.gate_info_loaded.connect(show_thumbnail)
 	gate_events.gate_entered.connect(show_splash_screen)
+	command_events.first_frame_drawn.connect(first_frame_drawn)
 	
 	# Change size
 	show_splash_screen()
@@ -32,6 +34,10 @@ func show_thumbnail(gate: Gate, is_cached: bool) -> void:
 func show_splash_screen() -> void:
 	var image = resize_and_convert(splash_screen.get_image(), Image.FORMAT_RGBA8)
 	self.texture = ImageTexture.create_from_image(image)
+
+
+func first_frame_drawn() -> void:
+	hide()
 
 
 func resize_and_convert(image: Image, format: Image.Format) -> Image:

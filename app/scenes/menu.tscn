@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://5btb7nvgmfhl"]
+[gd_scene load_steps=20 format=3 uid="uid://5btb7nvgmfhl"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/menu_navigation.gd" id="1_7anvm"]
 [ext_resource type="Texture2D" uid="uid://8wvea7j0v0rx" path="res://assets/textures/Reload.svg" id="1_d6dhb"]
@@ -8,10 +8,11 @@
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_m632k"]
 [ext_resource type="Resource" uid="uid://bqgikyax6jfqa" path="res://resources/history.tres" id="3_wi554"]
 [ext_resource type="Texture2D" uid="uid://bmju020v33vrv" path="res://assets/textures/home.svg" id="4_5npup"]
-[ext_resource type="Script" path="res://scripts/ui/menu/exit_app.gd" id="4_2065t"]
 [ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://scenes/components/search.tscn" id="5_li2do"]
 [ext_resource type="Script" path="res://scripts/ui/fullscreen_animation.gd" id="7_1hi62"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="8_8dnbq"]
+[ext_resource type="Script" path="res://scripts/ui/menu/window_buttons.gd" id="10_0d0if"]
+[ext_resource type="Texture2D" uid="uid://ba0x5hoq2ihbh" path="res://assets/textures/minimize.svg" id="11_36jpg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pveoh"]
 bg_color = Color(0.156863, 0.156863, 0.156863, 1)
@@ -48,7 +49,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("VBoxContainer/Top/Exit:modulate")
+tracks/2/path = NodePath("VBoxContainer/Top/WindowButtons:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -89,7 +90,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("VBoxContainer/Top/Exit:modulate")
+tracks/2/path = NodePath("VBoxContainer/Top/WindowButtons:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -130,7 +131,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("VBoxContainer/Top/Exit:modulate")
+tracks/2/path = NodePath("VBoxContainer/Top/WindowButtons:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -214,6 +215,8 @@ process_mode = 0
 process_priority = 0
 process_physics_priority = 0
 process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 1
 editor_description = ""
 visible = true
 modulate = Color(1, 1, 1, 1)
@@ -237,7 +240,6 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 size_flags_stretch_ratio = 1.0
-auto_translate = true
 localize_numeral_system = true
 tooltip_text = ""
 focus_neighbor_left = NodePath("")
@@ -285,6 +287,8 @@ process_mode = 0
 process_priority = 0
 process_physics_priority = 0
 process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 1
 editor_description = ""
 visible = true
 modulate = Color(1, 1, 1, 1)
@@ -308,7 +312,6 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 size_flags_stretch_ratio = 1.0
-auto_translate = true
 localize_numeral_system = true
 tooltip_text = ""
 focus_neighbor_left = NodePath("")
@@ -354,6 +357,8 @@ process_mode = 0
 process_priority = 0
 process_physics_priority = 0
 process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 1
 editor_description = ""
 visible = true
 modulate = Color(1, 1, 1, 1)
@@ -377,7 +382,6 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 size_flags_stretch_ratio = 1.0
-auto_translate = true
 localize_numeral_system = true
 tooltip_text = ""
 focus_neighbor_left = NodePath("")
@@ -417,6 +421,7 @@ texture = ExtResource("1_d6dhb")
 expand_mode = 1
 
 [node name="Search" parent="VBoxContainer/Top/MenuNavigation" instance=ExtResource("5_li2do")]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -428,6 +433,8 @@ process_mode = 0
 process_priority = 0
 process_physics_priority = 0
 process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 1
 editor_description = ""
 visible = true
 modulate = Color(1, 1, 1, 1)
@@ -451,7 +458,6 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 size_flags_stretch_ratio = 1.0
-auto_translate = true
 localize_numeral_system = true
 tooltip_text = ""
 focus_neighbor_left = NodePath("")
@@ -490,15 +496,36 @@ size_flags_vertical = 4
 texture = ExtResource("4_5npup")
 expand_mode = 1
 
-[node name="Exit" type="BaseButton" parent="VBoxContainer/Top"]
+[node name="WindowButtons" type="HBoxContainer" parent="VBoxContainer/Top" node_paths=PackedStringArray("minimize", "exit")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -10.0
+offset_right = -20.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 2
+script = ExtResource("10_0d0if")
+minimize = NodePath("Minimize")
+exit = NodePath("Exit")
+
+[node name="Minimize" type="BaseButton" parent="VBoxContainer/Top/WindowButtons"]
 _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
 process_priority = 0
 process_physics_priority = 0
 process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 1
 editor_description = ""
-visible = true
+visible = false
 modulate = Color(1, 1, 1, 1)
 self_modulate = Color(1, 1, 1, 1)
 show_behind_parent = false
@@ -514,27 +541,12 @@ texture_repeat = 0
 material = null
 use_parent_material = false
 clip_contents = false
-custom_minimum_size = Vector2(0, 0)
+custom_minimum_size = Vector2(20, 20)
 layout_direction = 0
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -10.0
-offset_right = -20.0
-offset_bottom = 10.0
-grow_horizontal = 0
-grow_vertical = 2
-rotation = 0.0
-scale = Vector2(1, 1)
-pivot_offset = Vector2(0, 0)
-size_flags_horizontal = 1
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 1
 size_flags_stretch_ratio = 1.0
-auto_translate = true
 localize_numeral_system = true
 tooltip_text = ""
 focus_neighbor_left = NodePath("")
@@ -559,9 +571,79 @@ button_group = null
 shortcut = null
 shortcut_feedback = true
 shortcut_in_tooltip = true
-script = ExtResource("4_2065t")
+script = null
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Top/Exit"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Top/WindowButtons/Minimize"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("11_36jpg")
+expand_mode = 1
+
+[node name="Exit" type="BaseButton" parent="VBoxContainer/Top/WindowButtons"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 1
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(20, 20)
+layout_direction = 0
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 0
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 2
+theme = null
+theme_type_variation = &""
+disabled = false
+toggle_mode = false
+button_pressed = false
+action_mode = 1
+button_mask = 1
+keep_pressed_outside = false
+button_group = null
+shortcut = null
+shortcut_feedback = true
+shortcut_in_tooltip = true
+script = null
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Top/WindowButtons/Exit"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -584,5 +666,3 @@ libraries = {
 script = ExtResource("7_1hi62")
 ui_events = ExtResource("8_8dnbq")
 gate_events = ExtResource("3_m632k")
-
-[connection signal="pressed" from="VBoxContainer/Top/Exit" to="VBoxContainer/Top/Exit" method="_on_pressed"]

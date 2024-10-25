@@ -335,6 +335,7 @@ expand_mode = 5
 stretch_mode = 5
 script = ExtResource("13_3b6nd")
 gate_events = ExtResource("2_q7cvi")
+command_events = ExtResource("6_18mgg")
 ui_events = ExtResource("9_ir58h")
 splash_screen = ExtResource("10_23bjc")
 

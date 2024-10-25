@@ -21,4 +21,4 @@ func _ready() -> void:
 
 
 func animate(value: float) -> void:
-	custom_minimum_size.x = lerp(initial, full_screen, value)
+	custom_minimum_size.x = lerp(initial, full_screen + 1, value)

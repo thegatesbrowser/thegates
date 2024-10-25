@@ -69,28 +69,5 @@ bookmarks = ExtResource("6_rupvx")
 
 [node name="Menu" parent="." instance=ExtResource("3_o1f7b")]
 
-[node name="GoBack" parent="Menu/VBoxContainer/Top/MenuNavigation" index="0"]
-physics_interpolation_mode = 2
-auto_translate_mode = 1
-
-[node name="GoForward" parent="Menu/VBoxContainer/Top/MenuNavigation" index="1"]
-physics_interpolation_mode = 2
-auto_translate_mode = 1
-
-[node name="Reload" parent="Menu/VBoxContainer/Top/MenuNavigation" index="2"]
-physics_interpolation_mode = 2
-auto_translate_mode = 1
-
-[node name="Search" parent="Menu/VBoxContainer/Top/MenuNavigation" index="3"]
-auto_translate_mode = 2
-
-[node name="Home" parent="Menu/VBoxContainer/Top/MenuNavigation" index="4"]
-physics_interpolation_mode = 2
-auto_translate_mode = 1
-
-[node name="Exit" parent="Menu/VBoxContainer/Top" index="2"]
-physics_interpolation_mode = 2
-auto_translate_mode = 1
-
 [editable path="Debug"]
 [editable path="Menu"]

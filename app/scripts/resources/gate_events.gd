@@ -7,6 +7,7 @@ signal gate_config_loaded(url: String, config: ConfigGate)
 signal gate_info_loaded(gate: Gate, is_cached: bool)
 signal gate_loaded(gate: Gate)
 signal gate_entered
+signal first_frame
 signal exit_gate
 
 signal download_progress(url: String, body_size: int, downloaded_bytes: int)
@@ -55,6 +56,10 @@ func gate_loaded_emit(gate: Gate) -> void:
 
 func gate_entered_emit() -> void:
 	gate_entered.emit()
+
+
+func first_frame_emit() -> void:
+	first_frame.emit()
 
 
 func exit_gate_emit() -> void:

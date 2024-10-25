@@ -26,12 +26,12 @@ func start_heartbeat() -> void:
 
 
 func send_hearbeat() -> void:
-	var time_spend = int(Time.get_ticks_msec() / 1000)
+	var time_spend = float(Time.get_ticks_msec()) / 1000
 	analytics.send_event(AnalyticsEvents.heartbeat(time_spend))
 
 
 func _exit_tree() -> void:
 	# Save to send on open
-	var time_spend = int(Time.get_ticks_msec() / 1000)
+	var time_spend = float(Time.get_ticks_msec()) / 1000
 	var event = AnalyticsEvents.app_exit(time_spend)
 	DataSaver.set_value("analytics", "app_exit", JSON.stringify(event))

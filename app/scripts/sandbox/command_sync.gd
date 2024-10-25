@@ -26,7 +26,7 @@ func _execute_function(command: Command) -> Variant:
 			
 		"first_frame_drawn":
 			if wrong_args_count(command, 0): return ERR_INVALID_PARAMETER
-			command_events.first_frame_drawn_emit()
+			gate_events.first_frame_emit()
 			
 		"set_mouse_mode":
 			if wrong_args_count(command, 1): return ERR_INVALID_PARAMETER

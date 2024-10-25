@@ -13,7 +13,7 @@ class_name SplashScreen
 func _ready():
 	gate_events.gate_info_loaded.connect(show_thumbnail)
 	gate_events.gate_entered.connect(show_splash_screen)
-	command_events.first_frame_drawn.connect(first_frame_drawn)
+	gate_events.first_frame.connect(func(): hide())
 	
 	# Change size
 	show_splash_screen()
@@ -34,10 +34,6 @@ func show_thumbnail(gate: Gate, is_cached: bool) -> void:
 func show_splash_screen() -> void:
 	var image = resize_and_convert(splash_screen.get_image(), Image.FORMAT_RGBA8)
 	self.texture = ImageTexture.create_from_image(image)
-
-
-func first_frame_drawn() -> void:
-	hide()
 
 
 func resize_and_convert(image: Image, format: Image.Format) -> Image:

@@ -15,8 +15,8 @@ var texture_rid: RID
 func _ready() -> void:
 	gate_events.gate_entered.connect(create_external_texture)
 	command_events.send_filehandle.connect(send_filehandle)
-	command_events.ext_texture_format.connect(ext_texture_format)
-	command_events.first_frame_drawn.connect(first_frame_drawn)
+	command_events.ext_texture_format.connect(set_texture_format)
+	gate_events.first_frame.connect(show_render)
 	
 	# Create empty texture with window size
 	var image = Image.create(width, height, false, Image.FORMAT_RGBA8)
@@ -57,7 +57,7 @@ func send_filehandle(filehandle_path: String) -> void:
 	Debug.logclr("filehandle was sent", Color.DIM_GRAY)
 
 
-func ext_texture_format(format: RenderingDevice.DataFormat) -> void:
+func set_texture_format(format: RenderingDevice.DataFormat) -> void:
 	match format:
 		RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM:
 			set_param("ext_texture_is_bgra", false)
@@ -69,7 +69,7 @@ func ext_texture_format(format: RenderingDevice.DataFormat) -> void:
 			Debug.logerr("Texture format %d is not supported" % [format])
 
 
-func first_frame_drawn() -> void:
+func show_render() -> void:
 	set_param("show_render", true)
 
 

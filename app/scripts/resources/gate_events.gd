@@ -8,6 +8,7 @@ signal gate_info_loaded(gate: Gate, is_cached: bool)
 signal gate_loaded(gate: Gate)
 signal gate_entered
 signal first_frame
+signal not_responding
 signal exit_gate
 
 signal download_progress(url: String, body_size: int, downloaded_bytes: int)
@@ -60,6 +61,10 @@ func gate_entered_emit() -> void:
 
 func first_frame_emit() -> void:
 	first_frame.emit()
+
+
+func not_responding_emit() -> void:
+	not_responding.emit()
 
 
 func exit_gate_emit() -> void:

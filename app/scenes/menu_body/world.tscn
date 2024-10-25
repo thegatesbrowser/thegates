@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=34 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -13,6 +13,7 @@
 [ext_resource type="Shader" path="res://shaders/render_result.gdshader" id="10_2auwe"]
 [ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://assets/textures/background.png" id="10_23bjc"]
 [ext_resource type="Script" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
+[ext_resource type="Script" path="res://scripts/sandbox/process_checker.gd" id="11_72cjp"]
 [ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
 [ext_resource type="Script" path="res://scripts/ui/world/splash_screen.gd" id="13_3b6nd"]
 [ext_resource type="Script" path="res://scripts/ui/world/gate_info.gd" id="14_8hca5"]
@@ -305,6 +306,22 @@ render_result = NodePath("../HBoxContainer/WorldCanvas/RenderResult")
 snbx_executable = ExtResource("4_shus3")
 snbx_env = ExtResource("8_a6dvr")
 
+[node name="InputSync" type="Node" parent="." node_paths=PackedStringArray("render_result")]
+script = ExtResource("8_1blsi")
+gate_events = ExtResource("2_q7cvi")
+ui_events = ExtResource("9_ir58h")
+render_result = NodePath("../HBoxContainer/WorldCanvas/RenderResult")
+
+[node name="CommandSync" type="CommandSync" parent="."]
+script = ExtResource("10_cqo55")
+gate_events = ExtResource("2_q7cvi")
+command_events = ExtResource("6_18mgg")
+
+[node name="ProcessChecker" type="Node" parent="."]
+script = ExtResource("11_72cjp")
+gate_events = ExtResource("2_q7cvi")
+command_events = ExtResource("6_18mgg")
+
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 700)
 layout_mode = 1
@@ -365,17 +382,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
-
-[node name="InputSync" type="Node" parent="HBoxContainer/WorldCanvas" node_paths=PackedStringArray("render_result")]
-script = ExtResource("8_1blsi")
-gate_events = ExtResource("2_q7cvi")
-ui_events = ExtResource("9_ir58h")
-render_result = NodePath("../RenderResult")
-
-[node name="CommandSync" type="CommandSync" parent="HBoxContainer/WorldCanvas"]
-script = ExtResource("10_cqo55")
-gate_events = ExtResource("2_q7cvi")
-command_events = ExtResource("6_18mgg")
 
 [node name="Spacing" type="Control" parent="HBoxContainer"]
 custom_minimum_size = Vector2(50, 0)

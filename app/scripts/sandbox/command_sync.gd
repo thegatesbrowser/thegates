@@ -3,6 +3,8 @@ extends CommandSync
 @export var gate_events: GateEvents
 @export var command_events: CommandEvents
 
+var silent_commands = ["heartbeat"]
+
 
 func _ready() -> void:
 	gate_events.gate_entered.connect(bind)
@@ -14,7 +16,9 @@ func _physics_process(_delta: float) -> void:
 
 
 func _execute_function(command: Command) -> Variant:
-	Debug.logclr("Recieved command: " + command.name + ". Args: " + str(command.args), Color.SANDY_BROWN)
+	if command.name not in silent_commands:
+		Debug.logclr("Recieved command: " + command.name + ". Args: " + str(command.args), Color.SANDY_BROWN)
+	
 	match command.name:
 		"send_filehandle":
 			if wrong_args_count(command, 1): return ERR_INVALID_PARAMETER
@@ -24,9 +28,13 @@ func _execute_function(command: Command) -> Variant:
 			if wrong_args_count(command, 1): return ERR_INVALID_PARAMETER
 			command_events.ext_texture_format_emit(command.args[0])
 			
-		"first_frame_drawn":
+		"first_frame":
 			if wrong_args_count(command, 0): return ERR_INVALID_PARAMETER
 			gate_events.first_frame_emit()
+			
+		"heartbeat":
+			if wrong_args_count(command, 0): return ERR_INVALID_PARAMETER
+			command_events.heartbeat_emit()
 			
 		"set_mouse_mode":
 			if wrong_args_count(command, 1): return ERR_INVALID_PARAMETER

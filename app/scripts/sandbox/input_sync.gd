@@ -14,15 +14,15 @@ var should_send := false
 func _ready() -> void:
 	gate_events.gate_entered.connect(start_server)
 	ui_events.ui_mode_changed.connect(on_ui_mode_changed)
-	
-	scale_width = float(render_result.width) / ui_events.current_ui_size.x
-	scale_height = float(render_result.height) / ui_events.current_ui_size.y
-	Debug.logclr("Mouse position scale: %.2fx%.2f" % [scale_width, scale_height], Color.DIM_GRAY)
 
 
 func start_server() -> void:
 	input_sync = InputSync.new()
 	input_sync.bind()
+	
+	scale_width = float(render_result.width) / ui_events.current_ui_size.x
+	scale_height = float(render_result.height) / ui_events.current_ui_size.y
+	Debug.logclr("Mouse position scale: %.2fx%.2f" % [scale_width, scale_height], Color.DIM_GRAY)
 
 
 func on_ui_mode_changed(mode: UiEvents.UiMode) -> void:

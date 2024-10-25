@@ -42,7 +42,7 @@ func start_sandbox_linux(gate: Gate) -> void:
 	]
 	if OS.is_stdout_verbose(): args += ["--verbose"]
 	
-	Debug.logclr(snbx_env.start + " " + " ".join(args), Color.DARK_VIOLET)
+	Debug.logclr(snbx_env.start + " " + " ".join(args), Color.DIM_GRAY)
 	sandbox_pid = OS.create_process(snbx_env.start, args)
 	
 	gate_events.gate_entered_emit()
@@ -63,7 +63,7 @@ func start_sandbox_windows(gate: Gate) -> void:
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
 	if OS.is_stdout_verbose(): args += ["--verbose"]
 	
-	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DARK_VIOLET)
+	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DIM_GRAY)
 	sandbox_pid = OS.create_process(snbx_executable.path, args)
 	
 	gate_events.gate_entered_emit()
@@ -82,7 +82,7 @@ func start_sandbox_macos(gate: Gate) -> void:
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
 	if OS.is_stdout_verbose(): args += ["--verbose"]
 	
-	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DARK_VIOLET)
+	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DIM_GRAY)
 	sandbox_pid = OS.create_process(snbx_executable.path, args)
 	
 	gate_events.gate_entered_emit()

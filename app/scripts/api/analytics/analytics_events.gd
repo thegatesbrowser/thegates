@@ -43,17 +43,17 @@ func gate_open(url: String) -> Dictionary:
 	return event
 
 
-func gate_enter(url: String, download_time: float) -> Dictionary:
-	var event = base("gate_enter")
+func gate_load(url: String, download_time: float) -> Dictionary:
+	var event = base("gate_load")
 	event.gate_url = url
 	event.download_time = download_time
 	return event
 
 
-func first_frame(url: String, loading_time: float) -> Dictionary:
-	var event = base("first_frame")
+func gate_start(url: String, bootup_time: float) -> Dictionary:
+	var event = base("gate_start")
 	event.gate_url = url
-	event.loading_time = loading_time
+	event.bootup_time = bootup_time
 	return event
 
 

@@ -45,7 +45,7 @@ func create_external_texture() -> void:
 	ext_texure = ExternalTexture.new()
 	var err = ext_texure.create(t_format, t_view)
 	if err: Debug.logerr("Cannot create external texture")
-	else: Debug.logclr("External texture created", Color.AQUAMARINE)
+	else: Debug.logclr("External texture created", Color.DIM_GRAY)
 
 
 func send_filehandle(filehandle_path: String) -> void:

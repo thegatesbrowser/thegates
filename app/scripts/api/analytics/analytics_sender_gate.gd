@@ -4,7 +4,7 @@ class_name AnalyticsSenderGate
 @export var gate_events: GateEvents
 
 var gate_open_tick: int
-var gate_enter_tick: int
+var gate_load_tick: int
 var gate_url: String
 
 
@@ -13,8 +13,8 @@ func start() -> void:
 	
 	gate_events.search.connect(send_search)
 	gate_events.open_gate.connect(send_gate_open)
-	gate_events.gate_entered.connect(send_gate_enter)
-	gate_events.first_frame.connect(send_first_frame)
+	gate_events.gate_loaded.connect(func(_gate): send_gate_load())
+	gate_events.first_frame.connect(send_gate_start)
 	gate_events.exit_gate.connect(send_gate_exit)
 	
 	# Send latest exit event
@@ -38,15 +38,17 @@ func send_gate_open(url: String) -> void:
 	analytics.send_event(AnalyticsEvents.gate_open(url))
 
 
-func send_gate_enter() -> void:
+func send_gate_load() -> void:
 	var download_time = get_delta_sec(gate_open_tick)
-	gate_enter_tick = Time.get_ticks_msec()
-	analytics.send_event(AnalyticsEvents.gate_enter(gate_url, download_time))
+	gate_load_tick = Time.get_ticks_msec()
+	analytics.send_event(AnalyticsEvents.gate_load(gate_url, download_time))
+	Debug.logclr("Download time: %.3f" % [download_time], Color.AQUAMARINE)
 
 
-func send_first_frame() -> void:
-	var loading_time = get_delta_sec(gate_enter_tick)
-	analytics.send_event(AnalyticsEvents.first_frame(gate_url, loading_time))
+func send_gate_start() -> void:
+	var bootup_time = get_delta_sec(gate_load_tick)
+	analytics.send_event(AnalyticsEvents.gate_start(gate_url, bootup_time))
+	Debug.logclr("Bootup time: %.3f" % [bootup_time], Color.AQUAMARINE)
 
 
 func send_gate_exit() -> void:

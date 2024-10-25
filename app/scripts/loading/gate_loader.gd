@@ -28,7 +28,7 @@ func load_gate(config_url: String) -> void:
 	gate.resource_pack = await FileDownloader.download(c_gate.resource_pack_url)
 	if gate.resource_pack.is_empty(): return error(GateEvents.GateError.MISSING_PACK)
 	
-	Debug.logclr("Downloading GDExtension libraries: " + str(c_gate.libraries), Color.DIM_GRAY)
+	Debug.logclr("GDExtension libraries: " + str(c_gate.libraries), Color.DIM_GRAY)
 	for lib in c_gate.libraries:
 		gate.shared_libs_dir = await FileDownloader.download_shared_lib(lib, config_url)
 		if gate.shared_libs_dir.is_empty(): return error(GateEvents.GateError.MISSING_LIBS)

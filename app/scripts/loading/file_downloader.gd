@@ -92,6 +92,7 @@ func create_request(url: String, save_path: String, timeout: float = 0) -> int:
 	var download_request = DownloadRequest.new(save_path, http, timer)
 	download_requests.append(download_request)
 	
+	Debug.logclr("Downloading " + url, Color.GRAY)
 	var err = http.request(url)
 	if err != OK: return err
 	var code = (await http.request_completed)[1]

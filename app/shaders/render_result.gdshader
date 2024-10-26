@@ -11,7 +11,7 @@ void fragment() {
 	} else {
 		COLOR = zero;
 	}
-	
+
 	if (ext_texture_is_bgra) {
 		COLOR = COLOR.bgra; // Swizzle BGRA to RGBA
 	}

@@ -6,7 +6,7 @@ extends Node
 # Timeout interval for child process responsiveness
 const BOOTUP_INTERVAL = 30
 const HEARTBEAT_INTERVAL = 5
-const WAIT_INTERVAL = 30
+const WAIT_INTERVAL = 20
 
 var timer: Timer
 

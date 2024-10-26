@@ -29,10 +29,12 @@ func on_ui_mode_changed(mode: UiEvents.UiMode) -> void:
 	should_send = mode == UiEvents.UiMode.FULL_SCREEN
 
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if input_sync == null or not should_send: return
 	
+	var event = _event
 	if event is InputEventMouse:
+		event = _event.duplicate()
 		event.position = get_scaled_mouse_pos(event.position)
 		event.global_position = get_scaled_mouse_pos(event.global_position)
 	

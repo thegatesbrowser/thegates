@@ -421,7 +421,6 @@ texture = ExtResource("1_d6dhb")
 expand_mode = 1
 
 [node name="Search" parent="VBoxContainer/Top/MenuNavigation" instance=ExtResource("5_li2do")]
-auto_translate_mode = 2
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4

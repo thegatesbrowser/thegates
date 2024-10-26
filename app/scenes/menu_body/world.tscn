@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=35 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -21,6 +21,7 @@
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="15_1gk43"]
 [ext_resource type="Script" path="res://scripts/ui/world/release_focus.gd" id="16_8emm0"]
 [ext_resource type="FontFile" uid="uid://c14w1y1r54wgi" path="res://assets/fonts/Inter-Bold.otf" id="16_m0ubw"]
+[ext_resource type="PackedScene" uid="uid://c7571vjq7l0jp" path="res://scenes/components/not_responding.tscn" id="17_kwbm3"]
 [ext_resource type="FontFile" uid="uid://b3xb1fpllhnf4" path="res://assets/fonts/Inter-Italic.otf" id="17_s7ouj"]
 [ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="18_qgdgb"]
 [ext_resource type="Script" path="res://scripts/ui/fullscreen_animation.gd" id="18_sx3kr"]
@@ -466,5 +467,9 @@ libraries = {
 script = ExtResource("18_sx3kr")
 ui_events = ExtResource("9_ir58h")
 gate_events = ExtResource("2_q7cvi")
+
+[node name="NotResponding" parent="." instance=ExtResource("17_kwbm3")]
+visible = false
+layout_mode = 1
 
 [connection signal="pressed" from="HBoxContainer/WorldCanvas/RenderResult/HideOnPress" to="." method="hide_ui"]

@@ -1,0 +1,117 @@
+[gd_scene load_steps=6 format=3 uid="uid://c7571vjq7l0jp"]
+
+[ext_resource type="Script" path="res://scripts/ui/world/not_responding.gd" id="1_feqd7"]
+[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_8u6e2"]
+[ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="2_ugt55"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_htqsi"]
+bg_color = Color(0, 0, 0, 0.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s6kym"]
+bg_color = Color(0.156863, 0.156863, 0.156863, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 16
+
+[node name="NotResponding" type="Control" node_paths=PackedStringArray("root")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_feqd7")
+gate_events = ExtResource("2_8u6e2")
+root = NodePath("TextureButton")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="TextureButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_htqsi")
+
+[node name="Popup" type="Control" parent="TextureButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -229.0
+offset_top = -116.0
+offset_right = 229.0
+offset_bottom = 116.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="TextureButton/Popup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s6kym")
+
+[node name="Label" type="Label" parent="TextureButton/Popup"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 29.0
+offset_bottom = 68.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_ugt55")
+theme_override_font_sizes/font_size = 32
+text = "Gate is not responding"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="TextureButton/Popup"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 59.0
+offset_top = 96.0
+offset_right = -53.0
+offset_bottom = 166.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.621524, 0.621524, 0.621524, 1)
+theme_override_constants/line_spacing = -2
+theme_override_fonts/font = ExtResource("2_ugt55")
+theme_override_font_sizes/font_size = 20
+text = "Restart the page or try to wait if it responses"
+autowrap_mode = 3
+
+[node name="LinkButton" type="LinkButton" parent="TextureButton/Popup"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -50.0
+offset_right = 34.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_ugt55")
+theme_override_font_sizes/font_size = 20
+text = "Get help!"
+uri = "https://forms.gle/A44qmWkcE9f6cD81A"

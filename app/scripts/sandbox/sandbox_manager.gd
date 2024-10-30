@@ -3,12 +3,13 @@ class_name SandboxManager
 
 @export var gate_events: GateEvents
 @export var render_result: RenderResult
+@export var snbx_logger: SandboxLogger
 @export var snbx_executable: SandboxExecutable
 @export var snbx_env: SandboxEnv
 
 const IPC_FOLDER := "sandbox"
 
-var sandbox_pid: int
+var snbx_pid: int
 
 
 func _ready() -> void:
@@ -41,9 +42,12 @@ func start_sandbox_linux(gate: Gate) -> void:
 		"--resolution", "%dx%d" % [render_result.width, render_result.height]
 	]
 	if OS.is_stdout_verbose(): args += ["--verbose"]
-	
+	args += ["--verbose"]
 	Debug.logclr(snbx_env.start + " " + " ".join(args), Color.DIM_GRAY)
-	sandbox_pid = OS.create_process(snbx_env.start, args)
+	
+	var pipe = OS.execute_with_pipe(snbx_env.start, args, false)
+	snbx_logger.start(pipe, gate)
+	snbx_pid = pipe["pid"]
 	
 	gate_events.gate_entered_emit()
 
@@ -64,7 +68,7 @@ func start_sandbox_windows(gate: Gate) -> void:
 	if OS.is_stdout_verbose(): args += ["--verbose"]
 	
 	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DIM_GRAY)
-	sandbox_pid = OS.create_process(snbx_executable.path, args)
+	snbx_pid = OS.create_process(snbx_executable.path, args)
 	
 	gate_events.gate_entered_emit()
 
@@ -83,7 +87,7 @@ func start_sandbox_macos(gate: Gate) -> void:
 	if OS.is_stdout_verbose(): args += ["--verbose"]
 	
 	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DIM_GRAY)
-	sandbox_pid = OS.create_process(snbx_executable.path, args)
+	snbx_pid = OS.create_process(snbx_executable.path, args)
 	
 	gate_events.gate_entered_emit()
 
@@ -101,10 +105,10 @@ func kill_sandbox() -> void:
 
 
 func kill_sandbox_linux() -> void:
-	if sandbox_pid == 0: return
+	if snbx_pid == 0: return
 	
-	var pids = snbx_env.get_subprocesses(sandbox_pid)
-	pids.append(sandbox_pid)
+	var pids = snbx_env.get_subprocesses(snbx_pid)
+	pids.append(snbx_pid)
 	
 	for pid in pids:
 		OS.kill(pid)
@@ -114,15 +118,15 @@ func kill_sandbox_linux() -> void:
 
 
 func kill_sandbox_windows() -> void:
-	if OS.is_process_running(sandbox_pid):
-		OS.kill(sandbox_pid)
-		Debug.logclr("Process killed " + str(sandbox_pid), Color.DIM_GRAY)
+	if OS.is_process_running(snbx_pid):
+		OS.kill(snbx_pid)
+		Debug.logclr("Process killed " + str(snbx_pid), Color.DIM_GRAY)
 
 
 func kill_sandbox_macos() -> void:
-	if OS.is_process_running(sandbox_pid):
-		OS.kill(sandbox_pid)
-		Debug.logclr("Process killed " + str(sandbox_pid), Color.DIM_GRAY)
+	if OS.is_process_running(snbx_pid):
+		OS.kill(snbx_pid)
+		Debug.logclr("Process killed " + str(snbx_pid), Color.DIM_GRAY)
 
 
 func _exit_tree() -> void:

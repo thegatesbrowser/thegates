@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=37 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -14,6 +14,7 @@
 [ext_resource type="Shader" path="res://shaders/render_result.gdshader" id="10_2auwe"]
 [ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://assets/textures/background.png" id="10_23bjc"]
 [ext_resource type="Script" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
+[ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="10_vhc7k"]
 [ext_resource type="Script" path="res://scripts/sandbox/process_checker.gd" id="11_72cjp"]
 [ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
 [ext_resource type="Script" path="res://scripts/ui/world/splash_screen.gd" id="13_3b6nd"]
@@ -312,6 +313,7 @@ snbx_env = ExtResource("8_a6dvr")
 [node name="SandboxLogger" type="Node" parent="."]
 script = ExtResource("9_fikc8")
 gate_events = ExtResource("2_q7cvi")
+api = ExtResource("10_vhc7k")
 
 [node name="InputSync" type="Node" parent="." node_paths=PackedStringArray("render_result")]
 script = ExtResource("8_1blsi")

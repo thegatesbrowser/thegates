@@ -30,3 +30,6 @@ var search: String :
 
 var prompt: String :
 	get: return url + "/api/prompt?query="
+
+var send_logs: String :
+	get: return url + "/api/send_logs?url="

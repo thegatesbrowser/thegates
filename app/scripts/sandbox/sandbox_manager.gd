@@ -39,10 +39,9 @@ func start_sandbox_linux(gate: Gate) -> void:
 	var args = [
 		snbx_env.start.get_base_dir(), # cd to dir
 		"--main-pack", snbx_env.main_pack,
-		"--resolution", "%dx%d" % [render_result.width, render_result.height]
+		"--resolution", "%dx%d" % [render_result.width, render_result.height],
+		"--verbose"
 	]
-	if OS.is_stdout_verbose(): args += ["--verbose"]
-	args += ["--verbose"]
 	Debug.logclr(snbx_env.start + " " + " ".join(args), Color.DIM_GRAY)
 	
 	var pipe = OS.execute_with_pipe(snbx_env.start, args, false)
@@ -62,13 +61,15 @@ func start_sandbox_windows(gate: Gate) -> void:
 	var shared_libs = ProjectSettings.globalize_path(gate.shared_libs_dir)
 	var args = [
 		"--main-pack", pack_file,
-		"--resolution", "%dx%d" % [render_result.width, render_result.height]
+		"--resolution", "%dx%d" % [render_result.width, render_result.height],
+		"--verbose"
 	]
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
-	if OS.is_stdout_verbose(): args += ["--verbose"]
-	
 	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DIM_GRAY)
-	snbx_pid = OS.create_process(snbx_executable.path, args)
+	
+	var pipe = OS.execute_with_pipe(snbx_executable.start, args, false)
+	snbx_logger.start(pipe, gate)
+	snbx_pid = pipe["pid"]
 	
 	gate_events.gate_entered_emit()
 
@@ -81,13 +82,15 @@ func start_sandbox_macos(gate: Gate) -> void:
 	var shared_libs = ProjectSettings.globalize_path(gate.shared_libs_dir)
 	var args = [
 		"--main-pack", pack_file,
-		"--resolution", "%dx%d" % [render_result.width, render_result.height]
+		"--resolution", "%dx%d" % [render_result.width, render_result.height],
+		"--verbose"
 	]
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
-	if OS.is_stdout_verbose(): args += ["--verbose"]
-	
 	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DIM_GRAY)
-	snbx_pid = OS.create_process(snbx_executable.path, args)
+	
+	var pipe = OS.execute_with_pipe(snbx_executable.start, args, false)
+	snbx_logger.start(pipe, gate)
+	snbx_pid = pipe["pid"]
 	
 	gate_events.gate_entered_emit()
 

@@ -63,3 +63,7 @@ func wrong_args_count(command: Command, right_count: int) -> bool:
 		return true
 	
 	return false
+
+
+func _exit_tree() -> void:
+	close()

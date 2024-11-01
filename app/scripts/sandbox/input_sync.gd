@@ -45,3 +45,9 @@ func get_scaled_mouse_pos(position : Vector2) -> Vector2:
 	position.x *= scale_width
 	position.y *= scale_height
 	return position
+
+
+func _exit_tree() -> void:
+	if input_sync != null:
+		input_sync.close()
+		input_sync = null

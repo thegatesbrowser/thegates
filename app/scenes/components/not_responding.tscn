@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://c7571vjq7l0jp"]
+[gd_scene load_steps=11 format=3 uid="uid://c7571vjq7l0jp"]
 
 [ext_resource type="Script" path="res://scripts/ui/world/not_responding.gd" id="1_feqd7"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_8u6e2"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="2_ugt55"]
+[ext_resource type="Resource" uid="uid://bqgikyax6jfqa" path="res://resources/history.tres" id="3_ge6h5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_htqsi"]
 bg_color = Color(0, 0, 0, 0.5)
@@ -16,7 +17,15 @@ corner_radius_bottom_left = 16
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 16
 
-[node name="NotResponding" type="Control" node_paths=PackedStringArray("root")]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o4otx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ke42a"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8wfqm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lr7et"]
+
+[node name="NotResponding" type="Control" node_paths=PackedStringArray("root", "reload", "wait")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,7 +35,10 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_feqd7")
 gate_events = ExtResource("2_8u6e2")
+history = ExtResource("3_ge6h5")
 root = NodePath("TextureButton")
+reload = NodePath("TextureButton/Popup/HBoxContainer/Reload")
+wait = NodePath("TextureButton/Popup/HBoxContainer/Hide")
 
 [node name="TextureButton" type="TextureButton" parent="."]
 layout_mode = 1
@@ -95,23 +107,42 @@ theme_override_colors/font_color = Color(0.621524, 0.621524, 0.621524, 1)
 theme_override_constants/line_spacing = -2
 theme_override_fonts/font = ExtResource("2_ugt55")
 theme_override_font_sizes/font_size = 20
-text = "Restart the page or try to wait if it responses"
+text = "Reload the page or try to wait if it responses"
 autowrap_mode = 3
 
-[node name="LinkButton" type="LinkButton" parent="TextureButton/Popup"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TextureButton/Popup"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -43.0
-offset_top = -50.0
-offset_right = 43.0
-offset_bottom = -24.0
+offset_left = -63.5
+offset_top = -57.0
+offset_right = 63.5
+offset_bottom = -17.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/separation = 90
+
+[node name="Reload" type="Button" parent="TextureButton/Popup/HBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("2_ugt55")
 theme_override_font_sizes/font_size = 20
-text = "Get help!"
-uri = "https://forms.gle/A44qmWkcE9f6cD81A"
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_o4otx")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ke42a")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_8wfqm")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_lr7et")
+text = "Reload"
+
+[node name="Hide" type="Button" parent="TextureButton/Popup/HBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("2_ugt55")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_o4otx")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ke42a")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_8wfqm")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_lr7et")
+text = "Wait"

@@ -4,7 +4,10 @@ const SHOWN = Color(1, 1, 1, 1)
 const HIDDEN = Color(1, 1, 1, 0)
 
 @export var gate_events: GateEvents
+@export var history: History
 @export var root: TextureButton
+@export var reload: Button
+@export var wait: Button
 @export var fade_in: float = 1.0
 @export var fade_out: float = 0.2
 
@@ -13,7 +16,9 @@ var tween: Tween
 
 func _ready() -> void:
 	gate_events.not_responding.connect(show_message)
+	reload.pressed.connect(reload_gate)
 	root.pressed.connect(hide_message)
+	wait.pressed.connect(hide_message)
 	
 	visible = true
 	root.hide()
@@ -45,3 +50,9 @@ func hide_message() -> void:
 	await tween.finished
 	
 	root.hide()
+
+
+func reload_gate() -> void:
+	var location = history.get_current()
+	if Url.is_valid(location):
+		gate_events.open_gate_emit(location)

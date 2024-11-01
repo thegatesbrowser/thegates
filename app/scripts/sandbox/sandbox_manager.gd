@@ -67,7 +67,7 @@ func start_sandbox_windows(gate: Gate) -> void:
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
 	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DIM_GRAY)
 	
-	var pipe = OS.execute_with_pipe(snbx_executable.start, args, false)
+	var pipe = OS.execute_with_pipe(snbx_executable.path, args, false)
 	snbx_logger.start(pipe, gate)
 	snbx_pid = pipe["pid"]
 	
@@ -88,7 +88,7 @@ func start_sandbox_macos(gate: Gate) -> void:
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
 	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DIM_GRAY)
 	
-	var pipe = OS.execute_with_pipe(snbx_executable.start, args, false)
+	var pipe = OS.execute_with_pipe(snbx_executable.path, args, false)
 	snbx_logger.start(pipe, gate)
 	snbx_pid = pipe["pid"]
 	

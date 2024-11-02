@@ -17,7 +17,7 @@ corner_radius_bottom_left = 16
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 16
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o4otx"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pc71t"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ke42a"]
 
@@ -130,7 +130,7 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("2_ugt55")
 theme_override_font_sizes/font_size = 20
-theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_o4otx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pc71t")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_ke42a")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_8wfqm")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_lr7et")
@@ -141,7 +141,7 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("2_ugt55")
 theme_override_font_sizes/font_size = 20
-theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_o4otx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pc71t")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_ke42a")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_8wfqm")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_lr7et")

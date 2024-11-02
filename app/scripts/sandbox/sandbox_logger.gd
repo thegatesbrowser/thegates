@@ -16,6 +16,7 @@ var log_file: FileAccess
 var pipe: Dictionary
 var gate: Gate
 
+var last_log_tick: int
 var print_logs: bool
 var logs_sent: bool
 
@@ -31,6 +32,7 @@ func _ready() -> void:
 func start(_pipe: Dictionary, _gate: Gate) -> void:
 	pipe = _pipe
 	gate = _gate
+	last_log_tick = Time.get_ticks_msec()
 	
 	create_log_file()
 	start_reading_pipes()
@@ -81,6 +83,7 @@ func read_stderr() -> void:
 func store_buffer(buffer: PackedByteArray) -> void:
 	if print_logs: printraw(buffer.get_string_from_utf8())
 	log_file.store_buffer(buffer)
+	last_log_tick = Time.get_ticks_msec()
 
 
 func cleanup() -> void:

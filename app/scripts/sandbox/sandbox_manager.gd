@@ -17,22 +17,28 @@ func _ready() -> void:
 
 
 func start_sandbox(gate: Gate) -> void:
+	var pipe: Dictionary
 	match Platform.get_platform():
 		Platform.WINDOWS:
-			start_sandbox_windows(gate)
+			pipe = start_sandbox_windows(gate)
 		Platform.LINUX_BSD:
-			start_sandbox_linux(gate)
+			pipe = start_sandbox_linux(gate)
 		Platform.MACOS:
-			start_sandbox_macos(gate)
+			pipe = start_sandbox_macos(gate)
 		_:
 			assert(false, "Platform is not supported")
+	if pipe.is_empty(): return
+	
+	snbx_pid = pipe["pid"]
+	snbx_logger.call_thread_safe("start", pipe, gate)
+	gate_events.gate_entered_emit()
 
 
-func start_sandbox_linux(gate: Gate) -> void:
+func start_sandbox_linux(gate: Gate) -> Dictionary:
 	if not snbx_executable.exists():
-		Debug.logerr("Sandbox executable not found at " + snbx_executable.path); return
+		Debug.logerr("Sandbox executable not found at " + snbx_executable.path); return {}
 	if not snbx_env.zip_exists():
-		Debug.logerr("Sandbox environment not found at " + snbx_env.zip_path); return
+		Debug.logerr("Sandbox environment not found at " + snbx_env.zip_path); return {}
 	
 	snbx_env.create_env(snbx_executable.path, gate)
 	
@@ -42,18 +48,14 @@ func start_sandbox_linux(gate: Gate) -> void:
 		"--resolution", "%dx%d" % [render_result.width, render_result.height],
 		"--verbose"
 	]
+	
 	Debug.logclr(snbx_env.start + " " + " ".join(args), Color.DIM_GRAY)
-	
-	var pipe = OS.execute_with_pipe(snbx_env.start, args, false)
-	snbx_logger.start(pipe, gate)
-	snbx_pid = pipe["pid"]
-	
-	gate_events.gate_entered_emit()
+	return OS.execute_with_pipe(snbx_env.start, args)
 
 
-func start_sandbox_windows(gate: Gate) -> void:
+func start_sandbox_windows(gate: Gate) -> Dictionary:
 	if not snbx_executable.exists():
-		Debug.logerr("Sandbox executable not found at " + snbx_executable.path); return
+		Debug.logerr("Sandbox executable not found at " + snbx_executable.path); return {}
 	
 	DirAccess.make_dir_recursive_absolute(IPC_FOLDER) # TODO: move to snbx_env
 	
@@ -65,18 +67,14 @@ func start_sandbox_windows(gate: Gate) -> void:
 		"--verbose"
 	]
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
+	
 	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DIM_GRAY)
-	
-	var pipe = OS.execute_with_pipe(snbx_executable.path, args, false)
-	snbx_logger.start(pipe, gate)
-	snbx_pid = pipe["pid"]
-	
-	gate_events.gate_entered_emit()
+	return OS.execute_with_pipe(snbx_executable.path, args)
 
 
-func start_sandbox_macos(gate: Gate) -> void:
+func start_sandbox_macos(gate: Gate) -> Dictionary:
 	if not snbx_executable.exists():
-		Debug.logerr("Sandbox executable not found at " + snbx_executable.path); return
+		Debug.logerr("Sandbox executable not found at " + snbx_executable.path); return {}
 	
 	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
 	var shared_libs = ProjectSettings.globalize_path(gate.shared_libs_dir)
@@ -86,13 +84,9 @@ func start_sandbox_macos(gate: Gate) -> void:
 		"--verbose"
 	]
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
+	
 	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DIM_GRAY)
-	
-	var pipe = OS.execute_with_pipe(snbx_executable.path, args, false)
-	snbx_logger.start(pipe, gate)
-	snbx_pid = pipe["pid"]
-	
-	gate_events.gate_entered_emit()
+	return OS.execute_with_pipe(snbx_executable.path, args)
 
 
 func kill_sandbox() -> void:
@@ -105,6 +99,8 @@ func kill_sandbox() -> void:
 			kill_sandbox_macos()
 		_:
 			assert(false, "Platform is not supported")
+	
+	snbx_logger.call_thread_safe("cleanup")
 
 
 func kill_sandbox_linux() -> void:

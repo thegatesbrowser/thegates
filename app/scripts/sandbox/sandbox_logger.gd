@@ -7,6 +7,7 @@ class_name SandboxLogger
 const LOG_FOLDER := "user://logs"
 const LOG_FILE := "log.txt"
 const PRINT_LOGS_ARG := "--sandbox-logs"
+const BUFFER_SIZE = 2048
 const FLUSH_DELAY = 5
 
 var flush_timer: Timer
@@ -16,8 +17,10 @@ var pipe: Dictionary
 var gate: Gate
 
 var print_logs: bool
-var is_started: bool
 var logs_sent: bool
+
+var thread1: Thread = Thread.new()
+var thread2: Thread = Thread.new()
 
 
 func _ready() -> void:
@@ -28,25 +31,68 @@ func _ready() -> void:
 func start(_pipe: Dictionary, _gate: Gate) -> void:
 	pipe = _pipe
 	gate = _gate
-	is_started = true
 	
-	var path = LOG_FOLDER + "/" + get_folder_name(gate.url) + "/" + LOG_FILE
+	create_log_file()
+	start_reading_pipes()
+	start_flushing_logs()
+
+
+func create_log_file() -> void:
+	var folder = gate.url.replace("http://", "").replace("https://", "").replace(".gate", "")
+	folder = folder.replace(":", "_") # remove ':' before port
+	
+	var path = LOG_FOLDER + "/" + folder + "/" + LOG_FILE
 	var global_path = ProjectSettings.globalize_path(path)
 	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
 	
 	log_file = FileAccess.open(path, FileAccess.WRITE_READ)
 	Debug.logclr("Logs written to [url]%s[/url]" % [global_path], Color.GRAY)
+
+
+# READING FROM PIPES
+
+func start_reading_pipes() -> void:
+	thread1 = Thread.new()
+	thread2 = Thread.new()
+	thread1.start(read_stdio)
+	thread2.start(read_stderr)
+
+
+func read_stdio() -> void:
+	var stdio = pipe["stdio"] as FileAccess
+	var buffer: PackedByteArray
 	
-	start_flush_timer()
+	while stdio.is_open():
+		buffer = stdio.get_buffer(BUFFER_SIZE)
+		if not buffer.is_empty():
+			store_buffer.call_deferred(buffer)
 
 
-func get_folder_name(url: String) -> String:
-	var folder = gate.url.replace("http://", "").replace("https://", "").replace(".gate", "")
-	folder = folder.replace(":", "_") # remove ':' before port
-	return folder
+func read_stderr() -> void:
+	var stderr = pipe["stderr"] as FileAccess
+	var buffer: PackedByteArray
+	
+	while stderr.is_open():
+		buffer = stderr.get_buffer(BUFFER_SIZE)
+		if not buffer.is_empty():
+			store_buffer.call_deferred(buffer)
 
 
-func start_flush_timer() -> void:
+func store_buffer(buffer: PackedByteArray) -> void:
+	if print_logs: printraw(buffer.get_string_from_utf8())
+	log_file.store_buffer(buffer)
+
+
+func cleanup() -> void:
+	pipe["stdio"].close()
+	pipe["stderr"].close()
+	if thread1 != null: thread1.wait_to_finish()
+	if thread2 != null: thread2.wait_to_finish()
+
+
+# FLUSH AND SEND LOGS
+
+func start_flushing_logs() -> void:
 	flush_timer = Timer.new()
 	add_child(flush_timer)
 	flush_timer.timeout.connect(flush_logs)
@@ -54,34 +100,12 @@ func start_flush_timer() -> void:
 
 
 func flush_logs() -> void:
-	if not log_file.is_open(): return
+	if log_file == null or not log_file.is_open(): return
 	log_file.flush()
 
 
-func _process(_delta: float) -> void:
-	if not is_started: return
-	
-	if pipe["stdio"].is_open():
-		var buffer = PackedByteArray()
-		
-		while true:
-			buffer.append_array(pipe["stdio"].get_buffer(2048))
-			if pipe["stdio"].get_error() != OK:
-				break;
-		
-		while true:
-			buffer.append_array(pipe["stderr"].get_buffer(2048))
-			if pipe["stderr"].get_error() != OK:
-				break;
-		
-		if !buffer.is_empty():
-			if print_logs: printraw(buffer.get_string_from_utf8())
-			log_file.store_buffer(buffer)
-
-
 func send_logs() -> void:
-	if not is_started: return
-	if logs_sent: return
+	if log_file == null or logs_sent: return
 	logs_sent = true
 	
 	flush_logs()

@@ -87,10 +87,10 @@ func store_buffer(buffer: PackedByteArray) -> void:
 
 
 func cleanup() -> void:
-	pipe["stdio"].close()
-	pipe["stderr"].close()
-	if thread1 != null: thread1.wait_to_finish()
-	if thread2 != null: thread2.wait_to_finish()
+	if pipe.has("stdio"): pipe["stdio"].close()
+	if pipe.has("stderr"): pipe["stderr"].close()
+	if thread1 != null and thread1.is_started(): thread1.wait_to_finish()
+	if thread2 != null and thread2.is_started(): thread2.wait_to_finish()
 
 
 # FLUSH AND SEND LOGS

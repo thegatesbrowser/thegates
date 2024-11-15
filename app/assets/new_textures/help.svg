@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="96"
+   height="96"
+   viewBox="0 0 96 96"
+   sodipodi:docname="5_help.svg"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="8.2604167"
+     inkscape:cx="47.93947"
+     inkscape:cy="48"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <defs
+     id="defs1" />
+  <g
+     id="g1"
+     transform="matrix(0.89092716,0,0,0.89092252,5.234802,5.2348408)"
+     style="stroke-width:1.12243">
+    <path
+       style="display:inline;fill:none;stroke:#ffffff;stroke-width:8.97943;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       d="M 68.765026,86.803101 92,92 87.363893,67.677255"
+       id="path3" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:8.97943;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:normal"
+       id="path4"
+       transform="matrix(0.49999583,0.86602781,-0.866023,0.50000417,0,0)"
+       d="M 109.55318,-16.180385 A 44.009815,44.009941 0 0 1 70.932468,26.11372 44.009815,44.009941 0 0 1 23.221626,-5.5725856 44.009815,44.009941 0 0 1 47.225416,-57.574261 44.009815,44.009941 0 0 1 102.29018,-41.819439" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:8.97943;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:normal"
+       d="M 29.698485,40 H 68.589358"
+       id="path5" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:8.97943;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:normal"
+       d="M 38.714096,57 H 69.296464"
+       id="path6" />
+  </g>
+</svg>

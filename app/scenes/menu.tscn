@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://5btb7nvgmfhl"]
+[gd_scene load_steps=28 format=3 uid="uid://5btb7nvgmfhl"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/menu_navigation.gd" id="1_7anvm"]
 [ext_resource type="Script" path="res://scripts/ui/menu/menu.gd" id="1_o6vga"]
@@ -7,7 +7,7 @@
 [ext_resource type="Resource" uid="uid://bqgikyax6jfqa" path="res://resources/history.tres" id="3_wi554"]
 [ext_resource type="Texture2D" uid="uid://c80732g67qmvx" path="res://assets/new_textures/plus.svg" id="4_rdyyc"]
 [ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://scenes/components/search.tscn" id="5_li2do"]
-[ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/button.tscn" id="6_gxcmo"]
+[ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/round_button.tscn" id="6_gxcmo"]
 [ext_resource type="Script" path="res://scripts/ui/fullscreen_animation.gd" id="7_1hi62"]
 [ext_resource type="Texture2D" uid="uid://d1ehc1xs5hwyn" path="res://assets/new_textures/minimize.svg" id="7_ab04l"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="8_8dnbq"]
@@ -21,6 +21,10 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pveoh"]
 bg_color = Color(0.0980392, 0.101961, 0.133333, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qg3ls"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eo1gx"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cjjfu"]
 
@@ -183,7 +187,10 @@ custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_colors/icon_normal_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qg3ls")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_eo1gx")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_cjjfu")
+disabled = true
 icon = ExtResource("4_rdyyc")
 expand_icon = true
 

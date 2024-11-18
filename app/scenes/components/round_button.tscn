@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://xagbhqfidf2"]
+
+[ext_resource type="StyleBox" uid="uid://b4j4kd2p3aypx" path="res://assets/styles/button.stylebox" id="1_6dhuv"]
+[ext_resource type="StyleBox" uid="uid://ck127amfs72dv" path="res://assets/styles/button_hover.stylebox" id="2_3cilb"]
+[ext_resource type="Texture2D" uid="uid://bevejhgdw7mey" path="res://assets/new_textures/close.svg" id="3_t5vxw"]
+[ext_resource type="Script" path="res://scripts/ui/menu/round_button.gd" id="4_7t145"]
+
+[node name="RoundButton" type="Button"]
+texture_filter = 4
+custom_minimum_size = Vector2(26, 26)
+size_flags_vertical = 4
+theme_override_colors/icon_normal_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_colors/icon_disabled_color = Color(0.431373, 0.435294, 0.494118, 1)
+theme_override_styles/focus = ExtResource("1_6dhuv")
+theme_override_styles/disabled = ExtResource("1_6dhuv")
+theme_override_styles/hover = ExtResource("2_3cilb")
+theme_override_styles/pressed = ExtResource("1_6dhuv")
+theme_override_styles/normal = ExtResource("1_6dhuv")
+icon = ExtResource("3_t5vxw")
+expand_icon = true
+script = ExtResource("4_7t145")

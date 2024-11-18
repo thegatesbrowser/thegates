@@ -16,11 +16,11 @@
      transform="matrix(0.88571429,0,0,0.88571429,3.6571437,3.6571437)"
      style="stroke-width:1.12903">
     <path
-       style="fill:#ffffff;stroke:#ffffff;stroke-width:9.03226;stroke-linecap:round;stroke-miterlimit:4.7"
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:6.77419352;stroke-linecap:round;stroke-miterlimit:4.7;stroke-dasharray:none"
        d="M 12.20101,12.20101 51.79899,51.79899"
        id="path1" />
     <path
-       style="fill:#ffffff;stroke:#ffffff;stroke-width:9.03226;stroke-linecap:round;stroke-miterlimit:4.7"
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:6.77419352;stroke-linecap:round;stroke-miterlimit:4.7;stroke-dasharray:none"
        d="M 51.79899,12.20101 12.20101,51.79899"
        id="path2" />
   </g>

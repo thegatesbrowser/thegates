@@ -3,10 +3,10 @@ extends Node
 @export var gate_events: GateEvents
 @export var history: History
 
-@export var go_back: BaseButton
-@export var go_forw: BaseButton
-@export var reload: BaseButton
-@export var home: BaseButton
+@export var go_back: RoundButton
+@export var go_forw: RoundButton
+@export var reload: RoundButton
+@export var home: RoundButton
 
 
 func _ready() -> void:
@@ -66,15 +66,11 @@ func open(location: String) -> void:
 		gate_events.search_emit(location)
 
 
-func disable(buttons: Array[BaseButton]) -> void:
+func disable(buttons: Array[RoundButton]) -> void:
 	for button in buttons:
-		button.disabled = true
-		button.modulate.a = 0.5
-		button.mouse_default_cursor_shape = Control.CURSOR_ARROW
+		button.disable()
 
 
-func enable(buttons: Array[BaseButton]) -> void:
+func enable(buttons: Array[RoundButton]) -> void:
 	for button in buttons:
-		button.disabled = false
-		button.modulate.a = 1
-		button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		button.enable()

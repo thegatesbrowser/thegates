@@ -15,12 +15,12 @@
      id="g1"
      transform="rotate(180,30.4,29.825)">
     <path
-       style="fill:none;stroke:#ffffff;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       style="fill:none;stroke:#ffffff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none"
        d="m 4,29.691467 49.6,0.267067"
        id="path1" />
     <path
-       style="fill:none;stroke:#ffffff;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
-       d="M 36.771429,14.25 53.6,29.825 36.771429,45.4"
+       style="fill:none;stroke:#ffffff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       d="M 34.771,12.25 53.6,29.825 34.771,47.4"
        id="path2" />
   </g>
 </svg>

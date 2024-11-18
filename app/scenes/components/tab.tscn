@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dkfy3rcfbxqc6"]
+[gd_scene load_steps=9 format=3 uid="uid://dkfy3rcfbxqc6"]
 
 [ext_resource type="StyleBox" uid="uid://cf4jgdfsjmjxl" path="res://assets/styles/tab.stylebox" id="1_8hbf0"]
 [ext_resource type="Texture2D" uid="uid://bw1cffhlt112i" path="res://assets/new_textures/icon-round.svg" id="1_jc4ra"]
@@ -10,6 +10,10 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lq3t8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hghgl"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_id0w2"]
 
@@ -78,6 +82,9 @@ custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_colors/icon_normal_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_lq3t8")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_hghgl")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_id0w2")
+disabled = true
 icon = ExtResource("2_y6odh")
 expand_icon = true

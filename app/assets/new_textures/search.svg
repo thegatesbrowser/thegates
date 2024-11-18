@@ -7,30 +7,8 @@
    width="64"
    height="64"
    viewBox="0 0 64 64"
-   sodipodi:docname="5_search.svg"
-   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#505050"
-     bordercolor="#eeeeee"
-     borderopacity="1"
-     inkscape:showpageshadow="0"
-     inkscape:pageopacity="0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#505050"
-     inkscape:zoom="6.1953125"
-     inkscape:cx="16.141236"
-     inkscape:cy="33.654477"
-     inkscape:window-width="1920"
-     inkscape:window-height="1011"
-     inkscape:window-x="0"
-     inkscape:window-y="32"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
   <defs
      id="defs1" />
   <g
@@ -38,13 +16,13 @@
      transform="matrix(0.88571432,0,0,0.88571432,3.657142,3.657142)"
      style="stroke-width:1.12903">
     <circle
-       style="display:inline;fill:none;stroke:#ffffff;stroke-width:9.03226;stroke-linecap:round;stroke-linejoin:round"
+       style="display:inline;fill:none;stroke:#ffffff;stroke-width:6.77419329;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
        id="path1"
        cx="29.000002"
        cy="29.000002"
        r="25" />
     <path
-       style="fill:none;stroke:#ffffff;stroke-width:9.03226;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:none;stroke:#ffffff;stroke-width:6.77419329;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
        d="M 60,60 47,47"
        id="path2" />
   </g>

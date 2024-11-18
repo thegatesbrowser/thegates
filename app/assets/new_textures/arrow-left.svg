@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="64"
+   height="64"
+   viewBox="0 0 64 64"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="g1"
+     transform="rotate(180,30.4,29.825)">
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       d="m 4,29.691467 49.6,0.267067"
+       id="path1" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       d="M 36.771429,14.25 53.6,29.825 36.771429,45.4"
+       id="path2" />
+  </g>
+</svg>

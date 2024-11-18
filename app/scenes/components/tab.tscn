@@ -1,0 +1,83 @@
+[gd_scene load_steps=7 format=3 uid="uid://dkfy3rcfbxqc6"]
+
+[ext_resource type="StyleBox" uid="uid://cf4jgdfsjmjxl" path="res://assets/styles/tab.stylebox" id="1_8hbf0"]
+[ext_resource type="Texture2D" uid="uid://bw1cffhlt112i" path="res://assets/new_textures/icon-round.svg" id="1_jc4ra"]
+[ext_resource type="LabelSettings" uid="uid://bo2334w4lf3ug" path="res://assets/styles/text.tres" id="2_gll4d"]
+[ext_resource type="Texture2D" uid="uid://cli88m5w3op6l" path="res://assets/new_textures/close-tab.svg" id="2_y6odh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_33kce"]
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_id0w2"]
+
+[node name="Tab" type="Control"]
+custom_minimum_size = Vector2(180, 32)
+layout_mode = 3
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -16.0
+offset_right = 180.0
+offset_bottom = 16.0
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_8hbf0")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_right = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer"]
+clip_children = 1
+custom_minimum_size = Vector2(19, 19)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_33kce")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/Panel"]
+texture_filter = 6
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+texture = ExtResource("1_jc4ra")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "New Tab"
+label_settings = ExtResource("2_gll4d")
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/icon_normal_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_id0w2")
+icon = ExtResource("2_y6odh")
+expand_icon = true

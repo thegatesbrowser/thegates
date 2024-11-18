@@ -14,9 +14,9 @@ dest_files=["res://.godot/imported/Inter-Regular.otf-f352c7616b1c2d50404f5bb3f48
 
 Rendering=null
 antialiasing=1
-generate_mipmaps=false
+generate_mipmaps=true
 disable_embedded_bitmaps=true
-multichannel_signed_distance_field=false
+multichannel_signed_distance_field=true
 msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true

@@ -14,9 +14,9 @@ dest_files=["res://.godot/imported/Inter-BoldItalic.otf-fc2a2d62a96e28426d3bc0af
 
 Rendering=null
 antialiasing=1
-generate_mipmaps=false
+generate_mipmaps=true
 disable_embedded_bitmaps=true
-multichannel_signed_distance_field=false
+multichannel_signed_distance_field=true
 msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true

@@ -23,16 +23,16 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyysn"]
 content_margin_left = 40.0
 content_margin_right = 40.0
-bg_color = Color(0.207843, 0.164706, 0.47451, 1)
+bg_color = Color(0.0862745, 0.0901961, 0.117647, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.176471, 0.14902, 0.352941, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(0.0823529, 0.0823529, 0.105882, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 corner_detail = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mh73y"]
@@ -50,25 +50,22 @@ corner_detail = 10
 
 [node name="Search" type="LineEdit" node_paths=PackedStringArray("prompt_panel")]
 auto_translate_mode = 2
-custom_minimum_size = Vector2(1000, 40)
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 14
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -500.0
-offset_top = -20.0
-offset_right = 500.0
-offset_bottom = 20.0
+offset_top = -16.5
+offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
 localize_numeral_system = false
 focus_next = NodePath("Prompt")
 focus_mode = 1
-theme_override_colors/font_placeholder_color = Color(1, 1, 1, 0.498039)
-theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+theme_override_colors/font_placeholder_color = Color(0.431373, 0.435294, 0.494118, 1)
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_fonts/font = ExtResource("1_cimak")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = SubResource("StyleBoxFlat_hyysn")
 theme_override_styles/normal = SubResource("StyleBoxFlat_hyysn")
 placeholder_text = "Search or enter address"
@@ -77,7 +74,7 @@ gate_events = ExtResource("2_13io8")
 prompt_panel = NodePath("Prompt/Panel")
 
 [node name="SearchStatus" type="Control" parent="." node_paths=PackedStringArray("search_line_edit", "search", "downloading", "success", "error")]
-self_modulate = Color(1, 1, 1, 0.8)
+self_modulate = Color(0.831373, 0.831373, 0.831373, 1)
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5

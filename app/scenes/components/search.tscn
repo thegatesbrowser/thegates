@@ -339,6 +339,7 @@ search = NodePath("..")
 prompt_results = NodePath("Panel/VBoxContainer")
 
 [node name="Panel" type="Panel" parent="Prompt" node_paths=PackedStringArray("search_le")]
+visible = false
 top_level = true
 layout_mode = 1
 anchors_preset = 5

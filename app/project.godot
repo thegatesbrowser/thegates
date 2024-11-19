@@ -14,8 +14,8 @@ config/name="TheGates"
 config/description="Building new Internet"
 config/tags=PackedStringArray("thegates")
 run/main_scene="res://scenes/app.tscn"
+run/enable_alt_space_menu=true
 config/features=PackedStringArray("4.3")
-run/max_fps=144
 boot_splash/bg_color=Color(0, 0, 0, 0)
 boot_splash/show_image=false
 config/icon="res://app_icon/icon.svg"
@@ -35,6 +35,7 @@ Backend="*res://scripts/api/backend.gd"
 
 [debug]
 
+file_logging/enable_file_logging=true
 gdscript/warnings/integer_division=0
 
 [display]
@@ -45,10 +46,12 @@ window/size/mode=2
 window/size/borderless=true
 window/size/transparent=true
 window/energy_saving/keep_screen_on=false
-window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/per_pixel_transparency/allowed=true
-window/vsync/vsync_mode=3
+
+[editor]
+
+naming/script_name_casing=2
 
 [gui]
 
@@ -67,13 +70,16 @@ open_debug={
 ]
 }
 
-[physics]
+[input_devices]
 
-2d/physics_engine="GodotPhysics2D"
-3d/physics_engine="GodotPhysics3D"
+buffering/agile_event_flushing=true
+
+[network]
+
+limits/tcp/connect_timeout_seconds=10
 
 [rendering]
 
 textures/canvas_textures/default_texture_filter=2
 textures/vram_compression/import_etc2_astc=true
-textures/default_filters/anisotropic_filtering_level=1
+textures/default_filters/use_nearest_mipmap_filter=true

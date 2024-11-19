@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://mgtj316adcja"
-path.s3tc="res://.godot/imported/home.svg-030ca5f1db8a755cd4cb191482f98ae3.s3tc.ctex"
-path.etc2="res://.godot/imported/home.svg-030ca5f1db8a755cd4cb191482f98ae3.etc2.ctex"
+uid="uid://yn1l3ybpr7qv"
+path.s3tc="res://.godot/imported/menu.svg-c73b5f81f5b5e8b51e5be4983b436a57.s3tc.ctex"
+path.etc2="res://.godot/imported/menu.svg-c73b5f81f5b5e8b51e5be4983b436a57.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/new_textures/home.svg"
-dest_files=["res://.godot/imported/home.svg-030ca5f1db8a755cd4cb191482f98ae3.s3tc.ctex", "res://.godot/imported/home.svg-030ca5f1db8a755cd4cb191482f98ae3.etc2.ctex"]
+source_file="res://assets/textures/menu.svg"
+dest_files=["res://.godot/imported/menu.svg-c73b5f81f5b5e8b51e5be4983b436a57.s3tc.ctex", "res://.godot/imported/menu.svg-c73b5f81f5b5e8b51e5be4983b436a57.etc2.ctex"]
 
 [params]
 

@@ -1,34 +1,34 @@
-[gd_scene load_steps=22 format=3 uid="uid://ctam0fxigbefk"]
+[gd_scene load_steps=20 format=3 uid="uid://ctam0fxigbefk"]
 
 [ext_resource type="Script" path="res://scripts/ui/search.gd" id="1_7ivk2"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_cimak"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_13io8"]
-[ext_resource type="Texture2D" uid="uid://c28surtqjf4st" path="res://assets/textures/search.svg" id="3_1rllf"]
 [ext_resource type="Script" path="res://scripts/ui/search/search_status.gd" id="3_3p1re"]
-[ext_resource type="Script" path="res://scripts/ui/search_go.gd" id="3_eayvw"]
-[ext_resource type="Texture2D" uid="uid://byvigfpu44dnu" path="res://assets/textures/arrow.svg" id="5_dqxpp"]
+[ext_resource type="Texture2D" uid="uid://byrcelmfy6r3l" path="res://assets/textures/search.svg" id="5_553np"]
 [ext_resource type="Script" path="res://scripts/ui/search/download_animation.gd" id="6_fn1n3"]
 [ext_resource type="Script" path="res://scripts/ui/menu/star.gd" id="6_iyikx"]
 [ext_resource type="Texture2D" uid="uid://cx3xxaqo3s3eq" path="res://assets/textures/gate.svg" id="6_twd8p"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="7_2mijb"]
-[ext_resource type="Texture2D" uid="uid://dystd8vvbqwo2" path="res://assets/textures/exit.svg" id="7_jllve"]
-[ext_resource type="Texture2D" uid="uid://btn6ytky782a2" path="res://assets/textures/star.svg" id="8_b00p6"]
-[ext_resource type="Texture2D" uid="uid://lxx36xkotvh1" path="res://assets/textures/star_filled.svg" id="9_2en0l"]
+[ext_resource type="Texture2D" uid="uid://cli88m5w3op6l" path="res://assets/textures/close-tab.svg" id="8_sk5cp"]
+[ext_resource type="Texture2D" uid="uid://c7ljriip50hte" path="res://assets/textures/star.svg" id="13_ojxfq"]
 [ext_resource type="Script" path="res://scripts/ui/search/prompt_results.gd" id="14_0lofv"]
+[ext_resource type="Texture2D" uid="uid://itloduvrh00o" path="res://assets/textures/star-color.svg" id="14_fpi5q"]
 [ext_resource type="Script" path="res://scripts/ui/search/prompt_navigation.gd" id="14_h86vl"]
 [ext_resource type="Script" path="res://scripts/ui/search/fix_promt_position.gd" id="15_35wcy"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="15_uafyh"]
 [ext_resource type="PackedScene" uid="uid://b57n6cvtqn5b7" path="res://scenes/components/prompt.tscn" id="16_lbcsd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyysn"]
-content_margin_left = 40.0
-content_margin_right = 40.0
+content_margin_left = 32.0
+content_margin_top = 3.0
+content_margin_right = 30.0
 bg_color = Color(0.0862745, 0.0901961, 0.117647, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.0823529, 0.0823529, 0.105882, 1)
+border_blend = true
 corner_radius_top_left = 15
 corner_radius_top_right = 15
 corner_radius_bottom_right = 15
@@ -36,16 +36,17 @@ corner_radius_bottom_left = 15
 corner_detail = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mh73y"]
-bg_color = Color(0.207843, 0.164706, 0.47451, 1)
+bg_color = Color(0.0862745, 0.0901961, 0.117647, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.176471, 0.14902, 0.352941, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(0.0823529, 0.0823529, 0.105882, 1)
+border_blend = true
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 corner_detail = 10
 
 [node name="Search" type="LineEdit" node_paths=PackedStringArray("prompt_panel")]
@@ -65,23 +66,23 @@ focus_mode = 1
 theme_override_colors/font_placeholder_color = Color(0.431373, 0.435294, 0.494118, 1)
 theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_fonts/font = ExtResource("1_cimak")
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 15
 theme_override_styles/focus = SubResource("StyleBoxFlat_hyysn")
 theme_override_styles/normal = SubResource("StyleBoxFlat_hyysn")
-placeholder_text = "Search or enter address"
+placeholder_text = "Search or type URL"
 script = ExtResource("1_7ivk2")
 gate_events = ExtResource("2_13io8")
 prompt_panel = NodePath("Prompt/Panel")
 
 [node name="SearchStatus" type="Control" parent="." node_paths=PackedStringArray("search_line_edit", "search", "downloading", "success", "error")]
-self_modulate = Color(0.831373, 0.831373, 0.831373, 1)
+modulate = Color(0.431373, 0.435294, 0.494118, 1)
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 12.0
+offset_left = 10.0
 offset_top = -8.0
-offset_right = 28.0
+offset_right = 26.0
 offset_bottom = 8.0
 grow_vertical = 2
 mouse_filter = 1
@@ -92,21 +93,21 @@ search = NodePath("Search")
 downloading = NodePath("Downloading")
 success = NodePath("Success")
 error = NodePath("Error")
+white = Color(0.831373, 0.831373, 0.831373, 1)
+gray = Color(0.431373, 0.435294, 0.494118, 1)
 
 [node name="Search" type="TextureRect" parent="SearchStatus"]
-self_modulate = Color(1, 1, 1, 0.8)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_1rllf")
+texture = ExtResource("5_553np")
 expand_mode = 1
 
 [node name="Downloading" type="TextureRect" parent="SearchStatus"]
 visible = false
-self_modulate = Color(1, 1, 1, 0.8)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -117,13 +118,12 @@ pivot_offset = Vector2(8, 8)
 texture = ExtResource("6_twd8p")
 expand_mode = 1
 script = ExtResource("6_fn1n3")
+start_scale = 1.0
+end_scale = 0.5
 duration = 0.5
-start_scale = 0.5
-end_scale = 1.0
 
 [node name="Success" type="TextureRect" parent="SearchStatus"]
 visible = false
-self_modulate = Color(1, 1, 1, 0.8)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -135,17 +135,35 @@ expand_mode = 1
 
 [node name="Error" type="TextureRect" parent="SearchStatus"]
 visible = false
-self_modulate = Color(1, 1, 1, 0.8)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("7_jllve")
+texture = ExtResource("8_sk5cp")
 expand_mode = 1
 
-[node name="Go" type="BaseButton" parent="."]
+[node name="Bookmark" type="Control" parent="." node_paths=PackedStringArray("star", "unstar")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -28.0
+offset_top = -10.0
+offset_right = -8.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("6_iyikx")
+gate_events = ExtResource("2_13io8")
+bookmarks = ExtResource("7_2mijb")
+star = NodePath("Star")
+unstar = NodePath("Unstar")
+
+[node name="Star" type="BaseButton" parent="Bookmark"]
 _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
@@ -174,20 +192,20 @@ clip_contents = false
 custom_minimum_size = Vector2(0, 0)
 layout_direction = 0
 layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -30.0
-offset_top = -10.0
-offset_right = -10.0
-offset_bottom = 10.0
-grow_horizontal = 0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
 grow_vertical = 2
 rotation = 0.0
 scale = Vector2(1, 1)
-pivot_offset = Vector2(20, 20)
+pivot_offset = Vector2(0, 0)
 size_flags_horizontal = 1
 size_flags_vertical = 1
 size_flags_stretch_ratio = 1.0
@@ -215,39 +233,20 @@ button_group = null
 shortcut = null
 shortcut_feedback = true
 shortcut_in_tooltip = true
-script = ExtResource("3_eayvw")
-gate_events = ExtResource("2_13io8")
+script = null
 
-[node name="TextureRect" type="TextureRect" parent="Go"]
-self_modulate = Color(1, 1, 1, 0.8)
-layout_mode = 0
+[node name="TextureRect" type="TextureRect" parent="Bookmark/Star"]
+self_modulate = Color(0.831373, 0.831373, 0.831373, 1)
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_dqxpp")
+texture = ExtResource("13_ojxfq")
 expand_mode = 1
 
-[node name="Bookmark" type="Control" parent="." node_paths=PackedStringArray("star", "unstar")]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -30.0
-offset_top = -10.0
-offset_right = -10.0
-offset_bottom = 10.0
-grow_horizontal = 0
-grow_vertical = 2
-script = ExtResource("6_iyikx")
-gate_events = ExtResource("2_13io8")
-bookmarks = ExtResource("7_2mijb")
-star = NodePath("Star")
-unstar = NodePath("Unstar")
-
-[node name="Star" type="BaseButton" parent="Bookmark"]
+[node name="Unstar" type="BaseButton" parent="Bookmark"]
 _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
@@ -319,88 +318,6 @@ shortcut_feedback = true
 shortcut_in_tooltip = true
 script = null
 
-[node name="TextureRect" type="TextureRect" parent="Bookmark/Star"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("8_b00p6")
-expand_mode = 1
-
-[node name="Unstar" type="BaseButton" parent="Bookmark"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 2
-auto_translate_mode = 1
-editor_description = ""
-visible = false
-modulate = Color(1, 1, 1, 1)
-self_modulate = Color(1, 1, 1, 1)
-show_behind_parent = false
-top_level = false
-clip_children = 0
-light_mask = 1
-visibility_layer = 1
-z_index = 0
-z_as_relative = true
-y_sort_enabled = false
-texture_filter = 0
-texture_repeat = 0
-material = null
-use_parent_material = false
-clip_contents = false
-custom_minimum_size = Vector2(0, 0)
-layout_direction = 0
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 0.0
-scale = Vector2(1, 1)
-pivot_offset = Vector2(0, 0)
-size_flags_horizontal = 1
-size_flags_vertical = 1
-size_flags_stretch_ratio = 1.0
-localize_numeral_system = true
-tooltip_text = ""
-focus_neighbor_left = NodePath("")
-focus_neighbor_top = NodePath("")
-focus_neighbor_right = NodePath("")
-focus_neighbor_bottom = NodePath("")
-focus_next = NodePath("")
-focus_previous = NodePath("")
-focus_mode = 2
-mouse_filter = 0
-mouse_force_pass_scroll_events = true
-mouse_default_cursor_shape = 2
-theme = null
-theme_type_variation = &""
-disabled = false
-toggle_mode = false
-button_pressed = false
-action_mode = 1
-button_mask = 1
-keep_pressed_outside = false
-button_group = null
-shortcut = null
-shortcut_feedback = true
-shortcut_in_tooltip = true
-script = null
-
 [node name="TextureRect" type="TextureRect" parent="Bookmark/Unstar"]
 layout_mode = 1
 anchors_preset = 15
@@ -408,7 +325,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("9_2en0l")
+texture = ExtResource("14_fpi5q")
 expand_mode = 1
 
 [node name="Prompt" type="Control" parent="." node_paths=PackedStringArray("search", "prompt_results")]
@@ -421,8 +338,7 @@ script = ExtResource("14_h86vl")
 search = NodePath("..")
 prompt_results = NodePath("Panel/VBoxContainer")
 
-[node name="Panel" type="Panel" parent="Prompt"]
-visible = false
+[node name="Panel" type="Panel" parent="Prompt" node_paths=PackedStringArray("search_le")]
 top_level = true
 layout_mode = 1
 anchors_preset = 5
@@ -435,6 +351,7 @@ offset_bottom = 860.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mh73y")
 script = ExtResource("15_35wcy")
+search_le = NodePath("../..")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Prompt/Panel" node_paths=PackedStringArray("panel")]
 layout_mode = 1
@@ -450,9 +367,7 @@ api = ExtResource("15_uafyh")
 result_scene = ExtResource("16_lbcsd")
 panel = NodePath("..")
 
-[connection signal="text_changed" from="." to="Go" method="_on_search_text_changed"]
 [connection signal="text_changed" from="." to="Prompt/Panel/VBoxContainer" method="_on_search_text_changed"]
 [connection signal="text_submitted" from="." to="." method="_on_text_submitted"]
-[connection signal="pressed" from="Go" to="." method="_on_go_pressed"]
 [connection signal="pressed" from="Bookmark/Star" to="Bookmark" method="_on_star_pressed"]
 [connection signal="pressed" from="Bookmark/Unstar" to="Bookmark" method="_on_unstar_pressed"]

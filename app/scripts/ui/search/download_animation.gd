@@ -1,8 +1,8 @@
 extends TextureRect
 
-@export var duration: float
 @export var start_scale: float
 @export var end_scale: float
+@export var duration: float
 
 @onready var start := Vector2(start_scale, start_scale)
 @onready var end := Vector2(end_scale, end_scale)

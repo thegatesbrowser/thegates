@@ -8,6 +8,9 @@ extends Control
 @export var success: Control
 @export var error: Control
 
+@export var white: Color
+@export var gray: Color
+
 
 func _ready() -> void:
 	search_line_edit.text_changed.connect(func(_text): switch_to(search))
@@ -24,6 +27,11 @@ func switch_to(_state: Control) -> void:
 	disable([search, downloading, success, error])
 	_state.visible = true
 	_state.process_mode = Node.PROCESS_MODE_INHERIT
+	change_color.call_deferred()
+
+
+func change_color() -> void:
+	modulate = gray if search_line_edit.text.is_empty() else white
 
 
 func disable(states: Array[Control]) -> void:

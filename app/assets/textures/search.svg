@@ -1,61 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   viewBox="0,0,256,256"
-   width="100px"
-   height="100px"
-   fill-rule="nonzero"
    version="1.1"
-   id="svg138"
-   sodipodi:docname="search.svg"
-   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   id="svg1"
+   width="64"
+   height="64"
+   viewBox="0 0 64 64"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs142" />
-  <sodipodi:namedview
-     id="namedview140"
-     pagecolor="#505050"
-     bordercolor="#eeeeee"
-     borderopacity="1"
-     inkscape:showpageshadow="0"
-     inkscape:pageopacity="0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#505050"
-     showgrid="false"
-     inkscape:zoom="5.8831284"
-     inkscape:cx="44.619118"
-     inkscape:cy="39.51979"
-     inkscape:window-width="1920"
-     inkscape:window-height="1011"
-     inkscape:window-x="0"
-     inkscape:window-y="32"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg138" />
+     id="defs1" />
   <g
-     fill="#ffffff"
-     fill-rule="nonzero"
-     stroke="none"
-     stroke-width="1"
-     stroke-linecap="butt"
-     stroke-linejoin="miter"
-     stroke-miterlimit="10"
-     stroke-dasharray="none"
-     stroke-dashoffset="0"
-     font-family="none"
-     font-weight="none"
-     font-size="none"
-     text-anchor="none"
-     style="mix-blend-mode:normal"
-     id="g136"
-     transform="matrix(1.1730205,0,0,1.1461318,-24.02346,-17.604584)">
-    <g
-       transform="scale(5.12)"
-       id="g134">
-      <path
-         d="M 21,3 C 11.60156,3 4,10.60156 4,20 c 0,9.39844 7.60156,17 17,17 3.35547,0 6.46094,-0.98437 9.09375,-2.65625 L 42.375,46.625 46.625,42.375 34.5,30.28125 C 36.67969,27.42188 38,23.87891 38,20 38,10.60156 30.39844,3 21,3 Z m 0,4 c 7.19922,0 13,5.80078 13,13 0,7.19922 -5.80078,13 -13,13 C 13.80078,33 8,27.19922 8,20 8,12.80078 13.80078,7 21,7 Z"
-         id="path132" />
-    </g>
+     id="g1"
+     transform="matrix(0.88571432,0,0,0.88571432,3.657142,3.657142)"
+     style="stroke-width:1.12903">
+    <circle
+       style="display:inline;fill:none;stroke:#ffffff;stroke-width:6.77419329;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       id="path1"
+       cx="29.000002"
+       cy="29.000002"
+       r="25" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:6.77419329;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       d="M 60,60 47,47"
+       id="path2" />
   </g>
 </svg>

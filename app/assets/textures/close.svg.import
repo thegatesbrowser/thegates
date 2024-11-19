@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7ljriip50hte"
-path.s3tc="res://.godot/imported/star.svg-cd2a204af5c7598db5a70a08e6fab43f.s3tc.ctex"
-path.etc2="res://.godot/imported/star.svg-cd2a204af5c7598db5a70a08e6fab43f.etc2.ctex"
+uid="uid://bevejhgdw7mey"
+path.s3tc="res://.godot/imported/close.svg-2bbf7d638476fa1634995c035148cdeb.s3tc.ctex"
+path.etc2="res://.godot/imported/close.svg-2bbf7d638476fa1634995c035148cdeb.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/new_textures/star.svg"
-dest_files=["res://.godot/imported/star.svg-cd2a204af5c7598db5a70a08e6fab43f.s3tc.ctex", "res://.godot/imported/star.svg-cd2a204af5c7598db5a70a08e6fab43f.etc2.ctex"]
+source_file="res://assets/textures/close.svg"
+dest_files=["res://.godot/imported/close.svg-2bbf7d638476fa1634995c035148cdeb.s3tc.ctex", "res://.godot/imported/close.svg-2bbf7d638476fa1634995c035148cdeb.etc2.ctex"]
 
 [params]
 

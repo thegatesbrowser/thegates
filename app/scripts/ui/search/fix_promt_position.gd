@@ -1,6 +1,12 @@
 extends Control
 
+@export var search_le: LineEdit
+
 
 func _ready() -> void:
-	await get_tree().process_frame
+	search_le.resized.connect(change_size)
+
+
+func change_size() -> void:
 	global_position = get_parent().global_position
+	size.x = search_le.size.x

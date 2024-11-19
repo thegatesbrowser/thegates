@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://byrcelmfy6r3l"
-path.s3tc="res://.godot/imported/search.svg-843f43a72ccd4c8691b9f946ce93c3a0.s3tc.ctex"
-path.etc2="res://.godot/imported/search.svg-843f43a72ccd4c8691b9f946ce93c3a0.etc2.ctex"
+uid="uid://dapysvexbecnd"
+path.s3tc="res://.godot/imported/reload.svg-49e4e4e7f844f8800574945a0b3ed387.s3tc.ctex"
+path.etc2="res://.godot/imported/reload.svg-49e4e4e7f844f8800574945a0b3ed387.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/new_textures/search.svg"
-dest_files=["res://.godot/imported/search.svg-843f43a72ccd4c8691b9f946ce93c3a0.s3tc.ctex", "res://.godot/imported/search.svg-843f43a72ccd4c8691b9f946ce93c3a0.etc2.ctex"]
+source_file="res://assets/textures/reload.svg"
+dest_files=["res://.godot/imported/reload.svg-49e4e4e7f844f8800574945a0b3ed387.s3tc.ctex", "res://.godot/imported/reload.svg-49e4e4e7f844f8800574945a0b3ed387.etc2.ctex"]
 
 [params]
 

@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4dxov80fjvaq"
-path.s3tc="res://.godot/imported/arrow-left.svg-ec7ffec9a23e7e531fec72a04db83a5c.s3tc.ctex"
-path.etc2="res://.godot/imported/arrow-left.svg-ec7ffec9a23e7e531fec72a04db83a5c.etc2.ctex"
+uid="uid://csjqc48oqb0kc"
+path.s3tc="res://.godot/imported/maximaze.svg-1abee8513fb0a5381e9c922be2a32ac6.s3tc.ctex"
+path.etc2="res://.godot/imported/maximaze.svg-1abee8513fb0a5381e9c922be2a32ac6.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/new_textures/arrow-left.svg"
-dest_files=["res://.godot/imported/arrow-left.svg-ec7ffec9a23e7e531fec72a04db83a5c.s3tc.ctex", "res://.godot/imported/arrow-left.svg-ec7ffec9a23e7e531fec72a04db83a5c.etc2.ctex"]
+source_file="res://assets/textures/maximaze.svg"
+dest_files=["res://.godot/imported/maximaze.svg-1abee8513fb0a5381e9c922be2a32ac6.s3tc.ctex", "res://.godot/imported/maximaze.svg-1abee8513fb0a5381e9c922be2a32ac6.etc2.ctex"]
 
 [params]
 

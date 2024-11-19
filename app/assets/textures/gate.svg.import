@@ -3,19 +3,21 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cx3xxaqo3s3eq"
-path="res://.godot/imported/gate.svg-b8b56b580c46301f31585d4c8a52c812.ctex"
+path.s3tc="res://.godot/imported/gate.svg-b8b56b580c46301f31585d4c8a52c812.s3tc.ctex"
+path.etc2="res://.godot/imported/gate.svg-b8b56b580c46301f31585d4c8a52c812.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/gate.svg"
-dest_files=["res://.godot/imported/gate.svg-b8b56b580c46301f31585d4c8a52c812.ctex"]
+dest_files=["res://.godot/imported/gate.svg-b8b56b580c46301f31585d4c8a52c812.s3tc.ctex", "res://.godot/imported/gate.svg-b8b56b580c46301f31585d4c8a52c812.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
@@ -32,6 +34,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
+svg/scale=2.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false

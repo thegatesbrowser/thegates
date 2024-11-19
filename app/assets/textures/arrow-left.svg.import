@@ -2,20 +2,22 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://byvigfpu44dnu"
-path="res://.godot/imported/arrow.svg-96514f4c69ac07b2d55a84372671b571.ctex"
+uid="uid://c4dxov80fjvaq"
+path.s3tc="res://.godot/imported/arrow-left.svg-e09e97557315f22f98ac515f27eb476f.s3tc.ctex"
+path.etc2="res://.godot/imported/arrow-left.svg-e09e97557315f22f98ac515f27eb476f.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://assets/textures/arrow.svg"
-dest_files=["res://.godot/imported/arrow.svg-96514f4c69ac07b2d55a84372671b571.ctex"]
+source_file="res://assets/textures/arrow-left.svg"
+dest_files=["res://.godot/imported/arrow-left.svg-e09e97557315f22f98ac515f27eb476f.s3tc.ctex", "res://.godot/imported/arrow-left.svg-e09e97557315f22f98ac515f27eb476f.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
@@ -32,6 +34,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=5.0
+svg/scale=2.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false

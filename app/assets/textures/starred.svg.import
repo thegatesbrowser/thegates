@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csjqc48oqb0kc"
-path.s3tc="res://.godot/imported/maximaze.svg-829cd6f33cf65ae215e9c6dff80ba14f.s3tc.ctex"
-path.etc2="res://.godot/imported/maximaze.svg-829cd6f33cf65ae215e9c6dff80ba14f.etc2.ctex"
+uid="uid://bal06qnhvdupj"
+path.s3tc="res://.godot/imported/starred.svg-36a0f7cc2494fdef5752549b66f18b79.s3tc.ctex"
+path.etc2="res://.godot/imported/starred.svg-36a0f7cc2494fdef5752549b66f18b79.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/new_textures/maximaze.svg"
-dest_files=["res://.godot/imported/maximaze.svg-829cd6f33cf65ae215e9c6dff80ba14f.s3tc.ctex", "res://.godot/imported/maximaze.svg-829cd6f33cf65ae215e9c6dff80ba14f.etc2.ctex"]
+source_file="res://assets/textures/starred.svg"
+dest_files=["res://.godot/imported/starred.svg-36a0f7cc2494fdef5752549b66f18b79.s3tc.ctex", "res://.godot/imported/starred.svg-36a0f7cc2494fdef5752549b66f18b79.etc2.ctex"]
 
 [params]
 

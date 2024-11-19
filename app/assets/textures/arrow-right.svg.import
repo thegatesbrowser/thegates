@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bevejhgdw7mey"
-path.s3tc="res://.godot/imported/close.svg-09a5670b0b96b24cacc6a368b5b7116d.s3tc.ctex"
-path.etc2="res://.godot/imported/close.svg-09a5670b0b96b24cacc6a368b5b7116d.etc2.ctex"
+uid="uid://bo1pkhkdscf6v"
+path.s3tc="res://.godot/imported/arrow-right.svg-4ad5148b07e26c82e77e4e1faad77fe5.s3tc.ctex"
+path.etc2="res://.godot/imported/arrow-right.svg-4ad5148b07e26c82e77e4e1faad77fe5.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/new_textures/close.svg"
-dest_files=["res://.godot/imported/close.svg-09a5670b0b96b24cacc6a368b5b7116d.s3tc.ctex", "res://.godot/imported/close.svg-09a5670b0b96b24cacc6a368b5b7116d.etc2.ctex"]
+source_file="res://assets/textures/arrow-right.svg"
+dest_files=["res://.godot/imported/arrow-right.svg-4ad5148b07e26c82e77e4e1faad77fe5.s3tc.ctex", "res://.godot/imported/arrow-right.svg-4ad5148b07e26c82e77e4e1faad77fe5.etc2.ctex"]
 
 [params]
 

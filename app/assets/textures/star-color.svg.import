@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dapysvexbecnd"
-path.s3tc="res://.godot/imported/reload.svg-2fb9f77ab544444ab75e850c1447705d.s3tc.ctex"
-path.etc2="res://.godot/imported/reload.svg-2fb9f77ab544444ab75e850c1447705d.etc2.ctex"
+uid="uid://itloduvrh00o"
+path.s3tc="res://.godot/imported/star-color.svg-953ce029d419abf92f2c067ac0ea9908.s3tc.ctex"
+path.etc2="res://.godot/imported/star-color.svg-953ce029d419abf92f2c067ac0ea9908.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/new_textures/reload.svg"
-dest_files=["res://.godot/imported/reload.svg-2fb9f77ab544444ab75e850c1447705d.s3tc.ctex", "res://.godot/imported/reload.svg-2fb9f77ab544444ab75e850c1447705d.etc2.ctex"]
+source_file="res://assets/textures/star-color.svg"
+dest_files=["res://.godot/imported/star-color.svg-953ce029d419abf92f2c067ac0ea9908.s3tc.ctex", "res://.godot/imported/star-color.svg-953ce029d419abf92f2c067ac0ea9908.etc2.ctex"]
 
 [params]
 
@@ -28,7 +28,7 @@ mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
 process/fix_alpha_border=true
-process/premult_alpha=false
+process/premult_alpha=true
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false

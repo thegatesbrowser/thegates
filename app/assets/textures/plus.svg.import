@@ -2,20 +2,22 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://8wvea7j0v0rx"
-path="res://.godot/imported/Reload.svg-b5541461986b6f83943237d5c0533a5e.ctex"
+uid="uid://c80732g67qmvx"
+path.s3tc="res://.godot/imported/plus.svg-1e729e0158e3f0f3340726d96bd7fa20.s3tc.ctex"
+path.etc2="res://.godot/imported/plus.svg-1e729e0158e3f0f3340726d96bd7fa20.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://assets/textures/Reload.svg"
-dest_files=["res://.godot/imported/Reload.svg-b5541461986b6f83943237d5c0533a5e.ctex"]
+source_file="res://assets/textures/plus.svg"
+dest_files=["res://.godot/imported/plus.svg-1e729e0158e3f0f3340726d96bd7fa20.s3tc.ctex", "res://.godot/imported/plus.svg-1e729e0158e3f0f3340726d96bd7fa20.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
@@ -32,6 +34,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=5.0
+svg/scale=2.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false

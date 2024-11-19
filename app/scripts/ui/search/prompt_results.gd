@@ -9,6 +9,7 @@ class_name PromptResults
 
 var prompt_size: float
 var result_str: String
+var last_query: String
 
 
 func _ready() -> void:
@@ -21,9 +22,11 @@ func _ready() -> void:
 
 
 func _on_search_text_changed(query: String) -> void:
+	last_query = query
 	if query.is_empty(): clear(); return
 	
 	await prompt_request(query)
+	if query != last_query: return
 	clear()
 	
 	var prompts = JSON.parse_string(result_str)

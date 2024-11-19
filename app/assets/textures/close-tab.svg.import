@@ -2,20 +2,22 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lxx36xkotvh1"
-path="res://.godot/imported/star_filled.svg-9715ef8a800e58d18abf5d987bd427ca.ctex"
+uid="uid://cli88m5w3op6l"
+path.s3tc="res://.godot/imported/close-tab.svg-516e7099d42ee02293c9bbb925a39767.s3tc.ctex"
+path.etc2="res://.godot/imported/close-tab.svg-516e7099d42ee02293c9bbb925a39767.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://assets/textures/star_filled.svg"
-dest_files=["res://.godot/imported/star_filled.svg-9715ef8a800e58d18abf5d987bd427ca.ctex"]
+source_file="res://assets/textures/close-tab.svg"
+dest_files=["res://.godot/imported/close-tab.svg-516e7099d42ee02293c9bbb925a39767.s3tc.ctex", "res://.godot/imported/close-tab.svg-516e7099d42ee02293c9bbb925a39767.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
@@ -32,6 +34,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=5.0
+svg/scale=2.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false

@@ -24,6 +24,10 @@ func set_initial_screen() -> void:
 	if Platform.is_macos():
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 		Debug.logclr("Setting fullscreen mode", Debug.SILENT_CLR)
+		
+		var screen_scale = DisplayServer.screen_get_scale()
+		get_window().content_scale_factor = screen_scale
+		Debug.logclr("Content scale factor: %.2f" % [screen_scale], Debug.SILENT_CLR)
 
 
 func _exit_tree() -> void:

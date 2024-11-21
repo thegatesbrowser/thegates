@@ -1,7 +1,7 @@
 extends Node
 
 @export var gate_events: GateEvents
-@export var bookmarks: PackedScene
+@export var home: PackedScene
 @export var search_results: PackedScene
 @export var world_scene: PackedScene
 @export var scenes_root: Node
@@ -10,9 +10,9 @@ extends Node
 func _ready() -> void:
 	gate_events.search.connect(func(_query): switch_scene(search_results))
 	gate_events.open_gate.connect(func(_url): switch_scene(world_scene))
-	gate_events.exit_gate.connect(func(): switch_scene(bookmarks))
+	gate_events.exit_gate.connect(func(): switch_scene(home))
 	
-	switch_scene(bookmarks)
+	switch_scene(home)
 
 
 func switch_scene(scene: PackedScene) -> void:

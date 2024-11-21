@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/app.gd" id="1_skc7d"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_cdryv"]
-[ext_resource type="PackedScene" uid="uid://pgl3w7q5w84m" path="res://scenes/menu_body/bookmarks.tscn" id="3_l8glb"]
+[ext_resource type="PackedScene" uid="uid://ca647gp63bshc" path="res://scenes/menu_body/home.tscn" id="3_i66gl"]
 [ext_resource type="PackedScene" uid="uid://5btb7nvgmfhl" path="res://scenes/menu.tscn" id="3_o1f7b"]
 [ext_resource type="PackedScene" uid="uid://kywrsqro3d5i" path="res://scenes/menu_body/world.tscn" id="4_p75rl"]
 [ext_resource type="PackedScene" uid="uid://dh3owgirapji5" path="res://scenes/menu_body/search_results.tscn" id="4_phjpd"]
@@ -21,7 +21,7 @@
 [node name="App" type="Node" node_paths=PackedStringArray("scenes_root")]
 script = ExtResource("1_skc7d")
 gate_events = ExtResource("2_cdryv")
-bookmarks = ExtResource("3_l8glb")
+home = ExtResource("3_i66gl")
 search_results = ExtResource("4_phjpd")
 world_scene = ExtResource("4_p75rl")
 scenes_root = NodePath("Menu/VBoxContainer/Body")

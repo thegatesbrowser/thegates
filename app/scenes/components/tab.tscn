@@ -71,13 +71,7 @@ texture = ExtResource("1_jc4ra")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-theme_override_constants/margin_top = 2
-
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer"]
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "New Tab"

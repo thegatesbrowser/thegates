@@ -34,7 +34,6 @@ content_margin_bottom = 0.0
 color = Color(0.12549, 0.133333, 0.172549, 1)
 grow_begin = 0.0
 grow_end = 0.0
-thickness = 2
 
 [sub_resource type="Animation" id="Animation_ydijj"]
 length = 0.001

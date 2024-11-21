@@ -29,7 +29,7 @@ driver/enable_input=true
 
 DataSaver="*res://scripts/data_saver.gd"
 FileDownloader="*res://scripts/loading/file_downloader.gd"
-Debug="*res://scripts/debug-log/debug.gd"
+Debug="*res://scripts/debug_log/debug.gd"
 AnalyticsEvents="*res://scripts/api/analytics/analytics_events.gd"
 Backend="*res://scripts/api/backend.gd"
 
@@ -52,6 +52,10 @@ window/per_pixel_transparency/allowed=true
 [editor]
 
 naming/script_name_casing=2
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/max_size_container/plugin.cfg")
 
 [gui]
 

@@ -1,4 +1,4 @@
-extends GridContainer
+extends HFlowContainer
 
 @export var bookmarks: Bookmarks
 @export var bookmark_scene: PackedScene

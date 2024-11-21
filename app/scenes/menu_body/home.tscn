@@ -1,0 +1,97 @@
+[gd_scene load_steps=6 format=3 uid="uid://ca647gp63bshc"]
+
+[ext_resource type="Texture2D" uid="uid://bw1cffhlt112i" path="res://assets/textures/icon-round.svg" id="1_dh3vr"]
+[ext_resource type="Script" path="res://scripts/ui/menu/bookmark_container.gd" id="1_g38mt"]
+[ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="2_2igc6"]
+[ext_resource type="Script" path="res://addons/max_size_container/max_size_container.gd" id="2_ceb6w"]
+[ext_resource type="PackedScene" uid="uid://82ca8so31njy" path="res://scenes/components/bookmark.tscn" id="3_isdis"]
+
+[node name="Home" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SpaceTop" type="Control" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 240)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/VBoxContainer/SpaceTop"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -180.0
+offset_right = 40.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("1_dh3vr")
+expand_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SpaceLeft" type="Control" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MaxSizeContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 400)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+script = ExtResource("2_ceb6w")
+limit = Vector2(1200, -1)
+valign = 0
+
+[node name="Bookmarks" type="HFlowContainer" parent="ScrollContainer/VBoxContainer/HBoxContainer/MaxSizeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 70
+theme_override_constants/v_separation = 40
+alignment = 1
+last_wrap_alignment = 1
+script = ExtResource("1_g38mt")
+bookmarks = ExtResource("2_2igc6")
+bookmark_scene = ExtResource("3_isdis")
+
+[node name="SpaceRight" type="Control" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SpaceBottom" type="Control" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_vertical = 3

@@ -5,6 +5,7 @@ extends Control
 
 func _ready() -> void:
 	search_le.resized.connect(change_size)
+	search_le.focus_entered.connect(change_size)
 
 
 func change_size() -> void:

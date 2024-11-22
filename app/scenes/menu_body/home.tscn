@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://ca647gp63bshc"]
+[gd_scene load_steps=7 format=3 uid="uid://ca647gp63bshc"]
 
 [ext_resource type="Texture2D" uid="uid://bw1cffhlt112i" path="res://assets/textures/icon-round.svg" id="1_dh3vr"]
 [ext_resource type="Script" path="res://scripts/ui/menu/bookmark_container.gd" id="1_g38mt"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="2_2igc6"]
 [ext_resource type="Script" path="res://addons/max_size_container/max_size_container.gd" id="2_ceb6w"]
+[ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://scenes/components/search.tscn" id="3_fcjeu"]
 [ext_resource type="PackedScene" uid="uid://82ca8so31njy" path="res://scenes/components/bookmark.tscn" id="3_isdis"]
 
 [node name="Home" type="Control"]
@@ -32,7 +33,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="SpaceTop" type="Control" parent="ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 240)
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -59,27 +60,47 @@ size_flags_vertical = 3
 [node name="SpaceLeft" type="Control" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="MaxSizeContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(200, 400)
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 3.0
+
+[node name="MaxSizeContainer2" type="MarginContainer" parent="ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 script = ExtResource("2_ceb6w")
-limit = Vector2(1200, -1)
+limit = Vector2(720, -1)
+
+[node name="Search" parent="ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/MaxSizeContainer2" instance=ExtResource("3_fcjeu")]
+layout_mode = 2
+
+[node name="SpaceMid" type="Control" parent="ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="MaxSizeContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(180, 400)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+script = ExtResource("2_ceb6w")
+limit = Vector2(950, -1)
 valign = 0
 
-[node name="Bookmarks" type="HFlowContainer" parent="ScrollContainer/VBoxContainer/HBoxContainer/MaxSizeContainer"]
+[node name="Bookmarks" type="HFlowContainer" parent="ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/MaxSizeContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 70
-theme_override_constants/v_separation = 40
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
 alignment = 1
 last_wrap_alignment = 1
 script = ExtResource("1_g38mt")
@@ -89,7 +110,6 @@ bookmark_scene = ExtResource("3_isdis")
 [node name="SpaceRight" type="Control" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="SpaceBottom" type="Control" parent="ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 120)

@@ -12,65 +12,48 @@ extends Node
 func _ready() -> void:
 	gate_events.open_gate.connect(on_new)
 	gate_events.search.connect(on_new)
+	gate_events.exit_gate.connect(on_new.bind(""))
 	
 	go_back.pressed.connect(on_go_back)
 	go_forw.pressed.connect(on_go_forw)
 	reload.pressed.connect(on_reload)
-	home.pressed.connect(on_home)
+	home.pressed.connect(gate_events.exit_gate_emit)
 	
-	disable([go_back, go_forw, reload, home])
+	go_back.disable()
+	go_forw.disable()
 
 
 func on_new(location: String) -> void:
 	history.add(location)
-	enable([go_back, reload, home])
-	if not history.can_forw():
-		disable([go_forw])
+	update_buttons()
 
 
 func on_go_back() -> void:
-	var location = history.back()
-	
-	enable([go_forw])
-	if history.can_back():
-		open(location)
-	else:
-		disable([go_back, reload, home])
-		gate_events.exit_gate_emit()
+	open(history.back())
+	update_buttons()
 
 
 func on_go_forw() -> void:
-	var location = history.forw()
-	
-	enable([go_back])
-	if not history.can_forw():
-		disable([go_forw])
-	
-	open(location)
+	open(history.forw())
+	update_buttons()
 
 
 func on_reload() -> void:
 	open(history.get_current())
 
 
-func on_home() -> void:
-	history.clear()
-	disable([go_back, go_forw, reload, home])
-	gate_events.exit_gate_emit()
-
-
 func open(location: String) -> void:
-	if Url.is_valid(location):
+	if location == "":
+		gate_events.exit_gate_emit()
+	elif Url.is_valid(location):
 		gate_events.open_gate_emit(location)
 	else:
 		gate_events.search_emit(location)
 
 
-func disable(buttons: Array[RoundButton]) -> void:
-	for button in buttons:
-		button.disable()
-
-
-func enable(buttons: Array[RoundButton]) -> void:
-	for button in buttons:
-		button.enable()
+func update_buttons() -> void:
+	if history.can_back(): go_back.enable()
+	else: go_back.disable()
+	
+	if history.can_forw(): go_forw.enable()
+	else: go_forw.disable()

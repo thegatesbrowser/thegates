@@ -1,8 +1,8 @@
 extends Resource
 class_name History
 
-var history: Array[String]
-var index := -1
+var history: Array[String] = [""]
+var index := 0
 
 
 func get_current() -> String:
@@ -15,7 +15,7 @@ func can_forw() -> bool:
 
 
 func can_back() -> bool:
-	return index > -1
+	return index > 0
 
 
 func add(url: String) -> void:

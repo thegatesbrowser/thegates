@@ -66,11 +66,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="MaxSizeContainer2" type="MarginContainer" parent="ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(300, 32)
 layout_mode = 2
-theme_override_constants/margin_left = 0
+theme_override_constants/margin_left = 396
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
+theme_override_constants/margin_right = 396
 theme_override_constants/margin_bottom = 0
 script = ExtResource("2_ceb6w")
 limit = Vector2(720, -1)
@@ -87,9 +87,9 @@ custom_minimum_size = Vector2(180, 400)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
-theme_override_constants/margin_left = 0
+theme_override_constants/margin_left = 281
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
+theme_override_constants/margin_right = 281
 theme_override_constants/margin_bottom = 0
 script = ExtResource("2_ceb6w")
 limit = Vector2(950, -1)

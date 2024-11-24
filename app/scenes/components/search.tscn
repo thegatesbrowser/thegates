@@ -19,7 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://b57n6cvtqn5b7" path="res://scenes/components/prompt.tscn" id="16_lbcsd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyysn"]
-content_margin_left = 32.0
+content_margin_left = 30.0
 content_margin_top = 3.0
 content_margin_right = 30.0
 bg_color = Color(0.0862745, 0.0901961, 0.117647, 1)
@@ -81,9 +81,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 10.0
-offset_top = -8.0
-offset_right = 26.0
-offset_bottom = 8.0
+offset_top = -7.0
+offset_right = 24.0
+offset_bottom = 7.0
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("3_3p1re")

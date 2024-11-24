@@ -1,0 +1,188 @@
+[gd_scene load_steps=16 format=3 uid="uid://bs2cwop0ei1r1"]
+
+[ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_o2a5w"]
+[ext_resource type="Script" path="res://scripts/ui/search.gd" id="2_g181m"]
+[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_bulmv"]
+[ext_resource type="Texture2D" uid="uid://ckkmluvnrorek" path="res://assets/textures/search-96.svg" id="4_ytxk3"]
+[ext_resource type="Script" path="res://scripts/ui/search/prompt_navigation.gd" id="12_53j30"]
+[ext_resource type="Script" path="res://scripts/ui/search/fix_promt_position.gd" id="13_6kqm6"]
+[ext_resource type="Script" path="res://scripts/ui/search/prompt_results.gd" id="14_mfwuo"]
+[ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="15_xod5p"]
+[ext_resource type="PackedScene" uid="uid://b57n6cvtqn5b7" path="res://scenes/components/prompt.tscn" id="16_jji5b"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w0n18"]
+content_margin_left = 45.0
+content_margin_right = 30.0
+bg_color = Color(0.0862745, 0.0901961, 0.117647, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.12549, 0.133333, 0.172549, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+corner_detail = 10
+shadow_color = Color(0.0876, 0.09138, 0.12, 0.784314)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mh73y"]
+bg_color = Color(0.0862745, 0.0901961, 0.117647, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.0823529, 0.0823529, 0.105882, 1)
+border_blend = true
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+corner_detail = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ym5t0"]
+bg_color = Color(0.32549, 0.14902, 0.8, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yso1e"]
+bg_color = Color(0.423529, 0.235294, 0.933333, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t00so"]
+bg_color = Color(0.32549, 0.14902, 0.8, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1hgyb"]
+bg_color = Color(0.32549, 0.14902, 0.8, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[node name="SearchHome" type="LineEdit" node_paths=PackedStringArray("prompt_panel")]
+auto_translate_mode = 2
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -16.5
+offset_bottom = 27.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+localize_numeral_system = false
+focus_next = NodePath("Prompt")
+focus_mode = 1
+theme_override_colors/font_placeholder_color = Color(0.431373, 0.435294, 0.494118, 1)
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_fonts/font = ExtResource("1_o2a5w")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxFlat_w0n18")
+theme_override_styles/normal = SubResource("StyleBoxFlat_w0n18")
+placeholder_text = "Search or type URL"
+script = ExtResource("2_g181m")
+gate_events = ExtResource("3_bulmv")
+prompt_panel = NodePath("Prompt/Panel")
+
+[node name="SearchStatus" type="Control" parent="."]
+modulate = Color(0.831373, 0.831373, 0.831373, 1)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 15.0
+offset_top = -10.0
+offset_right = 35.0
+offset_bottom = 10.0
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Search" type="TextureRect" parent="SearchStatus"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ytxk3")
+expand_mode = 1
+
+[node name="Prompt" type="Control" parent="." node_paths=PackedStringArray("search", "prompt_results")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+script = ExtResource("12_53j30")
+search = NodePath("..")
+prompt_results = NodePath("Panel/VBoxContainer")
+
+[node name="Panel" type="Panel" parent="Prompt" node_paths=PackedStringArray("search_le")]
+visible = false
+top_level = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -500.0
+offset_top = 560.0
+offset_right = 500.0
+offset_bottom = 860.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mh73y")
+script = ExtResource("13_6kqm6")
+search_le = NodePath("../..")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Prompt/Panel" node_paths=PackedStringArray("panel")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+script = ExtResource("14_mfwuo")
+gate_events = ExtResource("3_bulmv")
+api = ExtResource("15_xod5p")
+result_scene = ExtResource("16_jji5b")
+panel = NodePath("..")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = -19.0
+offset_right = -4.0
+offset_bottom = 19.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_hover_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_colors/font_pressed_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_colors/font_focus_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_fonts/font = ExtResource("1_o2a5w")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxFlat_ym5t0")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yso1e")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_t00so")
+theme_override_styles/normal = SubResource("StyleBoxFlat_1hgyb")
+text = "Search"
+
+[connection signal="text_changed" from="." to="Prompt/Panel/VBoxContainer" method="_on_search_text_changed"]
+[connection signal="text_submitted" from="." to="." method="_on_text_submitted"]
+[connection signal="pressed" from="Button" to="." method="_on_text_submitted" binds= [""]]

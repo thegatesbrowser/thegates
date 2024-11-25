@@ -44,7 +44,8 @@ func _input(event: InputEvent) -> void:
 	
 	if (event is InputEventMouseButton
 			and not get_global_rect().has_point(event.position)
-			and not prompt_panel.get_global_rect().has_point(event.position)):
+			and not prompt_panel.get_global_rect().has_point(event.position)
+			and not event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]):
 		release_focus()
 		on_release_focus.emit()
 	

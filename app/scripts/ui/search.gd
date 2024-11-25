@@ -6,12 +6,15 @@ signal on_navigation(event: int)
 
 @export var gate_events: GateEvents
 @export var prompt_panel: Control
+@export var focus_on_ready: bool
 
 
 func _ready() -> void:
 	gate_events.open_gate.connect(set_current_url)
 	gate_events.search.connect(set_current_url)
 	gate_events.exit_gate.connect(set_current_url.bind(""))
+	
+	if focus_on_ready: grab_focus()
 
 
 func set_current_url(_url: String) -> void:
@@ -21,10 +24,6 @@ func set_current_url(_url: String) -> void:
 
 
 func _on_text_submitted(_url: String) -> void:
-	open_gate()
-
-
-func _on_go_pressed() -> void:
 	open_gate()
 
 

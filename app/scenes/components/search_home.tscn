@@ -83,6 +83,7 @@ size_flags_horizontal = 3
 localize_numeral_system = false
 focus_next = NodePath("Prompt")
 focus_mode = 1
+theme_override_colors/selection_color = Color(0.4185, 0.2325, 0.93, 0.588235)
 theme_override_colors/font_placeholder_color = Color(0.431373, 0.435294, 0.494118, 1)
 theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_fonts/font = ExtResource("1_o2a5w")
@@ -90,9 +91,11 @@ theme_override_font_sizes/font_size = 20
 theme_override_styles/focus = SubResource("StyleBoxFlat_w0n18")
 theme_override_styles/normal = SubResource("StyleBoxFlat_w0n18")
 placeholder_text = "What are you looking for today?"
+select_all_on_focus = true
 script = ExtResource("2_g181m")
 gate_events = ExtResource("3_bulmv")
 prompt_panel = NodePath("Prompt/Panel")
+focus_on_ready = true
 
 [node name="SearchStatus" type="Control" parent="."]
 modulate = Color(0.831373, 0.831373, 0.831373, 1)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=26 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -12,7 +12,6 @@
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="9_ir58h"]
 [ext_resource type="Script" path="res://scripts/ui/world/world_canvas.gd" id="9_ncfxj"]
 [ext_resource type="Shader" path="res://shaders/render_result.gdshader" id="10_2auwe"]
-[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://assets/textures/background.png" id="10_23bjc"]
 [ext_resource type="Script" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="10_vhc7k"]
 [ext_resource type="Script" path="res://scripts/sandbox/process_checker.gd" id="11_72cjp"]
@@ -186,20 +185,19 @@ ui_events = ExtResource("9_ir58h")
 interpolate = 1.0
 
 [node name="SplashScreen" type="TextureRect" parent="WorldCanvas"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("10_23bjc")
 expand_mode = 1
 stretch_mode = 5
 script = ExtResource("13_3b6nd")
 gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
 ui_events = ExtResource("9_ir58h")
-splash_screen = ExtResource("10_23bjc")
 
 [node name="RenderResult" type="TextureRect" parent="WorldCanvas"]
 texture_filter = 2

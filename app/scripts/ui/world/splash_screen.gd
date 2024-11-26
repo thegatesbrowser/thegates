@@ -10,13 +10,13 @@ class_name SplashScreen
 @onready var height: int = int(size.y)
 
 
-func _ready():
-	gate_events.gate_info_loaded.connect(show_thumbnail)
-	gate_events.gate_entered.connect(show_splash_screen)
-	gate_events.first_frame.connect(func(): hide())
-	
-	# Change size
-	show_splash_screen()
+#func _ready():
+	#gate_events.gate_info_loaded.connect(show_thumbnail)
+	#gate_events.gate_entered.connect(show_splash_screen)
+	#gate_events.first_frame.connect(func(): hide())
+	#
+	## Change size
+	#show_splash_screen()
 
 
 func show_thumbnail(gate: Gate, is_cached: bool) -> void:

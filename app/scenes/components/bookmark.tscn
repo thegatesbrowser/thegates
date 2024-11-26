@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://scripts/ui/menu/bookmark_ui.gd" id="1_bpkqj"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_7i5yr"]
-[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://assets/textures/background.png" id="3_kgutt"]
 [ext_resource type="StyleBox" uid="uid://bllkg32sc4iam" path="res://assets/styles/bookmark.stylebox" id="3_tb1mf"]
 [ext_resource type="StyleBox" uid="uid://bmxiecm3vkddl" path="res://assets/styles/bookmark_hover.stylebox" id="4_figib"]
 [ext_resource type="LabelSettings" uid="uid://85ms8ndcmbn0" path="res://assets/styles/text_small.tres" id="4_xqjm8"]
+[ext_resource type="Texture2D" uid="uid://6k1ia4pidwrq" path="res://assets/textures/empty_icon.svg" id="5_vwpfy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_od0ga"]
 corner_radius_top_left = 20
@@ -65,7 +65,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
-texture = ExtResource("3_kgutt")
+texture = ExtResource("5_vwpfy")
 expand_mode = 1
 stretch_mode = 5
 

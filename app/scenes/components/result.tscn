@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" path="res://scripts/ui/search/result.gd" id="1_b6nfm"]
 [ext_resource type="StyleBox" uid="uid://bmxiecm3vkddl" path="res://assets/styles/bookmark_hover.stylebox" id="1_bqxb5"]
-[ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://assets/textures/background.png" id="1_cbuy3"]
 [ext_resource type="StyleBox" uid="uid://bllkg32sc4iam" path="res://assets/styles/bookmark.stylebox" id="2_agglm"]
 [ext_resource type="Script" path="res://scripts/ui/search/one_line_text.gd" id="2_nxics"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_wgd6i"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="4_tevcf"]
+[ext_resource type="Texture2D" uid="uid://6k1ia4pidwrq" path="res://assets/textures/empty_icon.svg" id="5_a6pb2"]
 [ext_resource type="FontFile" uid="uid://c14w1y1r54wgi" path="res://assets/fonts/Inter-Bold.otf" id="5_vkte5"]
 [ext_resource type="FontFile" uid="uid://b3xb1fpllhnf4" path="res://assets/fonts/Inter-Italic.otf" id="6_10owe"]
 [ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="7_gyppg"]
@@ -66,7 +66,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("1_cbuy3")
+texture = ExtResource("5_a6pb2")
 expand_mode = 1
 stretch_mode = 5
 

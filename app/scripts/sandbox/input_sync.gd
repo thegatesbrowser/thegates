@@ -42,8 +42,9 @@ func _input(_event: InputEvent) -> void:
 
 
 func get_scaled_mouse_pos(position : Vector2) -> Vector2:
-	position.x *= scale_width
-	position.y *= scale_height
+	#position.x *= scale_width
+	#position.y *= scale_height
+	position.y -= 101
 	return position
 
 

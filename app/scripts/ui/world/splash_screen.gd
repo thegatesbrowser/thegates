@@ -6,8 +6,8 @@ class_name SplashScreen
 @export var ui_events: UiEvents
 @export var splash_screen: Texture2D
 
-@onready var width: int = int(ui_events.current_ui_size.x)
-@onready var height: int = int(ui_events.current_ui_size.y)
+@onready var width: int = int(size.x)
+@onready var height: int = int(size.y)
 
 
 func _ready():

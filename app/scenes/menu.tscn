@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://5btb7nvgmfhl"]
+[gd_scene load_steps=23 format=3 uid="uid://5btb7nvgmfhl"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/menu_navigation.gd" id="1_7anvm"]
 [ext_resource type="Script" path="res://scripts/ui/menu/menu.gd" id="1_o6vga"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://c80732g67qmvx" path="res://assets/textures/plus.svg" id="4_rdyyc"]
 [ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://scenes/components/search.tscn" id="5_li2do"]
 [ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/round_button.tscn" id="6_gxcmo"]
-[ext_resource type="Script" path="res://scripts/ui/fullscreen_animation.gd" id="7_1hi62"]
 [ext_resource type="Texture2D" uid="uid://d1ehc1xs5hwyn" path="res://assets/textures/minimize.svg" id="7_ab04l"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="8_8dnbq"]
 [ext_resource type="Texture2D" uid="uid://csjqc48oqb0kc" path="res://assets/textures/maximaze.svg" id="8_yoyw7"]
@@ -34,98 +33,6 @@ content_margin_bottom = 0.0
 color = Color(0.12549, 0.133333, 0.172549, 1)
 grow_begin = 0.0
 grow_end = 0.0
-
-[sub_resource type="Animation" id="Animation_ydijj"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("VBoxContainer/Top:custom_minimum_size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 101)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("VBoxContainer/Top:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_b8hjg"]
-resource_name = "fullscreen"
-length = 0.25
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("VBoxContainer/Top:custom_minimum_size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.25),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 101), Vector2(0, 101), Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("VBoxContainer/Top:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_yny1j"]
-resource_name = "initial"
-length = 0.25
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("VBoxContainer/Top:custom_minimum_size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.25),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, 101), Vector2(0, 101)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("VBoxContainer/Top:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.15, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_7jj8o"]
-_data = {
-"RESET": SubResource("Animation_ydijj"),
-"fullscreen": SubResource("Animation_b8hjg"),
-"initial": SubResource("Animation_yny1j")
-}
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -292,11 +199,3 @@ icon = ExtResource("13_ncruo")
 [node name="Body" type="Control" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_7jj8o")
-}
-script = ExtResource("7_1hi62")
-ui_events = ExtResource("8_8dnbq")
-gate_events = ExtResource("3_m632k")

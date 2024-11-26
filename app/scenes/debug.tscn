@@ -18,7 +18,7 @@ window = NodePath("Window")
 [node name="Window" type="Window" parent="."]
 disable_3d = true
 title = "Debug Log"
-position = Vector2i(560, 240)
+initial_position = 5
 size = Vector2i(800, 600)
 
 [node name="Background" type="Panel" parent="Window"]
@@ -37,6 +37,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 2
+theme_override_colors/selection_color = Color(0.419608, 0.231373, 0.929412, 0.588235)
 theme_override_fonts/normal_font = ExtResource("2_da5xc")
 theme_override_fonts/mono_font = ExtResource("6_vcylm")
 theme_override_fonts/italics_font = ExtResource("4_jcerd")

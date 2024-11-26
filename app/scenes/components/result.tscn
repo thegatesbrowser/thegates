@@ -1,7 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://i3lgu2dyypcq"]
+[gd_scene load_steps=15 format=3 uid="uid://i3lgu2dyypcq"]
 
 [ext_resource type="Script" path="res://scripts/ui/search/result.gd" id="1_b6nfm"]
+[ext_resource type="StyleBox" uid="uid://bmxiecm3vkddl" path="res://assets/styles/bookmark_hover.stylebox" id="1_bqxb5"]
 [ext_resource type="Texture2D" uid="uid://cykx425p6ylwr" path="res://assets/textures/background.png" id="1_cbuy3"]
+[ext_resource type="StyleBox" uid="uid://bllkg32sc4iam" path="res://assets/styles/bookmark.stylebox" id="2_agglm"]
 [ext_resource type="Script" path="res://scripts/ui/search/one_line_text.gd" id="2_nxics"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_wgd6i"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="4_tevcf"]
@@ -10,66 +12,51 @@
 [ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="7_gyppg"]
 [ext_resource type="FontFile" uid="uid://bjeupg0ikc2kv" path="res://assets/fonts/Monospace.ttf" id="8_qjqxs"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37xan"]
-bg_color = Color(0.25098, 0.25098, 0.25098, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7mafe"]
-bg_color = Color(0.25098, 0.25098, 0.25098, 0)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6os7t"]
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
+[sub_resource type="LabelSettings" id="LabelSettings_wqpwi"]
+font = ExtResource("4_tevcf")
+font_size = 20
+font_color = Color(0.32549, 0.14902, 0.8, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_j1fbr"]
+font = ExtResource("4_tevcf")
+font_size = 15
+font_color = Color(0.431373, 0.435294, 0.494118, 1)
+
 [node name="Result" type="Button" node_paths=PackedStringArray("url", "title", "description", "image")]
-custom_minimum_size = Vector2(0, 132)
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/focus = SubResource("StyleBoxFlat_37xan")
-theme_override_styles/hover = SubResource("StyleBoxFlat_37xan")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_37xan")
-theme_override_styles/normal = SubResource("StyleBoxFlat_7mafe")
+custom_minimum_size = Vector2(850, 100)
+offset_bottom = 100.0
+mouse_default_cursor_shape = 2
+theme_override_styles/focus = ExtResource("1_bqxb5")
+theme_override_styles/hover = ExtResource("1_bqxb5")
+theme_override_styles/pressed = ExtResource("1_bqxb5")
+theme_override_styles/normal = ExtResource("2_agglm")
 script = ExtResource("1_b6nfm")
 gate_events = ExtResource("2_wgd6i")
-url = NodePath("HBoxContainer/VBoxContainer/SpanLimiter/HBoxContainer/Url")
-title = NodePath("HBoxContainer/VBoxContainer/SpanLimiter/HBoxContainer/Title")
-description = NodePath("HBoxContainer/VBoxContainer/Description")
-image = NodePath("HBoxContainer/Mask/Image")
+url = NodePath("VBoxContainer/Url")
+title = NodePath("VBoxContainer/Title")
+description = NodePath("VBoxContainer/Description")
+image = NodePath("Mask/Image")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 16.0
-offset_right = -16.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 16
-
-[node name="Mask" type="Panel" parent="HBoxContainer"]
+[node name="Mask" type="Panel" parent="."]
 clip_children = 1
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 48.0
+offset_bottom = 48.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_6os7t")
 
-[node name="Image" type="TextureRect" parent="HBoxContainer/Mask"]
+[node name="Image" type="TextureRect" parent="Mask"]
 custom_minimum_size = Vector2(87, 87)
 layout_mode = 1
 anchors_preset = 15
@@ -81,61 +68,52 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("1_cbuy3")
 expand_mode = 1
-stretch_mode = 6
+stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
-custom_minimum_size = Vector2(0, 80)
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+offset_left = 60.0
+offset_top = 14.0
+offset_right = 834.0
+offset_bottom = 84.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="SpanLimiter" type="Control" parent="HBoxContainer/VBoxContainer"]
-clip_contents = true
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/SpanLimiter"]
-layout_mode = 2
-offset_right = 1772.0
-offset_bottom = 38.0
-size_flags_vertical = 3
-theme_override_constants/separation = 16
-
-[node name="Title" type="Label" parent="HBoxContainer/VBoxContainer/SpanLimiter/HBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Title"
+label_settings = SubResource("LabelSettings_wqpwi")
+text_overrun_behavior = 1
 
-[node name="Slash" type="Label" parent="HBoxContainer/VBoxContainer/SpanLimiter/HBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "/"
-
-[node name="Url" type="Label" parent="HBoxContainer/VBoxContainer/SpanLimiter/HBoxContainer"]
+[node name="Url" type="Label" parent="VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0.8)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
 text = "http://localhost:8000"
+label_settings = SubResource("LabelSettings_j1fbr")
+text_overrun_behavior = 1
 
-[node name="Description" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
+[node name="Description" type="RichTextLabel" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 1
+theme_override_colors/default_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_fonts/normal_font = ExtResource("4_tevcf")
 theme_override_fonts/mono_font = ExtResource("8_qjqxs")
 theme_override_fonts/italics_font = ExtResource("6_10owe")
 theme_override_fonts/bold_italics_font = ExtResource("7_gyppg")
 theme_override_fonts/bold_font = ExtResource("5_vkte5")
-theme_override_font_sizes/bold_italics_font_size = 20
-theme_override_font_sizes/italics_font_size = 20
-theme_override_font_sizes/mono_font_size = 20
-theme_override_font_sizes/normal_font_size = 20
-theme_override_font_sizes/bold_font_size = 20
+theme_override_font_sizes/bold_italics_font_size = 15
+theme_override_font_sizes/italics_font_size = 15
+theme_override_font_sizes/mono_font_size = 15
+theme_override_font_sizes/normal_font_size = 15
+theme_override_font_sizes/bold_font_size = 15
 bbcode_enabled = true
 text = "Description"
 scroll_active = false
+autowrap_mode = 1
 script = ExtResource("2_nxics")
 
 [connection signal="pressed" from="." to="." method="_on_button_pressed"]

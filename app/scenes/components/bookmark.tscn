@@ -36,7 +36,6 @@ grow_vertical = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_styles/focus = ExtResource("3_tb1mf")
-theme_override_styles/disabled = ExtResource("3_tb1mf")
 theme_override_styles/hover = ExtResource("4_figib")
 theme_override_styles/pressed = ExtResource("4_figib")
 theme_override_styles/normal = ExtResource("3_tb1mf")

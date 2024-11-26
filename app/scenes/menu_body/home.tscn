@@ -10,37 +10,37 @@
 [ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/round_button.tscn" id="7_bbq84"]
 [ext_resource type="Texture2D" uid="uid://dy5lmm2egk4w1" path="res://assets/textures/help.svg" id="8_3cxe2"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u8k0c"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kmpb2"]
 bg_color = Color(0.113725, 0.117647, 0.14902, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66jqw"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8tr66"]
 bg_color = Color(0.32549, 0.14902, 0.8, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6pkf6"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0quyf"]
 bg_color = Color(0.423529, 0.235294, 0.933333, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_y55p5"]
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ifq5u"]
 color = Color(0, 0, 0, 0)
 thickness = 5
 vertical = true
 
 [sub_resource type="Theme" id="Theme_vxovh"]
-VScrollBar/styles/grabber = SubResource("StyleBoxFlat_u8k0c")
-VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_66jqw")
-VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_6pkf6")
-VScrollBar/styles/scroll = SubResource("StyleBoxLine_y55p5")
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_kmpb2")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_8tr66")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_0quyf")
+VScrollBar/styles/scroll = SubResource("StyleBoxLine_ifq5u")
 VScrollBar/styles/scroll_focus = null
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f0k7f"]
@@ -178,9 +178,9 @@ size_flags_horizontal = 3
 [node name="MaxSizeContainer2" type="MarginContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(300, 44)
 layout_mode = 2
-theme_override_constants/margin_left = 393
+theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 393
+theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 script = ExtResource("2_ceb6w")
 limit = Vector2(720, -1)
@@ -197,9 +197,9 @@ custom_minimum_size = Vector2(180, 400)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
-theme_override_constants/margin_left = 278
+theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 278
+theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 script = ExtResource("2_ceb6w")
 limit = Vector2(950, -1)

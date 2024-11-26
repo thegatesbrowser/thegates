@@ -1,29 +1,20 @@
-[gd_scene load_steps=11 format=3 uid="uid://c7571vjq7l0jp"]
+[gd_scene load_steps=10 format=3 uid="uid://c7571vjq7l0jp"]
 
 [ext_resource type="Script" path="res://scripts/ui/world/not_responding.gd" id="1_feqd7"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_8u6e2"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="2_ugt55"]
 [ext_resource type="Resource" uid="uid://bqgikyax6jfqa" path="res://resources/history.tres" id="3_ge6h5"]
+[ext_resource type="StyleBox" uid="uid://bllkg32sc4iam" path="res://assets/styles/bookmark.stylebox" id="4_2kla0"]
+[ext_resource type="LabelSettings" uid="uid://crt4elt055uhg" path="res://assets/styles/text_big.tres" id="5_ruiif"]
+[ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/round_button.tscn" id="7_mxyw0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_htqsi"]
 bg_color = Color(0, 0, 0, 0.5)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s6kym"]
-bg_color = Color(0.156863, 0.156863, 0.156863, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.25)
-shadow_size = 16
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pc71t"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ke42a"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8wfqm"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lr7et"]
+[sub_resource type="LabelSettings" id="LabelSettings_bkr01"]
+font = ExtResource("2_ugt55")
+font_size = 20
+font_color = Color(0.431373, 0.435294, 0.494118, 1)
 
 [node name="NotResponding" type="Control" node_paths=PackedStringArray("root", "reload", "wait")]
 layout_mode = 3
@@ -37,8 +28,8 @@ script = ExtResource("1_feqd7")
 gate_events = ExtResource("2_8u6e2")
 history = ExtResource("3_ge6h5")
 root = NodePath("TextureButton")
-reload = NodePath("TextureButton/Popup/HBoxContainer/Reload")
-wait = NodePath("TextureButton/Popup/HBoxContainer/Hide")
+reload = NodePath("TextureButton/Popup/MarginContainer/VBoxContainer/HBoxContainer/Reload")
+wait = NodePath("TextureButton/Popup/MarginContainer/VBoxContainer/HBoxContainer/Hide")
 
 [node name="TextureButton" type="TextureButton" parent="."]
 layout_mode = 1
@@ -58,91 +49,70 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_htqsi")
 
-[node name="Popup" type="Control" parent="TextureButton"]
+[node name="Popup" type="AspectRatioContainer" parent="TextureButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -229.0
-offset_top = -116.0
-offset_right = 229.0
-offset_bottom = 116.0
+offset_left = -219.0
+offset_top = -93.0
+offset_right = 219.0
+offset_bottom = 112.0
 grow_horizontal = 2
 grow_vertical = 2
+ratio = 1.35
 
 [node name="Panel" type="Panel" parent="TextureButton/Popup"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_s6kym")
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_2kla0")
 
-[node name="Label" type="Label" parent="TextureButton/Popup"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 29.0
-offset_bottom = 68.0
-grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_ugt55")
-theme_override_font_sizes/font_size = 32
+[node name="MarginContainer" type="MarginContainer" parent="TextureButton/Popup"]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureButton/Popup/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="TextureButton/Popup/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Gate is not responding"
+label_settings = ExtResource("5_ruiif")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="TextureButton/Popup"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 59.0
-offset_top = 96.0
-offset_right = -53.0
-offset_bottom = 166.0
-grow_horizontal = 2
-theme_override_colors/font_color = Color(0.621524, 0.621524, 0.621524, 1)
-theme_override_constants/line_spacing = -2
-theme_override_fonts/font = ExtResource("2_ugt55")
-theme_override_font_sizes/font_size = 20
-text = "Reload the page or try to wait if it responses"
-autowrap_mode = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TextureButton/Popup"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -63.5
-offset_top = -57.0
-offset_right = 63.5
-offset_bottom = -17.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/separation = 90
-
-[node name="Reload" type="Button" parent="TextureButton/Popup/HBoxContainer"]
+[node name="Label2" type="Label" parent="TextureButton/Popup/MarginContainer/VBoxContainer"]
 layout_mode = 2
-mouse_default_cursor_shape = 2
+text = "Reload the page or try
+to wait if it responses"
+label_settings = SubResource("LabelSettings_bkr01")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TextureButton/Popup/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 22
+
+[node name="Reload" parent="TextureButton/Popup/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("7_mxyw0")]
+custom_minimum_size = Vector2(90, 26)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0.431373, 0.435294, 0.494118, 1)
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_fonts/font = ExtResource("2_ugt55")
 theme_override_font_sizes/font_size = 20
-theme_override_styles/focus = SubResource("StyleBoxEmpty_pc71t")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_ke42a")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_8wfqm")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_lr7et")
 text = "Reload"
+icon = null
 
-[node name="Hide" type="Button" parent="TextureButton/Popup/HBoxContainer"]
+[node name="Hide" parent="TextureButton/Popup/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("7_mxyw0")]
+custom_minimum_size = Vector2(90, 26)
 layout_mode = 2
-mouse_default_cursor_shape = 2
+theme_override_colors/font_disabled_color = Color(0.431373, 0.435294, 0.494118, 1)
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_fonts/font = ExtResource("2_ugt55")
 theme_override_font_sizes/font_size = 20
-theme_override_styles/focus = SubResource("StyleBoxEmpty_pc71t")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_ke42a")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_8wfqm")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_lr7et")
 text = "Wait"
+icon = null

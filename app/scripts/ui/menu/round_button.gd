@@ -5,12 +5,6 @@ class_name RoundButton
 func _ready() -> void:
 	if disabled: disable()
 	else: enable()
-	
-	button_up.connect(on_button_up)
-
-
-func on_button_up() -> void:
-	release_focus()
 
 
 func disable() -> void:

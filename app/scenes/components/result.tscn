@@ -1,8 +1,8 @@
 [gd_scene load_steps=15 format=3 uid="uid://i3lgu2dyypcq"]
 
 [ext_resource type="Script" path="res://scripts/ui/search/result.gd" id="1_b6nfm"]
-[ext_resource type="StyleBox" uid="uid://bmxiecm3vkddl" path="res://assets/styles/bookmark_hover.stylebox" id="1_bqxb5"]
-[ext_resource type="StyleBox" uid="uid://bllkg32sc4iam" path="res://assets/styles/bookmark.stylebox" id="2_agglm"]
+[ext_resource type="StyleBox" uid="uid://bmxiecm3vkddl" path="res://assets/styles/panel_hover.stylebox" id="1_bqxb5"]
+[ext_resource type="StyleBox" uid="uid://bllkg32sc4iam" path="res://assets/styles/panel.stylebox" id="2_agglm"]
 [ext_resource type="Script" path="res://scripts/ui/search/one_line_text.gd" id="2_nxics"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_wgd6i"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="4_tevcf"]

@@ -1,11 +1,29 @@
-[gd_scene load_steps=8 format=3 uid="uid://82ca8so31njy"]
+[gd_scene load_steps=10 format=3 uid="uid://82ca8so31njy"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/bookmark_ui.gd" id="1_bpkqj"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_7i5yr"]
-[ext_resource type="StyleBox" uid="uid://bllkg32sc4iam" path="res://assets/styles/bookmark.stylebox" id="3_tb1mf"]
-[ext_resource type="StyleBox" uid="uid://bmxiecm3vkddl" path="res://assets/styles/bookmark_hover.stylebox" id="4_figib"]
+[ext_resource type="StyleBox" uid="uid://bllkg32sc4iam" path="res://assets/styles/panel.stylebox" id="3_tb1mf"]
+[ext_resource type="StyleBox" uid="uid://bmxiecm3vkddl" path="res://assets/styles/panel_hover.stylebox" id="4_figib"]
 [ext_resource type="LabelSettings" uid="uid://85ms8ndcmbn0" path="res://assets/styles/text_small.tres" id="4_xqjm8"]
 [ext_resource type="Texture2D" uid="uid://6k1ia4pidwrq" path="res://assets/textures/empty_icon.svg" id="5_vwpfy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1vnuq"]
+bg_color = Color(0.423529, 0.235294, 0.933333, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bktbh"]
+bg_color = Color(0.32549, 0.14902, 0.8, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
+shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_od0ga"]
 corner_radius_top_left = 20
@@ -13,7 +31,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[node name="Bookmark" type="Control" node_paths=PackedStringArray("image", "title", "button")]
+[node name="Bookmark" type="Control" node_paths=PackedStringArray("image", "title", "button", "button_special")]
 clip_children = 1
 custom_minimum_size = Vector2(180, 100)
 layout_mode = 3
@@ -25,6 +43,7 @@ gate_events = ExtResource("2_7i5yr")
 image = NodePath("Mask/Image")
 title = NodePath("Title")
 button = NodePath("Button")
+button_special = NodePath("ButtonSpecial")
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 1
@@ -35,10 +54,23 @@ grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
-theme_override_styles/focus = ExtResource("3_tb1mf")
 theme_override_styles/hover = ExtResource("4_figib")
 theme_override_styles/pressed = ExtResource("4_figib")
 theme_override_styles/normal = ExtResource("3_tb1mf")
+
+[node name="ButtonSpecial" type="Button" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_1vnuq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1vnuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_bktbh")
 
 [node name="Mask" type="Panel" parent="."]
 clip_children = 1

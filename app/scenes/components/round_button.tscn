@@ -9,9 +9,9 @@
 texture_filter = 4
 custom_minimum_size = Vector2(26, 26)
 size_flags_vertical = 4
+focus_mode = 0
 theme_override_colors/icon_normal_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_colors/icon_disabled_color = Color(0.431373, 0.435294, 0.494118, 1)
-theme_override_styles/focus = ExtResource("1_6dhuv")
 theme_override_styles/disabled = ExtResource("1_6dhuv")
 theme_override_styles/hover = ExtResource("2_3cilb")
 theme_override_styles/pressed = ExtResource("1_6dhuv")

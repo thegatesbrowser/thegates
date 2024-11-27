@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=30 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -18,7 +18,11 @@
 [ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
 [ext_resource type="Script" path="res://scripts/ui/world/splash_screen.gd" id="13_3b6nd"]
 [ext_resource type="PackedScene" uid="uid://c7571vjq7l0jp" path="res://scenes/components/not_responding.tscn" id="17_kwbm3"]
+[ext_resource type="Script" path="res://scripts/ui/world/blackout.gd" id="18_776rt"]
 [ext_resource type="Script" path="res://scripts/ui/fullscreen_animation.gd" id="18_sx3kr"]
+[ext_resource type="Texture2D" uid="uid://dapysvexbecnd" path="res://assets/textures/reload.svg" id="19_itbnl"]
+[ext_resource type="Script" path="res://scripts/ui/world/rotate.gd" id="20_dsgqt"]
+[ext_resource type="LabelSettings" uid="uid://crt4elt055uhg" path="res://assets/styles/text_big.tres" id="20_v1648"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_be6ex"]
 resource_local_to_scene = true
@@ -171,6 +175,52 @@ gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
 snbx_logger = NodePath("../SandboxLogger")
 
+[node name="Loading" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Loading"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="Control" type="Control" parent="Loading/HBoxContainer"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Loading/HBoxContainer/Control"]
+self_modulate = Color(0.831373, 0.831373, 0.831373, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(12, 20)
+texture = ExtResource("19_itbnl")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("20_dsgqt")
+
+[node name="Label" type="Label" parent="Loading/HBoxContainer"]
+layout_mode = 2
+text = "Loading..."
+label_settings = ExtResource("20_v1648")
+
 [node name="WorldCanvas" type="Control" parent="."]
 custom_minimum_size = Vector2(1300, 0)
 layout_mode = 1
@@ -225,6 +275,7 @@ grow_vertical = 2
 focus_mode = 0
 
 [node name="Blackout" type="Panel" parent="WorldCanvas"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -233,6 +284,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ybg1t")
+script = ExtResource("18_776rt")
+gate_events = ExtResource("2_q7cvi")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

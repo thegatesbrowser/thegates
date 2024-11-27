@@ -18,8 +18,11 @@ func change_size() -> void:
 func _input(event: InputEvent) -> void:
 	if not search.has_focus(): return
 	
-	if (event is InputEventMouseButton
-			and event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]):
+	if event is InputEventMouseButton and event.button_index in \
+			[MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
+		update_position = true
+	
+	if event is InputEventPanGesture:
 		update_position = true
 
 

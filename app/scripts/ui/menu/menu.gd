@@ -38,6 +38,10 @@ func set_initial_screen() -> void:
 	if Platform.is_macos():
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 		Debug.logclr("Setting fullscreen mode", Debug.SILENT_CLR)
+	
+	if Platform.is_linux():
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_MAILBOX)
+		Debug.logclr("Setting vsync to mailbox", Debug.SILENT_CLR)
 
 
 func _exit_tree() -> void:

@@ -16,6 +16,7 @@ config/tags=PackedStringArray("thegates")
 run/main_scene="res://scenes/app.tscn"
 run/enable_alt_space_menu=true
 config/features=PackedStringArray("4.3")
+run/max_fps=144
 boot_splash/bg_color=Color(0, 0, 0, 0)
 boot_splash/show_image=false
 config/icon="res://app_icon/icon.svg"

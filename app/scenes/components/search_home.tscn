@@ -3,7 +3,7 @@
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_o2a5w"]
 [ext_resource type="Script" path="res://scripts/ui/search.gd" id="2_g181m"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_bulmv"]
-[ext_resource type="Texture2D" uid="uid://ckkmluvnrorek" path="res://assets/textures/search-96.svg" id="4_ytxk3"]
+[ext_resource type="Texture2D" uid="uid://ckkmluvnrorek" path="res://assets/textures/search_96.svg" id="4_ytxk3"]
 [ext_resource type="Script" path="res://scripts/ui/search/prompt_navigation.gd" id="12_53j30"]
 [ext_resource type="Script" path="res://scripts/ui/search/fix_promt_position.gd" id="13_6kqm6"]
 [ext_resource type="Script" path="res://scripts/ui/search/prompt_results.gd" id="14_mfwuo"]

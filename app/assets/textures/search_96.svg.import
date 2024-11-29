@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bo1pkhkdscf6v"
-path.s3tc="res://.godot/imported/arrow-right.svg-4ad5148b07e26c82e77e4e1faad77fe5.s3tc.ctex"
-path.etc2="res://.godot/imported/arrow-right.svg-4ad5148b07e26c82e77e4e1faad77fe5.etc2.ctex"
+uid="uid://ckkmluvnrorek"
+path.s3tc="res://.godot/imported/search_96.svg-7bac5ed7ed38b01b3e5625e37f70928d.s3tc.ctex"
+path.etc2="res://.godot/imported/search_96.svg-7bac5ed7ed38b01b3e5625e37f70928d.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/textures/arrow-right.svg"
-dest_files=["res://.godot/imported/arrow-right.svg-4ad5148b07e26c82e77e4e1faad77fe5.s3tc.ctex", "res://.godot/imported/arrow-right.svg-4ad5148b07e26c82e77e4e1faad77fe5.etc2.ctex"]
+source_file="res://assets/textures/search_96.svg"
+dest_files=["res://.godot/imported/search_96.svg-7bac5ed7ed38b01b3e5625e37f70928d.s3tc.ctex", "res://.godot/imported/search_96.svg-7bac5ed7ed38b01b3e5625e37f70928d.etc2.ctex"]
 
 [params]
 

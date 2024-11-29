@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://itloduvrh00o"
-path.s3tc="res://.godot/imported/star-color.svg-953ce029d419abf92f2c067ac0ea9908.s3tc.ctex"
-path.etc2="res://.godot/imported/star-color.svg-953ce029d419abf92f2c067ac0ea9908.etc2.ctex"
+path.s3tc="res://.godot/imported/star_color.svg-27a593cde53c1e3bcdef9f671418b3df.s3tc.ctex"
+path.etc2="res://.godot/imported/star_color.svg-27a593cde53c1e3bcdef9f671418b3df.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/textures/star-color.svg"
-dest_files=["res://.godot/imported/star-color.svg-953ce029d419abf92f2c067ac0ea9908.s3tc.ctex", "res://.godot/imported/star-color.svg-953ce029d419abf92f2c067ac0ea9908.etc2.ctex"]
+source_file="res://assets/textures/star_color.svg"
+dest_files=["res://.godot/imported/star_color.svg-27a593cde53c1e3bcdef9f671418b3df.s3tc.ctex", "res://.godot/imported/star_color.svg-27a593cde53c1e3bcdef9f671418b3df.etc2.ctex"]
 
 [params]
 

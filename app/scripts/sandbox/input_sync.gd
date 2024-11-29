@@ -4,8 +4,8 @@ extends Node
 @export var ui_events: UiEvents
 @export var render_result: RenderResult
 
-var scale_width: float
-var scale_height: float
+var scale: float
+var offset: Vector2
 
 var input_sync: InputSync
 var should_send := false
@@ -20,9 +20,9 @@ func start_server() -> void:
 	input_sync = InputSync.new()
 	input_sync.bind()
 	
-	scale_width = float(render_result.width) / ui_events.current_ui_size.x
-	scale_height = float(render_result.height) / ui_events.current_ui_size.y
-	Debug.logclr("Mouse position scale: %.2fx%.2f" % [scale_width, scale_height], Color.DIM_GRAY)
+	scale = DisplayServer.screen_get_scale()
+	offset = render_result.global_position
+	Debug.logclr("Mouse position scale: %.2f. Offset: %.2f" % [scale, offset.y], Color.DIM_GRAY)
 
 
 func on_ui_mode_changed(mode: UiEvents.UiMode) -> void:
@@ -42,10 +42,7 @@ func _input(_event: InputEvent) -> void:
 
 
 func get_scaled_mouse_pos(position : Vector2) -> Vector2:
-	#position.x *= scale_width
-	#position.y *= scale_height
-	position.y -= 101
-	return position
+	return (position - offset) * scale
 
 
 func _exit_tree() -> void:

@@ -5,8 +5,8 @@ class_name RenderResult
 @export var command_events: CommandEvents
 @export var ui_events: UiEvents
 
-@onready var width: int = get_viewport().size.x
-@onready var height: int = get_viewport().size.y - 101
+@onready var width: int = int(size.x * DisplayServer.screen_get_scale())
+@onready var height: int = int(size.y * DisplayServer.screen_get_scale())
 
 var ext_texure: ExternalTexture
 var texture_rid: RID

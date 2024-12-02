@@ -21,10 +21,10 @@ func search(query: String) -> void:
 		return
 	
 	for gate in gates:
+		Debug.logr(gate["url"])
 		var result: SearchResult = result_scene.instantiate()
 		result.fill(gate)
 		add_child(result)
-		Debug.logr(gate["url"])
 
 
 func search_request(query: String) -> void:

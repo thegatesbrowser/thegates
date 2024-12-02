@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://dr1hykfog1h85"]
+
+[ext_resource type="LabelSettings" uid="uid://bo2334w4lf3ug" path="res://assets/styles/text.tres" id="1_gjtj0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ydgjs"]
+bg_color = Color(0.431373, 0.435294, 0.494118, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t3wmh"]
+bg_color = Color(0.32549, 0.14902, 0.8, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="GateStatus" type="Control"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 512.0
+offset_bottom = 35.0
+
+[node name="ProgressBarBackground" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 6.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ydgjs")
+
+[node name="ProgressBar" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = -271.0
+offset_bottom = 6.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t3wmh")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Downloading resources  —  3Mb of 27 Mb (1Mb/sec)"
+label_settings = ExtResource("1_gjtj0")

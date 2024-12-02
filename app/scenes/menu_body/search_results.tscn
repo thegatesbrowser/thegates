@@ -76,10 +76,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
+theme_override_constants/margin_right = 899
 theme_override_constants/margin_bottom = 0
 script = ExtResource("1_scp2i")
-limit = Vector2(1014, -1)
+limit = Vector2(1015, -1)
 halign = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/MaxSizeContainer"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=40 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -18,11 +18,16 @@
 [ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
 [ext_resource type="Script" path="res://scripts/ui/world/splash_screen.gd" id="13_3b6nd"]
 [ext_resource type="PackedScene" uid="uid://c7571vjq7l0jp" path="res://scenes/components/not_responding.tscn" id="17_kwbm3"]
-[ext_resource type="Script" path="res://scripts/ui/world/blackout.gd" id="18_776rt"]
+[ext_resource type="Script" path="res://scripts/ui/world/gate_info.gd" id="18_q06xu"]
+[ext_resource type="Shader" uid="uid://dd1axtdlit6no" path="res://shaders/vignette_blur.tres" id="18_sat0u"]
 [ext_resource type="Script" path="res://scripts/ui/fullscreen_animation.gd" id="18_sx3kr"]
-[ext_resource type="Texture2D" uid="uid://dapysvexbecnd" path="res://assets/textures/reload.svg" id="19_itbnl"]
-[ext_resource type="Script" path="res://scripts/ui/world/rotate.gd" id="20_dsgqt"]
+[ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="19_tkqw6"]
+[ext_resource type="FontFile" uid="uid://bjeupg0ikc2kv" path="res://assets/fonts/Monospace.ttf" id="20_hoet7"]
 [ext_resource type="LabelSettings" uid="uid://crt4elt055uhg" path="res://assets/styles/text_big.tres" id="20_v1648"]
+[ext_resource type="FontFile" uid="uid://b3xb1fpllhnf4" path="res://assets/fonts/Inter-Italic.otf" id="21_lpegk"]
+[ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="22_i5khx"]
+[ext_resource type="FontFile" uid="uid://c14w1y1r54wgi" path="res://assets/fonts/Inter-Bold.otf" id="23_t1gqo"]
+[ext_resource type="PackedScene" uid="uid://dr1hykfog1h85" path="res://scenes/components/gate_status.tscn" id="25_3436m"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_be6ex"]
 resource_local_to_scene = true
@@ -30,8 +35,31 @@ shader = ExtResource("10_2auwe")
 shader_parameter/ext_texture_is_bgra = null
 shader_parameter/show_render = null
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ybg1t"]
-bg_color = Color(0, 0, 0, 0.470588)
+[sub_resource type="Curve" id="Curve_rju31"]
+_data = [Vector2(0.0702341, 1), 0.0, -0.118897, 0, 0, Vector2(0.270903, 0.720054), -3.7783, -3.7783, 0, 0, Vector2(0.444816, 0.308883), -1.03045, -1.03045, 0, 0, Vector2(1, 0.160161), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_fomqh"]
+curve = SubResource("Curve_rju31")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bspld"]
+shader = ExtResource("18_sat0u")
+shader_parameter/BlurAmount = 3.0
+shader_parameter/VignetteColor = Color(0.0137093, 0.00449686, 0.0741505, 1)
+shader_parameter/Vignette = SubResource("CurveTexture_fomqh")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_axrau"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vnx4g"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jiaac"]
+bg_color = Color(0, 0, 0, 0.2)
 
 [sub_resource type="Animation" id="Animation_beyyv"]
 length = 0.001
@@ -46,18 +74,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WorldCanvas/Blackout:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_tper3"]
@@ -76,18 +92,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [true]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WorldCanvas/Blackout:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_77flb"]
 resource_name = "initial"
@@ -104,18 +108,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WorldCanvas/Blackout:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sld6k"]
@@ -175,52 +167,6 @@ gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
 snbx_logger = NodePath("../SandboxLogger")
 
-[node name="Loading" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Loading"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -20.0
-offset_right = 40.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 12
-
-[node name="Control" type="Control" parent="Loading/HBoxContainer"]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="Loading/HBoxContainer/Control"]
-self_modulate = Color(0.831373, 0.831373, 0.831373, 1)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(12, 20)
-texture = ExtResource("19_itbnl")
-expand_mode = 1
-stretch_mode = 5
-script = ExtResource("20_dsgqt")
-
-[node name="Label" type="Label" parent="Loading/HBoxContainer"]
-layout_mode = 2
-text = "Loading..."
-label_settings = ExtResource("20_v1648")
-
 [node name="WorldCanvas" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -232,21 +178,6 @@ size_flags_horizontal = 0
 script = ExtResource("9_ncfxj")
 ui_events = ExtResource("9_ir58h")
 interpolate = 1.0
-
-[node name="SplashScreen" type="TextureRect" parent="WorldCanvas"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-expand_mode = 1
-stretch_mode = 5
-script = ExtResource("13_3b6nd")
-gate_events = ExtResource("2_q7cvi")
-command_events = ExtResource("6_18mgg")
-ui_events = ExtResource("9_ir58h")
 
 [node name="RenderResult" type="TextureRect" parent="WorldCanvas"]
 texture_filter = 2
@@ -273,8 +204,7 @@ grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
 
-[node name="Blackout" type="Panel" parent="WorldCanvas"]
-visible = false
+[node name="Foreground" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -282,9 +212,113 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ybg1t")
-script = ExtResource("18_776rt")
+
+[node name="SplashScreen" type="TextureRect" parent="Foreground" node_paths=PackedStringArray("render_result")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+script = ExtResource("13_3b6nd")
 gate_events = ExtResource("2_q7cvi")
+command_events = ExtResource("6_18mgg")
+ui_events = ExtResource("9_ir58h")
+render_result = NodePath("../../WorldCanvas/RenderResult")
+
+[node name="VignetteBlur" type="Panel" parent="Foreground"]
+material = SubResource("ShaderMaterial_bspld")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_axrau")
+
+[node name="GateInfo" type="VBoxContainer" parent="Foreground" node_paths=PackedStringArray("image", "title", "description")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -90.0
+offset_right = 562.0
+offset_bottom = -50.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 2
+script = ExtResource("18_q06xu")
+gate_events = ExtResource("2_q7cvi")
+image = NodePath("Image/TextureRect")
+title = NodePath("Title")
+description = NodePath("RichTextLabel")
+
+[node name="Image" type="Panel" parent="Foreground/GateInfo"]
+clip_children = 1
+custom_minimum_size = Vector2(0, 256)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vnx4g")
+
+[node name="TextureRect" type="TextureRect" parent="Foreground/GateInfo/Image"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Panel" type="Panel" parent="Foreground/GateInfo/Image"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jiaac")
+
+[node name="Space" type="Control" parent="Foreground/GateInfo"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Foreground/GateInfo"]
+layout_mode = 2
+text = "Welcome"
+label_settings = ExtResource("20_v1648")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Foreground/GateInfo"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_colors/selection_color = Color(0.419608, 0.231373, 0.929412, 0.588235)
+theme_override_fonts/normal_font = ExtResource("19_tkqw6")
+theme_override_fonts/mono_font = ExtResource("20_hoet7")
+theme_override_fonts/italics_font = ExtResource("21_lpegk")
+theme_override_fonts/bold_italics_font = ExtResource("22_i5khx")
+theme_override_fonts/bold_font = ExtResource("23_t1gqo")
+theme_override_font_sizes/bold_italics_font_size = 15
+theme_override_font_sizes/italics_font_size = 15
+theme_override_font_sizes/mono_font_size = 15
+theme_override_font_sizes/normal_font_size = 15
+theme_override_font_sizes/bold_font_size = 15
+bbcode_enabled = true
+text = "A slot machine battler instead of money its points that you can use to  heal and attack. upgrade your build and attack enemies and become the  best on the leaderboard"
+fit_content = true
+
+[node name="Space2" type="Control" parent="Foreground/GateInfo"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+
+[node name="GateStatus" parent="Foreground/GateInfo" instance=ExtResource("25_3436m")]
+layout_mode = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

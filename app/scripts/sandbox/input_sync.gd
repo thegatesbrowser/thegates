@@ -26,7 +26,7 @@ func start_server() -> void:
 
 
 func on_ui_mode_changed(mode: UiEvents.UiMode) -> void:
-	should_send = mode == UiEvents.UiMode.FULL_SCREEN
+	should_send = mode == UiEvents.UiMode.FOCUSED
 
 
 func _input(_event: InputEvent) -> void:

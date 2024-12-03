@@ -5,9 +5,9 @@ extends AnimationPlayer
 
 const RESET := "RESET"
 const INITIAL := "initial"
-const FULLSCREEN := "fullscreen"
+const FOCUSED := "focused"
 
-var fullscreen := false
+var focused := false
 
 
 func _ready() -> void:
@@ -16,10 +16,10 @@ func _ready() -> void:
 
 
 func on_ui_mode_changed(mode: UiEvents.UiMode) -> void:
-	if mode == UiEvents.UiMode.INITIAL and fullscreen:
-		fullscreen = false
+	if mode == UiEvents.UiMode.INITIAL and focused:
+		focused = false
 		play(INITIAL)
 	
-	if mode == UiEvents.UiMode.FULL_SCREEN and not fullscreen:
-		fullscreen = true
-		play(FULLSCREEN)
+	if mode == UiEvents.UiMode.FOCUSED and not focused:
+		focused = true
+		play(FOCUSED)

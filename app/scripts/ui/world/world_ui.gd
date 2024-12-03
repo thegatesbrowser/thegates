@@ -5,12 +5,14 @@ extends Control
 @export var command_events: CommandEvents
 @export var render_result: RenderResult
 
+var gate_started: bool
 var mouse_mode: int = Input.MOUSE_MODE_VISIBLE
 var _visible: bool = true
 
 
 func _ready() -> void:
 	command_events.set_mouse_mode.connect(set_mouse_mode)
+	gate_events.first_frame.connect(func(): gate_started = true)
 	gate_events.not_responding.connect(func(): set_mouse_mode(Input.MOUSE_MODE_VISIBLE))
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
@@ -38,9 +40,9 @@ func show_ui() -> void:
 
 
 func hide_ui() -> void:
-	if not _visible: return
+	if not _visible or not gate_started: return
 	_visible = false
 	
 	Input.set_mouse_mode(mouse_mode)
-	ui_events.ui_mode_changed_emit(UiEvents.UiMode.FULL_SCREEN)
+	ui_events.ui_mode_changed_emit(UiEvents.UiMode.FOCUSED)
 	render_result.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST

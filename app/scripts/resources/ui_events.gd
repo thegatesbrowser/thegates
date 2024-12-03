@@ -7,7 +7,7 @@ signal ui_size_changed(size: Vector2)
 enum UiMode
 {
 	INITIAL,
-	FULL_SCREEN
+	FOCUSED
 }
 
 var current_ui_size: Vector2

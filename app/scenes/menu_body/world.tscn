@@ -255,7 +255,7 @@ offset_top = 50.0
 offset_right = 175.5
 offset_bottom = 75.0
 grow_horizontal = 2
-text = "Click Anywhere to Play → ESC to Exit"
+text = "Click anywhere to play → ESC to exit"
 label_settings = ExtResource("20_v1648")
 
 [node name="GateInfo" type="VBoxContainer" parent="Foreground" node_paths=PackedStringArray("image", "image_darken", "title", "description", "gate_status")]

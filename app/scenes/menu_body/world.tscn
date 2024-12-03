@@ -37,8 +37,8 @@ shader_parameter/ext_texture_is_bgra = null
 shader_parameter/show_render = null
 
 [sub_resource type="Curve" id="Curve_rju31"]
-_data = [Vector2(0.090301, 0.772544), 0.0, -0.118897, 0, 0, Vector2(0.307692, 0.510094), -2.18127, -2.18127, 0, 0, Vector2(0.605578, 0.0776294), -1.01166, -1.01166, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 4
+_data = [Vector2(0.0876494, 0.913189), 0.0, -0.118897, 0, 0, Vector2(0.50996, 0.316361), -1.65368, -1.65368, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_fomqh"]
 curve = SubResource("Curve_rju31")
@@ -242,8 +242,10 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_axrau")
 script = ExtResource("19_415fa")
-blur_amount_game = 1.5
-uv_scale = Vector2(0.97, 0.97)
+blur_amount = 2.5
+blur_amount_started = 1.2
+uv_scale = Vector2(0.9, 0.9)
+uv_scale_startd = Vector2(0.97, 0.97)
 
 [node name="ClickAnywhere" type="Label" parent="Foreground"]
 layout_mode = 1
@@ -355,7 +357,7 @@ selection_enabled = true
 script = ExtResource("26_u6afs")
 
 [node name="Space2" type="Control" parent="Foreground/GateInfo"]
-custom_minimum_size = Vector2(0, 26)
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
 [node name="GateStatus" parent="Foreground/GateInfo" instance=ExtResource("25_3436m")]

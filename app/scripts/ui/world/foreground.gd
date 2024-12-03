@@ -18,6 +18,7 @@ func _ready() -> void:
 func show_thumbnail(gate: Gate, _is_cached: bool) -> void:
 	splash_screen.texture = FileTools.load_external_tex(gate.image)
 	vignette_blur.show()
+	vignette_blur.thumbnail_params()
 
 
 func on_first_frame() -> void:

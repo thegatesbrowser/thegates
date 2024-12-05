@@ -121,12 +121,10 @@ exit = NodePath("Close")
 
 [node name="Minimize" parent="VBoxContainer/Top/VBoxContainer/Tabs/WindowButtons" instance=ExtResource("6_gxcmo")]
 layout_mode = 2
-disabled = true
 icon = ExtResource("7_ab04l")
 
 [node name="Maximize" parent="VBoxContainer/Top/VBoxContainer/Tabs/WindowButtons" instance=ExtResource("6_gxcmo")]
 layout_mode = 2
-disabled = true
 icon = ExtResource("8_yoyw7")
 
 [node name="Close" parent="VBoxContainer/Top/VBoxContainer/Tabs/WindowButtons" instance=ExtResource("6_gxcmo")]

@@ -1,8 +1,5 @@
 extends Control
 
-const SHOWN = Color(1, 1, 1, 1)
-const HIDDEN = Color(1, 1, 1, 0)
-
 @export var gate_events: GateEvents
 @export var history: History
 @export var root: TextureButton
@@ -10,6 +7,9 @@ const HIDDEN = Color(1, 1, 1, 0)
 @export var wait: Button
 @export var fade_in: float = 1.0
 @export var fade_out: float = 0.2
+
+const SHOWN = Color(1, 1, 1, 1)
+const HIDDEN = Color(1, 1, 1, 0)
 
 var tween: Tween
 

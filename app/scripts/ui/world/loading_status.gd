@@ -1,13 +1,32 @@
-extends Label
+extends Control
+
+enum ProgressStatus {
+	CONNECTING,
+	DOWNLOADING,
+	STARTING,
+	ERROR
+}
 
 @export var gate_events: GateEvents
+@export var progress_bar_background: Control
+@export var progress_bar_error: Control
+@export var progress_bar: Control
+@export var label: Label
+
+const TWEEN_DURATION_S = 0.2
+const SPEED_DELAY_MS = 400
+
+var last_bytes: int
+var last_ticks: int
+var last_speed: String
+var accum_bytes: int
 
 
 func _ready() -> void:
 	gate_events.gate_info_loaded.connect(func(_gate, _is_cached): on_gate_info_loaded())
 	gate_events.gate_entered.connect(on_gate_entered)
 	gate_events.gate_error.connect(on_gate_error)
-	set_text("Connecting...")
+	set_progress("Connecting...", ProgressStatus.CONNECTING)
 
 
 func on_gate_info_loaded() -> void:
@@ -15,22 +34,94 @@ func on_gate_info_loaded() -> void:
 
 
 func show_progress(_url: String, body_size: int, downloaded_bytes: int) -> void:
-	var percent = int(downloaded_bytes * 100 / body_size)
-	set_text("Downloading: %d%s" % [percent, "%"])
+	if body_size < 0: return
+	
+	var downloaded = bytes_to_string(downloaded_bytes)
+	var body = bytes_to_string(body_size)
+	var speed = get_speed(downloaded_bytes)
+	
+	var text = "Downloading resources  —  %s of %s (%s/sec)" % [downloaded, body, speed]
+	var progress = float(downloaded_bytes) / body_size
+	set_progress(text, ProgressStatus.DOWNLOADING, progress)
+
+
+func get_speed(bytes: int) -> String:
+	var delta_bytes = bytes - last_bytes
+	var delta_ticks = Time.get_ticks_msec() - last_ticks
+	
+	if delta_ticks < SPEED_DELAY_MS and not last_speed.is_empty(): return last_speed
+	
+	last_bytes = bytes
+	last_ticks = Time.get_ticks_msec()
+	
+	if delta_bytes == 0 or delta_ticks == 0:
+		return bytes_to_string(0)
+	
+	var speed = int(delta_bytes / (delta_ticks / 1000.0))
+	last_speed = bytes_to_string(speed)
+	return last_speed
+
+
+func bytes_to_string(bytes: int) -> String:
+	if bytes < 1024: return str(bytes) + "B"
+	
+	var kb = bytes / 1024
+	if kb < 1024: return str(kb) + "KB"
+	
+	var mb = kb / 1024.0
+	var text = "%.1fMB" if mb < 10.0 else "%.0fMB"
+	return text % [mb]
 
 
 func on_gate_entered() -> void:
 	gate_events.download_progress.disconnect(show_progress)
-	set_text("")
+	set_progress("Starting the gate...", ProgressStatus.STARTING)
 
 
 func on_gate_error(code: GateEvents.GateError) -> void:
 	match code:
 		GateEvents.GateError.NOT_FOUND:
-			set_text("Gate not found")
+			set_progress("Gate not found", ProgressStatus.ERROR)
 		GateEvents.GateError.INVALID_CONFIG:
-			set_text("Invalid gate config")
+			set_progress("Invalid gate config", ProgressStatus.ERROR)
 		GateEvents.GateError.MISSING_PACK, GateEvents.GateError.MISSING_LIBS:
-			set_text("Cannot load gate resources")
+			set_progress("Cannot load gate resources", ProgressStatus.ERROR)
 		_:
-			set_text("Error")
+			set_progress("Unknown error", ProgressStatus.ERROR)
+
+
+func set_progress(text: String, status: ProgressStatus, progress: float = 0.0) -> void:
+	label.text = text
+	
+	match status:
+		ProgressStatus.CONNECTING:
+			progress_bar.show()
+			progress_bar_error.hide()
+			move_progress_bar(0.0)
+			
+		ProgressStatus.DOWNLOADING:
+			progress_bar.show()
+			progress_bar_error.hide()
+			move_progress_bar(progress)
+			
+		ProgressStatus.STARTING:
+			progress_bar.show()
+			progress_bar_error.hide()
+			move_progress_bar(1.0, true)
+			
+		ProgressStatus.ERROR:
+			progress_bar.hide()
+			progress_bar_error.show()
+		
+		_:
+			progress_bar.hide()
+			progress_bar_error.hide()
+
+
+func move_progress_bar(progress: float, custom_delay: bool = false) -> void:
+	var full_size = progress_bar_background.size
+	var current_size = Vector2(lerp(0.0, full_size.x, progress), full_size.y)
+	var tween_duration = TWEEN_DURATION_S if custom_delay else FileDownloader.PROGRESS_DELAY
+	
+	var tween = get_tree().create_tween()
+	tween.tween_property(progress_bar, "size", current_size, tween_duration)

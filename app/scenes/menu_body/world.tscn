@@ -27,7 +27,7 @@
 [ext_resource type="FontFile" uid="uid://b3xb1fpllhnf4" path="res://assets/fonts/Inter-Italic.otf" id="21_lpegk"]
 [ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="22_i5khx"]
 [ext_resource type="FontFile" uid="uid://c14w1y1r54wgi" path="res://assets/fonts/Inter-Bold.otf" id="23_t1gqo"]
-[ext_resource type="PackedScene" uid="uid://dr1hykfog1h85" path="res://scenes/components/gate_status.tscn" id="25_3436m"]
+[ext_resource type="PackedScene" uid="uid://dr1hykfog1h85" path="res://scenes/components/loading_tatus.tscn" id="25_3436m"]
 [ext_resource type="Script" path="res://scripts/ui/world/release_focus.gd" id="26_u6afs"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_be6ex"]
@@ -278,7 +278,7 @@ image = NodePath("Image/TextureRect")
 image_darken = NodePath("Image/Panel")
 title = NodePath("Title")
 description = NodePath("RichTextLabel")
-gate_status = [NodePath("Space2"), NodePath("GateStatus")]
+gate_status = [NodePath("Space2"), NodePath("LoadingStatus")]
 
 [node name="Image" type="Panel" parent="Foreground/GateInfo"]
 clip_children = 1
@@ -360,7 +360,7 @@ script = ExtResource("26_u6afs")
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
-[node name="GateStatus" parent="Foreground/GateInfo" instance=ExtResource("25_3436m")]
+[node name="LoadingStatus" parent="Foreground/GateInfo" instance=ExtResource("25_3436m")]
 layout_mode = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

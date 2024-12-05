@@ -16,7 +16,11 @@ func on_minimize() -> void:
 
 
 func on_maximize() -> void:
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
+	var mode = DisplayServer.window_get_mode()
+	if mode == DisplayServer.WINDOW_MODE_WINDOWED:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 
 func on_exit() -> void:

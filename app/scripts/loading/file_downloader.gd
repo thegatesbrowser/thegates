@@ -1,5 +1,7 @@
 extends Node
 
+signal progress(url: String, body_size: int, downloaded_bytes: int)
+
 class DownloadRequest:
 	var save_path: String
 	var http: HTTPRequest
@@ -11,9 +13,7 @@ class DownloadRequest:
 		timer = _timer
 
 const DOWNLOAD_FOLDER := "user://gates_data"
-const PROGRESS_DELAY := 0.3
-
-signal progress(url: String, body_size: int, downloaded_bytes: int)
+const PROGRESS_DELAY := 0.1
 
 var download_requests: Array[DownloadRequest]
 
@@ -97,7 +97,6 @@ func create_request(url: String, save_path: String, timeout: float = 0) -> int:
 	if err != OK: return err
 	var code = (await http.request_completed)[1]
 	
-	progress.emit(url, http.get_body_size(), http.get_downloaded_bytes())
 	timer.stop()
 	remove_child(timer)
 	remove_child(http)

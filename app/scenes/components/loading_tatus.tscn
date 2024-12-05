@@ -1,9 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://dr1hykfog1h85"]
+[gd_scene load_steps=7 format=3 uid="uid://dr1hykfog1h85"]
 
 [ext_resource type="LabelSettings" uid="uid://bo2334w4lf3ug" path="res://assets/styles/text.tres" id="1_gjtj0"]
+[ext_resource type="Script" path="res://scripts/ui/world/loading_status.gd" id="1_m3y11"]
+[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_0ylq1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ydgjs"]
 bg_color = Color(0.431373, 0.435294, 0.494118, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fgqyr"]
+bg_color = Color(0.933333, 0.235294, 0.243137, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -16,21 +25,35 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[node name="GateStatus" type="Control"]
+[node name="LoadingStatus" type="Control" node_paths=PackedStringArray("progress_bar_background", "progress_bar_error", "progress_bar", "label")]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 512.0
 offset_bottom = 35.0
+script = ExtResource("1_m3y11")
+gate_events = ExtResource("2_0ylq1")
+progress_bar_background = NodePath("ProgressBarBackground")
+progress_bar_error = NodePath("ProgressBarError")
+progress_bar = NodePath("ProgressBar")
+label = NodePath("Label")
 
 [node name="ProgressBarBackground" type="Panel" parent="."]
 custom_minimum_size = Vector2(0, 6)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 6.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ydgjs")
+
+[node name="ProgressBarError" type="Panel" parent="."]
+visible = false
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fgqyr")
 
 [node name="ProgressBar" type="Panel" parent="."]
 custom_minimum_size = Vector2(0, 6)

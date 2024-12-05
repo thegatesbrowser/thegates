@@ -15,11 +15,13 @@ enum ProgressStatus {
 
 const TWEEN_DURATION_S = 0.2
 const SPEED_DELAY_MS = 400
+const ZERO_SPEED_DELAY_MS = 2000
 
 var last_bytes: int
 var last_ticks: int
 var last_speed: String
-var accum_bytes: int
+var last_is_zero: int
+var first_zero_ticks: int
 
 
 func _ready() -> void:
@@ -51,15 +53,34 @@ func get_speed(bytes: int) -> String:
 	
 	if delta_ticks < SPEED_DELAY_MS and not last_speed.is_empty(): return last_speed
 	
-	last_bytes = bytes
-	last_ticks = Time.get_ticks_msec()
+	var bytes_sec = 0
+	if delta_bytes != 0 and delta_ticks != 0:
+		bytes_sec = int(delta_bytes / (delta_ticks / 1000.0))
 	
-	if delta_bytes == 0 or delta_ticks == 0:
-		return bytes_to_string(0)
+	if should_write_current_speed(bytes_sec):
+		last_bytes = bytes
+		last_ticks = Time.get_ticks_msec()
+		last_speed = bytes_to_string(bytes_sec)
 	
-	var speed = int(delta_bytes / (delta_ticks / 1000.0))
-	last_speed = bytes_to_string(speed)
 	return last_speed
+
+
+func should_write_current_speed(bytes_sec: int) -> bool:
+	if last_speed.is_empty(): return true
+	if bytes_sec != 0:
+		last_is_zero = false
+		return true
+	
+	if not last_is_zero:
+		first_zero_ticks = Time.get_ticks_msec()
+		last_is_zero = true
+		return false
+	
+	var delta_zero_tiks = Time.get_ticks_msec() - first_zero_ticks
+	if delta_zero_tiks < ZERO_SPEED_DELAY_MS:
+		return false
+	
+	return true
 
 
 func bytes_to_string(bytes: int) -> String:

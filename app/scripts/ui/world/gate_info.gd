@@ -18,7 +18,7 @@ func _ready() -> void:
 	clear_info()
 
 
-func display_info(_gate: Gate, _is_cached: bool) -> void:
+func display_info(_gate: Gate) -> void:
 	gate = _gate
 	title.text = "Unnamed" if gate.title.is_empty() else gate.title
 	description.text = "No description" if gate.description.is_empty() else gate.description

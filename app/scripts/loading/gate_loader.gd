@@ -22,8 +22,7 @@ func load_gate(config_url: String) -> void:
 	
 	var image_path = await FileDownloader.download(c_gate.image_url)
 	var gate = Gate.create(config_url, c_gate.title, c_gate.description, image_path, "", "")
-	var is_cached = FileDownloader.is_cached(c_gate.resource_pack_url)
-	gate_events.gate_info_loaded_emit(gate, is_cached)
+	gate_events.gate_info_loaded_emit(gate)
 	
 	gate.resource_pack = await FileDownloader.download(c_gate.resource_pack_url)
 	if gate.resource_pack.is_empty(): return error(GateEvents.GateError.MISSING_PACK)

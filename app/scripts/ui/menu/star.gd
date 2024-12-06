@@ -36,7 +36,7 @@ func hide_buttons() -> void:
 	gate = null
 
 
-func update_info(_gate: Gate, _is_cached: bool) -> void:
+func update_info(_gate: Gate) -> void:
 	gate = _gate
 	if bookmarks.gates.has(gate.url):
 		bookmarks.update(gate)

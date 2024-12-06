@@ -25,13 +25,13 @@ var first_zero_ticks: int
 
 
 func _ready() -> void:
-	gate_events.gate_info_loaded.connect(func(_gate, _is_cached): on_gate_info_loaded())
+	gate_events.gate_info_loaded.connect(on_gate_info_loaded)
 	gate_events.gate_entered.connect(on_gate_entered)
 	gate_events.gate_error.connect(on_gate_error)
 	set_progress("Connecting...", ProgressStatus.CONNECTING)
 
 
-func on_gate_info_loaded() -> void:
+func on_gate_info_loaded(_gate: Gate) -> void:
 	gate_events.download_progress.connect(show_progress)
 
 

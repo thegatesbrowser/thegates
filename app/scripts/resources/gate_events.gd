@@ -4,7 +4,7 @@ class_name GateEvents
 signal search(query: String)
 signal open_gate(url: String)
 signal gate_config_loaded(url: String, config: ConfigGate)
-signal gate_info_loaded(gate: Gate, is_cached: bool)
+signal gate_info_loaded(gate: Gate)
 signal gate_loaded(gate: Gate)
 signal gate_entered
 signal first_frame
@@ -45,9 +45,9 @@ func gate_config_loaded_emit(url: String, config: ConfigGate) -> void:
 	gate_config_loaded.emit(url, config)
 
 
-func gate_info_loaded_emit(gate: Gate, is_cached: bool) -> void:
+func gate_info_loaded_emit(gate: Gate) -> void:
 	current_gate = gate
-	gate_info_loaded.emit(gate, is_cached)
+	gate_info_loaded.emit(gate)
 
 
 func gate_loaded_emit(gate: Gate) -> void:

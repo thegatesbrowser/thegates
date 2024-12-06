@@ -15,7 +15,7 @@ func _ready() -> void:
 	click_anywhere.hide()
 
 
-func show_thumbnail(gate: Gate, _is_cached: bool) -> void:
+func show_thumbnail(gate: Gate) -> void:
 	splash_screen.texture = FileTools.load_external_tex(gate.image)
 	vignette_blur.show()
 	vignette_blur.thumbnail_params()

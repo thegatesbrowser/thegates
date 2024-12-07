@@ -5,7 +5,7 @@ signal search(query: String)
 signal open_gate(url: String)
 signal gate_config_loaded(url: String, config: ConfigGate)
 signal gate_info_loaded(gate: Gate)
-signal gate_image_loaded(gate: Gate)
+signal gate_image_loaded(gate: Gate) # might be empty image
 signal gate_loaded(gate: Gate)
 signal gate_entered
 signal first_frame

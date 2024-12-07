@@ -7,7 +7,6 @@ var gate: Gate
 
 # For parallel loading
 var has_errors: bool
-var load_image_done: bool
 var load_resources_done: bool
 var shared_libs_count: int = -1
 var shared_libs_done: int
@@ -38,10 +37,8 @@ func load_gate(config_url: String) -> void:
 
 func load_image(c_gate: ConfigGate) -> void:
 	gate.image = await FileDownloader.download(c_gate.image_url)
-	if not gate.image.is_empty(): gate_events.gate_image_loaded_emit(gate)
-	
-	load_image_done = true
-	try_finish_loading()
+	gate_events.gate_image_loaded_emit(gate)
+	# finish without image
 
 
 func load_resources(c_gate: ConfigGate) -> void:
@@ -71,7 +68,7 @@ func load_lib(config_url: String, lib: String) -> void:
 
 func try_finish_loading() -> void:
 	if has_errors: return
-	if not load_image_done or not load_resources_done: return
+	if not load_resources_done: return
 	if shared_libs_count == -1 or shared_libs_done != shared_libs_count: return
 	
 	gate_events.gate_loaded_emit(gate)

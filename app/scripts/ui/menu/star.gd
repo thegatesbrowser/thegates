@@ -18,6 +18,7 @@ func _ready() -> void:
 	gate_events.search.connect(func(_query): hide_buttons())
 	gate_events.exit_gate.connect(hide_buttons)
 	gate_events.gate_info_loaded.connect(update_info)
+	gate_events.gate_image_loaded.connect(update_info)
 
 
 func show_buttons(_url: String) -> void:

@@ -5,6 +5,7 @@ signal search(query: String)
 signal open_gate(url: String)
 signal gate_config_loaded(url: String, config: ConfigGate)
 signal gate_info_loaded(gate: Gate)
+signal gate_image_loaded(gate: Gate) # might be empty image
 signal gate_loaded(gate: Gate)
 signal gate_entered
 signal first_frame
@@ -48,6 +49,10 @@ func gate_config_loaded_emit(url: String, config: ConfigGate) -> void:
 func gate_info_loaded_emit(gate: Gate) -> void:
 	current_gate = gate
 	gate_info_loaded.emit(gate)
+
+
+func gate_image_loaded_emit(gate: Gate) -> void:
+	gate_image_loaded.emit(gate)
 
 
 func gate_loaded_emit(gate: Gate) -> void:

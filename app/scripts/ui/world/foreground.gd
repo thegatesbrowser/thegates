@@ -8,7 +8,7 @@ extends Control
 
 
 func _ready() -> void:
-	gate_events.gate_info_loaded.connect(show_thumbnail)
+	gate_events.gate_image_loaded.connect(show_thumbnail)
 	gate_events.first_frame.connect(on_first_frame)
 	ui_events.ui_mode_changed.connect(on_ui_mode_changed)
 	vignette_blur.hide()
@@ -17,6 +17,7 @@ func _ready() -> void:
 
 func show_thumbnail(gate: Gate) -> void:
 	splash_screen.texture = FileTools.load_external_tex(gate.image)
+	if not is_instance_valid(splash_screen.texture): return
 	vignette_blur.show()
 	vignette_blur.thumbnail_params()
 
@@ -24,6 +25,7 @@ func show_thumbnail(gate: Gate) -> void:
 func on_first_frame() -> void:
 	splash_screen.hide()
 	click_anywhere.show()
+	vignette_blur.show()
 	vignette_blur.gate_started_params()
 
 

@@ -32,6 +32,7 @@ func is_cached(url: String) -> bool:
 
 
 func download(url: String, timeout: float = 0) -> String:
+	if url.is_empty(): return ""
 	var save_path = DOWNLOAD_FOLDER + "/" + url.md5_text() + "." + url.get_file().get_extension()
 	
 	if has_request(save_path):
@@ -52,6 +53,7 @@ func download(url: String, timeout: float = 0) -> String:
 
 # Returns directory where file was downloaded. Keeps filename
 func download_shared_lib(url: String, gate_url: String) -> String:
+	if url.is_empty(): return ""
 	var dir = DOWNLOAD_FOLDER + "/" + gate_url.md5_text()
 	var save_path = dir + "/" + url.get_file()
 	
@@ -97,6 +99,7 @@ func create_request(url: String, save_path: String, timeout: float = 0) -> int:
 	if err != OK: return err
 	var code = (await http.request_completed)[1]
 	
+	progress.emit(url, http.get_body_size(), http.get_downloaded_bytes())
 	timer.stop()
 	remove_child(timer)
 	remove_child(http)

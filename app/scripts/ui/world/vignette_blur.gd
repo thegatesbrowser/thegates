@@ -1,8 +1,8 @@
 extends Control
 class_name VignetteBlur
 
-const BLUR_AMOUNT = "BlurAmount"
-const UV_SCALE = "UVScale"
+const BLUR_AMOUNT = &"BlurAmount"
+const UV_SCALE = &"UVScale"
 
 @export var blur_amount: float
 @export var blur_amount_started: float

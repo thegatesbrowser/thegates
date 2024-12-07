@@ -3,7 +3,13 @@ extends Node
 @export var gate_events: GateEvents
 @export var connect_timeout: float
 
-var c_gate: ConfigGate
+var gate: Gate
+
+# For parallel downloading
+var has_errors: bool
+var load_resources_done: bool
+var shared_libs_count: int = -1
+var shared_libs_done: int
 
 
 func _ready() -> void:
@@ -16,27 +22,61 @@ func load_gate(config_url: String) -> void:
 	var config_path = await FileDownloader.download(config_url, connect_timeout)
 	if config_path.is_empty(): return error(GateEvents.GateError.NOT_FOUND)
 	
-	c_gate = ConfigGate.new(config_path, config_url)
+	var c_gate = ConfigGate.new(config_path, config_url)
 	if c_gate.load_result != OK: return error(GateEvents.GateError.INVALID_CONFIG)
 	gate_events.gate_config_loaded_emit(config_url, c_gate)
 	
-	var image_path = await FileDownloader.download(c_gate.image_url)
-	var gate = Gate.create(config_url, c_gate.title, c_gate.description, image_path, "", "")
+	gate = Gate.create(config_url, c_gate.title, c_gate.description, "", "", "")
 	gate_events.gate_info_loaded_emit(gate)
 	
+	# Download all in parallel
+	load_image(c_gate)
+	load_resources(c_gate)
+	load_shared_libs(c_gate, config_url)
+
+
+func load_image(c_gate: ConfigGate) -> void:
+	gate.image = await FileDownloader.download(c_gate.image_url)
+	gate_events.gate_image_loaded_emit(gate)
+	# finish without image
+
+
+func load_resources(c_gate: ConfigGate) -> void:
 	gate.resource_pack = await FileDownloader.download(c_gate.resource_pack_url)
 	if gate.resource_pack.is_empty(): return error(GateEvents.GateError.MISSING_PACK)
 	
+	load_resources_done = true
+	try_finish_loading()
+
+
+func load_shared_libs(c_gate: ConfigGate, config_url: String) -> void:
 	Debug.logclr("GDExtension libraries: " + str(c_gate.libraries), Color.DIM_GRAY)
+	shared_libs_count = c_gate.libraries.size()
 	for lib in c_gate.libraries:
-		gate.shared_libs_dir = await FileDownloader.download_shared_lib(lib, config_url)
-		if gate.shared_libs_dir.is_empty(): return error(GateEvents.GateError.MISSING_LIBS)
+		load_lib(config_url, lib)
+	
+	try_finish_loading() # In case of 0 libs
+
+
+func load_lib(config_url: String, lib: String) -> void:
+	gate.shared_libs_dir = await FileDownloader.download_shared_lib(lib, config_url)
+	if gate.shared_libs_dir.is_empty(): return error(GateEvents.GateError.MISSING_LIBS)
+	
+	shared_libs_done += 1
+	try_finish_loading()
+
+
+func try_finish_loading() -> void:
+	if has_errors: return
+	if not load_resources_done: return
+	if shared_libs_count == -1 or shared_libs_done != shared_libs_count: return
 	
 	gate_events.gate_loaded_emit(gate)
 
 
 func error(code: GateEvents.GateError) -> void:
 	Debug.logclr("GateError: " + GateEvents.GateError.keys()[code], Color.MAROON)
+	has_errors = true
 	gate_events.gate_error_emit(code)
 
 

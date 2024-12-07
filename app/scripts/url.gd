@@ -7,7 +7,7 @@ const url_regex: String = "^(https?)://[^\\s()<>]+(?:\\([\\w\\d]+\\)|([^[:punct:
 static func join(base_url: String, path: String) -> String:
 	var url = ""
 	if path.is_empty():
-		url = base_url
+		url = ""
 	elif path.begins_with("http"):
 		url = path
 	else:

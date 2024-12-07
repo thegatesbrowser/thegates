@@ -7,6 +7,10 @@ enum ProgressStatus {
 	ERROR
 }
 
+class DownloadItem:
+	var body_size: int
+	var downloaded_bytes: int
+
 @export var gate_events: GateEvents
 @export var progress_bar_background: Control
 @export var progress_bar_error: Control
@@ -14,13 +18,16 @@ enum ProgressStatus {
 @export var label: Label
 
 const TWEEN_DURATION_S = 0.2
-const SPEED_DELAY_MS = 400
+const SPEED_DELAY_MS = 300
 const ZERO_SPEED_DELAY_MS = 2000
 
+var download_items: Dictionary
+
+# For calculating speed
 var last_bytes: int
 var last_ticks: int
 var last_speed: String
-var last_is_zero: int
+var last_is_zero: bool
 var first_zero_ticks: int
 
 
@@ -33,25 +40,41 @@ func _ready() -> void:
 
 func on_gate_info_loaded(_gate: Gate) -> void:
 	gate_events.download_progress.connect(show_progress)
+	last_ticks = Time.get_ticks_msec()
 
 
-func show_progress(_url: String, body_size: int, downloaded_bytes: int) -> void:
+func show_progress(url: String, body_size: int, downloaded_bytes: int) -> void:
 	if body_size < 0: return
 	
-	var downloaded = bytes_to_string(downloaded_bytes)
-	var body = bytes_to_string(body_size)
-	var speed = get_speed(downloaded_bytes)
+	var item = download_items.get_or_add(url, DownloadItem.new()) as DownloadItem
+	item.body_size = body_size
+	item.downloaded_bytes = downloaded_bytes
+	
+	var sum_downloaded_bytes = get_sum(&"downloaded_bytes")
+	var sum_body_size = get_sum(&"body_size")
+	
+	var downloaded = StringTools.bytes_to_string(sum_downloaded_bytes)
+	var body = StringTools.bytes_to_string(sum_body_size)
+	var speed = get_speed(sum_downloaded_bytes)
 	
 	var text = "Downloading resources  —  %s of %s (%s/sec)" % [downloaded, body, speed]
-	var progress = float(downloaded_bytes) / body_size
+	var progress = float(sum_downloaded_bytes) / sum_body_size
 	set_progress(text, ProgressStatus.DOWNLOADING, progress)
+
+
+func get_sum(property: StringName) -> int:
+	var result: int = 0
+	for item in download_items.values():
+		result += item.get(property)
+	return result
 
 
 func get_speed(bytes: int) -> String:
 	var delta_bytes = bytes - last_bytes
 	var delta_ticks = Time.get_ticks_msec() - last_ticks
 	
-	if delta_ticks < SPEED_DELAY_MS and not last_speed.is_empty(): return last_speed
+	if delta_ticks < SPEED_DELAY_MS and not last_speed.is_empty() and not last_is_zero:
+		return last_speed
 	
 	var bytes_sec = 0
 	if delta_bytes != 0 and delta_ticks != 0:
@@ -60,13 +83,16 @@ func get_speed(bytes: int) -> String:
 	if should_write_current_speed(bytes_sec):
 		last_bytes = bytes
 		last_ticks = Time.get_ticks_msec()
-		last_speed = bytes_to_string(bytes_sec)
+		last_speed = StringTools.bytes_to_string(bytes_sec)
 	
 	return last_speed
 
 
 func should_write_current_speed(bytes_sec: int) -> bool:
-	if last_speed.is_empty(): return true
+	if last_speed.is_empty():
+		last_is_zero = bytes_sec == 0
+		return true
+	
 	if bytes_sec != 0:
 		last_is_zero = false
 		return true
@@ -81,17 +107,6 @@ func should_write_current_speed(bytes_sec: int) -> bool:
 		return false
 	
 	return true
-
-
-func bytes_to_string(bytes: int) -> String:
-	if bytes < 1024: return str(bytes) + "B"
-	
-	var kb = bytes / 1024
-	if kb < 1024: return str(kb) + "KB"
-	
-	var mb = kb / 1024.0
-	var text = "%.1fMB" if mb < 10.0 else "%.0fMB"
-	return text % [mb]
 
 
 func on_gate_entered() -> void:
@@ -118,17 +133,17 @@ func set_progress(text: String, status: ProgressStatus, progress: float = 0.0) -
 		ProgressStatus.CONNECTING:
 			progress_bar.show()
 			progress_bar_error.hide()
-			move_progress_bar(0.0)
+			move_progress_bar(0.0, 0.0)
 			
 		ProgressStatus.DOWNLOADING:
 			progress_bar.show()
 			progress_bar_error.hide()
-			move_progress_bar(progress)
+			move_progress_bar(progress, FileDownloader.PROGRESS_DELAY)
 			
 		ProgressStatus.STARTING:
 			progress_bar.show()
 			progress_bar_error.hide()
-			move_progress_bar(1.0, true)
+			move_progress_bar(1.0, TWEEN_DURATION_S)
 			
 		ProgressStatus.ERROR:
 			progress_bar.hide()
@@ -139,10 +154,9 @@ func set_progress(text: String, status: ProgressStatus, progress: float = 0.0) -
 			progress_bar_error.hide()
 
 
-func move_progress_bar(progress: float, custom_delay: bool = false) -> void:
+func move_progress_bar(progress: float, tween_duration: float) -> void:
 	var full_size = progress_bar_background.size
 	var current_size = Vector2(lerp(0.0, full_size.x, progress), full_size.y)
-	var tween_duration = TWEEN_DURATION_S if custom_delay else FileDownloader.PROGRESS_DELAY
 	
 	var tween = get_tree().create_tween()
 	tween.tween_property(progress_bar, "size", current_size, tween_duration)

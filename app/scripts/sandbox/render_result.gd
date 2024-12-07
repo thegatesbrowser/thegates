@@ -60,17 +60,17 @@ func send_filehandle(filehandle_path: String) -> void:
 func set_texture_format(format: RenderingDevice.DataFormat) -> void:
 	match format:
 		RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM:
-			set_param("ext_texture_is_bgra", false)
+			set_param(&"ext_texture_is_bgra", false)
 			Debug.logclr("External texture format is set to RGBA8", Color.DIM_GRAY)
 		RenderingDevice.DATA_FORMAT_B8G8R8A8_UNORM:
-			set_param("ext_texture_is_bgra", true)
+			set_param(&"ext_texture_is_bgra", true)
 			Debug.logclr("External texture format is set to BGRA8", Color.DIM_GRAY)
 		_:
 			Debug.logerr("Texture format %d is not supported" % [format])
 
 
 func show_render() -> void:
-	set_param("show_render", true)
+	set_param(&"show_render", true)
 
 
 func set_param(param: StringName, value: Variant) -> void:

@@ -99,6 +99,7 @@ func create_request(url: String, save_path: String, timeout: float = 0) -> int:
 	if err != OK: return err
 	var code = (await http.request_completed)[1]
 	
+	progress.emit(url, http.get_body_size(), http.get_downloaded_bytes())
 	timer.stop()
 	remove_child(timer)
 	remove_child(http)

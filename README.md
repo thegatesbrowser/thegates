@@ -9,7 +9,7 @@ It connects game experiences together like world wide web and allows you to easi
 ## Screenshots
 
 <img src="screenshots\1-home.png" width="500"> <br/> <br/>
-<img src="screenshots\2-search.png" width="500"> <br/> <br/>
+<img src="screenshots\2-loading.png" width="500"> <br/> <br/>
 <img src="screenshots\3-in-game-ui.png" width="500"> <br/> <br/>
 
 ## Build

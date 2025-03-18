@@ -128,5 +128,33 @@ func kill_sandbox_macos() -> void:
 		Debug.logclr("Process killed " + str(snbx_pid), Color.DIM_GRAY)
 
 
+func is_sandbox_running() -> bool:
+	if snbx_pid == 0: return false
+	
+	match Platform.get_platform():
+		Platform.WINDOWS:
+			var output = []
+			OS.execute("cmd.exe", ["/c", "tasklist", "|", "findstr", snbx_pid], output)
+			Debug.logclr("tasklist: " + str(output), Color.DIM_GRAY)
+			return not output[0].is_empty()
+		
+		Platform.LINUX_BSD:
+			var output = []
+			OS.execute("ps", ["-o", "pid=", "-p", snbx_pid], output)
+			Debug.logclr("ps: " + str(output), Color.DIM_GRAY)
+			return not output[0].is_empty()
+		
+		Platform.MACOS:
+			var output = []
+			OS.execute("ps", ["-o", "pid=", "-p", snbx_pid], output)
+			Debug.logclr("ps: " + str(output), Color.DIM_GRAY)
+			return not output[0].is_empty()
+		
+		_:
+			assert(false, "Platform is not supported")
+	
+	return false
+
+
 func _exit_tree() -> void:
 	kill_sandbox()

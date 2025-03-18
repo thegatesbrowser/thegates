@@ -165,11 +165,11 @@ script = ExtResource("10_cqo55")
 gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
 
-[node name="ProcessChecker" type="Node" parent="." node_paths=PackedStringArray("snbx_logger")]
+[node name="ProcessChecker" type="Node" parent="." node_paths=PackedStringArray("snbx_manager")]
 script = ExtResource("11_72cjp")
 gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
-snbx_logger = NodePath("../SandboxLogger")
+snbx_manager = NodePath("../SandboxManager")
 
 [node name="WorldCanvas" type="Control" parent="."]
 layout_mode = 1

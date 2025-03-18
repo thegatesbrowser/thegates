@@ -2,11 +2,10 @@ extends Node
 
 @export var gate_events: GateEvents
 @export var command_events: CommandEvents
-@export var snbx_logger: SandboxLogger
+@export var snbx_manager: SandboxManager
 
 # Timeout intervals for child process responsiveness
 const BOOTUP_CHECK_SEC = 1
-const BOOTUP_INTERVAL_MSEC = 5000
 const HEARTBEAT_INTERVAL_SEC = 5
 const WAIT_INTERVAL_SEC = 15
 
@@ -33,8 +32,7 @@ func start_bootup_check() -> void:
 
 
 func bootup_check() -> void:
-	var interval = Time.get_ticks_msec() - snbx_logger.last_log_tick
-	if interval < BOOTUP_INTERVAL_MSEC: return
+	if snbx_manager.is_sandbox_running(): return
 	
 	bootup_timer.stop()
 	on_timeout()

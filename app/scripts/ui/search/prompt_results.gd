@@ -10,6 +10,7 @@ class_name PromptResults
 var prompt_size: float
 var result_str: String
 var last_query: String
+var cancel_callbacks: Array = []
 
 
 func _ready() -> void:
@@ -48,11 +49,15 @@ func prompt_request(query: String) -> void:
 			result_str = body.get_string_from_utf8()
 		else: Debug.logclr("Request prompt failed. Code " + str(code), Color.RED)
 	
-	var err = await Backend.request(url, callback)
+	var err = await Backend.request(url, callback, {}, HTTPClient.METHOD_GET, cancel_callbacks)
 	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request prompt", Color.RED)
 
 
 func clear() -> void:
+	for callback in cancel_callbacks:
+		callback.call()
+	cancel_callbacks.clear()
+	
 	for child in get_children():
 		child.queue_free()
 		remove_child(child)

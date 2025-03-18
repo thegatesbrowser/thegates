@@ -38,7 +38,7 @@ func load_gate(config_url: String) -> void:
 func load_image(c_gate: ConfigGate) -> void:
 	gate.image = await FileDownloader.download(c_gate.image_url)
 	gate_events.gate_image_loaded_emit(gate)
-	# finish without image
+	# Finish without image
 
 
 func load_resources(c_gate: ConfigGate) -> void:

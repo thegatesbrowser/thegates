@@ -55,7 +55,7 @@ func prompt_request(query: String) -> void:
 
 func clear() -> void:
 	for callback in cancel_callbacks:
-		callback.call()
+		if callback.is_valid(): callback.call()
 	cancel_callbacks.clear()
 	
 	for child in get_children():

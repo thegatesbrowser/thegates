@@ -141,14 +141,13 @@ func is_sandbox_running() -> bool:
 		Platform.LINUX_BSD:
 			# ps -o stat= -p 1234
 			OS.execute("ps", ["-o", "stat=", "-p", snbx_pid], output)
-			var stat = output[0].replace("\n", "").split(" ")[0]
-			Debug.logclr("ps: " + stat + " " + str(snbx_pid), Color.DIM_GRAY)
+			var stat = output[0].substr(0, 1)
 			return not stat.is_empty() and not stat in ["Z", "T"]
 		
 		Platform.MACOS:
 			# ps -o stat= -p 1234
 			OS.execute("ps", ["-o", "stat=", "-p", snbx_pid], output)
-			var stat = output[0].replace("\n", "").split(" ")[0]
+			var stat = output[0].substr(0, 1)
 			return not stat.is_empty() and not stat in ["Z", "T"]
 		
 		_:

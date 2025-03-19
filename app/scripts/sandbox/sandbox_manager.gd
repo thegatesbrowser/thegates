@@ -140,15 +140,17 @@ func is_sandbox_running() -> bool:
 		
 		Platform.LINUX_BSD:
 			var output = []
-			OS.execute("ps", ["-o", "pid=", "-p", snbx_pid], output)
-			Debug.logclr("ps: " + str(output), Color.DIM_GRAY)
-			return not output[0].is_empty()
+			OS.execute("ps", ["-o", "stat=", "-p", snbx_pid], output)
+			var stat = output[0].replace("\n", "").split(" ")[0]
+			Debug.logclr("ps: " + stat + " " + str(snbx_pid), Color.DIM_GRAY)
+			return not stat.is_empty() and not stat in ["Z", "T"]
 		
 		Platform.MACOS:
 			var output = []
-			OS.execute("ps", ["-o", "pid=", "-p", snbx_pid], output)
-			Debug.logclr("ps: " + str(output), Color.DIM_GRAY)
-			return not output[0].is_empty()
+			OS.execute("ps", ["-o", "stat=", "-p", snbx_pid], output)
+			var stat = output[0].replace("\n", "").split(" ")[0]
+			Debug.logclr("ps: " + stat + " " + str(snbx_pid), Color.DIM_GRAY)
+			return not stat.is_empty() and not stat in ["Z", "T"]
 		
 		_:
 			assert(false, "Platform is not supported")

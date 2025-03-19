@@ -130,26 +130,25 @@ func kill_sandbox_macos() -> void:
 
 func is_sandbox_running() -> bool:
 	if snbx_pid == 0: return false
-	
+
+	var output = []
 	match Platform.get_platform():
 		Platform.WINDOWS:
-			var output = []
-			OS.execute("cmd.exe", ["/c", "tasklist", "|", "findstr", snbx_pid], output)
-			Debug.logclr("tasklist: " + str(output), Color.DIM_GRAY)
+			# tasklist /fi "PID eq 1234" /fi "STATUS eq RUNNING" | findstr 1234
+			OS.execute("cmd.exe", ["/c", "tasklist", "/fi", "PID eq " + str(snbx_pid), "/fi", "STATUS eq RUNNING", "|", "findstr", str(snbx_pid)], output)
 			return not output[0].is_empty()
 		
 		Platform.LINUX_BSD:
-			var output = []
+			# ps -o stat= -p 1234
 			OS.execute("ps", ["-o", "stat=", "-p", snbx_pid], output)
 			var stat = output[0].replace("\n", "").split(" ")[0]
 			Debug.logclr("ps: " + stat + " " + str(snbx_pid), Color.DIM_GRAY)
 			return not stat.is_empty() and not stat in ["Z", "T"]
 		
 		Platform.MACOS:
-			var output = []
+			# ps -o stat= -p 1234
 			OS.execute("ps", ["-o", "stat=", "-p", snbx_pid], output)
 			var stat = output[0].replace("\n", "").split(" ")[0]
-			Debug.logclr("ps: " + stat + " " + str(snbx_pid), Color.DIM_GRAY)
 			return not stat.is_empty() and not stat in ["Z", "T"]
 		
 		_:

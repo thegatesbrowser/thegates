@@ -1,9 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dkfy3rcfbxqc6"]
+[gd_scene load_steps=11 format=3 uid="uid://dkfy3rcfbxqc6"]
 
 [ext_resource type="StyleBox" uid="uid://cf4jgdfsjmjxl" path="res://assets/styles/tab.stylebox" id="1_8hbf0"]
+[ext_resource type="Script" path="res://scripts/ui/tabs/tab_icon.gd" id="2_2mqph"]
 [ext_resource type="LabelSettings" uid="uid://bo2334w4lf3ug" path="res://assets/styles/text.tres" id="2_gll4d"]
 [ext_resource type="Texture2D" uid="uid://db7adnvbsxena" path="res://assets/textures/icon_round_16.png" id="2_pitbs"]
 [ext_resource type="Texture2D" uid="uid://cli88m5w3op6l" path="res://assets/textures/close_tab.svg" id="2_y6odh"]
+[ext_resource type="Texture2D" uid="uid://cwclokgfijavb" path="res://assets/textures/icon_round_32.png" id="3_p1x2u"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rxuw8"]
 
@@ -47,11 +49,14 @@ theme_override_constants/margin_right = 10
 layout_mode = 2
 theme_override_constants/separation = 7
 
-[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer"]
+[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer" node_paths=PackedStringArray("icon", "icon_hires")]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_rxuw8")
+script = ExtResource("2_2mqph")
+icon = NodePath("TextureRect")
+icon_hires = NodePath("TextureRectHiRes")
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/Panel"]
 texture_filter = 6
@@ -63,6 +68,19 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 4
 texture = ExtResource("2_pitbs")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRectHiRes" type="TextureRect" parent="MarginContainer/HBoxContainer/Panel"]
+texture_filter = 6
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+texture = ExtResource("3_p1x2u")
 expand_mode = 1
 stretch_mode = 5
 

@@ -31,5 +31,8 @@ var search: String :
 var prompt: String :
 	get: return url + "/api/prompt?query="
 
+var search_suggestions: String :
+	get: return url + "/api/search_suggestions"
+
 var send_logs: String :
 	get: return url + "/api/send_logs?url="

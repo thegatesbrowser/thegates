@@ -4,8 +4,13 @@ extends VBoxContainer
 @export var api: ApiSettings
 @export var result_scene: PackedScene
 
+@export var header: SearchResultsHeader
+@export var suggestions_root: Control
+@export var suggestion_scene: PackedScene
+
 var result_str: String = "{}"
 var suggestions_str: String = "{}"
+
 
 func _ready() -> void:
 	search(gate_events.current_search_query)
@@ -20,6 +25,9 @@ func search(query: String) -> void:
 		Debug.logclr("No gates found, request suggestions", Color.YELLOW)
 		suggestions()
 		return
+	
+	header.set_search_header()
+	suggestions_root.visible = false
 	
 	for gate in gates:
 		Debug.logr(gate["url"])
@@ -46,9 +54,14 @@ func suggestions() -> void:
 	if suggs == null or suggs.is_empty():
 		Debug.logclr("No suggestions found", Color.YELLOW)
 		return
-	
+
 	for sugg in suggs:
 		Debug.logr(sugg)
+		var suggestion: Suggestion = suggestion_scene.instantiate()
+		suggestion.fill(sugg)
+		suggestions_root.add_child(suggestion)
+	
+	header.set_suggestion_header()
 
 
 func suggestions_request() -> void:

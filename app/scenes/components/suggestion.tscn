@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://dntnp0igpccdt"]
+
+[ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_ljf2m"]
+[ext_resource type="Script" path="res://scripts/ui/search/suggestion.gd" id="2_rofb8"]
+[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_l3ahe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ix3db"]
+content_margin_left = 13.0
+content_margin_top = 6.0
+content_margin_right = 13.0
+content_margin_bottom = 6.0
+bg_color = Color(0.12549, 0.133333, 0.172549, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y60js"]
+content_margin_left = 13.0
+content_margin_top = 6.0
+content_margin_right = 13.0
+content_margin_bottom = 6.0
+bg_color = Color(0.32549, 0.14902, 0.8, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
+shadow_size = 4
+
+[node name="Suggestion" type="Button"]
+custom_minimum_size = Vector2(0, 26)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_fonts/font = ExtResource("1_ljf2m")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/disabled = SubResource("StyleBoxFlat_ix3db")
+theme_override_styles/hover = SubResource("StyleBoxFlat_y60js")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ix3db")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ix3db")
+text = "suggestion"
+script = ExtResource("2_rofb8")
+gate_events = ExtResource("3_l3ahe")
+
+[connection signal="pressed" from="." to="." method="_on_button_pressed"]

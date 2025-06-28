@@ -37,20 +37,18 @@ func start_sandbox(gate: Gate) -> void:
 func start_sandbox_linux(gate: Gate) -> Dictionary:
 	if not snbx_executable.exists():
 		Debug.logerr("Sandbox executable not found at " + snbx_executable.path); return {}
-	if not snbx_env.zip_exists():
-		Debug.logerr("Sandbox environment not found at " + snbx_env.zip_path); return {}
 	
-	snbx_env.create_env(snbx_executable.path, gate)
-	
+	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
+	var shared_libs = ProjectSettings.globalize_path(gate.shared_libs_dir)
 	var args = [
-		snbx_env.start.get_base_dir(), # cd to dir
-		"--main-pack", snbx_env.main_pack,
+		"--main-pack", pack_file,
 		"--resolution", "%dx%d" % [render_result.width, render_result.height],
 		"--verbose"
 	]
+	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
 	
-	Debug.logclr(snbx_env.start + " " + " ".join(args), Color.DIM_GRAY)
-	return OS.execute_with_pipe(snbx_env.start, args)
+	Debug.logclr(snbx_executable.path + " " + " ".join(args), Color.DIM_GRAY)
+	return OS.execute_with_pipe(snbx_executable.path, args)
 
 
 func start_sandbox_windows(gate: Gate) -> Dictionary:

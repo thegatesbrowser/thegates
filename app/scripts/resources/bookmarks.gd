@@ -5,7 +5,7 @@ signal on_ready()
 signal on_star(gate: Gate, featured: bool)
 signal on_unstar(gate: Gate)
 signal on_update(gate: Gate)
-signal save_image(gate: Gate)
+signal save_icon(gate: Gate)
 
 @export var starred_gates: Array[Gate]
 
@@ -34,7 +34,7 @@ func update(gate: Gate) -> void:
 	starred_gates.erase(replace)
 	starred_gates.append(gate)
 	
-	save_image.emit(gate)
+	save_icon.emit(gate)
 	on_update.emit(gate)
 
 
@@ -44,7 +44,7 @@ func star(gate: Gate, featured: bool = false) -> void:
 	gates[gate.url] = gate
 	starred_gates.append(gate)
 	
-	save_image.emit(gate)
+	save_icon.emit(gate)
 	on_star.emit(gate, featured)
 
 

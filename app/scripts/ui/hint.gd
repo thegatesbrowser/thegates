@@ -8,8 +8,8 @@ extends Control
 func _ready() -> void:
 	visible = false
 	if key.is_empty() or button == null: Debug.logerr("hint has empty vars")
-	var first = DataSaver.get_value(section, key)
-	if first == null or not first: show_hint()
+	var is_shown = DataSaver.get_value(section, key, false)
+	if not is_shown: show_hint()
 
 
 func _notification(what: int) -> void:

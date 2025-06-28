@@ -31,7 +31,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[node name="Bookmark" type="Control" node_paths=PackedStringArray("image", "title", "button", "button_special")]
+[node name="Bookmark" type="Control" node_paths=PackedStringArray("icon", "title", "button", "button_special")]
 clip_children = 1
 custom_minimum_size = Vector2(180, 100)
 layout_mode = 3
@@ -40,7 +40,7 @@ offset_right = 180.0
 offset_bottom = 100.0
 script = ExtResource("1_bpkqj")
 gate_events = ExtResource("2_7i5yr")
-image = NodePath("Mask/Image")
+icon = NodePath("Mask/Icon")
 title = NodePath("Title")
 button = NodePath("Button")
 button_special = NodePath("ButtonSpecial")
@@ -86,7 +86,7 @@ grow_horizontal = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_od0ga")
 
-[node name="Image" type="TextureRect" parent="Mask"]
+[node name="Icon" type="TextureRect" parent="Mask"]
 custom_minimum_size = Vector2(87, 87)
 layout_mode = 1
 anchors_preset = 15

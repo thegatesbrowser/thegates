@@ -3,19 +3,30 @@ class_name ConfigGate
 
 const SECTION = "gate"
 
+const KEY_TITLE = "title"
+const KEY_DESCRIPTION = "description"
+const KEY_ICON = "icon"
+const KEY_IMAGE = "image"
+const KEY_RESOURCE_PACK = "resource_pack"
+const KEY_DISCOVERABLE = "discoverable"
+
 var title: String
 var description: String
+var icon_url: String
 var image_url: String
 var resource_pack_url: String
+var discoverable: bool
 var libraries: PackedStringArray
 
 
 func _init(path: String, base_url: String) -> void:
 	super._init(path)
-	title = get_string(SECTION, "title")
-	description = get_string(SECTION, "description")
-	image_url = Url.join(base_url, get_string(SECTION, "image"))
-	resource_pack_url = Url.join(base_url, get_string(SECTION, "resource_pack"))
+	title = get_string(SECTION, KEY_TITLE)
+	description = get_string(SECTION, KEY_DESCRIPTION)
+	icon_url = Url.join(base_url, get_string(SECTION, KEY_ICON))
+	image_url = Url.join(base_url, get_string(SECTION, KEY_IMAGE))
+	resource_pack_url = Url.join(base_url, get_string(SECTION, KEY_RESOURCE_PACK))
+	discoverable = get_value(SECTION, KEY_DISCOVERABLE, true)
 	libraries = get_libraries(base_url)
 
 

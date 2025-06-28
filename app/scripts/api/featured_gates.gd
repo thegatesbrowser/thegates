@@ -38,7 +38,7 @@ func featured_gates_request() -> void:
 
 
 func star_gate(gate_d: Dictionary) -> void:
-	var image_path = await FileDownloader.download(gate_d["image"])
-	var gate = Gate.create(gate_d["url"], gate_d["title"], gate_d["description"], image_path, "", "")
+	var icon_path = await FileDownloader.download(gate_d["icon"])
+	var gate = Gate.create(gate_d["url"], gate_d["title"], gate_d["description"], icon_path, "", "", "")
 	
 	bookmarks.star(gate, true)

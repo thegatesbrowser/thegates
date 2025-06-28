@@ -28,7 +28,7 @@ font = ExtResource("4_tevcf")
 font_size = 15
 font_color = Color(0.431373, 0.435294, 0.494118, 1)
 
-[node name="Result" type="Button" node_paths=PackedStringArray("url", "title", "description", "image")]
+[node name="Result" type="Button" node_paths=PackedStringArray("url", "title", "description", "icon")]
 custom_minimum_size = Vector2(850, 100)
 offset_bottom = 100.0
 mouse_default_cursor_shape = 2
@@ -36,12 +36,14 @@ theme_override_styles/focus = ExtResource("1_bqxb5")
 theme_override_styles/hover = ExtResource("1_bqxb5")
 theme_override_styles/pressed = ExtResource("1_bqxb5")
 theme_override_styles/normal = ExtResource("2_agglm")
+icon = Object(TextureRect,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":2,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(87, 87),"layout_direction":0,"layout_mode":1,"anchors_preset":15,"anchor_left":0.0,"anchor_top":0.0,"anchor_right":1.0,"anchor_bottom":1.0,"offset_left":0.0,"offset_top":0.0,"offset_right":0.0,"offset_bottom":0.0,"grow_horizontal":2,"grow_vertical":2,"rotation":0.0,"scale":Vector2(1, 1),"pivot_offset":Vector2(0, 0),"size_flags_horizontal":4,"size_flags_vertical":4,"size_flags_stretch_ratio":1.0,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":0,"mouse_filter":1,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":0,"shortcut_context":null,"theme":null,"theme_type_variation":&"","texture":ExtResource("5_a6pb2"),"expand_mode":1,"stretch_mode":5,"flip_h":false,"flip_v":false,"script":null)
+
 script = ExtResource("1_b6nfm")
 gate_events = ExtResource("2_wgd6i")
 url = NodePath("VBoxContainer/Url")
 title = NodePath("VBoxContainer/Title")
 description = NodePath("VBoxContainer/Description")
-image = NodePath("Mask/Image")
+icon = NodePath("Mask/Icon")
 
 [node name="Mask" type="Panel" parent="."]
 clip_children = 1
@@ -56,7 +58,7 @@ size_flags_vertical = 4
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_6os7t")
 
-[node name="Image" type="TextureRect" parent="Mask"]
+[node name="Icon" type="TextureRect" parent="Mask"]
 custom_minimum_size = Vector2(87, 87)
 layout_mode = 1
 anchors_preset = 15

@@ -29,8 +29,7 @@ func scale_content() -> void:
 
 
 func set_initial_screen() -> void:
-	var last_screen = DataSaver.get_value("settings", "last_screen")
-	if last_screen == null: last_screen = 0
+	var last_screen = DataSaver.get_value("settings", "last_screen", 0)
 	
 	DisplayServer.window_set_current_screen(last_screen)
 	Debug.logclr("Initial screen: %d" % [last_screen], Debug.SILENT_CLR)

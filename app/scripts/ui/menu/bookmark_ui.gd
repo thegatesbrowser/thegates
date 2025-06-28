@@ -2,7 +2,7 @@ extends Control
 class_name BookmarkUI
 
 @export var gate_events: GateEvents
-@export var image: TextureRect
+@export var icon: TextureRect
 @export var title: Label
 @export var button: Button
 @export var button_special: Button
@@ -23,7 +23,7 @@ func fill(gate: Gate, special: bool = false) -> void:
 	
 	url = gate.url
 	title.text = "Unnamed" if gate.title.is_empty() else gate.title
-	image.texture = FileTools.load_external_tex(gate.image)
+	icon.texture = FileTools.load_external_tex(gate.icon)
 
 
 func on_pressed() -> void:

@@ -34,7 +34,7 @@ visible = false
 [node name="BookmarkSaver" type="Node" parent="."]
 script = ExtResource("5_ev0ch")
 save_dir = "user://resources"
-image_save_dir = "user://images"
+icon_save_dir = "user://icons"
 bookmarks = ExtResource("6_rupvx")
 
 [node name="Api" type="Node" parent="."]

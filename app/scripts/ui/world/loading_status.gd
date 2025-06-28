@@ -115,6 +115,7 @@ func on_gate_entered() -> void:
 
 
 func on_gate_error(code: GateEvents.GateError) -> void:
+	gate_events.download_progress.disconnect(show_progress)
 	match code:
 		GateEvents.GateError.NOT_FOUND:
 			set_progress("Gate not found", ProgressStatus.ERROR)

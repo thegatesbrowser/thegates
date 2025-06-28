@@ -9,10 +9,15 @@ func _ready() -> void:
 
 
 func send_discover_gate(c_url: String, c_gate: ConfigGate) -> void:
+	if not c_gate.discoverable:
+		Debug.logclr("Gate is not discoverable", Color.DIM_GRAY)
+		return
+	
 	var body = {}
 	body.url = c_url
 	body.title = c_gate.title
 	body.description = c_gate.description
+	body.icon = c_gate.icon_url
 	body.image = c_gate.image_url
 	body.resource_pack = c_gate.resource_pack_url
 	body.libraries = c_gate.libraries

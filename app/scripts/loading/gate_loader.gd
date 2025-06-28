@@ -11,6 +11,10 @@ var load_resources_done: bool
 var shared_libs_count: int = -1
 var shared_libs_done: int
 
+# Show progress when resource pack is started loading
+var resource_pack_url: String
+var resource_pack_started_loading: bool
+
 
 func _ready() -> void:
 	FileDownloader.progress.connect(on_progress)
@@ -26,13 +30,20 @@ func load_gate(config_url: String) -> void:
 	if c_gate.load_result != OK: return error(GateEvents.GateError.INVALID_CONFIG)
 	gate_events.gate_config_loaded_emit(config_url, c_gate)
 	
-	gate = Gate.create(config_url, c_gate.title, c_gate.description, "", "", "")
+	gate = Gate.create(config_url, c_gate.title, c_gate.description, "", "", "", "")
 	gate_events.gate_info_loaded_emit(gate)
 	
 	# Download all in parallel
+	load_icon(c_gate)
 	load_image(c_gate)
 	load_resources(c_gate)
 	load_shared_libs(c_gate, config_url)
+
+
+func load_icon(c_gate: ConfigGate) -> void:
+	gate.icon = await FileDownloader.download(c_gate.icon_url)
+	gate_events.gate_icon_loaded_emit(gate)
+	# Finish without icon
 
 
 func load_image(c_gate: ConfigGate) -> void:
@@ -42,6 +53,7 @@ func load_image(c_gate: ConfigGate) -> void:
 
 
 func load_resources(c_gate: ConfigGate) -> void:
+	resource_pack_url = c_gate.resource_pack_url
 	gate.resource_pack = await FileDownloader.download(c_gate.resource_pack_url)
 	if gate.resource_pack.is_empty(): return error(GateEvents.GateError.MISSING_PACK)
 	
@@ -81,6 +93,12 @@ func error(code: GateEvents.GateError) -> void:
 
 
 func on_progress(url: String, body_size: int, downloaded_bytes: int) -> void:
+	if url == resource_pack_url and not resource_pack_started_loading and body_size > 0:
+		resource_pack_started_loading = true
+	
+	if not resource_pack_started_loading:
+		return
+	
 	gate_events.download_progress_emit(url, body_size, downloaded_bytes)
 
 

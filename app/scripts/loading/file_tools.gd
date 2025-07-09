@@ -36,7 +36,7 @@ static func load_external_tex(path: String) -> Texture2D:
 	match path.get_extension():
 		"png":
 			image.load_png_from_buffer(bytes)
-		["jpeg", "jpg"]:
+		"jpeg", "jpg":
 			image.load_jpg_from_buffer(bytes)
 		"webp":
 			image.load_webp_from_buffer(bytes)

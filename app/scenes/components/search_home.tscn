@@ -173,6 +173,7 @@ offset_right = -4.0
 offset_bottom = 19.0
 grow_horizontal = 0
 grow_vertical = 2
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_colors/font_hover_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_colors/font_pressed_color = Color(0.831373, 0.831373, 0.831373, 1)

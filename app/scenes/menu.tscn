@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://5btb7nvgmfhl"]
+[gd_scene load_steps=28 format=3 uid="uid://5btb7nvgmfhl"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/menu_navigation.gd" id="1_7anvm"]
 [ext_resource type="Script" path="res://scripts/ui/menu/menu.gd" id="1_o6vga"]
@@ -17,6 +17,8 @@
 [ext_resource type="Texture2D" uid="uid://dapysvexbecnd" path="res://assets/textures/reload.svg" id="13_hwfo2"]
 [ext_resource type="Texture2D" uid="uid://yn1l3ybpr7qv" path="res://assets/textures/menu.svg" id="13_ncruo"]
 [ext_resource type="Texture2D" uid="uid://mgtj316adcja" path="res://assets/textures/home.svg" id="14_gbcfo"]
+[ext_resource type="Texture2D" uid="uid://casdqby073onf" path="res://assets/textures/flag.svg" id="17_b36tf"]
+[ext_resource type="Script" path="res://scripts/ui/menu/help_button.gd" id="19_h4fgg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pveoh"]
 bg_color = Color(0.0980392, 0.101961, 0.133333, 1)
@@ -33,6 +35,45 @@ content_margin_bottom = 0.0
 color = Color(0.12549, 0.133333, 0.172549, 1)
 grow_begin = 0.0
 grow_end = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_am55m"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.423529, 0.235294, 0.933333, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e0ud7"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.32549, 0.14902, 0.8, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ogb6s"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.32549, 0.14902, 0.8, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
+shadow_size = 4
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -89,6 +130,7 @@ theme_override_constants/separation = 7
 layout_mode = 2
 
 [node name="Button" type="Button" parent="VBoxContainer/Top/VBoxContainer/Tabs/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
 size_flags_vertical = 4
@@ -189,7 +231,17 @@ layout_mode = 2
 theme_override_constants/separation = 2
 alignment = 2
 
+[node name="Help" parent="VBoxContainer/Top/VBoxContainer/Navigation/MenuNavigation/HBoxContainer2" instance=ExtResource("6_gxcmo")]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_am55m")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e0ud7")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ogb6s")
+icon = ExtResource("17_b36tf")
+script = ExtResource("19_h4fgg")
+url = "https://forms.gle/1NmJeCQnQh7Yc1KP8"
+
 [node name="Options" parent="VBoxContainer/Top/VBoxContainer/Navigation/MenuNavigation/HBoxContainer2" instance=ExtResource("6_gxcmo")]
+visible = false
 layout_mode = 2
 disabled = true
 icon = ExtResource("13_ncruo")

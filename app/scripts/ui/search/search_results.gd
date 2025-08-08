@@ -10,6 +10,7 @@ extends VBoxContainer
 
 var result_str: String = "{}"
 var suggestions_str: String = "{}"
+var cancel_callbacks: Array = []
 
 
 func _ready() -> void:
@@ -43,7 +44,7 @@ func search_request(query: String) -> void:
 			result_str = body.get_string_from_utf8()
 		else: Debug.logclr("Request search failed. Code " + str(code), Color.RED)
 	
-	var err = await Backend.request(url, callback)
+	var err = await Backend.request(url, callback, {}, HTTPClient.METHOD_GET, cancel_callbacks)
 	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request search", Color.RED)
 
 
@@ -71,5 +72,11 @@ func suggestions_request() -> void:
 			suggestions_str = body.get_string_from_utf8()
 		else: Debug.logclr("Request search suggestions failed. Code " + str(code), Color.RED)
 	
-	var err = await Backend.request(url, callback)
+	var err = await Backend.request(url, callback, {}, HTTPClient.METHOD_GET, cancel_callbacks)
 	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request search suggestions", Color.RED)
+
+
+func _exit_tree() -> void:
+	for callback in cancel_callbacks:
+		if callback.is_valid(): callback.call()
+	cancel_callbacks.clear()

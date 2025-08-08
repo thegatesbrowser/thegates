@@ -1,0 +1,16 @@
+# Exclude large third-party engine submodule and binaries
+godot/**
+
+# Godot caches and import artifacts
+**/.godot/**
+**/.import/**
+**/*.import
+
+# VCS and editor metadata
+**/.vscode/**
+
+# Compiled objects, libraries, and archives (keep ones not in default list)
+**/*.o
+**/*.a
+**/*.dylib
+**/*.class

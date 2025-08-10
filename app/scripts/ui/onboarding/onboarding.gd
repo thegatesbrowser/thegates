@@ -5,7 +5,7 @@ const SHOWN = Color(1, 1, 1, 1)
 const HIDDEN = Color(1, 1, 1, 0)
 
 @export var root: Control
-# @export var skip: Button
+@export var skip: Button
 @export var fade_in: float = 0.2
 @export var fade_out: float = 0.2
 
@@ -13,10 +13,10 @@ var tween: Tween
 
 
 func _ready() -> void:
-	# skip.pressed.connect(hide_onboarding)
+	skip.pressed.connect(hide_onboarding)
 	
 	visible = true
-	root.hide()
+	root.visible = false
 	root.modulate = HIDDEN
 	root.mouse_filter = Control.MOUSE_FILTER_PASS
 	
@@ -27,7 +27,7 @@ func _ready() -> void:
 func show_onboarding() -> void:
 	if root.visible: return
 	
-	root.show()
+	root.visible = true
 	
 	if is_instance_valid(tween): tween.stop()
 	tween = create_tween()
@@ -47,4 +47,4 @@ func hide_onboarding() -> void:
 	tween.tween_property(root, "modulate", HIDDEN, fade_out)
 	await tween.finished
 	
-	root.hide()
+	root.visible = false

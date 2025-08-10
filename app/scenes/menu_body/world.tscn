@@ -40,7 +40,7 @@ shader_parameter/show_render = null
 _data = [Vector2(0.0876494, 0.913189), 0.0, -0.118897, 0, 0, Vector2(0.50996, 0.316361), -1.65368, -1.65368, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_e4qvr"]
+[sub_resource type="CurveTexture" id="CurveTexture_yw30u"]
 curve = SubResource("Curve_rju31")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bspld"]
@@ -48,7 +48,7 @@ shader = ExtResource("18_sat0u")
 shader_parameter/UVScale = Vector2(0.9, 0.9)
 shader_parameter/BlurAmount = 2.5
 shader_parameter/VignetteColor = Color(0.126, 0.1719, 0.18, 1)
-shader_parameter/Vignette = SubResource("CurveTexture_e4qvr")
+shader_parameter/Vignette = SubResource("CurveTexture_yw30u")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_axrau"]
 bg_color = Color(1, 1, 1, 1)

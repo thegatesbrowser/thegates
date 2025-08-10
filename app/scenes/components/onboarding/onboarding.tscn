@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b5tbn17l1pfs1"]
+[gd_scene load_steps=9 format=3 uid="uid://b5tbn17l1pfs1"]
 
 [ext_resource type="Script" path="res://scripts/ui/onboarding/onboarding.gd" id="1_2xh2a"]
 [ext_resource type="Script" path="res://scripts/ui/onboarding/carousel.gd" id="2_uhwdh"]
@@ -7,26 +7,17 @@
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="3_jta5g"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_htqsi"]
-bg_color = Color(0, 0, 0, 0.505882)
+bg_color = Color(0, 0, 0, 0.258824)
 
-[sub_resource type="Curve" id="Curve_gjk4u"]
-_data = [Vector2(0, 1), 0.0, -0.118897, 0, 0, Vector2(0.6, 0.686327), -1.65368, -1.65368, 0, 0, Vector2(0.99999, 0.424933), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_fomqh"]
-curve = SubResource("Curve_gjk4u")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hpwdi"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pager"]
 shader = ExtResource("2_vhqmk")
 shader_parameter/UVScale = Vector2(1, 1)
-shader_parameter/BlurAmount = 1.0
-shader_parameter/VignetteColor = Color(0.0704, 0.07856, 0.08, 1)
-shader_parameter/Vignette = SubResource("CurveTexture_fomqh")
+shader_parameter/BlurAmount = 0.5
+shader_parameter/VignetteColor = Color(0, 0, 0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2l2ws"]
-bg_color = Color(1, 1, 1, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b61hg"]
 
-[node name="Onboarding" type="Control" node_paths=PackedStringArray("root")]
+[node name="Onboarding" type="Control" node_paths=PackedStringArray("root", "skip")]
 top_level = true
 z_index = 10
 layout_mode = 3
@@ -38,6 +29,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_2xh2a")
 root = NodePath("Root")
+skip = NodePath("Root/Carousel/Line/Board/MarginContainer/VBoxContainer/HBoxContainer/Hide")
 
 [node name="Root" type="Control" parent="."]
 layout_mode = 1
@@ -48,7 +40,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="Root"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,8 +49,9 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_htqsi")
 
-[node name="VignetteBlur" type="Panel" parent="Root"]
-material = SubResource("ShaderMaterial_hpwdi")
+[node name="Blur" type="Panel" parent="Root"]
+top_level = true
+material = SubResource("ShaderMaterial_pager")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -67,7 +59,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2l2ws")
+theme_override_styles/panel = SubResource("StyleBoxFlat_b61hg")
 
 [node name="Carousel" type="Control" parent="Root" node_paths=PackedStringArray("line")]
 layout_mode = 1
@@ -129,3 +121,5 @@ offset_left = 1300.0
 offset_top = 0.0
 offset_right = 1900.0
 offset_bottom = 700.0
+
+[editable path="Root/Carousel/Line/Board"]

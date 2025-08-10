@@ -8,11 +8,11 @@ class_name Gate
 
 @export var description: String
 
-@export_file("*.png", "*.jpg") var icon: String:
+@export var icon: String:
 	get: return icon if not icon.is_empty() else image
 	set(value): icon = value
 
-@export_file("*.png", "*.jpg") var image: String
+@export var image: String
 
 var resource_pack: String
 

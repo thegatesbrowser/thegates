@@ -1,0 +1,119 @@
+[gd_scene load_steps=7 format=3 uid="uid://pbsmrx55rb5g"]
+
+[ext_resource type="LabelSettings" uid="uid://crt4elt055uhg" path="res://assets/styles/text_big.tres" id="1_22o26"]
+[ext_resource type="Script" path="res://scripts/ui/onboarding/board.gd" id="1_dxxs8"]
+[ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="2_glv2j"]
+[ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/round_button.tscn" id="3_xk4gg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2yvw"]
+bg_color = Color(0.113725, 0.117647, 0.14902, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+shadow_color = Color(0.0584, 0.06128, 0.08, 0.784314)
+shadow_size = 6
+
+[sub_resource type="LabelSettings" id="LabelSettings_bkr01"]
+font = ExtResource("2_glv2j")
+font_size = 20
+font_color = Color(0.431373, 0.435294, 0.494118, 1)
+
+[node name="Board" type="Control" node_paths=PackedStringArray("focus_button")]
+custom_minimum_size = Vector2(600, 700)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -350.0
+offset_right = 300.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(300, 350)
+script = ExtResource("1_dxxs8")
+focus_button = NodePath("TextureButton")
+unfocus_color = Color(1, 1, 1, 0.505882)
+unfocus_scale = Vector2(0.8, 0.8)
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r2yvw")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Gate is not responding"
+label_settings = ExtResource("1_22o26")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/Control"]
+layout_mode = 2
+offset_top = 293.0
+offset_right = 600.0
+offset_bottom = 346.0
+text = "Reload the page or try
+to wait if it responses"
+label_settings = SubResource("LabelSettings_bkr01")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 22
+
+[node name="Reload" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_xk4gg")]
+custom_minimum_size = Vector2(90, 26)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0.431373, 0.435294, 0.494118, 1)
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_fonts/font = ExtResource("2_glv2j")
+theme_override_font_sizes/font_size = 20
+text = "Reload"
+icon = null
+
+[node name="Hide" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_xk4gg")]
+custom_minimum_size = Vector2(90, 26)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0.431373, 0.435294, 0.494118, 1)
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_fonts/font = ExtResource("2_glv2j")
+theme_override_font_sizes/font_size = 20
+text = "Wait"
+icon = null
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

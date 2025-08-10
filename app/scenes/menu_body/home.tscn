@@ -1,15 +1,16 @@
-[gd_scene load_steps=21 format=3 uid="uid://ca647gp63bshc"]
+[gd_scene load_steps=22 format=3 uid="uid://ca647gp63bshc"]
 
 [ext_resource type="Texture2D" uid="uid://bw1cffhlt112i" path="res://assets/textures/icon_round.svg" id="1_dh3vr"]
 [ext_resource type="Script" path="res://scripts/ui/menu/bookmark_container.gd" id="1_g38mt"]
 [ext_resource type="Script" path="res://scripts/ui/menu/scroll_container.gd" id="1_nto68"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="2_2igc6"]
 [ext_resource type="Script" path="res://addons/max_size_container/max_size_container.gd" id="2_ceb6w"]
-[ext_resource type="PackedScene" uid="uid://bs2cwop0ei1r1" path="res://scenes/components/search_home.tscn" id="3_guc56"]
+[ext_resource type="PackedScene" uid="uid://bs2cwop0ei1r1" path="res://scenes/components/search/search_home.tscn" id="3_guc56"]
 [ext_resource type="PackedScene" uid="uid://82ca8so31njy" path="res://scenes/components/bookmark.tscn" id="3_isdis"]
 [ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/round_button.tscn" id="7_bbq84"]
 [ext_resource type="Texture2D" uid="uid://dy5lmm2egk4w1" path="res://assets/textures/help.svg" id="8_3cxe2"]
 [ext_resource type="Script" path="res://scripts/ui/menu/help_button.gd" id="10_ant0e"]
+[ext_resource type="PackedScene" uid="uid://b5tbn17l1pfs1" path="res://scenes/components/onboarding/onboarding.tscn" id="11_kyh0m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kmpb2"]
 bg_color = Color(0.113725, 0.117647, 0.14902, 1)
@@ -179,9 +180,9 @@ size_flags_horizontal = 3
 [node name="MaxSizeContainer2" type="MarginContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(300, 44)
 layout_mode = 2
-theme_override_constants/margin_left = 0
+theme_override_constants/margin_left = 393
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
+theme_override_constants/margin_right = 393
 theme_override_constants/margin_bottom = 0
 script = ExtResource("2_ceb6w")
 limit = Vector2(720, -1)
@@ -198,9 +199,9 @@ custom_minimum_size = Vector2(180, 400)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
-theme_override_constants/margin_left = 0
+theme_override_constants/margin_left = 278
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
+theme_override_constants/margin_right = 278
 theme_override_constants/margin_bottom = 0
 script = ExtResource("2_ceb6w")
 limit = Vector2(950, -1)
@@ -249,3 +250,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_37fyt")
 icon = ExtResource("8_3cxe2")
 script = ExtResource("10_ant0e")
 url = "https://forms.gle/1NmJeCQnQh7Yc1KP8"
+
+[node name="Onboarding" parent="." instance=ExtResource("11_kyh0m")]
+layout_mode = 1

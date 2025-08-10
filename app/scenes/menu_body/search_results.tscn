@@ -6,8 +6,8 @@
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_2plpa"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="3_263ma"]
 [ext_resource type="Script" path="res://scripts/ui/search/search_results_header.gd" id="3_cuw8t"]
-[ext_resource type="PackedScene" uid="uid://i3lgu2dyypcq" path="res://scenes/components/result.tscn" id="4_yxn4t"]
-[ext_resource type="PackedScene" uid="uid://dntnp0igpccdt" path="res://scenes/components/suggestion.tscn" id="8_1alsm"]
+[ext_resource type="PackedScene" uid="uid://i3lgu2dyypcq" path="res://scenes/components/search/result.tscn" id="4_yxn4t"]
+[ext_resource type="PackedScene" uid="uid://dntnp0igpccdt" path="res://scenes/components/search/suggestion.tscn" id="8_1alsm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u8k0c"]
 bg_color = Color(0.113725, 0.117647, 0.14902, 1)

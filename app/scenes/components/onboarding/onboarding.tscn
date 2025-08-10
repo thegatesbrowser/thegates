@@ -1,0 +1,115 @@
+[gd_scene load_steps=8 format=3 uid="uid://b5tbn17l1pfs1"]
+
+[ext_resource type="Script" path="res://scripts/ui/onboarding/onboarding.gd" id="1_2xh2a"]
+[ext_resource type="StyleBox" uid="uid://bllkg32sc4iam" path="res://assets/styles/panel.stylebox" id="2_mnljw"]
+[ext_resource type="LabelSettings" uid="uid://crt4elt055uhg" path="res://assets/styles/text_big.tres" id="3_3pufm"]
+[ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="4_bi8o3"]
+[ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/round_button.tscn" id="5_tk3ti"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_htqsi"]
+bg_color = Color(0, 0, 0, 0.5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_bkr01"]
+font = ExtResource("4_bi8o3")
+font_size = 20
+font_color = Color(0.431373, 0.435294, 0.494118, 1)
+
+[node name="Onboarding" type="Control" node_paths=PackedStringArray("root", "skip")]
+top_level = true
+z_index = 10
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_2xh2a")
+root = NodePath("Root")
+skip = NodePath("Root/Popup/MarginContainer/VBoxContainer/HBoxContainer/Hide")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_htqsi")
+
+[node name="Popup" type="AspectRatioContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -533.0
+offset_top = -356.5
+offset_right = 533.0
+offset_bottom = 356.5
+grow_horizontal = 2
+grow_vertical = 2
+ratio = 1.35
+
+[node name="Panel" type="Panel" parent="Root/Popup"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_mnljw")
+
+[node name="MarginContainer" type="MarginContainer" parent="Root/Popup"]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Root/Popup/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Root/Popup/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Gate is not responding"
+label_settings = ExtResource("3_3pufm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Root/Popup/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Reload the page or try
+to wait if it responses"
+label_settings = SubResource("LabelSettings_bkr01")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Root/Popup/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 22
+
+[node name="Reload" parent="Root/Popup/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_tk3ti")]
+custom_minimum_size = Vector2(90, 26)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0.431373, 0.435294, 0.494118, 1)
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_fonts/font = ExtResource("4_bi8o3")
+theme_override_font_sizes/font_size = 20
+text = "Reload"
+icon = null
+
+[node name="Hide" parent="Root/Popup/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_tk3ti")]
+custom_minimum_size = Vector2(90, 26)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0.431373, 0.435294, 0.494118, 1)
+theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_fonts/font = ExtResource("4_bi8o3")
+theme_override_font_sizes/font_size = 20
+text = "Wait"
+icon = null

@@ -1,22 +1,22 @@
 [gd_scene load_steps=20 format=3 uid="uid://ctam0fxigbefk"]
 
-[ext_resource type="Script" path="res://scripts/ui/search.gd" id="1_7ivk2"]
-[ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_cimak"]
-[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_13io8"]
-[ext_resource type="Script" path="res://scripts/ui/search/search_status.gd" id="3_3p1re"]
-[ext_resource type="Texture2D" uid="uid://byrcelmfy6r3l" path="res://assets/textures/search.svg" id="5_553np"]
-[ext_resource type="Script" path="res://scripts/ui/search/download_animation.gd" id="6_fn1n3"]
-[ext_resource type="Script" path="res://scripts/ui/menu/star.gd" id="6_iyikx"]
-[ext_resource type="Texture2D" uid="uid://cx3xxaqo3s3eq" path="res://assets/textures/gate.svg" id="6_twd8p"]
-[ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="7_2mijb"]
-[ext_resource type="Texture2D" uid="uid://cli88m5w3op6l" path="res://assets/textures/close_tab.svg" id="8_sk5cp"]
-[ext_resource type="Texture2D" uid="uid://c7ljriip50hte" path="res://assets/textures/star.svg" id="13_ojxfq"]
-[ext_resource type="Script" path="res://scripts/ui/search/prompt_results.gd" id="14_0lofv"]
-[ext_resource type="Texture2D" uid="uid://itloduvrh00o" path="res://assets/textures/star_color.svg" id="14_fpi5q"]
-[ext_resource type="Script" path="res://scripts/ui/search/prompt_navigation.gd" id="14_h86vl"]
-[ext_resource type="Script" path="res://scripts/ui/search/fix_promt_position.gd" id="15_35wcy"]
-[ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="15_uafyh"]
-[ext_resource type="PackedScene" uid="uid://b57n6cvtqn5b7" path="res://scenes/components/prompt.tscn" id="16_lbcsd"]
+[ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_ruyeb"]
+[ext_resource type="Script" path="res://scripts/ui/search.gd" id="2_7qvyv"]
+[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_685a6"]
+[ext_resource type="Script" path="res://scripts/ui/search/search_status.gd" id="4_cx4ue"]
+[ext_resource type="Texture2D" uid="uid://byrcelmfy6r3l" path="res://assets/textures/search.svg" id="5_c6ql8"]
+[ext_resource type="Texture2D" uid="uid://cx3xxaqo3s3eq" path="res://assets/textures/gate.svg" id="6_p0kxs"]
+[ext_resource type="Script" path="res://scripts/ui/search/download_animation.gd" id="7_x8glc"]
+[ext_resource type="Texture2D" uid="uid://cli88m5w3op6l" path="res://assets/textures/close_tab.svg" id="8_c6y7s"]
+[ext_resource type="Script" path="res://scripts/ui/menu/star.gd" id="9_ddnf2"]
+[ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="10_ih0xb"]
+[ext_resource type="Texture2D" uid="uid://c7ljriip50hte" path="res://assets/textures/star.svg" id="11_36jkj"]
+[ext_resource type="Texture2D" uid="uid://itloduvrh00o" path="res://assets/textures/star_color.svg" id="12_fj18v"]
+[ext_resource type="Script" path="res://scripts/ui/search/prompt_navigation.gd" id="13_2wt6m"]
+[ext_resource type="Script" path="res://scripts/ui/search/fix_promt_position.gd" id="14_t74qb"]
+[ext_resource type="Script" path="res://scripts/ui/search/prompt_results.gd" id="15_oxssj"]
+[ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="16_rk35h"]
+[ext_resource type="PackedScene" uid="uid://b57n6cvtqn5b7" path="res://scenes/components/search/prompt.tscn" id="17_xggpn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyysn"]
 content_margin_left = 30.0
@@ -66,14 +66,14 @@ focus_mode = 1
 theme_override_colors/selection_color = Color(0.419608, 0.231373, 0.929412, 0.588235)
 theme_override_colors/font_placeholder_color = Color(0.431373, 0.435294, 0.494118, 1)
 theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
-theme_override_fonts/font = ExtResource("1_cimak")
+theme_override_fonts/font = ExtResource("1_ruyeb")
 theme_override_font_sizes/font_size = 15
 theme_override_styles/focus = SubResource("StyleBoxFlat_hyysn")
 theme_override_styles/normal = SubResource("StyleBoxFlat_hyysn")
 placeholder_text = "Search or type URL"
 select_all_on_focus = true
-script = ExtResource("1_7ivk2")
-gate_events = ExtResource("2_13io8")
+script = ExtResource("2_7qvyv")
+gate_events = ExtResource("3_685a6")
 prompt_panel = NodePath("Prompt/Panel")
 
 [node name="SearchStatus" type="Control" parent="." node_paths=PackedStringArray("search_line_edit", "search", "downloading", "success", "error")]
@@ -88,8 +88,8 @@ offset_right = 24.0
 offset_bottom = 7.0
 grow_vertical = 2
 mouse_filter = 1
-script = ExtResource("3_3p1re")
-gate_events = ExtResource("2_13io8")
+script = ExtResource("4_cx4ue")
+gate_events = ExtResource("3_685a6")
 search_line_edit = NodePath("..")
 search = NodePath("Search")
 downloading = NodePath("Downloading")
@@ -105,7 +105,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_553np")
+texture = ExtResource("5_c6ql8")
 expand_mode = 1
 
 [node name="Downloading" type="TextureRect" parent="SearchStatus"]
@@ -117,9 +117,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(8, 8)
-texture = ExtResource("6_twd8p")
+texture = ExtResource("6_p0kxs")
 expand_mode = 1
-script = ExtResource("6_fn1n3")
+script = ExtResource("7_x8glc")
 start_scale = 1.0
 end_scale = 0.5
 duration = 0.5
@@ -132,7 +132,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("6_twd8p")
+texture = ExtResource("6_p0kxs")
 expand_mode = 1
 
 [node name="Error" type="TextureRect" parent="SearchStatus"]
@@ -143,7 +143,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("8_sk5cp")
+texture = ExtResource("8_c6y7s")
 expand_mode = 1
 
 [node name="Bookmark" type="Control" parent="." node_paths=PackedStringArray("star", "unstar")]
@@ -159,9 +159,9 @@ offset_right = -8.0
 offset_bottom = 10.0
 grow_horizontal = 0
 grow_vertical = 2
-script = ExtResource("6_iyikx")
-gate_events = ExtResource("2_13io8")
-bookmarks = ExtResource("7_2mijb")
+script = ExtResource("9_ddnf2")
+gate_events = ExtResource("3_685a6")
+bookmarks = ExtResource("10_ih0xb")
 star = NodePath("Star")
 unstar = NodePath("Unstar")
 
@@ -245,7 +245,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("13_ojxfq")
+texture = ExtResource("11_36jkj")
 expand_mode = 1
 
 [node name="Unstar" type="BaseButton" parent="Bookmark"]
@@ -327,7 +327,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("14_fpi5q")
+texture = ExtResource("12_fj18v")
 expand_mode = 1
 
 [node name="Prompt" type="Control" parent="." node_paths=PackedStringArray("search", "prompt_results")]
@@ -336,7 +336,7 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 grow_vertical = 0
-script = ExtResource("14_h86vl")
+script = ExtResource("13_2wt6m")
 search = NodePath("..")
 prompt_results = NodePath("Panel/VBoxContainer")
 
@@ -353,7 +353,7 @@ offset_right = 500.0
 offset_bottom = 860.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mh73y")
-script = ExtResource("15_35wcy")
+script = ExtResource("14_t74qb")
 search = NodePath("../..")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Prompt/Panel" node_paths=PackedStringArray("panel")]
@@ -364,10 +364,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
-script = ExtResource("14_0lofv")
-gate_events = ExtResource("2_13io8")
-api = ExtResource("15_uafyh")
-result_scene = ExtResource("16_lbcsd")
+script = ExtResource("15_oxssj")
+gate_events = ExtResource("3_685a6")
+api = ExtResource("16_rk35h")
+result_scene = ExtResource("17_xggpn")
 panel = NodePath("..")
 
 [connection signal="text_changed" from="." to="Prompt/Panel/VBoxContainer" method="_on_search_text_changed"]

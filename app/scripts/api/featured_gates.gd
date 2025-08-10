@@ -1,7 +1,9 @@
 extends Node
 
+const KEY_URL = "url"
+const KEY_TITLE = "title"
+const KEY_DESCRIPTION = "description"
 const KEY_ICON = "icon"
-const KEY_IMAGE = "image"
 
 @export var api: ApiSettings
 @export var bookmarks: Bookmarks
@@ -41,8 +43,8 @@ func featured_gates_request() -> void:
 
 
 func star_gate(gate_d: Dictionary) -> void:
-	var icon_url = gate_d[KEY_ICON] if not gate_d[KEY_ICON].is_empty() else gate_d[KEY_IMAGE]
-	var icon_path = await FileDownloader.download(icon_url)
-	var gate = Gate.create(gate_d["url"], gate_d["title"], gate_d["description"], icon_path, "", "", "")
-	
+	var gate = Gate.create(gate_d[KEY_URL], gate_d[KEY_TITLE], gate_d[KEY_DESCRIPTION], gate_d[KEY_ICON], "")
 	bookmarks.star(gate, true)
+	
+	gate.icon = await FileDownloader.download(gate.icon_url)
+	bookmarks.update(gate)

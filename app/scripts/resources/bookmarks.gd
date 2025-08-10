@@ -23,10 +23,21 @@ func ready() -> void:
 	on_ready.emit()
 
 
+func make_first(url: String) -> void:
+	if not gates.has(url): return
+	
+	var gate = gates[url]
+	gates.erase(url)
+	gates[url] = gate
+
+
 func update(gate: Gate) -> void:
 	if not gates.has(gate.url): return
 	
 	var replace = gates[gate.url]
+	
+	if gate.icon_url == replace.icon_url: gate.icon = replace.icon
+	if gate.image_url == replace.image_url: gate.image = replace.image
 	
 	gates.erase(gate.url)
 	gates[gate.url] = gate

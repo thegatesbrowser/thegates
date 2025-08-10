@@ -15,6 +15,7 @@ func _ready() -> void:
 	unstar.visible = false
 	
 	gate_events.open_gate.connect(show_buttons)
+	gate_events.open_gate.connect(update_gate_order)
 	gate_events.search.connect(func(_query): hide_buttons())
 	gate_events.exit_gate.connect(hide_buttons)
 	gate_events.gate_info_loaded.connect(update_info)
@@ -38,10 +39,13 @@ func hide_buttons() -> void:
 	gate = null
 
 
+func update_gate_order(_url: String) -> void:
+	bookmarks.make_first(_url)
+
+
 func update_info(_gate: Gate) -> void:
 	gate = _gate
-	if bookmarks.gates.has(gate.url):
-		bookmarks.update(gate)
+	bookmarks.update(gate)
 
 
 func _on_star_pressed() -> void:

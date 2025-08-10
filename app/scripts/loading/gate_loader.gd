@@ -30,7 +30,7 @@ func load_gate(config_url: String) -> void:
 	if c_gate.load_result != OK: return error(GateEvents.GateError.INVALID_CONFIG)
 	gate_events.gate_config_loaded_emit(config_url, c_gate)
 	
-	gate = Gate.create(config_url, c_gate.title, c_gate.description, "", "", "", "")
+	gate = Gate.create(config_url, c_gate.title, c_gate.description, c_gate.icon_url, c_gate.image_url)
 	gate_events.gate_info_loaded_emit(gate)
 	
 	# Download all in parallel

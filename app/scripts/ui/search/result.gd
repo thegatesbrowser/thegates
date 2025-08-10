@@ -22,8 +22,7 @@ func fill(gate: Dictionary) -> void:
 	title.text = "Unnamed" if gate[KEY_TITLE].is_empty() else gate[KEY_TITLE]
 	description.text = gate[KEY_DESCRIPTION]
 	
-	var icon_url = gate[KEY_ICON] if not gate[KEY_ICON].is_empty() else gate[KEY_IMAGE]
-	var icon_path = await FileDownloader.download(icon_url)
+	var icon_path = await FileDownloader.download(gate[KEY_ICON])
 	icon.texture = FileTools.load_external_tex(icon_path)
 
 

@@ -23,7 +23,11 @@ func fill(gate: Gate, special: bool = false) -> void:
 	
 	url = gate.url
 	title.text = "Unnamed" if gate.title.is_empty() else gate.title
-	icon.texture = FileTools.load_external_tex(gate.icon)
+	
+	var icon_path = gate.icon
+	if icon_path.is_empty(): icon_path = await FileDownloader.download(gate.icon_url)
+	
+	icon.texture = FileTools.load_external_tex(icon_path)
 
 
 func on_pressed() -> void:

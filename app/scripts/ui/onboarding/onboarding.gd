@@ -20,7 +20,7 @@ func _ready() -> void:
 	root.mouse_filter = Control.MOUSE_FILTER_PASS
 	
 	await get_tree().create_timer(1.0).timeout
-	show_onboarding()
+	#show_onboarding()
 
 
 func show_onboarding() -> void:

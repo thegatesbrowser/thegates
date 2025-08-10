@@ -13,6 +13,7 @@ func _ready() -> void:
 	setup_boards()
 	assert(boards.size() > 0, "Carousel must have at least one board")
 	
+	ui_events.ui_size_changed.connect(on_ui_size_changed)
 	move_line(0)
 
 
@@ -22,6 +23,13 @@ func setup_boards() -> void:
 	
 	for i in range(boards.size()):
 		boards[i].request_focus.connect(move_line.bind(i))
+
+
+func on_ui_size_changed(ui_size: Vector2) -> void:
+	var screen_center = ui_size.y / 2
+	line.position.y = screen_center - line.size.y / 2
+	
+	move_line(focused_page)
 
 
 func move_line(board_index: int) -> void:

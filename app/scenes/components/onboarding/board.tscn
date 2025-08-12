@@ -36,7 +36,7 @@ grow_vertical = 2
 pivot_offset = Vector2(300, 350)
 script = ExtResource("1_dxxs8")
 focus_button = NodePath("TextureButton")
-unfocus_color = Color(0.9, 0.9, 0.9, 0.509804)
+unfocus_color = Color(0.9, 0.9, 0.9, 0.5)
 unfocus_scale = Vector2(0.8, 0.8)
 
 [node name="Panel" type="Panel" parent="."]
@@ -49,6 +49,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_r2yvw")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

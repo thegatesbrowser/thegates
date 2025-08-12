@@ -5,7 +5,7 @@ const SHOWN = Color(1, 1, 1, 1)
 const HIDDEN = Color(1, 1, 1, 0)
 
 @export var root: Control
-@export var skip: Button
+@export var close: Button
 @export var fade_in: float = 0.2
 @export var fade_out: float = 0.2
 
@@ -13,7 +13,7 @@ var tween: Tween
 
 
 func _ready() -> void:
-	skip.pressed.connect(hide_onboarding)
+	close.pressed.connect(hide_onboarding)
 	
 	visible = true
 	root.visible = false

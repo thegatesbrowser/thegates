@@ -2,6 +2,7 @@ extends Control
 
 @export var ui_events: UiEvents
 @export var line: Control
+@export var close: Button
 @export var tween_duration: float
 
 var boards: Array[OnboardingBoard] = []
@@ -19,7 +20,8 @@ func _ready() -> void:
 
 func setup_boards() -> void:
 	for child in line.get_children():
-		boards.append(child as OnboardingBoard)
+		if child is not OnboardingBoard: continue
+		boards.append(child)
 	
 	for i in range(boards.size()):
 		boards[i].request_focus.connect(move_line.bind(i))
@@ -48,3 +50,12 @@ func move_line(board_index: int) -> void:
 		if i == board_index:
 			boards[i].focus(tween_duration)
 		else: boards[i].unfocus(tween_duration)
+	
+	await tween.finished
+	refresh_mouse_position()
+
+
+func refresh_mouse_position() -> void:
+	var event = InputEventMouseMotion.new()
+	event.position = get_viewport().get_mouse_position()
+	Input.parse_input_event(event)

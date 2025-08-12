@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://b5tbn17l1pfs1"]
+[gd_scene load_steps=16 format=3 uid="uid://b5tbn17l1pfs1"]
 
 [ext_resource type="Script" path="res://scripts/ui/onboarding/onboarding.gd" id="1_2xh2a"]
 [ext_resource type="Script" path="res://scripts/ui/onboarding/carousel.gd" id="2_uhwdh"]
 [ext_resource type="Shader" uid="uid://dd1axtdlit6no" path="res://shaders/vignette_blur.tres" id="2_vhqmk"]
 [ext_resource type="PackedScene" uid="uid://pbsmrx55rb5g" path="res://scenes/components/onboarding/board.tscn" id="3_04ofy"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="3_jta5g"]
+[ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="4_bi8o3"]
+[ext_resource type="Script" path="res://scripts/ui/onboarding/close_button.gd" id="6_lcfru"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_htqsi"]
 bg_color = Color(0, 0, 0, 0.258824)
@@ -17,7 +19,20 @@ shader_parameter/VignetteColor = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b61hg"]
 
-[node name="Onboarding" type="Control" node_paths=PackedStringArray("root", "skip")]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vy2ch"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gh5x7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p4v5c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vsedv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cgaqc"]
+font = ExtResource("4_bi8o3")
+font_size = 26
+font_color = Color(0.831373, 0.831373, 0.831373, 1)
+
+[node name="Onboarding" type="Control" node_paths=PackedStringArray("root", "close")]
 top_level = true
 z_index = 10
 layout_mode = 3
@@ -29,7 +44,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_2xh2a")
 root = NodePath("Root")
-skip = NodePath("Root/Carousel/Line/Board/MarginContainer/VBoxContainer/HBoxContainer/Hide")
+close = NodePath("Root/Carousel/Line/Close")
 
 [node name="Root" type="Control" parent="."]
 layout_mode = 1
@@ -61,7 +76,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_b61hg")
 
-[node name="Carousel" type="Control" parent="Root" node_paths=PackedStringArray("line")]
+[node name="Carousel" type="Control" parent="Root" node_paths=PackedStringArray("line", "close")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -71,6 +86,7 @@ grow_vertical = 2
 script = ExtResource("2_uhwdh")
 ui_events = ExtResource("3_jta5g")
 line = NodePath("Line")
+close = NodePath("Line/Close")
 tween_duration = 0.3
 
 [node name="Line" type="Control" parent="Root/Carousel"]
@@ -122,4 +138,58 @@ offset_top = 0.0
 offset_right = 1900.0
 offset_bottom = 700.0
 
-[editable path="Root/Carousel/Line/Board"]
+[node name="Close" type="Button" parent="Root/Carousel/Line" node_paths=PackedStringArray("content")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 950.0
+offset_top = -350.0
+offset_right = 1550.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(300, 350)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vy2ch")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_gh5x7")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_p4v5c")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vsedv")
+flat = true
+script = ExtResource("6_lcfru")
+content = NodePath("Centered")
+tween_duration = 0.2
+base_modulate = Color(1, 1, 1, 0.5)
+hover_scale = 1.2
+
+[node name="Centered" type="Control" parent="Root/Carousel/Line/Close"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Root/Carousel/Line/Close/Centered"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -78.0
+offset_top = -12.5
+offset_right = 78.0
+offset_bottom = 12.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Let's try it out →"
+label_settings = SubResource("LabelSettings_cgaqc")
+horizontal_alignment = 1
+vertical_alignment = 1

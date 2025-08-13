@@ -18,7 +18,6 @@ func _ready() -> void:
 	visible = true
 	root.visible = false
 	root.modulate = HIDDEN
-	root.mouse_filter = Control.MOUSE_FILTER_PASS
 	
 	await get_tree().create_timer(INITIAL_DELAY).timeout
 	show_onboarding()
@@ -32,15 +31,10 @@ func show_onboarding() -> void:
 	if is_instance_valid(tween): tween.stop()
 	tween = create_tween()
 	tween.tween_property(root, "modulate", SHOWN, fade_in)
-	await tween.finished
-	
-	root.mouse_filter = Control.MOUSE_FILTER_STOP
 
 
 func hide_onboarding() -> void:
 	if not root.visible: return
-	
-	root.mouse_filter = Control.MOUSE_FILTER_PASS
 	
 	if is_instance_valid(tween): tween.stop()
 	tween = create_tween()

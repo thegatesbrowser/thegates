@@ -2,7 +2,7 @@ extends Button
 
 @export var content: Control
 @export var tween_duration: float
-@export var base_modulate: Color
+@export var normal_modulate: Color
 @export var hover_scale: float
 
 var tween: Tween
@@ -31,4 +31,4 @@ func on_mouse_exited() -> void:
 	
 	tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_property(content, "scale", Vector2.ONE, tween_duration)
-	tween.tween_property(content, "modulate", base_modulate, tween_duration)
+	tween.tween_property(content, "modulate", normal_modulate, tween_duration)

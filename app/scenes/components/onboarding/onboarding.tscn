@@ -101,6 +101,7 @@ offset_right = 756.0
 offset_bottom = 350.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Board" parent="Root/Carousel/Line" instance=ExtResource("3_04ofy")]
 layout_mode = 2
@@ -154,6 +155,7 @@ grow_vertical = 2
 scale = Vector2(0.8, 0.8)
 pivot_offset = Vector2(300, 350)
 focus_mode = 0
+mouse_filter = 1
 mouse_default_cursor_shape = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_vy2ch")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_gh5x7")
@@ -163,7 +165,7 @@ flat = true
 script = ExtResource("6_lcfru")
 content = NodePath("Centered")
 tween_duration = 0.2
-base_modulate = Color(1, 1, 1, 0.5)
+normal_modulate = Color(1, 1, 1, 0.5)
 hover_scale = 1.2
 
 [node name="Centered" type="Control" parent="Root/Carousel/Line/Close"]

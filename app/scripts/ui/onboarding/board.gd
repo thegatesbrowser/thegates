@@ -3,7 +3,7 @@ class_name OnboardingBoard
 
 signal request_focus
 
-@export var focus_button: TextureButton
+@export var focus_button: Button
 @export var unfocus_color: Color
 @export var unfocus_scale: Vector2
 

@@ -252,4 +252,5 @@ script = ExtResource("10_ant0e")
 url = "https://forms.gle/1NmJeCQnQh7Yc1KP8"
 
 [node name="Onboarding" parent="." instance=ExtResource("11_kyh0m")]
+visible = false
 layout_mode = 1

@@ -34,8 +34,9 @@ offset_bottom = 350.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(300, 350)
+mouse_filter = 1
 script = ExtResource("1_dxxs8")
-focus_button = NodePath("TextureButton")
+focus_button = NodePath("Button")
 unfocus_color = Color(0.9, 0.9, 0.9, 0.5)
 unfocus_scale = Vector2(0.8, 0.8)
 
@@ -46,6 +47,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_r2yvw")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -111,10 +113,13 @@ theme_override_font_sizes/font_size = 20
 text = "Wait"
 icon = null
 
-[node name="TextureButton" type="TextureButton" parent="."]
+[node name="Button" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 0
+mouse_filter = 1
+flat = true

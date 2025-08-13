@@ -87,7 +87,6 @@ script = ExtResource("2_uhwdh")
 ui_events = ExtResource("3_jta5g")
 line = NodePath("Line")
 close = NodePath("Line/Close")
-tween_duration = 0.3
 
 [node name="Line" type="Control" parent="Root/Carousel"]
 layout_mode = 1

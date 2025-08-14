@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b5tbn17l1pfs1"]
+[gd_scene load_steps=19 format=3 uid="uid://b5tbn17l1pfs1"]
 
 [ext_resource type="Script" path="res://scripts/ui/onboarding/onboarding.gd" id="1_2xh2a"]
 [ext_resource type="Script" path="res://scripts/ui/onboarding/carousel.gd" id="2_uhwdh"]
@@ -6,7 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://pbsmrx55rb5g" path="res://scenes/components/onboarding/board.tscn" id="3_04ofy"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="3_jta5g"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="4_bi8o3"]
+[ext_resource type="Texture2D" uid="uid://jfikupu1mgfb" path="res://assets/textures/onboarding/2_friends.png" id="6_60kxa"]
 [ext_resource type="Script" path="res://scripts/ui/onboarding/close_button.gd" id="6_lcfru"]
+[ext_resource type="Texture2D" uid="uid://oppo8nj5bqrf" path="res://assets/textures/onboarding/3_browser.png" id="7_icqbo"]
+[ext_resource type="Texture2D" uid="uid://c86h7yd3klvo8" path="res://assets/textures/onboarding/4_tutorial.png" id="8_asgtb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_htqsi"]
 bg_color = Color(0, 0, 0, 0.258824)
@@ -96,7 +99,7 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = 676.0
 offset_top = -350.0
-offset_right = 756.0
+offset_right = 1306.0
 offset_bottom = 350.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -126,6 +129,17 @@ offset_top = 0.0
 offset_right = 1250.0
 offset_bottom = 700.0
 
+[node name="TextureRect" parent="Root/Carousel/Line/Board2/MarginContainer/VBoxContainer/CenterContainer/Panel" index="0"]
+texture = ExtResource("6_60kxa")
+
+[node name="Title" parent="Root/Carousel/Line/Board2/MarginContainer/VBoxContainer/VBoxContainer" index="0"]
+text = "A place for friends
+and creativity"
+
+[node name="Description" parent="Root/Carousel/Line/Board2/MarginContainer/VBoxContainer/VBoxContainer" index="1"]
+text = "Find communities, explore with friends,
+and create your own 3D spaces."
+
 [node name="Board3" parent="Root/Carousel/Line" instance=ExtResource("3_04ofy")]
 layout_mode = 2
 anchors_preset = 0
@@ -138,19 +152,45 @@ offset_top = 0.0
 offset_right = 1900.0
 offset_bottom = 700.0
 
+[node name="TextureRect" parent="Root/Carousel/Line/Board3/MarginContainer/VBoxContainer/CenterContainer/Panel" index="0"]
+texture = ExtResource("7_icqbo")
+
+[node name="Title" parent="Root/Carousel/Line/Board3/MarginContainer/VBoxContainer/VBoxContainer" index="0"]
+text = "TheGates is your
+browser to access it"
+
+[node name="Description" parent="Root/Carousel/Line/Board3/MarginContainer/VBoxContainer/VBoxContainer" index="1"]
+text = "You open links and connect to servers,
+but every site is 3D and interactive."
+
+[node name="Board4" parent="Root/Carousel/Line" instance=ExtResource("3_04ofy")]
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 1950.0
+offset_top = 0.0
+offset_right = 2550.0
+offset_bottom = 700.0
+
+[node name="TextureRect" parent="Root/Carousel/Line/Board4/MarginContainer/VBoxContainer/CenterContainer/Panel" index="0"]
+texture = ExtResource("8_asgtb")
+
+[node name="Title" parent="Root/Carousel/Line/Board4/MarginContainer/VBoxContainer/VBoxContainer" index="0"]
+text = "Let’s learn how 
+things work here →"
+
+[node name="Description" parent="Root/Carousel/Line/Board4/MarginContainer/VBoxContainer/VBoxContainer" index="1"]
+text = "Learn about portals and navigation
+in our interactive tutorial."
+
 [node name="Close" type="Button" parent="Root/Carousel/Line" node_paths=PackedStringArray("content")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 950.0
-offset_top = -350.0
-offset_right = 1550.0
-offset_bottom = 350.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = 2600.0
+offset_right = 3200.0
+offset_bottom = 700.0
 scale = Vector2(0.8, 0.8)
 pivot_offset = Vector2(300, 350)
 focus_mode = 0
@@ -194,3 +234,7 @@ text = "Let's try it out →"
 label_settings = SubResource("LabelSettings_cgaqc")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[editable path="Root/Carousel/Line/Board2"]
+[editable path="Root/Carousel/Line/Board3"]
+[editable path="Root/Carousel/Line/Board4"]

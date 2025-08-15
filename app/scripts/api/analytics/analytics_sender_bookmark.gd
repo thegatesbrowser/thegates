@@ -11,8 +11,8 @@ func _ready() -> void:
 	bookmarks.on_unstar.connect(send_unbookmark)
 
 
-func send_bookmark(gate: Gate, featured: bool) -> void:
-	if featured: return
+func send_bookmark(gate: Gate) -> void:
+	if gate.featured: return
 	analytics.send_event(AnalyticsEvents.bookmark(gate.url))
 
 

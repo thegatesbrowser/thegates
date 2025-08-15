@@ -15,11 +15,11 @@ func _ready() -> void:
 	button_special.pressed.connect(on_pressed)
 
 
-func fill(gate: Gate, special: bool = false) -> void:
+func fill(gate: Gate) -> void:
 	if gate == null: return
 	
-	button.visible = not special
-	button_special.visible = special
+	button.visible = not gate.is_special
+	button_special.visible = gate.is_special
 	
 	url = gate.url
 	title.text = "Unnamed" if gate.title.is_empty() else gate.title

@@ -4,6 +4,7 @@ const KEY_URL = "url"
 const KEY_TITLE = "title"
 const KEY_DESCRIPTION = "description"
 const KEY_ICON = "icon"
+const KEY_IS_SPECIAL = "is_special"
 
 @export var api: ApiSettings
 @export var bookmarks: Bookmarks
@@ -44,7 +45,9 @@ func featured_gates_request() -> void:
 
 func star_gate(gate_d: Dictionary) -> void:
 	var gate = Gate.create(gate_d[KEY_URL], gate_d[KEY_TITLE], gate_d[KEY_DESCRIPTION], gate_d[KEY_ICON], "")
-	bookmarks.star(gate, true)
+	gate.is_special = gate_d[KEY_IS_SPECIAL]
+	gate.featured = true
+	bookmarks.star(gate)
 	
 	gate.icon = await FileDownloader.download(gate.icon_url)
 	bookmarks.update(gate)

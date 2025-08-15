@@ -11,6 +11,10 @@ class_name Gate
 @export var icon: String
 @export var image: String
 
+# Only for featured gates. Cleared when opened
+@export var featured: bool
+@export var is_special: bool
+
 var resource_pack: String
 var shared_libs_dir: String # local path where libs downloaded
 

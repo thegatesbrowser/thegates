@@ -4,7 +4,7 @@ extends Control
 @export var history: History
 @export var root: TextureButton
 @export var reload: Button
-@export var wait: Button
+@export var back: Button
 @export var fade_in: float = 1.0
 @export var fade_out: float = 0.2
 
@@ -18,7 +18,7 @@ func _ready() -> void:
 	gate_events.not_responding.connect(show_message)
 	reload.pressed.connect(reload_gate)
 	root.pressed.connect(hide_message)
-	wait.pressed.connect(hide_message)
+	back.pressed.connect(Navigation.go_back)
 	
 	visible = true
 	root.hide()

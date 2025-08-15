@@ -5,8 +5,8 @@ extends Node
 @export var snbx_manager: SandboxManager
 
 # Timeout intervals for child process responsiveness
-const BOOTUP_CHECK_SEC = 1
-const HEARTBEAT_INTERVAL_SEC = 5
+const BOOTUP_CHECK_SEC = 3
+const HEARTBEAT_INTERVAL_SEC = 10
 const WAIT_INTERVAL_SEC = 15
 
 var bootup_timer: Timer
@@ -20,7 +20,7 @@ func _ready() -> void:
 	add_child(heartbeat_timer)
 	
 	bootup_timer.timeout.connect(bootup_check)
-	heartbeat_timer.timeout.connect(on_timeout)
+	heartbeat_timer.timeout.connect(heartbeat_check)
 	
 	gate_events.gate_entered.connect(start_bootup_check)
 	gate_events.first_frame.connect(start_heartbeat_timer)
@@ -35,7 +35,7 @@ func bootup_check() -> void:
 	if snbx_manager.is_sandbox_running(): return
 	
 	bootup_timer.stop()
-	on_timeout()
+	on_timeout("Gate crashed")
 
 
 func start_heartbeat_timer() -> void:
@@ -47,7 +47,14 @@ func restart_heartbeat_timer() -> void:
 	heartbeat_timer.start(HEARTBEAT_INTERVAL_SEC)
 
 
-func on_timeout() -> void:
-	Debug.logerr("Gate is not responding")
+func heartbeat_check() -> void:
+	var error = "Gate is not responding" if snbx_manager.is_sandbox_running() else "Gate crashed"
+	
+	heartbeat_timer.stop()
+	on_timeout(error)
+
+
+func on_timeout(error: String) -> void:
+	Debug.logerr(error)
 	gate_events.not_responding_emit()
 	heartbeat_timer.start(WAIT_INTERVAL_SEC)

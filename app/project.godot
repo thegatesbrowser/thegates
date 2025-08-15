@@ -34,6 +34,7 @@ FileDownloader="*res://scripts/loading/file_downloader.gd"
 Debug="*res://scripts/debug_log/debug.gd"
 AnalyticsEvents="*res://scripts/api/analytics/analytics_events.gd"
 Backend="*res://scripts/api/backend.gd"
+Navigation="*res://scenes/autoloads/navigation.tscn"
 
 [debug]
 

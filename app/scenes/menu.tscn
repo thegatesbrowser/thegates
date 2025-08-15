@@ -1,10 +1,9 @@
-[gd_scene load_steps=28 format=3 uid="uid://5btb7nvgmfhl"]
+[gd_scene load_steps=27 format=3 uid="uid://5btb7nvgmfhl"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/menu_navigation.gd" id="1_7anvm"]
 [ext_resource type="Script" path="res://scripts/ui/menu/menu.gd" id="1_o6vga"]
 [ext_resource type="PackedScene" uid="uid://dkfy3rcfbxqc6" path="res://scenes/components/tab.tscn" id="3_atekt"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_m632k"]
-[ext_resource type="Resource" uid="uid://bqgikyax6jfqa" path="res://resources/history.tres" id="3_wi554"]
 [ext_resource type="Texture2D" uid="uid://c80732g67qmvx" path="res://assets/textures/plus.svg" id="4_rdyyc"]
 [ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://scenes/components/search/search.tscn" id="5_li2do"]
 [ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/round_button.tscn" id="6_gxcmo"]
@@ -196,7 +195,6 @@ theme_override_constants/separation = 12
 alignment = 1
 script = ExtResource("1_7anvm")
 gate_events = ExtResource("3_m632k")
-history = ExtResource("3_wi554")
 go_back = NodePath("HBoxContainer/Back")
 go_forw = NodePath("HBoxContainer/Forward")
 reload = NodePath("HBoxContainer/Reload")

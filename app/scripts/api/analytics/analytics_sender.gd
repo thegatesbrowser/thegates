@@ -1,7 +1,7 @@
 extends Node
 class_name AnalyticsSender
 
-var analytics: Analitycs
+var analytics: Analytics
 
 
 func _enter_tree() -> void:

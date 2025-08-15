@@ -39,14 +39,14 @@ func send_gate_open(url: String) -> void:
 
 
 func send_gate_load() -> void:
-	var download_time = get_delta_sec(gate_open_tick)
+	var download_time = Analytics.get_delta_sec_from_tick(gate_open_tick)
 	gate_load_tick = Time.get_ticks_msec()
 	analytics.send_event(AnalyticsEvents.gate_load(gate_url, download_time))
 	Debug.logclr("Download time: %.3f" % [download_time], Color.AQUAMARINE)
 
 
 func send_gate_start() -> void:
-	var bootup_time = get_delta_sec(gate_load_tick)
+	var bootup_time = Analytics.get_delta_sec_from_tick(gate_load_tick)
 	analytics.send_event(AnalyticsEvents.gate_start(gate_url, bootup_time))
 	Debug.logclr("Bootup time: %.3f" % [bootup_time], Color.AQUAMARINE)
 
@@ -54,7 +54,7 @@ func send_gate_start() -> void:
 func send_gate_exit() -> void:
 	if gate_url.is_empty(): return
 	
-	var time_spend = get_delta_sec(gate_open_tick)
+	var time_spend = Analytics.get_delta_sec_from_tick(gate_open_tick)
 	analytics.send_event(AnalyticsEvents.gate_exit(gate_url, time_spend))
 	gate_url = ""
 
@@ -63,10 +63,6 @@ func _exit_tree() -> void:
 	if gate_url.is_empty(): return
 	
 	# Save to send on open
-	var time_spend = get_delta_sec(gate_open_tick)
+	var time_spend = Analytics.get_delta_sec_from_tick(gate_open_tick)
 	var event = AnalyticsEvents.gate_exit(gate_url, time_spend)
 	DataSaver.set_value("analytics", "send_gate_exit", JSON.stringify(event))
-
-
-func get_delta_sec(from_msec: int) -> float:
-	return float(Time.get_ticks_msec() - from_msec) / 1000

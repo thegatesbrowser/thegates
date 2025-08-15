@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ct8gsph3wnepl"]
+[gd_scene load_steps=20 format=3 uid="uid://ct8gsph3wnepl"]
 
 [ext_resource type="Script" path="res://scripts/app.gd" id="1_skc7d"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_cdryv"]
@@ -16,7 +16,9 @@
 [ext_resource type="Script" path="res://scripts/api/discover_gate.gd" id="13_3xhql"]
 [ext_resource type="Script" path="res://scripts/api/analytics/analytics_sender_bookmark.gd" id="13_74yg1"]
 [ext_resource type="Script" path="res://scripts/api/analytics/analytics_sender_gate.gd" id="13_jout6"]
+[ext_resource type="Script" path="res://scripts/api/analytics/analytics_sender_onboarding.gd" id="15_a11br"]
 [ext_resource type="Script" path="res://scripts/api/featured_gates.gd" id="15_c1fxl"]
+[ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="16_6u24i"]
 
 [node name="App" type="Node" node_paths=PackedStringArray("scenes_root")]
 script = ExtResource("1_skc7d")
@@ -56,6 +58,10 @@ gate_events = ExtResource("2_cdryv")
 [node name="SenderBookmark" type="Node" parent="Api/Analytics"]
 script = ExtResource("13_74yg1")
 bookmarks = ExtResource("6_rupvx")
+
+[node name="SenderOnboarding" type="Node" parent="Api/Analytics"]
+script = ExtResource("15_a11br")
+ui_events = ExtResource("16_6u24i")
 
 [node name="DiscoverGate" type="Node" parent="Api"]
 script = ExtResource("13_3xhql")

@@ -1,15 +1,15 @@
 extends Node
 #class_name AnalyticsEvents
 
-var user_id := "none"
 var app_version := "none"
+var user_id := "none"
 
 
 func base(event_name: String) -> Dictionary:
 	var event = {}
 	event.event_name = event_name
-	event.user_id = user_id
 	event.app_version = app_version
+	event.user_id = user_id
 	return event
 
 
@@ -85,4 +85,16 @@ func unbookmark(url: String) -> Dictionary:
 func error(msg: String) -> Dictionary:
 	var event = base("error")
 	event.msg = msg
+	return event
+
+
+# ONBOARDING
+
+func onboarding_started() -> Dictionary:
+	return base("onboarding_started")
+
+
+func onboarding_finished(time_spend: float) -> Dictionary:
+	var event = base("onboarding_finished")
+	event.time_spend = time_spend
 	return event

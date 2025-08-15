@@ -1,5 +1,5 @@
 extends Node
-class_name Analitycs
+class_name Analytics
 
 signal analytics_ready
 
@@ -10,6 +10,15 @@ func _ready() -> void:
 	get_app_version()
 	await get_user_id()
 	analytics_ready.emit()
+
+
+func send_event(body: Dictionary = {}) -> void:
+	var url = api.analytics_event
+	var callback = func(_result, code, _headers, _body):
+		if code != 200: Debug.logclr("Request send_event failed. Code " + str(code), Color.RED)
+	
+	var err = await Backend.request(url, callback, body, HTTPClient.METHOD_POST)
+	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request send_event", Color.RED)
 
 
 func get_app_version() -> void:
@@ -32,10 +41,5 @@ func get_user_id() -> void:
 	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request create_user_id", Color.RED)
 
 
-func send_event(body: Dictionary = {}) -> void:
-	var url = api.analytics_event
-	var callback = func(_result, code, _headers, _body):
-		if code != 200: Debug.logclr("Request send_event failed. Code " + str(code), Color.RED)
-	
-	var err = await Backend.request(url, callback, body, HTTPClient.METHOD_POST)
-	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request send_event", Color.RED)
+static func get_delta_sec_from_tick(from_tick: int) -> float:
+	return float(Time.get_ticks_msec() - from_tick) / 1000

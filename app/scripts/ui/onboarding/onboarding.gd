@@ -7,6 +7,7 @@ const INITIAL_DELAY = 1.0
 const SHOWN = Color(1, 1, 1, 1)
 const HIDDEN = Color(1, 1, 1, 0)
 
+@export var ui_events: UiEvents
 @export var root: Control
 @export var close: Button
 @export var fade_in: float = 0.2
@@ -31,6 +32,8 @@ func _ready() -> void:
 func try_show_onboarding() -> void:
 	var is_shown = DataSaver.get_value(SECTION, KEY, false)
 	if is_shown and not show_always: return
+	
+	ui_events.onboarding_started_emit()
 	
 	await get_tree().create_timer(INITIAL_DELAY).timeout
 	show_onboarding()
@@ -58,3 +61,5 @@ func hide_onboarding() -> void:
 	
 	DataSaver.set_value(SECTION, KEY, true)
 	DataSaver.save_data()
+	
+	ui_events.onboarding_finished_emit()

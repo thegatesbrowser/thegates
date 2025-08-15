@@ -46,6 +46,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_2xh2a")
+ui_events = ExtResource("3_jta5g")
 root = NodePath("Root")
 close = NodePath("Root/Carousel/Line/Close")
 

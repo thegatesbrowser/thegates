@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://82ca8so31njy"]
+[gd_scene load_steps=11 format=3 uid="uid://82ca8so31njy"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/bookmark_ui.gd" id="1_bpkqj"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_7i5yr"]
+[ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="3_sp6jv"]
 [ext_resource type="StyleBox" uid="uid://bllkg32sc4iam" path="res://assets/styles/panel.stylebox" id="3_tb1mf"]
 [ext_resource type="StyleBox" uid="uid://bmxiecm3vkddl" path="res://assets/styles/panel_hover.stylebox" id="4_figib"]
 [ext_resource type="LabelSettings" uid="uid://85ms8ndcmbn0" path="res://assets/styles/text_small.tres" id="4_xqjm8"]
@@ -40,6 +41,7 @@ offset_right = 180.0
 offset_bottom = 100.0
 script = ExtResource("1_bpkqj")
 gate_events = ExtResource("2_7i5yr")
+ui_events = ExtResource("3_sp6jv")
 icon = NodePath("Mask/Icon")
 title = NodePath("Title")
 button = NodePath("Button")

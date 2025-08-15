@@ -129,14 +129,14 @@ offset_top = 0.0
 offset_right = 1250.0
 offset_bottom = 700.0
 
-[node name="TextureRect" parent="Root/Carousel/Line/Board2/MarginContainer/VBoxContainer/CenterContainer/Panel" index="0"]
+[node name="TextureRect" parent="Root/Carousel/Line/Board2/VBoxContainer/Panel" index="0"]
 texture = ExtResource("6_60kxa")
 
-[node name="Title" parent="Root/Carousel/Line/Board2/MarginContainer/VBoxContainer/VBoxContainer" index="0"]
+[node name="Title" parent="Root/Carousel/Line/Board2/VBoxContainer/MarginContainer/VBoxContainer" index="0"]
 text = "A place for friends
 and creativity"
 
-[node name="Description" parent="Root/Carousel/Line/Board2/MarginContainer/VBoxContainer/VBoxContainer" index="1"]
+[node name="Description" parent="Root/Carousel/Line/Board2/VBoxContainer/MarginContainer/VBoxContainer" index="1"]
 text = "Find communities, explore with friends,
 and create your own 3D spaces."
 
@@ -152,14 +152,14 @@ offset_top = 0.0
 offset_right = 1900.0
 offset_bottom = 700.0
 
-[node name="TextureRect" parent="Root/Carousel/Line/Board3/MarginContainer/VBoxContainer/CenterContainer/Panel" index="0"]
+[node name="TextureRect" parent="Root/Carousel/Line/Board3/VBoxContainer/Panel" index="0"]
 texture = ExtResource("7_icqbo")
 
-[node name="Title" parent="Root/Carousel/Line/Board3/MarginContainer/VBoxContainer/VBoxContainer" index="0"]
+[node name="Title" parent="Root/Carousel/Line/Board3/VBoxContainer/MarginContainer/VBoxContainer" index="0"]
 text = "TheGates is your
 browser to access it"
 
-[node name="Description" parent="Root/Carousel/Line/Board3/MarginContainer/VBoxContainer/VBoxContainer" index="1"]
+[node name="Description" parent="Root/Carousel/Line/Board3/VBoxContainer/MarginContainer/VBoxContainer" index="1"]
 text = "You open links and connect to servers,
 but every site is 3D and interactive."
 
@@ -175,18 +175,18 @@ offset_top = 0.0
 offset_right = 2550.0
 offset_bottom = 700.0
 
-[node name="MarginContainer" parent="Root/Carousel/Line/Board4" index="1"]
-modulate = Color(1, 1, 1, 0.5)
-
-[node name="TextureRect" parent="Root/Carousel/Line/Board4/MarginContainer/VBoxContainer/CenterContainer/Panel" index="0"]
+[node name="TextureRect" parent="Root/Carousel/Line/Board4/VBoxContainer/Panel" index="0"]
 texture = ExtResource("8_asgtb")
 
-[node name="Title" parent="Root/Carousel/Line/Board4/MarginContainer/VBoxContainer/VBoxContainer" index="0"]
+[node name="MarginContainer" parent="Root/Carousel/Line/Board4/VBoxContainer" index="1"]
+modulate = Color(1, 1, 1, 0.305)
+
+[node name="Title" parent="Root/Carousel/Line/Board4/VBoxContainer/MarginContainer/VBoxContainer" index="0"]
 text = "(Coming soon...)
 Let’s learn how 
 things work here →"
 
-[node name="Description" parent="Root/Carousel/Line/Board4/MarginContainer/VBoxContainer/VBoxContainer" index="1"]
+[node name="Description" parent="Root/Carousel/Line/Board4/VBoxContainer/MarginContainer/VBoxContainer" index="1"]
 text = "Learn about portals and navigation
 in our interactive tutorial."
 

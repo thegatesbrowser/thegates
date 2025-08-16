@@ -21,10 +21,6 @@ func send_event(body: Dictionary = {}) -> void:
 	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request send_event", Color.RED)
 
 
-func get_app_version() -> void:
-	AnalyticsEvents.app_version = ProjectSettings.get_setting("application/config/version")
-
-
 func get_user_id() -> void:
 	AnalyticsEvents.user_id = DataSaver.get_string("analytics", "user_id")
 	if not AnalyticsEvents.user_id.is_empty(): return
@@ -39,6 +35,16 @@ func get_user_id() -> void:
 	
 	var err = await Backend.request(url, callback)
 	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request create_user_id", Color.RED)
+
+
+func get_app_version() -> void:
+	AnalyticsEvents.app_version = ProjectSettings.get_setting("application/config/version")
+	AnalyticsEvents.app_version_code = version_to_int(AnalyticsEvents.app_version)
+
+
+func version_to_int(version: String) -> int:
+	var parts = version.split(".")
+	return int(parts[0]) * 10000 + int(parts[1]) * 100 + int(parts[2])
 
 
 static func get_delta_sec_from_tick(from_tick: int) -> float:

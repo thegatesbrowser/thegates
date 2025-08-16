@@ -1,15 +1,17 @@
 extends Node
 #class_name AnalyticsEvents
 
-var app_version := "none"
 var user_id := "none"
+var app_version := "none"
+var app_version_code := -1
 
 
 func base(event_name: String) -> Dictionary:
 	var event = {}
+	event.user_id = user_id
 	event.event_name = event_name
 	event.app_version = app_version
-	event.user_id = user_id
+	event.app_version_code = app_version_code
 	return event
 
 

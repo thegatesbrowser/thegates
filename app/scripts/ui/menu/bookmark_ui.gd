@@ -6,7 +6,7 @@ class_name BookmarkUI
 @export var icon: TextureRect
 @export var title: Label
 @export var button: Button
-@export var button_special: Button
+@export var special_effect: Panel
 
 var url: String
 var is_special: bool
@@ -14,7 +14,6 @@ var is_special: bool
 
 func _ready() -> void:
 	button.pressed.connect(on_pressed)
-	button_special.pressed.connect(on_pressed)
 	ui_events.onboarding_started.connect(update_button_type)
 	ui_events.onboarding_finished.connect(update_button_type)
 
@@ -36,11 +35,9 @@ func fill(gate: Gate) -> void:
 
 func update_button_type() -> void:
 	if ui_events.is_onboarding_started:
-		button.visible = true
-		button_special.visible = false
+		special_effect.visible = false
 	else:
-		button.visible = not is_special
-		button_special.visible = is_special
+		special_effect.visible = is_special
 
 
 func on_pressed() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://82ca8so31njy"]
+[gd_scene load_steps=13 format=3 uid="uid://82ca8so31njy"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/bookmark_ui.gd" id="1_bpkqj"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_7i5yr"]
@@ -7,24 +7,23 @@
 [ext_resource type="StyleBox" uid="uid://bmxiecm3vkddl" path="res://assets/styles/panel_hover.stylebox" id="4_figib"]
 [ext_resource type="LabelSettings" uid="uid://85ms8ndcmbn0" path="res://assets/styles/text_small.tres" id="4_xqjm8"]
 [ext_resource type="Texture2D" uid="uid://6k1ia4pidwrq" path="res://assets/textures/empty_icon.svg" id="5_vwpfy"]
+[ext_resource type="Shader" path="res://shaders/spinning_border.gdshader" id="6_16gpr"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1vnuq"]
-bg_color = Color(0.423529, 0.235294, 0.933333, 1)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
-shadow_size = 4
+[sub_resource type="Gradient" id="Gradient_sffh2"]
+offsets = PackedFloat32Array(0, 0.25, 0.5, 0.75, 1)
+colors = PackedColorArray(1, 0.2, 0.4, 1, 1, 0.8, 0.2, 1, 0.2, 1, 0.6, 1, 0.2, 0.6, 1, 1, 1, 0.2, 0.4, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bktbh"]
-bg_color = Color(0.32549, 0.14902, 0.8, 1)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
-shadow_size = 4
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_yl185"]
+gradient = SubResource("Gradient_sffh2")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i1368"]
+shader = ExtResource("6_16gpr")
+shader_parameter/border_thickness = 0.015
+shader_parameter/edge_smoothness = 0.01
+shader_parameter/corner_radius = Vector4(0.25, 0.25, 0.25, 0.25)
+shader_parameter/speed = 1.5
+shader_parameter/clockwise = false
+shader_parameter/gradient = SubResource("GradientTexture1D_yl185")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_od0ga"]
 corner_radius_top_left = 20
@@ -32,8 +31,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[node name="Bookmark" type="Control" node_paths=PackedStringArray("icon", "title", "button", "button_special")]
-clip_children = 1
+[node name="Bookmark" type="Control" node_paths=PackedStringArray("icon", "title", "button", "special_effect")]
 custom_minimum_size = Vector2(180, 100)
 layout_mode = 3
 anchors_preset = 0
@@ -45,7 +43,7 @@ ui_events = ExtResource("3_sp6jv")
 icon = NodePath("Mask/Icon")
 title = NodePath("Title")
 button = NodePath("Button")
-button_special = NodePath("ButtonSpecial")
+special_effect = NodePath("SpecialEffect")
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 1
@@ -60,19 +58,16 @@ theme_override_styles/hover = ExtResource("4_figib")
 theme_override_styles/pressed = ExtResource("4_figib")
 theme_override_styles/normal = ExtResource("3_tb1mf")
 
-[node name="ButtonSpecial" type="Button" parent="."]
-visible = false
+[node name="SpecialEffect" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_i1368")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-focus_mode = 0
+mouse_filter = 2
 mouse_default_cursor_shape = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_1vnuq")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_1vnuq")
-theme_override_styles/normal = SubResource("StyleBoxFlat_bktbh")
 
 [node name="Mask" type="Panel" parent="."]
 clip_children = 1

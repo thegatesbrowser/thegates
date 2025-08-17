@@ -33,7 +33,7 @@ func try_show_onboarding() -> void:
 	var is_shown = DataSaver.get_value(SECTION, KEY, false)
 	if is_shown and not show_always: return
 	
-	ui_events.onboarding_started_emit()
+	ui_events.onboarding_requested_emit()
 	
 	await get_tree().create_timer(INITIAL_DELAY).timeout
 	show_onboarding()
@@ -47,6 +47,8 @@ func show_onboarding() -> void:
 	if is_instance_valid(tween): tween.stop()
 	tween = create_tween()
 	tween.tween_property(root, "modulate", SHOWN, fade_in)
+	
+	ui_events.onboarding_started_emit()
 
 
 func hide_onboarding() -> void:

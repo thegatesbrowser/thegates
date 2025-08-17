@@ -15,6 +15,7 @@ var is_special: bool
 
 func _ready() -> void:
 	button.pressed.connect(on_pressed)
+	ui_events.onboarding_requested.connect(update_special_effects)
 	ui_events.onboarding_started.connect(update_special_effects)
 	ui_events.onboarding_finished.connect(update_special_effects)
 
@@ -34,7 +35,7 @@ func fill(gate: Gate) -> void:
 
 
 func update_special_effects() -> void:
-	if ui_events.is_onboarding_started:
+	if ui_events.is_onboarding_started or ui_events.is_onboarding_requested:
 		special_effect.visible = false
 		jump_animation.stop_jump_animation()
 		return

@@ -78,7 +78,7 @@ func refresh_mouse_position() -> void:
 	Input.parse_input_event(event)
 
 
-#region Dragging
+# DRAGGING
 
 func set_buttons_disabled(disabled: bool) -> void:
 	close.disabled = disabled
@@ -163,5 +163,3 @@ func apply_drag(delta_x: float) -> void:
 	new_x = drag_start_line_x + delta_from_start
 	
 	line.position.x = new_x
-
-#endregion Dragging

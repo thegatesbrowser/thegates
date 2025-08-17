@@ -40,7 +40,7 @@ void fragment() {
 	// Decide radii source: pixel radii (if provided) or UV radii scaled to pixels
 	float base_scale = min(size_px.x, size_px.y);
 	vec4 r_src_px = corner_radius * base_scale;
-    
+
 	// Clamp radii to reasonable bounds
 	float r_tl = clamp(r_src_px.x, 0.0, 0.5 * base_scale);
 	float r_tr = clamp(r_src_px.y, 0.0, 0.5 * base_scale);
@@ -150,5 +150,3 @@ void fragment() {
 	vec4 col = texture(gradient, vec2(t, 0.5));
 	COLOR = vec4(col.rgb, col.a * mask);
 }
-
-

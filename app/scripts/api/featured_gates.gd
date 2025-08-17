@@ -49,5 +49,5 @@ func star_gate(gate_d: Dictionary) -> void:
 	gate.featured = true
 	bookmarks.star(gate)
 	
-	gate.icon = await FileDownloader.download(gate.icon_url)
-	bookmarks.update(gate)
+	var icon = await FileDownloader.download(gate.icon_url)
+	bookmarks.update_icon(gate.url, icon)

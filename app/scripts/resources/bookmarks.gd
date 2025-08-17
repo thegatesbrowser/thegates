@@ -31,6 +31,18 @@ func make_first(url: String) -> void:
 	gates[url] = gate
 
 
+func update_icon(url: String, icon: String) -> void:
+	if not gates.has(url): return
+	
+	var gate = gates[url]
+	gate.icon = icon
+	
+	var index = starred_gates.find(gate)
+	starred_gates[index].icon = icon
+	
+	save_icon.emit(gate)
+
+
 func update(gate: Gate) -> void:
 	if not gates.has(gate.url): return
 	

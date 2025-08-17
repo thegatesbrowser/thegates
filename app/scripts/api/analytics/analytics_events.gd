@@ -21,15 +21,15 @@ func app_open() -> Dictionary:
 	return base("application_open")
 
 
-func heartbeat(time_spend: float) -> Dictionary:
+func heartbeat(time_spent: float) -> Dictionary:
 	var event = base("heartbeat")
-	event.time_spend = time_spend
+	event.time_spent = time_spent
 	return event
 
 
-func app_exit(time_spend: float) -> Dictionary:
+func app_exit(time_spent: float) -> Dictionary:
 	var event = base("application_exit")
-	event.time_spend = time_spend
+	event.time_spent = time_spent
 	return event
 
 
@@ -61,10 +61,10 @@ func gate_start(url: String, bootup_time: float) -> Dictionary:
 	return event
 
 
-func gate_exit(url: String, time_spend: float) -> Dictionary:
+func gate_exit(url: String, time_spent: float) -> Dictionary:
 	var event = base("gate_exit")
 	event.gate_url = url
-	event.time_spend = time_spend
+	event.time_spent = time_spent
 	return event
 
 
@@ -96,9 +96,9 @@ func onboarding_started() -> Dictionary:
 	return base("onboarding_started")
 
 
-func onboarding_finished(time_spend: float) -> Dictionary:
+func onboarding_finished(time_spent: float) -> Dictionary:
 	var event = base("onboarding_finished")
-	event.time_spend = time_spend
+	event.time_spent = time_spent
 	return event
 
 
@@ -108,7 +108,7 @@ func enter_afk() -> Dictionary:
 	return base("enter_afk")
 
 
-func leave_afk(time_spend: float) -> Dictionary:
+func leave_afk(time_spent: float) -> Dictionary:
 	var event = base("leave_afk")
-	event.time_spend = time_spend
+	event.time_spent = time_spent
 	return event

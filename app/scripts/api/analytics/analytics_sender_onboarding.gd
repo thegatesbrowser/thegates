@@ -22,5 +22,5 @@ func send_onboarding_started() -> void:
 
 
 func send_onboarding_finished() -> void:
-	var time_spend = Analytics.get_delta_sec_from_tick(onboarding_started_tick)
-	analytics.send_event(AnalyticsEvents.onboarding_finished(time_spend))
+	var time_spent = Analytics.get_delta_sec_from_tick(onboarding_started_tick)
+	analytics.send_event(AnalyticsEvents.onboarding_finished(time_spent))

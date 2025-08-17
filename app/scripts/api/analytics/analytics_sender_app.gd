@@ -29,8 +29,8 @@ func start_heartbeat() -> void:
 
 
 func send_hearbeat() -> void:
-	var time_spend = AfkManager.get_active_sec()
-	analytics.send_event(AnalyticsEvents.heartbeat(time_spend))
+	var time_spent = AfkManager.get_active_sec()
+	analytics.send_event(AnalyticsEvents.heartbeat(time_spent))
 
 
 func on_state_changed(is_afk: bool) -> void:
@@ -43,6 +43,6 @@ func on_state_changed(is_afk: bool) -> void:
 
 func _exit_tree() -> void:
 	# Save to send on open
-	var time_spend = AfkManager.get_active_sec()
-	var event = AnalyticsEvents.app_exit(time_spend)
+	var time_spent = AfkManager.get_active_sec()
+	var event = AnalyticsEvents.app_exit(time_spent)
 	DataSaver.set_value("analytics", "app_exit", JSON.stringify(event))

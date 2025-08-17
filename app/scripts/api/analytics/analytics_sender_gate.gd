@@ -54,8 +54,8 @@ func send_gate_start() -> void:
 func send_gate_exit() -> void:
 	if gate_url.is_empty(): return
 	
-	var time_spend = Analytics.get_delta_sec_from_tick(gate_open_tick)
-	analytics.send_event(AnalyticsEvents.gate_exit(gate_url, time_spend))
+	var time_spent = Analytics.get_delta_sec_from_tick(gate_open_tick)
+	analytics.send_event(AnalyticsEvents.gate_exit(gate_url, time_spent))
 	gate_url = ""
 
 
@@ -63,6 +63,6 @@ func _exit_tree() -> void:
 	if gate_url.is_empty(): return
 	
 	# Save to send on open
-	var time_spend = Analytics.get_delta_sec_from_tick(gate_open_tick)
-	var event = AnalyticsEvents.gate_exit(gate_url, time_spend)
+	var time_spent = Analytics.get_delta_sec_from_tick(gate_open_tick)
+	var event = AnalyticsEvents.gate_exit(gate_url, time_spent)
 	DataSaver.set_value("analytics", "send_gate_exit", JSON.stringify(event))

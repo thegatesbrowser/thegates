@@ -2,6 +2,7 @@ extends AnalyticsSender
 class_name AnalyticsSenderApp
 
 const HEARTBEAT_DELAY = 60
+
 var heartbeat_timer: Timer
 
 
@@ -9,7 +10,9 @@ func start() -> void:
 	super.start()
 	
 	analytics.send_event(AnalyticsEvents.app_open())
+	
 	start_heartbeat()
+	AfkManager.state_changed.connect(on_state_changed)
 	
 	# Send latest exit event
 	var json: String = DataSaver.get_string("analytics", "app_exit")
@@ -26,12 +29,20 @@ func start_heartbeat() -> void:
 
 
 func send_hearbeat() -> void:
-	var time_spend = Analytics.get_delta_sec_from_tick(0)
+	var time_spend = AfkManager.get_active_sec()
 	analytics.send_event(AnalyticsEvents.heartbeat(time_spend))
+
+
+func on_state_changed(is_afk: bool) -> void:
+	if is_afk:
+		heartbeat_timer.stop()
+		return
+	
+	heartbeat_timer.start(HEARTBEAT_DELAY)
 
 
 func _exit_tree() -> void:
 	# Save to send on open
-	var time_spend = Analytics.get_delta_sec_from_tick(0)
+	var time_spend = AfkManager.get_active_sec()
 	var event = AnalyticsEvents.app_exit(time_spend)
 	DataSaver.set_value("analytics", "app_exit", JSON.stringify(event))

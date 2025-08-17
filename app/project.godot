@@ -35,6 +35,7 @@ Debug="*res://scripts/debug_log/debug.gd"
 AnalyticsEvents="*res://scripts/api/analytics/analytics_events.gd"
 Backend="*res://scripts/api/backend.gd"
 Navigation="*res://scenes/autoloads/navigation.tscn"
+AfkManager="*res://scripts/afk_manager.gd"
 
 [debug]
 

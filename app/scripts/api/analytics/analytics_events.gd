@@ -100,3 +100,15 @@ func onboarding_finished(time_spend: float) -> Dictionary:
 	var event = base("onboarding_finished")
 	event.time_spend = time_spend
 	return event
+
+
+# AFK
+
+func enter_afk() -> Dictionary:
+	return base("enter_afk")
+
+
+func leave_afk(time_spend: float) -> Dictionary:
+	var event = base("leave_afk")
+	event.time_spend = time_spend
+	return event

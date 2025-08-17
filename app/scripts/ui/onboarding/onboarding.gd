@@ -1,7 +1,7 @@
 extends Control
 
-const SECTION: String = "onboarding"
-const KEY: String = "shown"
+const SECTION = "onboarding"
+const KEY = "shown"
 
 const INITIAL_DELAY = 1.0
 const SHOWN = Color(1, 1, 1, 1)

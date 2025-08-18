@@ -112,3 +112,11 @@ func leave_afk(time_spent: float) -> Dictionary:
 	var event = base("leave_afk")
 	event.time_spent = time_spent
 	return event
+
+
+# LINK
+
+func open_link(url: String) -> Dictionary:
+	var event = base("open_link")
+	event.url = url
+	return event

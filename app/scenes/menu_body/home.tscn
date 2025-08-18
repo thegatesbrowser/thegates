@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://ca647gp63bshc"]
+[gd_scene load_steps=23 format=3 uid="uid://ca647gp63bshc"]
 
 [ext_resource type="Texture2D" uid="uid://bw1cffhlt112i" path="res://assets/textures/icon_round.svg" id="1_dh3vr"]
 [ext_resource type="Script" path="res://scripts/ui/menu/bookmark_container.gd" id="1_g38mt"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/round_button.tscn" id="7_bbq84"]
 [ext_resource type="Texture2D" uid="uid://dy5lmm2egk4w1" path="res://assets/textures/help.svg" id="8_3cxe2"]
 [ext_resource type="Script" path="res://scripts/ui/menu/help_button.gd" id="10_ant0e"]
+[ext_resource type="Resource" uid="uid://bfg1kjboaitqt" path="res://resources/app_events.res" id="11_2td0u"]
 [ext_resource type="PackedScene" uid="uid://b5tbn17l1pfs1" path="res://scenes/components/onboarding/onboarding.tscn" id="11_kyh0m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kmpb2"]
@@ -250,6 +251,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_37fyt")
 icon = ExtResource("8_3cxe2")
 script = ExtResource("10_ant0e")
 url = "https://forms.gle/1NmJeCQnQh7Yc1KP8"
+app_events = ExtResource("11_2td0u")
 
 [node name="Onboarding" parent="." instance=ExtResource("11_kyh0m")]
 visible = false

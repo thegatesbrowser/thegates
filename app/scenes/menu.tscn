@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://5btb7nvgmfhl"]
+[gd_scene load_steps=28 format=3 uid="uid://5btb7nvgmfhl"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/menu_navigation.gd" id="1_7anvm"]
 [ext_resource type="Script" path="res://scripts/ui/menu/menu.gd" id="1_o6vga"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://yn1l3ybpr7qv" path="res://assets/textures/menu.svg" id="13_ncruo"]
 [ext_resource type="Texture2D" uid="uid://mgtj316adcja" path="res://assets/textures/home.svg" id="14_gbcfo"]
 [ext_resource type="Texture2D" uid="uid://casdqby073onf" path="res://assets/textures/flag.svg" id="17_b36tf"]
+[ext_resource type="Resource" uid="uid://bfg1kjboaitqt" path="res://resources/app_events.res" id="18_xgfab"]
 [ext_resource type="Script" path="res://scripts/ui/menu/help_button.gd" id="19_h4fgg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pveoh"]
@@ -237,6 +238,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_ogb6s")
 icon = ExtResource("17_b36tf")
 script = ExtResource("19_h4fgg")
 url = "https://forms.gle/1NmJeCQnQh7Yc1KP8"
+app_events = ExtResource("18_xgfab")
 
 [node name="Options" parent="VBoxContainer/Top/VBoxContainer/Navigation/MenuNavigation/HBoxContainer2" instance=ExtResource("6_gxcmo")]
 visible = false

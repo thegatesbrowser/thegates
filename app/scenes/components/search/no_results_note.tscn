@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bj6j3nyldlqjm"]
+[gd_scene load_steps=9 format=3 uid="uid://bj6j3nyldlqjm"]
 
 [ext_resource type="StyleBox" uid="uid://bllkg32sc4iam" path="res://assets/styles/panel.stylebox" id="2_cxiqp"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="6_drapp"]
 [ext_resource type="FontFile" uid="uid://bjeupg0ikc2kv" path="res://assets/fonts/Monospace.ttf" id="7_1pjua"]
 [ext_resource type="Script" path="res://scripts/ui/search/open_meta_link.gd" id="7_evwvd"]
+[ext_resource type="Resource" uid="uid://bfg1kjboaitqt" path="res://resources/app_events.res" id="8_06jeu"]
 [ext_resource type="FontFile" uid="uid://b3xb1fpllhnf4" path="res://assets/fonts/Inter-Italic.otf" id="8_nluj5"]
 [ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="9_r0w13"]
 [ext_resource type="FontFile" uid="uid://c14w1y1r54wgi" path="res://assets/fonts/Inter-Bold.otf" id="10_fe01c"]
@@ -49,3 +50,4 @@ The best part? You don’t just have to wait for it to grow. You can build your 
  🤍 Start creating here: [url=https://thegates-docs.super.site]thegates-docs[/url]"
 scroll_active = false
 script = ExtResource("7_evwvd")
+app_events = ExtResource("8_06jeu")

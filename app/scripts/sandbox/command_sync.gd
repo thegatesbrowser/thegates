@@ -1,5 +1,6 @@
 extends CommandSync
 
+@export var app_events: AppEvents
 @export var gate_events: GateEvents
 @export var command_events: CommandEvents
 
@@ -47,7 +48,7 @@ func _execute_function(command: Command) -> Variant:
 			
 		"open_link":
 			if wrong_args_count(command, 1): return ERR_INVALID_PARAMETER
-			OS.shell_open(command.args[0])
+			app_events.open_link_emit(command.args[0])
 			
 		_:
 			Debug.logerr("Command %s not implemented" % [command.name])

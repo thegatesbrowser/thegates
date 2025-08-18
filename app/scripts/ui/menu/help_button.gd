@@ -1,6 +1,7 @@
 extends RoundButton
 
 @export var url: String
+@export var app_events: AppEvents
 
 
 func _ready() -> void:
@@ -10,4 +11,4 @@ func _ready() -> void:
 
 
 func open_help_url() -> void:
-	OS.shell_open(url)
+	app_events.open_link_emit(url)

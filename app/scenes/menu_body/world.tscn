@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=43 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -15,6 +15,7 @@
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="10_vhc7k"]
 [ext_resource type="Script" path="res://scripts/sandbox/process_checker.gd" id="11_72cjp"]
 [ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
+[ext_resource type="Resource" uid="uid://bfg1kjboaitqt" path="res://resources/app_events.res" id="13_5np0h"]
 [ext_resource type="Script" path="res://scripts/ui/world/foreground.gd" id="17_6e5v3"]
 [ext_resource type="PackedScene" uid="uid://c7571vjq7l0jp" path="res://scenes/components/not_responding.tscn" id="17_kwbm3"]
 [ext_resource type="Script" path="res://scripts/ui/world/gate_info.gd" id="18_q06xu"]
@@ -162,6 +163,7 @@ render_result = NodePath("../WorldCanvas/RenderResult")
 
 [node name="CommandSync" type="CommandSync" parent="."]
 script = ExtResource("10_cqo55")
+app_events = ExtResource("13_5np0h")
 gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
 

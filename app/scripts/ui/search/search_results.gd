@@ -7,6 +7,7 @@ extends VBoxContainer
 @export var header: SearchResultsHeader
 @export var suggestions_root: Control
 @export var suggestion_scene: PackedScene
+@export var no_results_note: PackedScene
 
 var result_str: String = "{}"
 var suggestions_str: String = "{}"
@@ -55,14 +56,17 @@ func suggestions() -> void:
 	if suggs == null or suggs.is_empty():
 		Debug.logclr("No suggestions found", Color.YELLOW)
 		return
-
+	
+	header.set_suggestion_header()
+	
 	for sugg in suggs:
 		Debug.logr(sugg)
 		var suggestion: Suggestion = suggestion_scene.instantiate()
 		suggestion.fill(sugg)
 		suggestions_root.add_child(suggestion)
 	
-	header.set_suggestion_header()
+	var note = no_results_note.instantiate()
+	add_child(note)
 
 
 func suggestions_request() -> void:

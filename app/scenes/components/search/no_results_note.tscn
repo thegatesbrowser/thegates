@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://bj6j3nyldlqjm"]
+
+[ext_resource type="StyleBox" uid="uid://bllkg32sc4iam" path="res://assets/styles/panel.stylebox" id="2_cxiqp"]
+[ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="6_drapp"]
+[ext_resource type="FontFile" uid="uid://bjeupg0ikc2kv" path="res://assets/fonts/Monospace.ttf" id="7_1pjua"]
+[ext_resource type="Script" path="res://scripts/ui/search/open_meta_link.gd" id="7_evwvd"]
+[ext_resource type="FontFile" uid="uid://b3xb1fpllhnf4" path="res://assets/fonts/Inter-Italic.otf" id="8_nluj5"]
+[ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="9_r0w13"]
+[ext_resource type="FontFile" uid="uid://c14w1y1r54wgi" path="res://assets/fonts/Inter-Bold.otf" id="10_fe01c"]
+
+[node name="NoResultsNote" type="Control"]
+custom_minimum_size = Vector2(850, 100)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 850.0
+offset_bottom = 100.0
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(850, 100)
+layout_mode = 1
+offset_top = 25.0
+offset_right = 850.0
+offset_bottom = 125.0
+theme_override_styles/panel = ExtResource("2_cxiqp")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+clip_contents = false
+layout_mode = 1
+offset_right = 774.0
+offset_bottom = 368.0
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.490196, 0.384314, 0.172549, 1)
+theme_override_fonts/normal_font = ExtResource("6_drapp")
+theme_override_fonts/mono_font = ExtResource("7_1pjua")
+theme_override_fonts/italics_font = ExtResource("8_nluj5")
+theme_override_fonts/bold_italics_font = ExtResource("9_r0w13")
+theme_override_fonts/bold_font = ExtResource("10_fe01c")
+theme_override_font_sizes/bold_italics_font_size = 17
+theme_override_font_sizes/italics_font_size = 17
+theme_override_font_sizes/mono_font_size = 17
+theme_override_font_sizes/normal_font_size = 17
+theme_override_font_sizes/bold_font_size = 17
+bbcode_enabled = true
+text = "Right now, things feel a little quiet here. There aren’t many worlds to explore yet — and you won’t find Google, YouTube, or your favorite sites in 3D form. That’s because this is still the early stage of building something completely new. 
+But remember: the internet itself started small too. What you’re seeing now is the seed of what will grow into an entire universe of interconnected worlds — as big and vibrant as today’s internet.
+
+The best part? You don’t just have to wait for it to grow. You can build your own worlds and be part of creating it.
+ 🤍 Start creating here: [url=https://thegates-docs.super.site]thegates-docs[/url]"
+scroll_active = false
+script = ExtResource("7_evwvd")

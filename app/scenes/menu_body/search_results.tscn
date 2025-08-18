@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dh3owgirapji5"]
+[gd_scene load_steps=16 format=3 uid="uid://dh3owgirapji5"]
 
 [ext_resource type="Script" path="res://scripts/ui/search/search_results.gd" id="1_bycb5"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_mgpxk"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/ui/search/search_results_header.gd" id="3_cuw8t"]
 [ext_resource type="PackedScene" uid="uid://i3lgu2dyypcq" path="res://scenes/components/search/result.tscn" id="4_yxn4t"]
 [ext_resource type="PackedScene" uid="uid://dntnp0igpccdt" path="res://scenes/components/search/suggestion.tscn" id="8_1alsm"]
+[ext_resource type="PackedScene" uid="uid://bj6j3nyldlqjm" path="res://scenes/components/search/no_results_note.tscn" id="8_kxod6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u8k0c"]
 bg_color = Color(0.113725, 0.117647, 0.14902, 1)
@@ -77,7 +78,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
+theme_override_constants/margin_right = 899
 theme_override_constants/margin_bottom = 0
 script = ExtResource("1_scp2i")
 limit = Vector2(1015, -1)
@@ -126,6 +127,7 @@ result_scene = ExtResource("4_yxn4t")
 header = NodePath("../Header")
 suggestions_root = NodePath("SearchSuggestions")
 suggestion_scene = ExtResource("8_1alsm")
+no_results_note = ExtResource("8_kxod6")
 
 [node name="SearchSuggestions" type="HFlowContainer" parent="MarginContainer/ScrollContainer/MaxSizeContainer/HBoxContainer/VBoxContainer/SearchResults"]
 layout_mode = 2

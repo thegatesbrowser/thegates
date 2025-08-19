@@ -21,6 +21,12 @@ var libraries: PackedStringArray
 
 func _init(path: String, base_url: String) -> void:
 	super._init(path)
+	
+	if not SECTION in get_sections():
+		Debug.logclr("Invalid gate config file: don't have section " + SECTION, Color.YELLOW)
+		load_result = ERR_INVALID_DATA
+		return
+	
 	title = get_string(SECTION, KEY_TITLE)
 	description = get_string(SECTION, KEY_DESCRIPTION)
 	icon_url = Url.join(base_url, get_string(SECTION, KEY_ICON))

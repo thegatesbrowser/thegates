@@ -119,7 +119,7 @@ func on_gate_error(code: GateEvents.GateError) -> void:
 		GateEvents.GateError.NOT_FOUND:
 			set_progress("Gate not found", ProgressStatus.ERROR)
 		GateEvents.GateError.INVALID_CONFIG:
-			set_progress("Invalid gate config", ProgressStatus.ERROR)
+			set_progress("Gate not found", ProgressStatus.ERROR)
 		GateEvents.GateError.MISSING_PACK, GateEvents.GateError.MISSING_LIBS:
 			set_progress("Cannot load gate resources", ProgressStatus.ERROR)
 		_:

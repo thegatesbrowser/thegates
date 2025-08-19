@@ -43,11 +43,11 @@ theme_override_font_sizes/mono_font_size = 17
 theme_override_font_sizes/normal_font_size = 17
 theme_override_font_sizes/bold_font_size = 17
 bbcode_enabled = true
-text = "Right now, things feel a little quiet here. There aren’t many worlds to explore yet — and you won’t find Google, YouTube, or your favorite sites in 3D form. That’s because this is still the early stage of building something completely new. 
+text = "Right now, things feel a little quiet here. There aren’t many worlds to explore yet — and you won’t find Google, YouTube, or your favorite sites in 3D form. That’s because this is still the early stage of building something completely new.
 But remember: the internet itself started small too. What you’re seeing now is the seed of what will grow into an entire universe of interconnected worlds — as big and vibrant as today’s internet.
 
 The best part? You don’t just have to wait for it to grow. You can build your own worlds and be part of creating it.
- 🤍 Start creating here: [url=https://thegates-docs.super.site]thegates-docs[/url]"
+🤍 Start creating here: [url=https://thegates-docs.super.site]thegates-docs[/url]"
 scroll_active = false
 script = ExtResource("7_evwvd")
 app_events = ExtResource("8_06jeu")

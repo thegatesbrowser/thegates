@@ -10,7 +10,6 @@ extends VBoxContainer
 @export var no_results_note: PackedScene
 
 var result_str: String = "{}"
-var suggestions_str: String = "{}"
 var cancel_callbacks: Array = []
 
 
@@ -22,10 +21,13 @@ func search(query: String) -> void:
 	Debug.logclr("======== " + query + " ========", Color.LIGHT_SEA_GREEN)
 	await search_request(query)
 	
-	var gates = JSON.parse_string(result_str)
+	var result = JSON.parse_string(result_str)
+	var gates = JSON.parse_string(result["gates"])
+	
 	if gates == null or gates.is_empty():
-		Debug.logclr("No gates found, request suggestions", Color.YELLOW)
-		suggestions()
+		Debug.logclr("No gates found, showing suggestions", Color.YELLOW)
+		var suggs = JSON.parse_string(result["suggestions"])
+		suggestions(suggs)
 		return
 	
 	header.set_search_header()
@@ -33,9 +35,9 @@ func search(query: String) -> void:
 	
 	for gate in gates:
 		Debug.logr(gate["url"])
-		var result: SearchResult = result_scene.instantiate()
-		result.fill(gate)
-		add_child(result)
+		var search_result: SearchResult = result_scene.instantiate()
+		search_result.fill(gate)
+		add_child(search_result)
 
 
 func search_request(query: String) -> void:
@@ -49,10 +51,7 @@ func search_request(query: String) -> void:
 	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request search", Color.RED)
 
 
-func suggestions() -> void:
-	await suggestions_request()
-	
-	var suggs = JSON.parse_string(suggestions_str)
+func suggestions(suggs: Array) -> void:
 	if suggs == null or suggs.is_empty():
 		Debug.logclr("No suggestions found", Color.YELLOW)
 		return
@@ -67,17 +66,6 @@ func suggestions() -> void:
 	
 	var note = no_results_note.instantiate()
 	add_child(note)
-
-
-func suggestions_request() -> void:
-	var url = api.search_suggestions
-	var callback = func(_result, code, _headers, body):
-		if code == 200:
-			suggestions_str = body.get_string_from_utf8()
-		else: Debug.logclr("Request search suggestions failed. Code " + str(code), Color.RED)
-	
-	var err = await Backend.request(url, callback, {}, HTTPClient.METHOD_GET, cancel_callbacks)
-	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request search suggestions", Color.RED)
 
 
 func _exit_tree() -> void:

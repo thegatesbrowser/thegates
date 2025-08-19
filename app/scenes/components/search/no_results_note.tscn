@@ -20,9 +20,9 @@ offset_bottom = 100.0
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(850, 100)
 layout_mode = 1
-offset_top = 25.0
+offset_top = 50.0
 offset_right = 850.0
-offset_bottom = 125.0
+offset_bottom = 150.0
 theme_override_styles/panel = ExtResource("2_cxiqp")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel"]

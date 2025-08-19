@@ -54,5 +54,4 @@ func hide_message() -> void:
 
 func reload_gate() -> void:
 	var location = history.get_current()
-	if Url.is_valid(location):
-		gate_events.open_gate_emit(location)
+	gate_events.open_gate_emit(location)

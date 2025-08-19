@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://ibqfwrvrximj"]
+
+[ext_resource type="Script" path="res://scripts/url.gd" id="1_jqily"]
+
+[node name="Url" type="Node"]
+script = ExtResource("1_jqily")
+tld_list_file = "res://resources/tld_list.txt"

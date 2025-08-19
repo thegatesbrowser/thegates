@@ -62,7 +62,7 @@ func lower_domain(url: String) -> String:
 
 
 func is_valid_domain(domain: String) -> bool:
-	if domain.is_empty() or domain.split(".").size() != 2:
+	if domain.is_empty() or domain.split(".").size() < 2:
 		return false
 	
 	return tld_list.has(domain.get_extension().to_lower())

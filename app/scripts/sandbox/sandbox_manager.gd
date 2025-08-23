@@ -43,6 +43,7 @@ func start_sandbox_linux(gate: Gate) -> Dictionary:
 	var args = [
 		"--main-pack", pack_file,
 		"--resolution", "%dx%d" % [render_result.width, render_result.height],
+		"--url", gate.url,
 		"--verbose"
 	]
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
@@ -62,6 +63,7 @@ func start_sandbox_windows(gate: Gate) -> Dictionary:
 	var args = [
 		"--main-pack", pack_file,
 		"--resolution", "%dx%d" % [render_result.width, render_result.height],
+		"--url", gate.url,
 		"--verbose"
 	]
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
@@ -79,6 +81,7 @@ func start_sandbox_macos(gate: Gate) -> Dictionary:
 	var args = [
 		"--main-pack", pack_file,
 		"--resolution", "%dx%d" % [render_result.width, render_result.height],
+		"--url", gate.url,
 		"--verbose"
 	]
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]

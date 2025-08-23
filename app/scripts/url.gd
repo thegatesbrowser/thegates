@@ -31,14 +31,24 @@ func join(base_url: String, path: String) -> String:
 
 
 func fix_gate_url(url: String) -> String:
-	if not url.begins_with("http://") and not url.begins_with("https://"):
-		url = "https://" + url
+	var base_url = url
+	var query_string = ""
+	var has_query = url.contains("?")
 	
-	if url.get_extension() != "gate":
-		var slash = "" if url.ends_with("/") else "/"
-		url += slash + "world.gate"
+	if has_query:
+		var split = url.split("?", true, 1)
+		base_url = split[0]
+		query_string = split[1]
 	
-	url = lower_domain(url)
+	if not base_url.begins_with("http://") and not base_url.begins_with("https://"):
+		base_url = "https://" + base_url
+	
+	if base_url.get_extension() != "gate":
+		var slash = "" if base_url.ends_with("/") else "/"
+		base_url += slash + "world.gate"
+	
+	base_url = lower_domain(base_url)
+	url = base_url + "?" + query_string if query_string != "" else base_url
 	return url
 
 

@@ -21,8 +21,9 @@ func _ready() -> void:
 	load_gate(gate_events.current_gate_url)
 
 
-func load_gate(config_url: String) -> void:
-	Debug.logclr("======== " + config_url + " ========", Color.GREEN)
+func load_gate(gate_url: String) -> void:
+	Debug.logclr("======== " + gate_url + " ========", Color.GREEN)
+	var config_url = gate_url.split("?")[0]
 	var config_path = await FileDownloader.download(config_url, connect_timeout)
 	if config_path.is_empty(): return error(GateEvents.GateError.NOT_FOUND)
 	
@@ -30,7 +31,7 @@ func load_gate(config_url: String) -> void:
 	if c_gate.load_result != OK: return error(GateEvents.GateError.INVALID_CONFIG)
 	gate_events.gate_config_loaded_emit(config_url, c_gate)
 	
-	gate = Gate.create(config_url, c_gate.title, c_gate.description, c_gate.icon_url, c_gate.image_url)
+	gate = Gate.create(gate_url, c_gate.title, c_gate.description, c_gate.icon_url, c_gate.image_url)
 	gate_events.gate_info_loaded_emit(gate)
 	
 	# Download all in parallel

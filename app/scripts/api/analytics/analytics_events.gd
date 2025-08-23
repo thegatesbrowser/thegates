@@ -33,7 +33,7 @@ func app_exit(time_spent: float) -> Dictionary:
 	return event
 
 
-# GATE
+# SEARCH
 
 func search(query: String) -> Dictionary:
 	var event = base("search")
@@ -41,29 +41,37 @@ func search(query: String) -> Dictionary:
 	return event
 
 
-func gate_open(url: String) -> Dictionary:
-	var event = base("gate_open")
-	event.gate_url = url
+# GATE
+
+func base_gate(event_name: String, url: String) -> Dictionary:
+	var event = base(event_name)
+	if url.contains("?"):
+		var split = url.split("?", true, 1)
+		event.gate_url = split[0]
+		event.query_string = split[1]
+	else:
+		event.gate_url = url
 	return event
 
 
+func gate_open(url: String) -> Dictionary:
+	return base_gate("gate_open", url)
+
+
 func gate_load(url: String, download_time: float) -> Dictionary:
-	var event = base("gate_load")
-	event.gate_url = url
+	var event = base_gate("gate_load", url)
 	event.download_time = download_time
 	return event
 
 
 func gate_start(url: String, bootup_time: float) -> Dictionary:
-	var event = base("gate_start")
-	event.gate_url = url
+	var event = base_gate("gate_start", url)
 	event.bootup_time = bootup_time
 	return event
 
 
 func gate_exit(url: String, time_spent: float) -> Dictionary:
-	var event = base("gate_exit")
-	event.gate_url = url
+	var event = base_gate("gate_exit", url)
 	event.time_spent = time_spent
 	return event
 
@@ -71,15 +79,11 @@ func gate_exit(url: String, time_spent: float) -> Dictionary:
 # BOOKMARK
 
 func bookmark(url: String) -> Dictionary:
-	var event = base("bookmark")
-	event.gate_url = url
-	return event
+	return base_gate("bookmark", url)
 
 
 func unbookmark(url: String) -> Dictionary:
-	var event = base("unbookmark")
-	event.gate_url = url
-	return event
+	return base_gate("unbookmark", url)
 
 
 # ERROR

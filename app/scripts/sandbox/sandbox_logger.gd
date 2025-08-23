@@ -38,7 +38,7 @@ func start(_pipe: Dictionary, _gate: Gate) -> void:
 
 
 func create_log_file() -> void:
-	var folder = gate.url.replace("http://", "").replace("https://", "").replace(".gate", "")
+	var folder = gate.url.split("?")[0].replace("http://", "").replace("https://", "").replace(".gate", "")
 	folder = folder.replace(":", "_") # remove ':' before port
 	
 	var path = LOG_FOLDER + "/" + folder + "/" + LOG_FILE

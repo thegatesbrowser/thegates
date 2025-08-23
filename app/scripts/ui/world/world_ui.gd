@@ -12,7 +12,7 @@ var _visible: bool = true
 
 func _ready() -> void:
 	command_events.set_mouse_mode.connect(set_mouse_mode)
-	gate_events.first_frame.connect(func(): gate_started = true)
+	gate_events.first_frame.connect(on_first_frame)
 	gate_events.not_responding.connect(func(): set_mouse_mode(Input.MOUSE_MODE_VISIBLE))
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
@@ -28,6 +28,11 @@ func _input(event: InputEvent) -> void:
 			hide_ui()
 		else:
 			show_ui()
+
+
+func on_first_frame() -> void:
+	gate_started = true
+	hide_ui()
 
 
 func show_ui() -> void:

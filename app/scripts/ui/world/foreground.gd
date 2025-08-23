@@ -4,7 +4,6 @@ extends Control
 @export var ui_events: UiEvents
 @export var splash_screen: TextureRect
 @export var vignette_blur: VignetteBlur
-@export var click_anywhere: Control
 
 
 func _ready() -> void:
@@ -12,7 +11,6 @@ func _ready() -> void:
 	gate_events.first_frame.connect(on_first_frame)
 	ui_events.ui_mode_changed.connect(on_ui_mode_changed)
 	vignette_blur.hide()
-	click_anywhere.hide()
 
 
 func show_thumbnail(gate: Gate) -> void:
@@ -24,7 +22,6 @@ func show_thumbnail(gate: Gate) -> void:
 
 func on_first_frame() -> void:
 	splash_screen.hide()
-	click_anywhere.show()
 	vignette_blur.show()
 	vignette_blur.gate_started_params()
 
@@ -34,5 +31,4 @@ func on_ui_mode_changed(mode: UiEvents.UiMode) -> void:
 		show()
 	
 	if mode == UiEvents.UiMode.FOCUSED:
-		click_anywhere.hide()
 		hide()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=42 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -24,7 +24,6 @@
 [ext_resource type="Script" path="res://scripts/ui/world/vignette_blur.gd" id="19_415fa"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="19_tkqw6"]
 [ext_resource type="FontFile" uid="uid://bjeupg0ikc2kv" path="res://assets/fonts/Monospace.ttf" id="20_hoet7"]
-[ext_resource type="LabelSettings" uid="uid://crt4elt055uhg" path="res://assets/styles/text_big.tres" id="20_v1648"]
 [ext_resource type="FontFile" uid="uid://b3xb1fpllhnf4" path="res://assets/fonts/Inter-Italic.otf" id="21_lpegk"]
 [ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="22_i5khx"]
 [ext_resource type="FontFile" uid="uid://c14w1y1r54wgi" path="res://assets/fonts/Inter-Bold.otf" id="23_t1gqo"]
@@ -207,7 +206,7 @@ grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
 
-[node name="Foreground" type="Control" parent="." node_paths=PackedStringArray("splash_screen", "vignette_blur", "click_anywhere")]
+[node name="Foreground" type="Control" parent="." node_paths=PackedStringArray("splash_screen", "vignette_blur")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -220,7 +219,6 @@ gate_events = ExtResource("2_q7cvi")
 ui_events = ExtResource("9_ir58h")
 splash_screen = NodePath("SplashScreen")
 vignette_blur = NodePath("VignetteBlur")
-click_anywhere = NodePath("ClickAnywhere")
 
 [node name="SplashScreen" type="TextureRect" parent="Foreground"]
 layout_mode = 1
@@ -248,19 +246,6 @@ blur_amount = 2.5
 blur_amount_started = 1.2
 uv_scale = Vector2(0.9, 0.9)
 uv_scale_startd = Vector2(0.97, 0.97)
-
-[node name="ClickAnywhere" type="Label" parent="Foreground"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -175.5
-offset_top = 50.0
-offset_right = 175.5
-offset_bottom = 75.0
-grow_horizontal = 2
-text = "Click anywhere to play → ESC to exit"
-label_settings = ExtResource("20_v1648")
 
 [node name="GateInfo" type="VBoxContainer" parent="Foreground" node_paths=PackedStringArray("image", "image_darken", "title", "description", "gate_status")]
 layout_mode = 1

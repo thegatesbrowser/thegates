@@ -179,12 +179,8 @@ offset_bottom = 700.0
 [node name="TextureRect" parent="Root/Carousel/Line/Board4/VBoxContainer/Panel" index="0"]
 texture = ExtResource("8_asgtb")
 
-[node name="MarginContainer" parent="Root/Carousel/Line/Board4/VBoxContainer" index="1"]
-modulate = Color(1, 1, 1, 0.305)
-
 [node name="Title" parent="Root/Carousel/Line/Board4/VBoxContainer/MarginContainer/VBoxContainer" index="0"]
-text = "(Coming soon...)
-Let’s learn how 
+text = "Let’s learn how 
 things work here →"
 
 [node name="Description" parent="Root/Carousel/Line/Board4/VBoxContainer/MarginContainer/VBoxContainer" index="1"]

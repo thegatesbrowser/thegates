@@ -14,7 +14,7 @@ custom_minimum_size = Vector2(850, 100)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 850.0
-offset_bottom = 100.0
+offset_bottom = 285.0
 
 [node name="Panel" type="Panel" parent="."]
 self_modulate = Color(1, 1, 1, 0)
@@ -22,7 +22,7 @@ custom_minimum_size = Vector2(850, 100)
 layout_mode = 1
 offset_top = 50.0
 offset_right = 850.0
-offset_bottom = 150.0
+offset_bottom = 275.0
 theme_override_styles/panel = ExtResource("2_cxiqp")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
@@ -47,7 +47,8 @@ text = "Right now, things feel a little quiet here. There aren’t many worlds t
 But remember: the internet itself started small too. What you’re seeing now is the seed of what will grow into an entire universe of interconnected worlds — as big and vibrant as today’s internet.
 
 The best part? You don’t just have to wait for it to grow. You can build your own worlds and be part of creating it.
-🤍 Start creating here: [url=https://thegates-docs.super.site]thegates-docs[/url]"
+
+→ Start creating here: [url=https://thegates-docs.super.site]thegates-docs[/url]"
 scroll_active = false
 script = ExtResource("7_evwvd")
 app_events = ExtResource("8_06jeu")

@@ -7,16 +7,38 @@
    width="64"
    height="64"
    viewBox="0 0 64 64"
+   sodipodi:docname="empty_icon.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="8.761495"
+     inkscape:cx="27.906196"
+     inkscape:cy="32.12922"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
   <defs
      id="defs1" />
   <g
      id="g1"
-     transform="matrix(0.88572611,0,0,0.88573579,3.6565421,3.6560231)"
-     style="stroke-width:1.12901">
+     transform="matrix(1.0535857,0,0,1.0535963,-1.7147181,-1.7159344)"
+     style="stroke-width:0.949132">
     <ellipse
-       style="fill:#20222c;stroke:#20222c;stroke-width:5.64505508;stroke-linecap:round;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
+       style="fill:#20222c;fill-opacity:1;stroke:#20222c;stroke-width:4.74568;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
        id="path2"
        cx="32.000252"
        cy="32.000488"

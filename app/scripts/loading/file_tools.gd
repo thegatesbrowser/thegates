@@ -30,18 +30,6 @@ static func load_external_tex(path: String) -> Texture2D:
 	if path.begins_with("res://"): return load(path)
 	if not FileAccess.file_exists(path): return null
 	
-	var file = FileAccess.open(path, FileAccess.READ)
-	var bytes = file.get_buffer(file.get_length())
-	var image = Image.new()
-	match path.get_extension():
-		"png":
-			image.load_png_from_buffer(bytes)
-		"jpeg", "jpg":
-			image.load_jpg_from_buffer(bytes)
-		"webp":
-			image.load_webp_from_buffer(bytes)
-		"bmp":
-			image.load_bmp_from_buffer(bytes)
-		_:
-			return null
+	var image = Image.load_from_file(path)
+	if not is_instance_valid(image): return null
 	return ImageTexture.create_from_image(image) as Texture2D

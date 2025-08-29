@@ -7,3 +7,4 @@ script = ExtResource("1_oiju7")
 local_url = "http://127.0.0.1:8000"
 remote_url = "https://app.thegates.io"
 host_type = 1
+trusted_urls = Array[String](["https://thegates.io", "https://app.thegates.io", "https://www.thegates.io", "http://thegates.io", "http://app.thegates.io", "http://www.thegates.io"])

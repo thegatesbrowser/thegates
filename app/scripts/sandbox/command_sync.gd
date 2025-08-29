@@ -50,6 +50,10 @@ func _execute_function(command: Command) -> Variant:
 			if wrong_args_count(command, 1): return ERR_INVALID_PARAMETER
 			app_events.open_link_emit(command.args[0])
 			
+		"highlight_button":
+			if wrong_args_count(command, 1): return ERR_INVALID_PARAMETER
+			command_events.highlight_button_emit(command.args[0])
+			
 		_:
 			Debug.logerr("Command %s not implemented" % [command.name])
 			return ERR_METHOD_NOT_FOUND

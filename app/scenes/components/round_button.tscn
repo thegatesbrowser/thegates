@@ -1,11 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://xagbhqfidf2"]
+[gd_scene load_steps=11 format=3 uid="uid://xagbhqfidf2"]
 
 [ext_resource type="StyleBox" uid="uid://b4j4kd2p3aypx" path="res://assets/styles/button.stylebox" id="1_6dhuv"]
 [ext_resource type="StyleBox" uid="uid://ck127amfs72dv" path="res://assets/styles/button_hover.stylebox" id="2_3cilb"]
 [ext_resource type="Texture2D" uid="uid://bevejhgdw7mey" path="res://assets/textures/close.svg" id="3_t5vxw"]
 [ext_resource type="Script" path="res://scripts/ui/menu/round_button.gd" id="4_7t145"]
+[ext_resource type="Shader" path="res://shaders/spinning_border.gdshader" id="5_birig"]
+[ext_resource type="Resource" uid="uid://l1quiaghft2f" path="res://resources/command_events.res" id="5_ukhpk"]
+[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="6_0kyd1"]
 
-[node name="RoundButton" type="Button"]
+[sub_resource type="Gradient" id="Gradient_pt5vo"]
+offsets = PackedFloat32Array(0, 0.25, 0.5, 0.75, 1)
+colors = PackedColorArray(1, 0.2, 0.4, 1, 1, 0.8, 0.2, 1, 0.2, 1, 0.6, 1, 0.2, 0.6, 1, 1, 1, 0.2, 0.4, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_yl185"]
+gradient = SubResource("Gradient_pt5vo")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sp2xr"]
+shader = ExtResource("5_birig")
+shader_parameter/border_thickness = 0.04
+shader_parameter/edge_smoothness = 0.01
+shader_parameter/corner_radius = Vector4(1.3, 1.3, 1.3, 1.3)
+shader_parameter/speed = 1.5
+shader_parameter/clockwise = false
+shader_parameter/gradient = SubResource("GradientTexture1D_yl185")
+
+[node name="RoundButton" type="Button" node_paths=PackedStringArray("special_effect")]
 texture_filter = 4
 custom_minimum_size = Vector2(26, 26)
 size_flags_vertical = 4
@@ -19,3 +38,17 @@ theme_override_styles/normal = ExtResource("1_6dhuv")
 icon = ExtResource("3_t5vxw")
 expand_icon = true
 script = ExtResource("4_7t145")
+gate_events = ExtResource("6_0kyd1")
+command_events = ExtResource("5_ukhpk")
+special_effect = NodePath("SpecialEffect")
+
+[node name="SpecialEffect" type="Panel" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_sp2xr")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

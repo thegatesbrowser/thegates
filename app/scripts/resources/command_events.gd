@@ -5,6 +5,7 @@ signal send_filehandle(filehandle_path: String)
 signal ext_texture_format(format: RenderingDevice.DataFormat)
 signal set_mouse_mode(mode: int)
 signal heartbeat()
+signal highlight_button(button_id: String)
 
 
 func send_filehandle_emit(filehandle_path: String) -> void:
@@ -21,3 +22,7 @@ func set_mouse_mode_emit(mode: int) -> void:
 
 func heartbeat_emit() -> void:
 	heartbeat.emit()
+
+
+func highlight_button_emit(button_id: String) -> void:
+	highlight_button.emit(button_id)

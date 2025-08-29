@@ -4,6 +4,7 @@ extends Node
 const url_regex: String = "^(https?)://[^\\s()<>]+(?:\\([\\w\\d]+\\)|([^[:punct:]\\s]|/))$"
 
 @export_file("*.txt") var tld_list_file: String
+@export var api_settings: ApiSettings
 
 var regex: RegEx
 var tld_list: Dictionary = {}
@@ -76,3 +77,11 @@ func is_valid_domain(domain: String) -> bool:
 		return false
 	
 	return tld_list.has(domain.get_extension().to_lower())
+
+
+func is_trusted_url(url: String) -> bool:
+	for trusted_url in api_settings.trusted_urls:
+		if url.begins_with(trusted_url):
+			return true
+	
+	return false

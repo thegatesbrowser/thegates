@@ -9,6 +9,7 @@ enum HostType {
 @export var local_url: String
 @export var remote_url: String
 @export var host_type: HostType
+@export var trusted_urls: Array[String]
 
 var url: String :
 	get: return local_url if host_type == HostType.Local else remote_url

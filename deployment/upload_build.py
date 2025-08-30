@@ -45,8 +45,9 @@ def build_multipart_body(field_name: str, file_path: Path, boundary: str) -> tup
 	body.append(b"--" + boundary_bytes + crlf)
 	body.append(
 		(
-			f'Content-Disposition: form-data; name="{field_name}"; filename="{filename}"'  # noqa: E501
+			f'Content-Disposition: form-data; name="{field_name}"; filename="{filename}"'
 		).encode("utf-8")
+		+ crlf
 	)
 	body.append((f"Content-Type: {content_type}").encode("utf-8") + crlf + crlf)
 	body.append(file_bytes + crlf)

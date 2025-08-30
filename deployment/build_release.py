@@ -37,6 +37,29 @@ def build_expected_zip_paths(builds_dir: Path, version: str, os_name: str) -> li
 	return paths
 
 
+def open_cursor_on_linux(folder: Path) -> None:
+	"""Best-effort: open a new Cursor window for the given folder on Linux."""
+	if platform.system() != "Linux":
+		return
+	try:
+		candidates: list[list[str]] = []
+		if shutil.which("cursor"):
+			candidates.append(["cursor", "-n", str(folder)])
+			candidates.append(["cursor", str(folder)])
+		# Fallback to VS Code CLI if Cursor not available in PATH
+		if shutil.which("code"):
+			candidates.append(["code", "-n", str(folder)])
+
+		for cmd in candidates:
+			try:
+				subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+				return
+			except Exception:
+				continue
+	except Exception:
+		pass
+
+
 def parse_args() -> argparse.Namespace:
 	parser = argparse.ArgumentParser(description="Export, compress, and upload builds.")
 	parser.add_argument(
@@ -116,6 +139,10 @@ def main() -> int:
 		print(f" - {p}")
 
 	run([sys.executable, str(uploader), *[str(p) for p in existing]], cwd=repo_root)
+
+	# Open terminal in requested directory on Linux only
+	if os_name == "Linux":
+		open_cursor_on_linux(Path("/home/nordup/programs/io.itch.nordup.TheGates"))
 
 	print("==> Done.")
 	return 0

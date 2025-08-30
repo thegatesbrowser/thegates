@@ -60,18 +60,7 @@ def open_cursor_on_linux(folder: Path) -> None:
 		pass
 
 
-def parse_args() -> argparse.Namespace:
-	parser = argparse.ArgumentParser(description="Export, compress, and upload builds.")
-	parser.add_argument(
-		"--force",
-		action="store_true",
-		help="Overwrite existing compressed files (Linux compressor only).",
-	)
-	return parser.parse_args()
-
-
 def main() -> int:
-	args = parse_args()
 	script_dir = Path(__file__).resolve().parent
 	repo_root = script_dir.parent
 	app_dir = repo_root / "app"
@@ -109,10 +98,7 @@ def main() -> int:
 			shutil.copy2(compress_src, compress_dst)
 
 		print(f"==> Compressing Linux/Windows builds with version {version}...")
-		compress_cmd = [sys.executable, str(compress_dst), version]
-		if args.force:
-			compress_cmd.append("--force")
-		run(compress_cmd, cwd=builds_dir)
+		run([sys.executable, str(compress_dst), version, "--force"], cwd=builds_dir)
 
 		uploaded = build_expected_zip_paths(builds_dir, version, os_name)
 

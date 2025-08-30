@@ -9,6 +9,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+import argparse
 
 
 def run(cmd: list[str], cwd: Path | None = None, check: bool = True) -> subprocess.CompletedProcess:
@@ -26,27 +27,33 @@ def parse_version(project_path: Path) -> str:
 	raise RuntimeError(f"Failed to parse version from {project_path}")
 
 
-def open_folder_and_url(builds_dir: Path, url: str) -> None:
-	os_name = platform.system()
-	try:
-		if os_name == "Linux":
-			# fire-and-forget
-			subprocess.Popen(["xdg-open", str(builds_dir)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-			subprocess.Popen(["xdg-open", url], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-		elif os_name == "Darwin":
-			subprocess.Popen(["open", str(builds_dir)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-			subprocess.Popen(["open", url], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-	except Exception:
-		# Non-fatal if opening fails
-		pass
+def build_expected_zip_paths(builds_dir: Path, version: str, os_name: str) -> list[Path]:
+	paths: list[Path] = []
+	if os_name == "Linux":
+		paths.append(builds_dir / "Linux" / f"TheGates_Linux_{version}.zip")
+		paths.append(builds_dir / "Windows" / f"TheGates_Windows_{version}.zip")
+	elif os_name == "Darwin":
+		paths.append(builds_dir / f"TheGates_MacOS_{version}.zip")
+	return paths
+
+
+def parse_args() -> argparse.Namespace:
+	parser = argparse.ArgumentParser(description="Export, compress, and upload builds.")
+	parser.add_argument(
+		"--force",
+		action="store_true",
+		help="Overwrite existing compressed files (Linux compressor only).",
+	)
+	return parser.parse_args()
 
 
 def main() -> int:
+	args = parse_args()
 	script_dir = Path(__file__).resolve().parent
 	repo_root = script_dir.parent
 	app_dir = repo_root / "app"
 	export_script = repo_root / "deployment" / "export_project.py"
-	open_url = "https://devs.thegates.io/files/builds/"
+	uploader = repo_root / "deployment" / "upload_build.py"
 
 	os_name = platform.system()
 	print(f"==> Using repo root: {repo_root}")
@@ -63,6 +70,8 @@ def main() -> int:
 	version = parse_version(app_dir / "project.godot")
 	print(f"==> App version: {version}")
 
+	uploaded: list[Path] = []
+
 	if os_name == "Linux":
 		builds_dir = Path("/media/common/Projects/thegates-folder/AppBuilds")
 		compress_src = repo_root / "deployment" / "compress_builds_linux.py"
@@ -77,9 +86,12 @@ def main() -> int:
 			shutil.copy2(compress_src, compress_dst)
 
 		print(f"==> Compressing Linux/Windows builds with version {version}...")
-		run([sys.executable, str(compress_dst), version], cwd=builds_dir)
+		compress_cmd = [sys.executable, str(compress_dst), version]
+		if args.force:
+			compress_cmd.append("--force")
+		run(compress_cmd, cwd=builds_dir)
 
-		open_folder_and_url(builds_dir, open_url)
+		uploaded = build_expected_zip_paths(builds_dir, version, os_name)
 
 	elif os_name == "Darwin":
 		builds_dir = Path("/Users/nordup/Projects/thegates-folder/AppBuilds")
@@ -91,7 +103,19 @@ def main() -> int:
 		print(f"==> Compressing macOS build with version {version}...")
 		run([sys.executable, str(compress_script), version], cwd=builds_dir)
 
-		open_folder_and_url(builds_dir, open_url)
+		uploaded = build_expected_zip_paths(builds_dir, version, os_name)
+
+	# Upload created zip files via uploader
+	existing = [p for p in uploaded if p.exists()]
+	if not existing:
+		print("No compressed build files found to upload.")
+		return 1
+
+	print("==> Uploading:")
+	for p in existing:
+		print(f" - {p}")
+
+	run([sys.executable, str(uploader), *[str(p) for p in existing]], cwd=repo_root)
 
 	print("==> Done.")
 	return 0

@@ -3,3 +3,6 @@
 
 # for ipc files (inter process communication)
 app/sandbox
+
+# for deployment
+deployment/upload_api.key

@@ -58,15 +58,8 @@ func show_onboarding() -> void:
 func hide_onboarding() -> void:
 	if not root.visible: return
 	
-	if is_instance_valid(tween): tween.stop()
-	tween = create_tween()
-	tween.tween_property(root, "modulate", HIDDEN, fade_out)
-	
-	await tween.finished
-	root.visible = false
-	
 	DataSaver.set_value(SECTION, KEY, true)
 	DataSaver.save_data()
 	
-	gate_events.open_gate_emit(tutorial_url)
 	ui_events.onboarding_finished_emit()
+	gate_events.open_gate_emit(tutorial_url)

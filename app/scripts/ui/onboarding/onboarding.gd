@@ -8,10 +8,14 @@ const SHOWN = Color(1, 1, 1, 1)
 const HIDDEN = Color(1, 1, 1, 0)
 
 @export var ui_events: UiEvents
+@export var gate_events: GateEvents
+
 @export var root: Control
 @export var close: Button
 @export var fade_in: float = 0.2
 @export var fade_out: float = 0.2
+
+@export var tutorial_url: String
 
 @export_group("Debug")
 @export var show_always: bool
@@ -64,4 +68,5 @@ func hide_onboarding() -> void:
 	DataSaver.set_value(SECTION, KEY, true)
 	DataSaver.save_data()
 	
+	gate_events.open_gate_emit(tutorial_url)
 	ui_events.onboarding_finished_emit()

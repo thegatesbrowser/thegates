@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://b5tbn17l1pfs1"]
+[gd_scene load_steps=20 format=3 uid="uid://b5tbn17l1pfs1"]
 
 [ext_resource type="Script" path="res://scripts/ui/onboarding/onboarding.gd" id="1_2xh2a"]
 [ext_resource type="Script" path="res://scripts/ui/onboarding/carousel.gd" id="2_uhwdh"]
 [ext_resource type="Shader" uid="uid://dd1axtdlit6no" path="res://shaders/vignette_blur.tres" id="2_vhqmk"]
 [ext_resource type="PackedScene" uid="uid://pbsmrx55rb5g" path="res://scenes/components/onboarding/board.tscn" id="3_04ofy"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="3_jta5g"]
+[ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_qy3pl"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="4_bi8o3"]
 [ext_resource type="Texture2D" uid="uid://jfikupu1mgfb" path="res://assets/textures/onboarding/2_friends.png" id="6_60kxa"]
 [ext_resource type="Script" path="res://scripts/ui/onboarding/close_button.gd" id="6_lcfru"]
@@ -47,8 +48,10 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_2xh2a")
 ui_events = ExtResource("3_jta5g")
+gate_events = ExtResource("3_qy3pl")
 root = NodePath("Root")
 close = NodePath("Root/Carousel/Line/Close")
+tutorial_url = "https://thegates.io/worlds/tutorial.gate"
 
 [node name="Root" type="Control" parent="."]
 layout_mode = 1

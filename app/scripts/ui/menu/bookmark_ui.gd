@@ -40,7 +40,7 @@ func update_special_effects() -> void:
 		jump_animation.stop_jump_animation()
 		return
 	
-	if is_special:
+	if is_special and gate_events.current_gate_url.is_empty():
 		special_effect.visible = true
 		jump_animation.start_jump_animation()
 	else:

@@ -3,7 +3,7 @@
 Zip builder for TheGates builds.
 
 Usage:
-  python3 zip_builds.py 0.17.2
+  python3 compress_builds_linux.py 0.17.2
 
 Creates, in-place:
   Linux/TheGates_Linux_<version>.zip  containing: TheGates.x86_64, sandbox/

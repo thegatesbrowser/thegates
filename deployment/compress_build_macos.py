@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Script to extract TheGates.app from DMG file, compress it, and rename with version.
-Usage: python extract_and_compress.py <version>
-Example: python extract_and_compress.py 0.17.1
+Usage: python compress_build_macos.py <version>
+Example: python compress_build_macos.py 0.17.1
 """
 
 import sys
@@ -96,8 +96,8 @@ def compress_app(version):
 def main():
 	"""Main function to orchestrate the extraction and compression process."""
 	if len(sys.argv) != 2:
-		print("Usage: python extract_and_compress.py <version>")
-		print("Example: python extract_and_compress.py 0.17.1")
+		print("Usage: python compress_build_macos.py <version>")
+		print("Example: python compress_build_macos.py 0.17.1")
 		sys.exit(1)
 	
 	version = sys.argv[1]

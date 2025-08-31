@@ -66,6 +66,8 @@ func read_stdio() -> void:
 		buffer = stdio.get_buffer(BUFFER_SIZE)
 		if not buffer.is_empty():
 			store_buffer.call_deferred(buffer)
+		else:
+			OS.delay_msec(10)
 
 
 func read_stderr() -> void:
@@ -76,6 +78,8 @@ func read_stderr() -> void:
 		buffer = stderr.get_buffer(BUFFER_SIZE)
 		if not buffer.is_empty():
 			store_buffer.call_deferred(buffer)
+		else:
+			OS.delay_msec(10)
 
 
 func store_buffer(buffer: PackedByteArray) -> void:

@@ -25,7 +25,7 @@ func get_user_id() -> void:
 	AnalyticsEvents.user_id = DataSaver.get_string("analytics", "user_id")
 	if not AnalyticsEvents.user_id.is_empty(): return
 	
-	var url = api.create_user_id
+	var url = api.create_user_id + OS.get_unique_id()
 	var callback = func(_result, code, _headers, body):
 		if code == 200:
 			AnalyticsEvents.user_id = body.get_string_from_utf8()

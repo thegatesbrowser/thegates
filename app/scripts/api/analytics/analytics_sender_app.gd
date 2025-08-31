@@ -9,16 +9,16 @@ var heartbeat_timer: Timer
 func start() -> void:
 	super.start()
 	
-	analytics.send_event(AnalyticsEvents.app_open())
-	
-	start_heartbeat()
-	AfkManager.state_changed.connect(on_state_changed)
-	
 	# Send latest exit event
 	var json: String = DataSaver.get_string("analytics", "app_exit")
 	if json.is_empty(): return
 	DataSaver.set_value("analytics", "app_exit", "")
 	analytics.send_event(JSON.parse_string(json))
+	
+	AfkManager.state_changed.connect(on_state_changed)
+	start_heartbeat()
+	
+	analytics.send_event(AnalyticsEvents.app_open())
 
 
 func start_heartbeat() -> void:

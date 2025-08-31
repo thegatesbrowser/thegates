@@ -11,17 +11,17 @@ var gate_url: String
 func start() -> void:
 	super.start()
 	
-	gate_events.search.connect(send_search)
-	gate_events.open_gate.connect(send_gate_open)
-	gate_events.gate_loaded.connect(func(_gate): send_gate_load())
-	gate_events.first_frame.connect(send_gate_start)
-	gate_events.exit_gate.connect(send_gate_exit)
-	
 	# Send latest exit event
 	var json: String = DataSaver.get_string("analytics", "send_gate_exit")
 	if json.is_empty(): return
 	DataSaver.set_value("analytics", "send_gate_exit", "")
 	analytics.send_event(JSON.parse_string(json))
+	
+	gate_events.search.connect(send_search)
+	gate_events.open_gate.connect(send_gate_open)
+	gate_events.gate_loaded.connect(func(_gate): send_gate_load())
+	gate_events.first_frame.connect(send_gate_start)
+	gate_events.exit_gate.connect(send_gate_exit)
 
 
 func send_search(query: String) -> void:

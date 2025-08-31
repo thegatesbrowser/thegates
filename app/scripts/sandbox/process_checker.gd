@@ -32,10 +32,10 @@ func start_bootup_check() -> void:
 
 
 func bootup_check() -> void:
-	if snbx_manager.is_sandbox_running(): return
+	if snbx_manager.is_process_running(): return
 	
 	bootup_timer.stop()
-	on_timeout("Gate crashed")
+	on_timeout("Gate crashed on bootup")
 
 
 func start_heartbeat_timer() -> void:
@@ -48,7 +48,7 @@ func restart_heartbeat_timer() -> void:
 
 
 func heartbeat_check() -> void:
-	var error = "Gate is not responding" if snbx_manager.is_sandbox_running() else "Gate crashed"
+	var error = "Gate is not responding" if snbx_manager.is_process_running() else "Gate crashed on heartbeat"
 	
 	heartbeat_timer.stop()
 	on_timeout(error)

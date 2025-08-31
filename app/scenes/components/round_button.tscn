@@ -17,7 +17,7 @@ gradient = SubResource("Gradient_pt5vo")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sp2xr"]
 shader = ExtResource("5_birig")
-shader_parameter/border_thickness = 0.04
+shader_parameter/border_thickness = 0.05
 shader_parameter/edge_smoothness = 0.01
 shader_parameter/corner_radius = Vector4(1.3, 1.3, 1.3, 1.3)
 shader_parameter/speed = 1.5

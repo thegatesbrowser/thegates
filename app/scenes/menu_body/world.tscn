@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=41 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -7,7 +7,6 @@
 [ext_resource type="Resource" uid="uid://l1quiaghft2f" path="res://resources/command_events.res" id="6_18mgg"]
 [ext_resource type="Script" path="res://scripts/sandbox/sandbox_manager.gd" id="6_368sj"]
 [ext_resource type="Script" path="res://scripts/sandbox/input_sync.gd" id="8_1blsi"]
-[ext_resource type="Resource" uid="uid://bo6qgr210aamc" path="res://resources/sandbox_env.tres" id="8_a6dvr"]
 [ext_resource type="Script" path="res://scripts/sandbox/sandbox_logger.gd" id="9_fikc8"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="9_ir58h"]
 [ext_resource type="Shader" path="res://shaders/render_result.gdshader" id="10_2auwe"]
@@ -147,7 +146,6 @@ gate_events = ExtResource("2_q7cvi")
 render_result = NodePath("../WorldCanvas/RenderResult")
 snbx_logger = NodePath("../SandboxLogger")
 snbx_executable = ExtResource("4_shus3")
-snbx_env = ExtResource("8_a6dvr")
 
 [node name="SandboxLogger" type="Node" parent="."]
 script = ExtResource("9_fikc8")

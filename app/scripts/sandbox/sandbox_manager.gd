@@ -5,7 +5,6 @@ class_name SandboxManager
 @export var render_result: RenderResult
 @export var snbx_logger: SandboxLogger
 @export var snbx_executable: SandboxExecutable
-@export var snbx_env: SandboxEnv
 
 const IPC_FOLDER := "sandbox"
 

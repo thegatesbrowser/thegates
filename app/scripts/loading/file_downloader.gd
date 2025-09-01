@@ -1,13 +1,14 @@
 extends Node
+# class_name FileDownloader
 
 signal progress(url: String, body_size: int, downloaded_bytes: int)
 
 class DownloadRequest:
 	var save_path: String
-	var http: HTTPRequest
+	var http: HttpRequestNode
 	var timer: Timer
 	
-	func _init(_save_path: String, _http: HTTPRequest, _timer: Timer) -> void:
+	func _init(_save_path: String, _http: HttpRequestNode, _timer: Timer) -> void:
 		save_path = _save_path
 		http = _http
 		timer = _timer
@@ -98,9 +99,8 @@ func request_completed(save_path: String) -> void:
 
 
 func create_request(url: String, save_path: String, timeout: float = 0, headers: PackedStringArray = PackedStringArray()) -> int:
-	var http = HTTPRequest.new()
+	var http = HttpRequestNode.new()
 	http.download_file = save_path
-	http.use_threads = true
 	http.timeout = timeout
 	add_child(http)
 	
@@ -127,7 +127,7 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 	return code
 
 
-func create_progress_emitter(url: String, http: HTTPRequest) -> Timer:
+func create_progress_emitter(url: String, http: HttpRequestNode) -> Timer:
 	var timer = Timer.new()
 	add_child(timer)
 	

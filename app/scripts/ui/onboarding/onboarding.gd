@@ -58,8 +58,9 @@ func show_onboarding() -> void:
 func hide_onboarding() -> void:
 	if not root.visible: return
 	
+	ui_events.onboarding_finished_emit()
+	
 	DataSaver.set_value(SECTION, KEY, true)
 	DataSaver.save_data()
 	
-	ui_events.onboarding_finished_emit()
 	gate_events.open_gate_emit(tutorial_url)

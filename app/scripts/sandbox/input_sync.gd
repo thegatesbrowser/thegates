@@ -18,7 +18,7 @@ func _ready() -> void:
 
 func start_server() -> void:
 	input_sync = InputSync.new()
-	input_sync.bind()
+	input_sync.socket_bind()
 	
 	scale = DisplayServer.screen_get_scale()
 	offset = render_result.global_position

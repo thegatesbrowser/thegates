@@ -8,7 +8,7 @@ var silent_commands = ["heartbeat"]
 
 
 func _ready() -> void:
-	gate_events.gate_entered.connect(bind)
+	gate_events.gate_entered.connect(socket_bind)
 	execute_function = _execute_function
 
 

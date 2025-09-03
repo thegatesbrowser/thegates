@@ -4,6 +4,9 @@ class_name UiEvents
 signal ui_mode_changed(mode: UiMode)
 signal ui_size_changed(size: Vector2)
 
+signal debug_window_opened()
+signal debug_window_closed()
+
 signal onboarding_requested()
 signal onboarding_started()
 signal onboarding_finished()
@@ -26,6 +29,14 @@ func ui_mode_changed_emit(mode: UiMode) -> void:
 func ui_size_changed_emit(size: Vector2) -> void:
 	current_ui_size = size
 	ui_size_changed.emit(size)
+
+
+func debug_window_opened_emit() -> void:
+	debug_window_opened.emit()
+
+
+func debug_window_closed_emit() -> void:
+	debug_window_closed.emit()
 
 
 func onboarding_requested_emit() -> void:

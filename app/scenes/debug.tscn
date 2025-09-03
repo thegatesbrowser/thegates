@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://byrcbqat0n2px"]
+[gd_scene load_steps=10 format=3 uid="uid://byrcbqat0n2px"]
 
 [ext_resource type="Script" path="res://scripts/debug_log/debug_window.gd" id="1_j4w8w"]
+[ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="2_274f6"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="2_da5xc"]
 [ext_resource type="Script" path="res://scripts/debug_log/debug_log.gd" id="2_lgt6s"]
 [ext_resource type="FontFile" uid="uid://c14w1y1r54wgi" path="res://assets/fonts/Inter-Bold.otf" id="3_w27g3"]
@@ -13,6 +14,7 @@ bg_color = Color(0.2, 0.2, 0.2, 1)
 
 [node name="Debug" type="Node" node_paths=PackedStringArray("window")]
 script = ExtResource("1_j4w8w")
+ui_events = ExtResource("2_274f6")
 window = NodePath("Window")
 
 [node name="Window" type="Window" parent="."]

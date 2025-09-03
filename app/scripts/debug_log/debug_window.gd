@@ -1,9 +1,9 @@
 extends Node
 
+@export var ui_events: UiEvents
 @export var window: Window
 
 var window_visible
-var mouse_mode: int = Input.MOUSE_MODE_VISIBLE
 
 
 func _ready() -> void:
@@ -33,15 +33,10 @@ func _on_window_focus_exited() -> void:
 func window_show() -> void:
 	window.show()
 	window_visible = true
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		mouse_mode = Input.MOUSE_MODE_CAPTURED
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	else:
-		mouse_mode = Input.MOUSE_MODE_VISIBLE
+	ui_events.debug_window_opened_emit()
 
 
 func window_hide() -> void:
 	window.hide()
 	window_visible = false
-	if mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	ui_events.debug_window_closed_emit()

@@ -5,9 +5,9 @@ extends Node
 @export var snbx_manager: SandboxManager
 
 # Timeout intervals for child process responsiveness
-const BOOTUP_CHECK_SEC = 3
-const HEARTBEAT_INTERVAL_SEC = 10
-const WAIT_INTERVAL_SEC = 15
+const BOOTUP_CHECK_SEC = 2
+const HEARTBEAT_INTERVAL_SEC = 3
+const WAIT_INTERVAL_SEC = 30
 
 var bootup_timer: Timer
 var heartbeat_timer: Timer

@@ -32,6 +32,8 @@ def build_expected_zip_paths(builds_dir: Path, version: str, os_name: str) -> li
 	if os_name == "Linux":
 		paths.append(builds_dir / "Linux" / f"TheGates_Linux_{version}.zip")
 		paths.append(builds_dir / "Windows" / f"TheGates_Windows_{version}.zip")
+	elif os_name == "Windows":
+		paths.append(builds_dir / "Windows" / f"TheGates_Windows_{version}.zip")
 	elif os_name == "Darwin":
 		paths.append(builds_dir / f"TheGates_MacOS_{version}.zip")
 	return paths
@@ -71,8 +73,8 @@ def main() -> int:
 	print(f"==> Using repo root: {repo_root}")
 	print(f"==> Detected OS: {os_name}")
 
-	if os_name not in ("Linux", "Darwin"):
-		print(f"Unsupported OS: {os_name}. Only Linux and macOS are supported.")
+	if os_name not in ("Linux", "Darwin", "Windows"):
+		print(f"Unsupported OS: {os_name}. Only Linux, macOS and Windows are supported.")
 		return 1
 
 	# 1) Export release builds
@@ -86,19 +88,25 @@ def main() -> int:
 
 	if os_name == "Linux":
 		builds_dir = Path("/media/common/Projects/thegates-folder/AppBuilds")
-		compress_src = repo_root / "deployment" / "compress_builds_linux.py"
-		compress_dst = builds_dir / "compress_builds_linux.py"
+		compress_script = repo_root / "deployment" / "compress_builds_linux.py"
 
 		print(f"==> Switching to builds dir: {builds_dir}")
 		builds_dir.mkdir(parents=True, exist_ok=True)
 
-		# Ensure compressor resides in builds dir so its __file__ parent matches expected root
-		if not compress_dst.exists():
-			print("==> Copying compressor to builds dir...")
-			shutil.copy2(compress_src, compress_dst)
-
 		print(f"==> Compressing Linux/Windows builds with version {version}...")
-		run([sys.executable, str(compress_dst), version, "--force"], cwd=builds_dir)
+		run([sys.executable, str(compress_script), version, "--force"], cwd=builds_dir)
+
+		uploaded = build_expected_zip_paths(builds_dir, version, os_name)
+
+	elif os_name == "Windows":
+		builds_dir = Path("D:/Projects/thegates-folder/AppBuilds")
+		compress_script = repo_root / "deployment" / "compress_build_windows.py"
+
+		print(f"==> Switching to builds dir: {builds_dir}")
+		builds_dir.mkdir(parents=True, exist_ok=True)
+
+		print(f"==> Compressing Windows build with version {version}...")
+		run([sys.executable, str(compress_script), version, "--force"], cwd=builds_dir)
 
 		uploaded = build_expected_zip_paths(builds_dir, version, os_name)
 

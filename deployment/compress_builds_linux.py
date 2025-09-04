@@ -60,8 +60,8 @@ def zip_entries(base_dir: Path, entries: list[str], output_zip: Path, overwrite:
                         zf.write(file_path, arcname=str(arcname))
 
 
-def build_linux_zip(root: Path, version: str, overwrite: bool) -> Path:
-    linux_dir = root / "Linux"
+def build_linux_zip(version: str, overwrite: bool) -> Path:
+    linux_dir = Path("Linux")
     output_zip = linux_dir / f"TheGates_Linux_{version}.zip"
     entries = [
         "TheGates.x86_64",
@@ -71,8 +71,8 @@ def build_linux_zip(root: Path, version: str, overwrite: bool) -> Path:
     return output_zip
 
 
-def build_windows_zip(root: Path, version: str, overwrite: bool) -> Path:
-    windows_dir = root / "Windows"
+def build_windows_zip(version: str, overwrite: bool) -> Path:
+    windows_dir = Path("Windows")
     output_zip = windows_dir / f"TheGates_Windows_{version}.zip"
     entries = [
         "TheGates.exe",
@@ -98,12 +98,10 @@ def main() -> None:
     args = parse_args()
     validate_version(args.version)
 
-    root = Path(__file__).resolve().parent
-
-    linux_zip = build_linux_zip(root, args.version, args.force)
+    linux_zip = build_linux_zip(args.version, args.force)
     print(f"Created: {linux_zip}")
 
-    windows_zip = build_windows_zip(root, args.version, args.force)
+    windows_zip = build_windows_zip(args.version, args.force)
     print(f"Created: {windows_zip}")
 
 

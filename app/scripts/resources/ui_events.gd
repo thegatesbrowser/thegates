@@ -20,6 +20,7 @@ enum UiMode
 var current_ui_size: Vector2
 var is_onboarding_requested: bool
 var is_onboarding_started: bool
+var is_typing_search: bool
 
 
 func ui_mode_changed_emit(mode: UiMode) -> void:
@@ -54,3 +55,7 @@ func onboarding_finished_emit() -> void:
 	is_onboarding_requested = false
 	is_onboarding_started = false
 	onboarding_finished.emit()
+
+
+func set_typing_search(is_typing: bool) -> void:
+	is_typing_search = is_typing

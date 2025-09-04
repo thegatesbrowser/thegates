@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://ctam0fxigbefk"]
+[gd_scene load_steps=21 format=3 uid="uid://ctam0fxigbefk"]
 
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_ruyeb"]
 [ext_resource type="Script" path="res://scripts/ui/search.gd" id="2_7qvyv"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_685a6"]
 [ext_resource type="Script" path="res://scripts/ui/search/search_status.gd" id="4_cx4ue"]
+[ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="4_oquth"]
 [ext_resource type="Texture2D" uid="uid://byrcelmfy6r3l" path="res://assets/textures/search.svg" id="5_c6ql8"]
 [ext_resource type="Texture2D" uid="uid://cx3xxaqo3s3eq" path="res://assets/textures/gate.svg" id="6_p0kxs"]
 [ext_resource type="Script" path="res://scripts/ui/search/download_animation.gd" id="7_x8glc"]
@@ -73,6 +74,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_hyysn")
 placeholder_text = "Search or type URL"
 select_all_on_focus = true
 script = ExtResource("2_7qvyv")
+ui_events = ExtResource("4_oquth")
 gate_events = ExtResource("3_685a6")
 prompt_panel = NodePath("Prompt/Panel")
 

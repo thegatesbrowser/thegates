@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://bs2cwop0ei1r1"]
+[gd_scene load_steps=17 format=3 uid="uid://bs2cwop0ei1r1"]
 
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_767gv"]
 [ext_resource type="Script" path="res://scripts/ui/search.gd" id="2_h4fn7"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_xrtl6"]
+[ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="4_kr3b7"]
 [ext_resource type="Texture2D" uid="uid://ckkmluvnrorek" path="res://assets/textures/search_96.svg" id="4_m7aa2"]
 [ext_resource type="Script" path="res://scripts/ui/search/prompt_navigation.gd" id="5_iptg2"]
 [ext_resource type="Script" path="res://scripts/ui/search/fix_promt_position.gd" id="6_c6kyf"]
@@ -93,6 +94,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_w0n18")
 placeholder_text = "What are you looking for today?"
 select_all_on_focus = true
 script = ExtResource("2_h4fn7")
+ui_events = ExtResource("4_kr3b7")
 gate_events = ExtResource("3_xrtl6")
 prompt_panel = NodePath("Prompt/Panel")
 focus_on_ready = true

@@ -4,6 +4,7 @@ class_name Search
 signal on_release_focus
 signal on_navigation(event: int)
 
+@export var ui_events: UiEvents
 @export var gate_events: GateEvents
 @export var prompt_panel: Control
 @export var focus_on_ready: bool
@@ -19,8 +20,8 @@ func _ready() -> void:
 
 func set_current_url(_url: String) -> void:
 	text = _url
-	
-	on_release_focus.emit()
+
+	stop_typing()
 
 
 func _on_text_submitted(_url: String) -> void:
@@ -35,19 +36,19 @@ func open_gate() -> void:
 	else:
 		gate_events.search_emit(text)
 	
-	release_focus()
-	on_release_focus.emit()
+	stop_typing()
 
 
 func _input(event: InputEvent) -> void:
 	if not has_focus(): return
+	if not ui_events.is_typing_search: ui_events.set_typing_search(true)
 	
 	if (event is InputEventMouseButton
 			and not get_global_rect().has_point(event.position)
 			and not prompt_panel.get_global_rect().has_point(event.position)
 			and not event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]):
-		release_focus()
-		on_release_focus.emit()
+		
+		stop_typing()
 	
 	if event.is_action_pressed("ui_text_caret_up"):
 		on_navigation.emit(PromptNavigation.UP)
@@ -55,3 +56,9 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("ui_text_caret_down"):
 		on_navigation.emit(PromptNavigation.DOWN)
 		get_viewport().set_input_as_handled()
+
+
+func stop_typing() -> void:
+	if ui_events.is_typing_search: ui_events.set_typing_search(false)
+	release_focus()
+	on_release_focus.emit()

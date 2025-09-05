@@ -1,9 +1,10 @@
-[gd_scene load_steps=28 format=3 uid="uid://5btb7nvgmfhl"]
+[gd_scene load_steps=29 format=3 uid="uid://5btb7nvgmfhl"]
 
 [ext_resource type="Script" path="res://scripts/ui/menu/menu_navigation.gd" id="1_7anvm"]
 [ext_resource type="Script" path="res://scripts/ui/menu/menu.gd" id="1_o6vga"]
 [ext_resource type="PackedScene" uid="uid://dkfy3rcfbxqc6" path="res://scenes/components/tab.tscn" id="3_atekt"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_m632k"]
+[ext_resource type="Script" path="res://scripts/ui/menu/drag_window.gd" id="3_o4p76"]
 [ext_resource type="Texture2D" uid="uid://c80732g67qmvx" path="res://assets/textures/plus.svg" id="4_rdyyc"]
 [ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://scenes/components/search/search.tscn" id="5_li2do"]
 [ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/round_button.tscn" id="6_gxcmo"]
@@ -102,21 +103,33 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="Top" type="MarginContainer" parent="VBoxContainer"]
+[node name="Top" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 101)
 layout_mode = 2
+script = ExtResource("3_o4p76")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Top"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_right = 12
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Top"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Top/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="Tabs" type="Control" parent="VBoxContainer/Top/VBoxContainer"]
+[node name="Tabs" type="Control" parent="VBoxContainer/Top/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
+mouse_default_cursor_shape = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Top/VBoxContainer/Tabs"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Tabs"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -126,10 +139,10 @@ offset_bottom = 16.0
 grow_vertical = 2
 theme_override_constants/separation = 7
 
-[node name="Tab" parent="VBoxContainer/Top/VBoxContainer/Tabs/HBoxContainer" instance=ExtResource("3_atekt")]
+[node name="Tab" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Tabs/HBoxContainer" instance=ExtResource("3_atekt")]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="VBoxContainer/Top/VBoxContainer/Tabs/HBoxContainer"]
+[node name="Button" type="Button" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Tabs/HBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
@@ -142,7 +155,7 @@ disabled = true
 icon = ExtResource("4_rdyyc")
 expand_icon = true
 
-[node name="WindowButtons" type="HBoxContainer" parent="VBoxContainer/Top/VBoxContainer/Tabs" node_paths=PackedStringArray("minimize", "maximize", "exit")]
+[node name="WindowButtons" type="HBoxContainer" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Tabs" node_paths=PackedStringArray("minimize", "maximize", "exit")]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -161,28 +174,29 @@ minimize = NodePath("Minimize")
 maximize = NodePath("Maximize")
 exit = NodePath("Close")
 
-[node name="Minimize" parent="VBoxContainer/Top/VBoxContainer/Tabs/WindowButtons" instance=ExtResource("6_gxcmo")]
+[node name="Minimize" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Tabs/WindowButtons" instance=ExtResource("6_gxcmo")]
 layout_mode = 2
 icon = ExtResource("7_ab04l")
 
-[node name="Maximize" parent="VBoxContainer/Top/VBoxContainer/Tabs/WindowButtons" instance=ExtResource("6_gxcmo")]
+[node name="Maximize" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Tabs/WindowButtons" instance=ExtResource("6_gxcmo")]
 layout_mode = 2
 icon = ExtResource("8_yoyw7")
 
-[node name="Close" parent="VBoxContainer/Top/VBoxContainer/Tabs/WindowButtons" instance=ExtResource("6_gxcmo")]
+[node name="Close" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Tabs/WindowButtons" instance=ExtResource("6_gxcmo")]
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Top/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Top/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 theme_override_constants/separation = 0
 theme_override_styles/separator = SubResource("StyleBoxLine_4myyc")
 
-[node name="Navigation" type="Control" parent="VBoxContainer/Top/VBoxContainer"]
+[node name="Navigation" type="Control" parent="VBoxContainer/Top/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 
-[node name="MenuNavigation" type="HBoxContainer" parent="VBoxContainer/Top/VBoxContainer/Navigation" node_paths=PackedStringArray("go_back", "go_forw", "reload", "home")]
+[node name="MenuNavigation" type="HBoxContainer" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Navigation" node_paths=PackedStringArray("go_back", "go_forw", "reload", "home")]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -201,36 +215,36 @@ go_forw = NodePath("HBoxContainer/Forward")
 reload = NodePath("HBoxContainer/Reload")
 home = NodePath("HBoxContainer/Home")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Top/VBoxContainer/Navigation/MenuNavigation"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Navigation/MenuNavigation"]
 layout_mode = 2
 theme_override_constants/separation = 2
 alignment = 2
 
-[node name="Back" parent="VBoxContainer/Top/VBoxContainer/Navigation/MenuNavigation/HBoxContainer" instance=ExtResource("6_gxcmo")]
+[node name="Back" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Navigation/MenuNavigation/HBoxContainer" instance=ExtResource("6_gxcmo")]
 layout_mode = 2
 icon = ExtResource("12_5rx3j")
 
-[node name="Forward" parent="VBoxContainer/Top/VBoxContainer/Navigation/MenuNavigation/HBoxContainer" instance=ExtResource("6_gxcmo")]
+[node name="Forward" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Navigation/MenuNavigation/HBoxContainer" instance=ExtResource("6_gxcmo")]
 layout_mode = 2
 icon = ExtResource("12_nihkw")
 
-[node name="Reload" parent="VBoxContainer/Top/VBoxContainer/Navigation/MenuNavigation/HBoxContainer" instance=ExtResource("6_gxcmo")]
+[node name="Reload" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Navigation/MenuNavigation/HBoxContainer" instance=ExtResource("6_gxcmo")]
 layout_mode = 2
 icon = ExtResource("13_hwfo2")
 
-[node name="Home" parent="VBoxContainer/Top/VBoxContainer/Navigation/MenuNavigation/HBoxContainer" instance=ExtResource("6_gxcmo")]
+[node name="Home" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Navigation/MenuNavigation/HBoxContainer" instance=ExtResource("6_gxcmo")]
 layout_mode = 2
 icon = ExtResource("14_gbcfo")
 
-[node name="Search" parent="VBoxContainer/Top/VBoxContainer/Navigation/MenuNavigation" instance=ExtResource("5_li2do")]
+[node name="Search" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Navigation/MenuNavigation" instance=ExtResource("5_li2do")]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/Top/VBoxContainer/Navigation/MenuNavigation"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Navigation/MenuNavigation"]
 layout_mode = 2
 theme_override_constants/separation = 2
 alignment = 2
 
-[node name="Help" parent="VBoxContainer/Top/VBoxContainer/Navigation/MenuNavigation/HBoxContainer2" instance=ExtResource("6_gxcmo")]
+[node name="Help" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Navigation/MenuNavigation/HBoxContainer2" instance=ExtResource("6_gxcmo")]
 layout_mode = 2
 theme_override_styles/hover = SubResource("StyleBoxFlat_am55m")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e0ud7")
@@ -240,7 +254,7 @@ script = ExtResource("19_h4fgg")
 url = "https://forms.gle/1NmJeCQnQh7Yc1KP8"
 app_events = ExtResource("18_xgfab")
 
-[node name="Options" parent="VBoxContainer/Top/VBoxContainer/Navigation/MenuNavigation/HBoxContainer2" instance=ExtResource("6_gxcmo")]
+[node name="Options" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Navigation/MenuNavigation/HBoxContainer2" instance=ExtResource("6_gxcmo")]
 visible = false
 layout_mode = 2
 disabled = true

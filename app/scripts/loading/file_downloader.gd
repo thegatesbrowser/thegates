@@ -5,10 +5,10 @@ signal progress(url: String, body_size: int, downloaded_bytes: int)
 
 class DownloadRequest:
 	var save_path: String
-	var http: HttpRequestNode
+	var http: HttpClientRequest
 	var timer: Timer
 	
-	func _init(_save_path: String, _http: HttpRequestNode, _timer: Timer) -> void:
+	func _init(_save_path: String, _http: HttpClientRequest, _timer: Timer) -> void:
 		save_path = _save_path
 		http = _http
 		timer = _timer
@@ -99,10 +99,9 @@ func request_completed(save_path: String) -> void:
 
 
 func create_request(url: String, save_path: String, timeout: float = 0, headers: PackedStringArray = PackedStringArray()) -> int:
-	var http = HttpRequestNode.new()
+	var http = HttpClientRequest.new()
 	http.download_file = save_path
 	http.timeout = timeout
-	add_child(http)
 	
 	var timer = create_progress_emitter(url, http)
 	var download_request = DownloadRequest.new(save_path, http, timer)
@@ -118,7 +117,6 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 	progress.emit(url, http.get_body_size(), http.get_downloaded_bytes())
 	timer.stop()
 	remove_child(timer)
-	remove_child(http)
 	download_requests.erase(download_request)
 	
 	if code == 200 or code == 304:
@@ -127,7 +125,7 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 	return code
 
 
-func create_progress_emitter(url: String, http: HttpRequestNode) -> Timer:
+func create_progress_emitter(url: String, http: HttpClientRequest) -> Timer:
 	var timer = Timer.new()
 	add_child(timer)
 	
@@ -142,7 +140,6 @@ func create_progress_emitter(url: String, http: HttpRequestNode) -> Timer:
 func stop_all() -> void:
 	for request in download_requests:
 		request.http.cancel_request()
-		remove_child(request.http)
 		
 		request.timer.stop()
 		remove_child(request.timer)
@@ -154,5 +151,3 @@ func stop_all() -> void:
 
 func _exit_tree() -> void:
 	FileDownloader.stop_all()
-	# Keep cache across sessions
-	pass

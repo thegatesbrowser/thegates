@@ -1,5 +1,5 @@
-extends Node
-class_name HttpRequestNode
+extends RefCounted
+class_name HttpClientRequest
 
 signal request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray)
 
@@ -45,8 +45,7 @@ func _progress_cb(headers_phase: bool, content_length: int, downloaded: int) -> 
 
 
 func _perform(url: String, headers: PackedStringArray, method: int, data: String) -> void:
-	var pool := HttpConnectionPool.get_singleton()
-	var res: Dictionary = await pool.request(url, headers, method, data, timeout, _cancel_token)
+	var res: Dictionary = await HttpConnectionPool.request(url, headers, method, data, timeout, _cancel_token)
 	if res.get("headers") != null:
 		# Set size if available
 		var hdrs: PackedStringArray = res["headers"]
@@ -70,8 +69,7 @@ func _perform(url: String, headers: PackedStringArray, method: int, data: String
 
 
 func _perform_raw(url: String, headers: PackedStringArray, method: int, data: PackedByteArray) -> void:
-	var pool := HttpConnectionPool.get_singleton()
-	var res: Dictionary = await pool.request_raw(url, headers, method, data, timeout, _cancel_token)
+	var res: Dictionary = await HttpConnectionPool.request_raw(url, headers, method, data, timeout, _cancel_token)
 	if res.get("headers") != null:
 		var hdrs: PackedStringArray = res["headers"]
 		for line in hdrs:
@@ -91,5 +89,3 @@ func _perform_raw(url: String, headers: PackedStringArray, method: int, data: Pa
 			f.close()
 		_downloaded_bytes = res["body"].size()
 	request_completed.emit(res.get("result", ERR_DOES_NOT_EXIST), res.get("code", 0), res.get("headers", PackedStringArray()), res.get("body", PackedByteArray()))
-
-

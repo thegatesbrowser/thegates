@@ -1,5 +1,5 @@
-extends RefCounted
-class_name HttpConnectionPool
+extends Node
+# class_name HttpConnectionPool
 
 const DEFAULT_TIMEOUT_SEC := 30.0
 const ERR_CANCELED := 10001
@@ -22,13 +22,6 @@ class ConnectionEntry:
 
 
 var pools: Dictionary = {} # key -> Array[ConnectionEntry]
-
-static var _instance: HttpConnectionPool
-
-static func get_singleton() -> HttpConnectionPool:
-	if _instance == null:
-		_instance = HttpConnectionPool.new()
-	return _instance
 
 
 class CancelToken:

@@ -27,16 +27,16 @@ var pools: Dictionary = {} # key -> Array[ConnectionEntry]
 class CancelToken:
 	var cancelled: bool = false
 
-static func create_cancel_token() -> CancelToken:
+func create_cancel_token() -> CancelToken:
 	return CancelToken.new()
 
 
 func request(url: String, headers: PackedStringArray = PackedStringArray(), method: int = HTTPClient.METHOD_GET, body: String = "", timeout_sec: float = DEFAULT_TIMEOUT_SEC, token: CancelToken = null) -> Dictionary:
-	var parsed = _parse_url(url)
+	var parsed = parse_url(url)
 	if parsed == null:
 		return {"result": ERR_INVALID_PARAMETER}
 	var path: String = parsed["path"]
-	var entry: ConnectionEntry = await _acquire_connection(parsed["host"], parsed["port"], parsed["tls"], timeout_sec, token)
+	var entry: ConnectionEntry = await acquire_connection(parsed["host"], parsed["port"], parsed["tls"], timeout_sec, token)
 	if entry == null:
 		return {"result": ERR_CANT_CONNECT}
 	var client := entry.client
@@ -44,18 +44,18 @@ func request(url: String, headers: PackedStringArray = PackedStringArray(), meth
 	if token != null and token.cancelled:
 		entry.busy = false
 		return {"result": ERR_CANCELED}
-	var result := await _perform_request_str(client, method, path, headers, body, timeout_sec, token)
+	var result := await perform_request_str(client, method, path, headers, body, timeout_sec, token)
 	entry.busy = false
 	entry.last_used_ms = Time.get_ticks_msec()
 	return result
 
 
 func request_raw(url: String, headers: PackedStringArray = PackedStringArray(), method: int = HTTPClient.METHOD_GET, body: PackedByteArray = PackedByteArray(), timeout_sec: float = DEFAULT_TIMEOUT_SEC, token: CancelToken = null) -> Dictionary:
-	var parsed = _parse_url(url)
+	var parsed = parse_url(url)
 	if parsed == null:
 		return {"result": ERR_INVALID_PARAMETER}
 	var path: String = parsed["path"]
-	var entry: ConnectionEntry = await _acquire_connection(parsed["host"], parsed["port"], parsed["tls"], timeout_sec, token)
+	var entry: ConnectionEntry = await acquire_connection(parsed["host"], parsed["port"], parsed["tls"], timeout_sec, token)
 	if entry == null:
 		return {"result": ERR_CANT_CONNECT}
 	var client := entry.client
@@ -63,14 +63,14 @@ func request_raw(url: String, headers: PackedStringArray = PackedStringArray(), 
 	if token != null and token.cancelled:
 		entry.busy = false
 		return {"result": ERR_CANCELED}
-	var result := await _perform_request_raw(client, method, path, headers, body, timeout_sec, token)
+	var result := await perform_request_raw(client, method, path, headers, body, timeout_sec, token)
 	entry.busy = false
 	entry.last_used_ms = Time.get_ticks_msec()
 	return result
 
 
-func _acquire_connection(host: String, port: int, use_tls: bool, timeout_sec: float, token: CancelToken = null) -> ConnectionEntry:
-	var key := _pool_key(host, port, use_tls)
+func acquire_connection(host: String, port: int, use_tls: bool, timeout_sec: float, token: CancelToken = null) -> ConnectionEntry:
+	var key := pool_key(host, port, use_tls)
 	if not pools.has(key):
 		pools[key] = []
 	# try find idle
@@ -97,13 +97,13 @@ func _acquire_connection(host: String, port: int, use_tls: bool, timeout_sec: fl
 			return null
 		if float(Time.get_ticks_msec() - start_ms) / 1000.0 > timeout_sec:
 			return null
-		await _process_frame()
+		await get_tree().process_frame
 	var entry := ConnectionEntry.new(client, host, port, use_tls)
 	pools[key].append(entry)
 	return entry
 
 
-func _perform_request_str(client: HTTPClient, method: int, path: String, headers: PackedStringArray, body: String, timeout_sec: float, token: CancelToken = null, progress_cb: Callable = Callable()) -> Dictionary:
+func perform_request_str(client: HTTPClient, method: int, path: String, headers: PackedStringArray, body: String, timeout_sec: float, token: CancelToken = null, progress_cb: Callable = Callable()) -> Dictionary:
 	var req_err := client.request(method, path, headers, body)
 	if req_err != OK:
 		return {"result": req_err}
@@ -114,7 +114,7 @@ func _perform_request_str(client: HTTPClient, method: int, path: String, headers
 			return {"result": ERR_CANCELED}
 		if float(Time.get_ticks_msec() - start_ms) / 1000.0 > timeout_sec:
 			return {"result": ERR_TIMEOUT}
-		await _process_frame()
+		await get_tree().process_frame
 	# read headers
 	var code := client.get_response_code()
 	var hdr_dict := client.get_response_headers_as_dictionary()
@@ -136,7 +136,7 @@ func _perform_request_str(client: HTTPClient, method: int, path: String, headers
 			if progress_cb.is_valid():
 				progress_cb.call(false, content_length, body_bytes.size())
 		else:
-			await _process_frame()
+			await get_tree().process_frame
 	return {
 		"result": OK,
 		"code": code,
@@ -145,7 +145,7 @@ func _perform_request_str(client: HTTPClient, method: int, path: String, headers
 	}
 
 
-func _perform_request_raw(client: HTTPClient, method: int, path: String, headers: PackedStringArray, body: PackedByteArray, timeout_sec: float, token: CancelToken = null, progress_cb: Callable = Callable()) -> Dictionary:
+func perform_request_raw(client: HTTPClient, method: int, path: String, headers: PackedStringArray, body: PackedByteArray, timeout_sec: float, token: CancelToken = null, progress_cb: Callable = Callable()) -> Dictionary:
 	var req_err := client.request_raw(method, path, headers, body)
 	if req_err != OK:
 		return {"result": req_err}
@@ -156,7 +156,7 @@ func _perform_request_raw(client: HTTPClient, method: int, path: String, headers
 			return {"result": ERR_CANCELED}
 		if float(Time.get_ticks_msec() - start_ms) / 1000.0 > timeout_sec:
 			return {"result": ERR_TIMEOUT}
-		await _process_frame()
+		await get_tree().process_frame
 	# read headers
 	var code := client.get_response_code()
 	var hdr_dict := client.get_response_headers_as_dictionary()
@@ -178,7 +178,7 @@ func _perform_request_raw(client: HTTPClient, method: int, path: String, headers
 			if progress_cb.is_valid():
 				progress_cb.call(false, content_length, body_bytes.size())
 		else:
-			await _process_frame()
+			await get_tree().process_frame
 	return {
 		"result": OK,
 		"code": code,
@@ -187,12 +187,12 @@ func _perform_request_raw(client: HTTPClient, method: int, path: String, headers
 	}
 
 
-func _pool_key(host: String, port: int, use_tls: bool) -> String:
+func pool_key(host: String, port: int, use_tls: bool) -> String:
 	var scheme := "https" if use_tls else "http"
 	return scheme + "://" + host + ":" + str(port)
 
 
-func _parse_url(url: String) -> Dictionary:
+func parse_url(url: String) -> Dictionary:
 	var re := RegEx.new()
 	re.compile("^(https?)://([^/:]+)(?::(\\d+))?(/.*)?$")
 	var m := re.search(url)
@@ -208,9 +208,3 @@ func _parse_url(url: String) -> Dictionary:
 	if path.is_empty():
 		path = "/"
 	return {"scheme": scheme, "host": host, "port": port, "path": path, "tls": use_tls}
-
-
-func _process_frame() -> void:
-	var tree := Engine.get_main_loop() as SceneTree
-	if tree:
-		await tree.process_frame

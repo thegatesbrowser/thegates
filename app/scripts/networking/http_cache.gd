@@ -9,7 +9,7 @@ var cache_index_path: String
 var cache_index: Dictionary = {}
 
 
-func initialize(folder: String) -> void:
+func _init(folder: String) -> void:
 	download_folder = folder
 	cache_index_path = download_folder.rstrip("/") + "/" + CACHE_INDEX_FILE
 	DirAccess.make_dir_recursive_absolute(download_folder)

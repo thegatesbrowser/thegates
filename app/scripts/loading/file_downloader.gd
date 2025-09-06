@@ -15,16 +15,14 @@ class DownloadRequest:
 
 const DOWNLOAD_FOLDER := "user://gates_data"
 const PROGRESS_DELAY := 0.1
-const CACHE_INDEX_PATH := DOWNLOAD_FOLDER + "/cache_index.json" # Deprecated, kept for compatibility
 
-var download_requests: Array[DownloadRequest]
 var cache: HttpCache
+var download_requests: Array[DownloadRequest]
 
 
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(DOWNLOAD_FOLDER)
-	cache = HttpCache.new()
-	cache.initialize(DOWNLOAD_FOLDER)
+	cache = HttpCache.new(DOWNLOAD_FOLDER)
 
 
 func is_cached(url: String) -> bool:
@@ -102,6 +100,7 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 	var http = HttpClientRequest.new()
 	http.download_file = save_path
 	http.timeout = timeout
+	http.use_threads = true
 	
 	var timer = create_progress_emitter(url, http)
 	var download_request = DownloadRequest.new(save_path, http, timer)

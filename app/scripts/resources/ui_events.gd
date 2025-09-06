@@ -18,6 +18,7 @@ enum UiMode
 }
 
 var current_ui_size: Vector2
+var is_debug_window_opened: bool
 var is_onboarding_requested: bool
 var is_onboarding_started: bool
 var is_typing_search: bool
@@ -33,10 +34,12 @@ func ui_size_changed_emit(size: Vector2) -> void:
 
 
 func debug_window_opened_emit() -> void:
+	is_debug_window_opened = true
 	debug_window_opened.emit()
 
 
 func debug_window_closed_emit() -> void:
+	is_debug_window_opened = false
 	debug_window_closed.emit()
 
 

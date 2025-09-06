@@ -26,13 +26,15 @@ func is_fresh(save_path: String) -> bool:
 	return false
 
 
-func build_conditional_headers(save_path: String, force_revalidate: bool) -> PackedStringArray:
+func build_conditional_headers(save_path: String, file_exists: bool, force_revalidate: bool) -> PackedStringArray:
 	var headers := PackedStringArray()
 	var meta: Dictionary = cache_index.get(save_path, {})
-	if meta.has("etag") and String(meta["etag"]).length() > 0:
-		headers.append("If-None-Match: " + String(meta["etag"]))
-	elif meta.has("last_modified") and String(meta["last_modified"]).length() > 0:
-		headers.append("If-Modified-Since: " + String(meta["last_modified"]))
+	# Only send conditional validators if the local file exists; otherwise we risk a 304 with no file on disk.
+	if file_exists:
+		if meta.has("etag") and String(meta["etag"]).length() > 0:
+			headers.append("If-None-Match: " + String(meta["etag"]))
+		elif meta.has("last_modified") and String(meta["last_modified"]).length() > 0:
+			headers.append("If-Modified-Since: " + String(meta["last_modified"]))
 	if force_revalidate:
 		headers.append("Cache-Control: no-cache")
 		headers.append("Pragma: no-cache")
@@ -47,7 +49,7 @@ func update_from_response(save_path: String, url: String, response_headers: Pack
 		meta["etag"] = String(header_map["etag"])
 	if header_map.has("last-modified"):
 		meta["last_modified"] = String(header_map["last-modified"])
-
+	
 	var expiry: int = 0
 	var no_cache := false
 	if header_map.has("cache-control"):

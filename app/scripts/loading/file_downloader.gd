@@ -41,19 +41,19 @@ func download(url: String, timeout: float = 0, force_revalidate: bool = false) -
 	if has_request(save_path):
 		await request_completed(save_path)
 	
-	var was_cached := FileAccess.file_exists(save_path)
-	if was_cached and not force_revalidate and cache.is_fresh(save_path):
+	var file_exists := FileAccess.file_exists(save_path)
+	if file_exists and not force_revalidate and cache.is_fresh(save_path):
 		await get_tree().process_frame
 		return save_path
 	DirAccess.make_dir_recursive_absolute(save_path.get_base_dir())
 	
-	var headers: PackedStringArray = cache.build_conditional_headers(save_path, force_revalidate)
+	var headers: PackedStringArray = cache.build_conditional_headers(save_path, file_exists, force_revalidate)
 	
 	var result = await create_request(url, save_path, timeout, headers)
 	if result == 200 or result == 304:
 		return save_path
 	else:
-		if was_cached:
+		if file_exists:
 			return save_path
 		DirAccess.remove_absolute(save_path)
 		return ""
@@ -68,19 +68,19 @@ func download_shared_lib(url: String, gate_url: String, force_revalidate: bool =
 	if has_request(save_path):
 		await request_completed(save_path)
 	
-	var was_cached := FileAccess.file_exists(save_path)
-	if was_cached and not force_revalidate and cache.is_fresh(save_path):
+	var file_exists := FileAccess.file_exists(save_path)
+	if file_exists and not force_revalidate and cache.is_fresh(save_path):
 		await get_tree().process_frame
 		return dir
 	DirAccess.make_dir_recursive_absolute(dir)
 	
-	var headers: PackedStringArray = cache.build_conditional_headers(save_path, force_revalidate)
+	var headers: PackedStringArray = cache.build_conditional_headers(save_path, file_exists, force_revalidate)
 	
 	var result = await create_request(url, save_path, 0, headers)
 	if result == 200 or result == 304:
 		return dir
 	else:
-		if was_cached:
+		if file_exists:
 			return dir
 		DirAccess.remove_absolute(save_path)
 		return ""

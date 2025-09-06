@@ -5,10 +5,10 @@ signal progress(url: String, body_size: int, downloaded_bytes: int)
 
 class DownloadRequest:
 	var save_path: String
-	var http: HttpClientRequest
+	var http: HTTPRequest
 	var timer: Timer
 	
-	func _init(_save_path: String, _http: HttpClientRequest, _timer: Timer) -> void:
+	func _init(_save_path: String, _http: HTTPRequest, _timer: Timer) -> void:
 		save_path = _save_path
 		http = _http
 		timer = _timer
@@ -97,10 +97,11 @@ func request_completed(save_path: String) -> void:
 
 
 func create_request(url: String, save_path: String, timeout: float = 0, headers: PackedStringArray = PackedStringArray()) -> int:
-	var http = HttpClientRequest.new()
+	var http = HTTPRequest.new()
 	http.download_file = save_path
 	http.timeout = timeout
 	http.use_threads = true
+	add_child(http)
 	
 	var timer = create_progress_emitter(url, http)
 	var download_request = DownloadRequest.new(save_path, http, timer)
@@ -116,6 +117,7 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 	progress.emit(url, http.get_body_size(), http.get_downloaded_bytes())
 	timer.stop()
 	remove_child(timer)
+	remove_child(http)
 	download_requests.erase(download_request)
 	
 	if code == 200 or code == 304:
@@ -124,7 +126,7 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 	return code
 
 
-func create_progress_emitter(url: String, http: HttpClientRequest) -> Timer:
+func create_progress_emitter(url: String, http: HTTPRequest) -> Timer:
 	var timer = Timer.new()
 	add_child(timer)
 	
@@ -142,6 +144,7 @@ func stop_all() -> void:
 		
 		request.timer.stop()
 		remove_child(request.timer)
+		remove_child(request.http)
 		
 		DirAccess.remove_absolute(request.save_path)
 	

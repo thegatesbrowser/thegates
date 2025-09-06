@@ -11,15 +11,35 @@ var expected_size: int
 var downloaded_bytes: int
 var cancel_token: HttpConnectionPool.CancelToken
 
+var busy: bool = false
+
 
 func request(url: String, headers: PackedStringArray = PackedStringArray(), method: int = HTTPClient.METHOD_GET, data: String = "") -> Error:
+	if busy: return ERR_BUSY
+	
+	var parsed := HttpConnectionPool.parse_url(url)
+	if parsed.is_empty(): return ERR_INVALID_PARAMETER
+	
 	cancel_token = HttpConnectionPool.create_cancel_token()
+	var entry := await HttpConnectionPool.acquire_connection(parsed["host"], parsed["port"], parsed["tls"], timeout, cancel_token)
+	if entry == null: return ERR_CANT_CONNECT
+	
+	busy = true
 	perform(url, headers, method, data)
 	return OK
 
 
 func request_raw(url: String, headers: PackedStringArray = PackedStringArray(), method: int = HTTPClient.METHOD_GET, data: PackedByteArray = PackedByteArray()) -> Error:
+	if busy: return ERR_BUSY
+	
+	var parsed := HttpConnectionPool.parse_url(url)
+	if parsed.is_empty(): return ERR_INVALID_PARAMETER
+	
 	cancel_token = HttpConnectionPool.create_cancel_token()
+	var entry := await HttpConnectionPool.acquire_connection(parsed["host"], parsed["port"], parsed["tls"], timeout, cancel_token)
+	if entry == null: return ERR_CANT_CONNECT
+	
+	busy = true
 	perform_raw(url, headers, method, data)
 	return OK
 
@@ -65,6 +85,7 @@ func perform(url: String, headers: PackedStringArray, method: int, data: String)
 			f.flush()
 			f.close()
 		downloaded_bytes = res["body"].size()
+	busy = false
 	request_completed.emit(res.get("result", ERR_DOES_NOT_EXIST), res.get("code", 0), res.get("headers", PackedStringArray()), res.get("body", PackedByteArray()))
 
 
@@ -88,4 +109,5 @@ func perform_raw(url: String, headers: PackedStringArray, method: int, data: Pac
 			f.flush()
 			f.close()
 		downloaded_bytes = res["body"].size()
+	busy = false
 	request_completed.emit(res.get("result", ERR_DOES_NOT_EXIST), res.get("code", 0), res.get("headers", PackedStringArray()), res.get("body", PackedByteArray()))

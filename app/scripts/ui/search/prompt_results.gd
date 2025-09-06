@@ -50,7 +50,7 @@ func prompt_request(query: String) -> void:
 		else: Debug.logclr("Request prompt failed. Code " + str(code), Color.RED)
 	
 	var err = await Backend.request(url, callback, {}, HTTPClient.METHOD_GET, cancel_callbacks)
-	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request prompt", Color.RED)
+	if err != OK: Debug.logclr("Cannot send request prompt", Color.RED)
 
 
 func clear() -> void:

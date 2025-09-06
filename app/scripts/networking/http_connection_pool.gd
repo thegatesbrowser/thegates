@@ -4,6 +4,9 @@ extends Node
 const DEFAULT_TIMEOUT_SEC := 30.0
 const ERR_CANCELED := 10001
 
+class CancelToken:
+	var cancelled: bool = false
+
 class ConnectionEntry:
 	var client: HTTPClient
 	var host: String
@@ -11,7 +14,7 @@ class ConnectionEntry:
 	var use_tls: bool
 	var busy: bool
 	var last_used_ms: int
-
+	
 	func _init(_client: HTTPClient, _host: String, _port: int, _use_tls: bool) -> void:
 		client = _client
 		host = _host
@@ -20,12 +23,8 @@ class ConnectionEntry:
 		busy = false
 		last_used_ms = Time.get_ticks_msec()
 
-
 var pools: Dictionary = {} # key -> Array[ConnectionEntry]
 
-
-class CancelToken:
-	var cancelled: bool = false
 
 func create_cancel_token() -> CancelToken:
 	return CancelToken.new()
@@ -33,7 +32,7 @@ func create_cancel_token() -> CancelToken:
 
 func request(url: String, headers: PackedStringArray = PackedStringArray(), method: int = HTTPClient.METHOD_GET, body: String = "", timeout_sec: float = DEFAULT_TIMEOUT_SEC, token: CancelToken = null) -> Dictionary:
 	var parsed = parse_url(url)
-	if parsed == null:
+	if parsed == null or (parsed is Dictionary and parsed.is_empty()):
 		return {"result": ERR_INVALID_PARAMETER}
 	var path: String = parsed["path"]
 	var entry: ConnectionEntry = await acquire_connection(parsed["host"], parsed["port"], parsed["tls"], timeout_sec, token)
@@ -52,7 +51,7 @@ func request(url: String, headers: PackedStringArray = PackedStringArray(), meth
 
 func request_raw(url: String, headers: PackedStringArray = PackedStringArray(), method: int = HTTPClient.METHOD_GET, body: PackedByteArray = PackedByteArray(), timeout_sec: float = DEFAULT_TIMEOUT_SEC, token: CancelToken = null) -> Dictionary:
 	var parsed = parse_url(url)
-	if parsed == null:
+	if parsed == null or (parsed is Dictionary and parsed.is_empty()):
 		return {"result": ERR_INVALID_PARAMETER}
 	var path: String = parsed["path"]
 	var entry: ConnectionEntry = await acquire_connection(parsed["host"], parsed["port"], parsed["tls"], timeout_sec, token)
@@ -73,12 +72,14 @@ func acquire_connection(host: String, port: int, use_tls: bool, timeout_sec: flo
 	var key := pool_key(host, port, use_tls)
 	if not pools.has(key):
 		pools[key] = []
+	
 	# try find idle
 	for entry: ConnectionEntry in pools[key]:
 		if not entry.busy:
 			# Ensure still connected
 			if entry.client.get_status() == HTTPClient.STATUS_CONNECTED:
 				return entry
+	
 	# create new
 	var client := HTTPClient.new()
 	var tls_opts: TLSOptions = null
@@ -88,6 +89,7 @@ func acquire_connection(host: String, port: int, use_tls: bool, timeout_sec: flo
 	if err != OK:
 		return null
 	var start_ms := Time.get_ticks_msec()
+	
 	while true:
 		client.poll()
 		var status := client.get_status()
@@ -98,6 +100,7 @@ func acquire_connection(host: String, port: int, use_tls: bool, timeout_sec: flo
 		if float(Time.get_ticks_msec() - start_ms) / 1000.0 > timeout_sec:
 			return null
 		await get_tree().process_frame
+	
 	var entry := ConnectionEntry.new(client, host, port, use_tls)
 	pools[key].append(entry)
 	return entry

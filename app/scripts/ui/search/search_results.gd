@@ -48,7 +48,7 @@ func search_request(query: String) -> void:
 		else: Debug.logclr("Request search failed. Code " + str(code), Color.RED)
 	
 	var err = await Backend.request(url, callback, {}, HTTPClient.METHOD_GET, cancel_callbacks)
-	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request search", Color.RED)
+	if err != OK: Debug.logclr("Cannot send request search", Color.RED)
 
 
 func suggestions(suggs: Array) -> void:

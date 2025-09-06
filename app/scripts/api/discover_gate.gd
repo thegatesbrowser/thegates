@@ -27,4 +27,4 @@ func send_discover_gate(c_url: String, c_gate: ConfigGate) -> void:
 		if code != 200: Debug.logclr("Request send_discover_gate failed. Code " + str(code), Color.RED)
 	
 	var err = await Backend.request(url, callback, body, HTTPClient.METHOD_POST)
-	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request send_discover_gate", Color.RED)
+	if err != OK: Debug.logclr("Cannot send request send_discover_gate", Color.RED)

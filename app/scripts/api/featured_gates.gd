@@ -40,7 +40,7 @@ func featured_gates_request() -> void:
 		else: Debug.logclr("Featured gates request failed. Code " + str(code), Color.RED)
 	
 	var err = await Backend.request(api.featured_gates, callback)
-	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send featured gates request", Color.RED)
+	if err != OK: Debug.logclr("Cannot send featured gates request", Color.RED)
 
 
 func star_gate(gate_d: Dictionary) -> void:

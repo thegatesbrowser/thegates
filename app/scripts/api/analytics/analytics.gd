@@ -18,7 +18,7 @@ func send_event(body: Dictionary = {}) -> void:
 		if code != 200: Debug.logclr("Request send_event failed. Code " + str(code), Color.RED)
 	
 	var err = await Backend.request(url, callback, body, HTTPClient.METHOD_POST)
-	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request send_event", Color.RED)
+	if err != OK: Debug.logclr("Cannot send request send_event", Color.RED)
 
 
 func get_user_id() -> void:
@@ -34,7 +34,7 @@ func get_user_id() -> void:
 		else: Debug.logclr("Request create_user_id failed. Code " + str(code), Color.RED)
 	
 	var err = await Backend.request(url, callback)
-	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request create_user_id", Color.RED)
+	if err != OK: Debug.logclr("Cannot send request create_user_id", Color.RED)
 
 
 func get_app_version() -> void:

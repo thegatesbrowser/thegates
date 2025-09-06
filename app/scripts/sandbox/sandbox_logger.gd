@@ -127,4 +127,4 @@ func send_logs_request(data: PackedByteArray, length: int) -> void:
 		else: Debug.logclr("Sending logs failed. Code " + str(code), Color.RED)
 	
 	var err = await Backend.request_raw(url, callback, data, HTTPClient.METHOD_POST)
-	if err != HTTPRequest.RESULT_SUCCESS: Debug.logclr("Cannot send request send_logs", Color.RED)
+	if err != OK: Debug.logclr("Cannot send request send_logs", Color.RED)

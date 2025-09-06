@@ -1,6 +1,6 @@
 extends RefCounted
 
-class_name HttpCache
+class_name HTTPCache
 
 const CACHE_INDEX_FILE := "cache_index.json"
 

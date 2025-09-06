@@ -1,7 +1,7 @@
 extends Node
 #class_name Backend
 
-var cancel_http_func: Callable = func(http: HTTPRequest):
+var cancel_http_func: Callable = func(http: HTTPRequestPooled):
 	http.cancel_request()
 	if http.is_inside_tree():
 		remove_child(http)
@@ -14,7 +14,7 @@ func request(url: String, callbacks: Callable,
 	var data = JSON.stringify(body)
 	var headers = []
 	
-	var http = HTTPRequest.new()
+	var http = HTTPRequestPooled.new()
 	http.use_threads = true
 	add_child(http)
 	
@@ -37,7 +37,7 @@ func request_raw(url: String, callbacks: Callable,
 	
 	var headers = []
 	
-	var http = HTTPRequest.new()
+	var http = HTTPRequestPooled.new()
 	http.use_threads = true
 	add_child(http)
 	

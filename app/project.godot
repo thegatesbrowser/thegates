@@ -29,14 +29,14 @@ driver/enable_input=true
 
 [autoload]
 
-DataSaver="*res://scripts/data_saver.gd"
-FileDownloader="*res://scripts/loading/file_downloader.gd"
 Debug="*res://scripts/debug_log/debug.gd"
-AnalyticsEvents="*res://scripts/api/analytics/analytics_events.gd"
+DataSaver="*res://scripts/data_saver.gd"
+HTTPClientPool="*res://scripts/networking/http_client_pool.gd"
+FileDownloader="*res://scripts/loading/file_downloader.gd"
 Backend="*res://scripts/api/backend.gd"
-HttpConnectionPool="*res://scripts/networking/http_connection_pool.gd"
-Navigation="*res://scenes/autoloads/navigation.tscn"
+AnalyticsEvents="*res://scripts/api/analytics/analytics_events.gd"
 AfkManager="*res://scripts/afk_manager.gd"
+Navigation="*res://scenes/autoloads/navigation.tscn"
 Url="*res://scenes/autoloads/url.tscn"
 
 [debug]

@@ -1,5 +1,5 @@
 extends Node
-# class_name HttpConnectionPool
+# class_name HTTPClientPool
 
 const DEFAULT_TIMEOUT_SEC := 30.0
 const ERR_CANCELED := 10001

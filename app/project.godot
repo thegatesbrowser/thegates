@@ -31,11 +31,11 @@ driver/enable_input=true
 
 Debug="*res://scripts/debug_log/debug.gd"
 DataSaver="*res://scripts/data_saver.gd"
-HTTPClientPool="*res://scripts/networking/http_client_pool.gd"
 FileDownloader="*res://scripts/loading/file_downloader.gd"
 Backend="*res://scripts/api/backend.gd"
 AnalyticsEvents="*res://scripts/api/analytics/analytics_events.gd"
 AfkManager="*res://scripts/afk_manager.gd"
+HTTPClientPool="*res://scenes/autoloads/http_client_pool.tscn"
 Navigation="*res://scenes/autoloads/navigation.tscn"
 Url="*res://scenes/autoloads/url.tscn"
 

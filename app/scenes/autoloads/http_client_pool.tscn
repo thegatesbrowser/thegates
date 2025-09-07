@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1gmu0pvh6032"]
+
+[ext_resource type="Script" path="res://scripts/networking/http_client_pool.gd" id="1_ajfkt"]
+[ext_resource type="Script" path="res://scripts/networking/http_pool_maintainer.gd" id="2_g7qo3"]
+[ext_resource type="Script" path="res://scripts/networking/http_endpoint.gd" id="3_3e4dj"]
+
+[sub_resource type="Resource" id="Resource_lnpva"]
+script = ExtResource("3_3e4dj")
+host = "app.thegates.io"
+port = 443
+use_tls = true
+desired_connections = 3
+
+[sub_resource type="Resource" id="Resource_jp50e"]
+script = ExtResource("3_3e4dj")
+host = "thegates.io"
+port = 443
+use_tls = true
+desired_connections = 5
+
+[node name="HTTPClientPool" type="Node"]
+script = ExtResource("1_ajfkt")
+
+[node name="HTTPPoolMaintainer" type="Node" parent="."]
+script = ExtResource("2_g7qo3")
+endpoints = Array[ExtResource("3_3e4dj")]([SubResource("Resource_lnpva"), SubResource("Resource_jp50e")])

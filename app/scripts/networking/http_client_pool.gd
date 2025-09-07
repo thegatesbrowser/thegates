@@ -6,16 +6,11 @@ const KEEPALIVE_POLL_INTERVAL_SEC: float = 3.0
 const LOG_TAG: String = "[HTTPClientPool]"
 const DRAIN_TIMEOUT_MS: int = 2000
 
-var mutex: Mutex
-var available_by_key: Dictionary = {}
 var client_to_key: Dictionary = {}
-var poll_accumulator_sec: float = 0.0
+var available_by_key: Dictionary = {}
+var poll_accumulator_sec: float
 
-
-func _ready() -> void:
-	mutex = Mutex.new()
-	set_process(true)
-	print("%s initialized" % LOG_TAG)
+var mutex: Mutex = Mutex.new()
 
 
 func _process(delta: float) -> void:
@@ -23,7 +18,7 @@ func _process(delta: float) -> void:
 	if poll_accumulator_sec < KEEPALIVE_POLL_INTERVAL_SEC:
 		return
 	poll_accumulator_sec = 0.0
-
+	
 	# Poll only idle (available) clients to keep connections alive
 	mutex.lock()
 	var snapshot: Array = []
@@ -130,6 +125,32 @@ func drain_body(client: HTTPClient, timeout_ms: int) -> bool:
 			return false
 		await get_tree().process_frame
 	return client.get_status() == HTTPClient.STATUS_CONNECTED
+
+
+func get_connection_count(endpoint: HTTPEndpoint) -> int:
+	var key: String = make_key(endpoint.host, endpoint.port, endpoint.use_tls)
+	var available_count: int = (available_by_key.get(key, []) as Array).size()
+	var in_use_count: int = 0
+	mutex.lock()
+	for c in client_to_key.keys():
+		if String(client_to_key[c]) == key:
+			in_use_count += 1
+	mutex.unlock()
+	return available_count + in_use_count
+
+
+func spawn_idle_connection(endpoint: HTTPEndpoint) -> void:
+	var key: String = make_key(endpoint.host, endpoint.port, endpoint.use_tls)
+	var client: HTTPClient = HTTPClient.new()
+	print("%s spawn requested key=%s (host=%s port=%d tls=%s)" % [LOG_TAG, key, endpoint.host, endpoint.port, str(endpoint.use_tls)])
+	client.connect_to_host(endpoint.host, endpoint.port, TLSOptions.client() if endpoint.use_tls else null)
+	mutex.lock()
+	var list: Array = available_by_key.get(key, [])
+	list.append(client)
+	available_by_key[key] = list
+	client_to_key[client] = key
+	mutex.unlock()
+	print("%s spawn enqueued; key=%s available_count=%d" % [LOG_TAG, key, (available_by_key.get(key, []) as Array).size()])
 
 
 func make_key(host: String, port: int, use_tls: bool) -> String:

@@ -9,14 +9,14 @@ script = ExtResource("3_3e4dj")
 host = "app.thegates.io"
 port = 443
 use_tls = true
-desired_connections = 3
+desired_connections = 5
 
 [sub_resource type="Resource" id="Resource_jp50e"]
 script = ExtResource("3_3e4dj")
 host = "thegates.io"
 port = 443
 use_tls = true
-desired_connections = 5
+desired_connections = 7
 
 [node name="HTTPClientPool" type="Node"]
 script = ExtResource("1_ajfkt")

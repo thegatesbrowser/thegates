@@ -21,11 +21,13 @@ func _ready() -> void:
 
 func set_current_url(_url: String) -> void:
 	text = _url
-
+	
 	stop_typing()
 
 
 func _on_text_submitted(_url: String) -> void:
+	text = _url
+	
 	open_gate()
 
 

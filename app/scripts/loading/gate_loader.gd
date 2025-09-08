@@ -179,3 +179,5 @@ func on_progress(url: String, body_size: int, downloaded_bytes: int) -> void:
 func _exit_tree() -> void:
 	FileDownloader.progress.disconnect(on_progress)
 	FileDownloader.stop_all()
+
+# TODO: cleanup ai generated code

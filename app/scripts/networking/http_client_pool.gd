@@ -1,20 +1,22 @@
 extends Node
 #class_name HTTPClientPool
 
-const KEEPALIVE_POLL_INTERVAL_SEC: float = 3.0
+@export var keepalive_poll_interval_sec: float = 0.3
+@export var drain_timeout_ms: int = 2000
+
 const LOG_TAG: String = "[HTTPClientPool]"
-const DRAIN_TIMEOUT_MS: int = 2000
 
 var client_to_key: Dictionary = {}
 var available_by_key: Dictionary = {}
-var poll_accumulator_sec: float
-
 var mutex: Mutex = Mutex.new()
+
+var poll_accumulator_sec: float
+var keepalive_log_counter: int
 
 
 func _process(delta: float) -> void:
 	poll_accumulator_sec += delta
-	if poll_accumulator_sec < KEEPALIVE_POLL_INTERVAL_SEC: return
+	if poll_accumulator_sec < keepalive_poll_interval_sec: return
 	poll_accumulator_sec = 0.0
 	
 	# Poll only idle (available) clients to keep connections alive
@@ -26,11 +28,14 @@ func _process(delta: float) -> void:
 			snapshot.append(c)
 	mutex.unlock()
 	
-	print("%s keepalive poll; idle_clients=%d" % [LOG_TAG, snapshot.size()])
+	keepalive_log_counter += 1
+	if keepalive_log_counter % 16 == 0:
+		print("%s keepalive poll; idle_clients=%d" % [LOG_TAG, snapshot.size()])
+	
 	for client in snapshot:
 		if client is HTTPClient:
 			var status: int = client.get_status()
-			if status == HTTPClient.STATUS_CONNECTED or status == HTTPClient.STATUS_CONNECTING or status == HTTPClient.STATUS_RESOLVING:
+			if status in [HTTPClient.STATUS_CONNECTED, HTTPClient.STATUS_CONNECTING, HTTPClient.STATUS_RESOLVING]:
 				client.poll()
 			else:
 				mutex.lock()
@@ -44,14 +49,7 @@ func _process(delta: float) -> void:
 
 func acquire_client(_http: HTTPRequestPooled, host: String, port: int, use_tls: bool) -> HTTPClient:
 	var key: String = make_key(host, port, use_tls)
-	var client: HTTPClient = null
-	
-	mutex.lock()
-	var list: Array = available_by_key.get(key, [])
-	if list.size() > 0:
-		client = list.pop_back()
-		available_by_key[key] = list
-	mutex.unlock()
+	var client: HTTPClient = get_fresh_client_for_key(key)
 	
 	print("%s acquire requested key=%s (host=%s port=%d tls=%s); had_available=%s size_after_pop=%d" % [
 		LOG_TAG, key, host, port, str(use_tls), str(client != null), (available_by_key.get(key, []) as Array).size()
@@ -61,8 +59,10 @@ func acquire_client(_http: HTTPRequestPooled, host: String, port: int, use_tls: 
 		client = HTTPClient.new()
 		print("%s created new HTTPClient for key=%s" % [LOG_TAG, key])
 	
-	if client.get_status() == HTTPClient.STATUS_DISCONNECTED:
-		print("%s connecting to host=%s port=%d tls=%s timeout_ms=%d" % [LOG_TAG, host, port, str(use_tls), DRAIN_TIMEOUT_MS])
+	if client.get_status() in [HTTPClient.STATUS_DISCONNECTED, HTTPClient.STATUS_CANT_RESOLVE, \
+			HTTPClient.STATUS_CANT_CONNECT, HTTPClient.STATUS_CONNECTION_ERROR, HTTPClient.STATUS_TLS_HANDSHAKE_ERROR, \
+			HTTPClient.STATUS_BODY, HTTPClient.STATUS_REQUESTING]:
+		print("%s connecting to host=%s port=%d tls=%s" % [LOG_TAG, host, port, str(use_tls)])
 		client.connect_to_host(host, port, TLSOptions.client() if use_tls else null)
 	
 	mutex.lock()
@@ -90,12 +90,13 @@ func release_client(client: HTTPClient) -> void:
 				
 			HTTPClient.STATUS_BODY:
 				print("%s release: draining leftover body; status=%d" % [LOG_TAG, status])
-				var drained_ok: bool = await drain_body(client, DRAIN_TIMEOUT_MS)
+				var drained_ok: bool = await drain_body(client, drain_timeout_ms)
 				status = client.get_status()
 				print("%s release: drain result=%s status_now=%d" % [LOG_TAG, str(drained_ok), status])
 				continue
 				
-			HTTPClient.STATUS_DISCONNECTED, HTTPClient.STATUS_CANT_RESOLVE, HTTPClient.STATUS_CANT_CONNECT, HTTPClient.STATUS_CONNECTION_ERROR, HTTPClient.STATUS_TLS_HANDSHAKE_ERROR:
+			HTTPClient.STATUS_DISCONNECTED, HTTPClient.STATUS_CANT_RESOLVE, HTTPClient.STATUS_CANT_CONNECT, \
+			HTTPClient.STATUS_CONNECTION_ERROR, HTTPClient.STATUS_TLS_HANDSHAKE_ERROR:
 				mutex.lock()
 				client_to_key.erase(client)
 				mutex.unlock()
@@ -105,7 +106,7 @@ func release_client(client: HTTPClient) -> void:
 			_:
 				client.poll()
 		
-		if Time.get_ticks_msec() - start_time > DRAIN_TIMEOUT_MS:
+		if Time.get_ticks_msec() - start_time > drain_timeout_ms:
 			mutex.lock()
 			client_to_key.erase(client)
 			mutex.unlock()
@@ -127,15 +128,20 @@ func release_client(client: HTTPClient) -> void:
 func drain_body(client: HTTPClient, timeout_ms: int) -> bool:
 	var start_time: int = Time.get_ticks_msec()
 	var iterations: int = 0
+	
 	while client.get_status() == HTTPClient.STATUS_BODY:
 		client.poll()
 		var chunk: PackedByteArray = client.read_response_body_chunk()
+		
 		iterations += 1
 		if iterations % 32 == 0:
 			print("%s draining body... iter=%d chunk_size=%d" % [LOG_TAG, iterations, chunk.size()])
+		
 		if Time.get_ticks_msec() - start_time > timeout_ms:
 			return false
+		
 		await get_tree().process_frame
+	
 	return client.get_status() == HTTPClient.STATUS_CONNECTED
 
 
@@ -143,11 +149,13 @@ func get_connection_count(endpoint: HTTPEndpoint) -> int:
 	var key: String = make_key(endpoint.host, endpoint.port, endpoint.use_tls)
 	var available_count: int = (available_by_key.get(key, []) as Array).size()
 	var in_use_count: int = 0
+	
 	mutex.lock()
 	for c in client_to_key.keys():
 		if String(client_to_key[c]) == key:
 			in_use_count += 1
 	mutex.unlock()
+	
 	return available_count + in_use_count
 
 
@@ -167,3 +175,47 @@ func spawn_idle_connection(endpoint: HTTPEndpoint) -> void:
 
 func make_key(host: String, port: int, use_tls: bool) -> String:
 	return "%s:%d:%s" % [host, port, ("tls" if use_tls else "plain")]
+
+
+func get_fresh_client_for_key(key: String) -> HTTPClient:
+	# Select the most ready client for the given key. Prefer CONNECTED, then CONNECTING/RESOLVING, then others.
+	mutex.lock()
+	var list: Array = available_by_key.get(key, [])
+	if list.is_empty():
+		mutex.unlock()
+		return null
+	
+	# Build pairs of (score, client) and then pick the best.
+	var best_idx: int = -1
+	var best_score: int = -99999
+	for i in range(list.size()):
+		var c: HTTPClient = list[i]
+		var status: int = c.get_status()
+		var score: int = 0
+		match status:
+			HTTPClient.STATUS_CONNECTED:
+				score = 100
+			HTTPClient.STATUS_CONNECTING:
+				score = 50
+			HTTPClient.STATUS_RESOLVING:
+				score = 25
+			HTTPClient.STATUS_DISCONNECTED, HTTPClient.STATUS_CANT_RESOLVE, HTTPClient.STATUS_CANT_CONNECT, HTTPClient.STATUS_CONNECTION_ERROR, HTTPClient.STATUS_TLS_HANDSHAKE_ERROR:
+				score = -10
+			HTTPClient.STATUS_BODY, HTTPClient.STATUS_REQUESTING:
+				score = -100
+			_:
+				score = -50
+		if score > best_score:
+			best_score = score
+			best_idx = i
+	
+	var client: HTTPClient = null
+	if best_idx != -1:
+		client = list[best_idx]
+		list.remove_at(best_idx)
+		available_by_key[key] = list
+	mutex.unlock()
+	
+	return client
+
+# TODO: cleanup ai generated code

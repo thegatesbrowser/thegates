@@ -49,17 +49,40 @@ func update_from_response(save_path: String, url: String, response_headers: Pack
 		meta["etag"] = String(header_map["etag"])
 	if header_map.has("last-modified"):
 		meta["last_modified"] = String(header_map["last-modified"])
-	
+
+	# Compute caching policy:
+	# - Respect no-cache/must-revalidate
+	# - Prefer heuristic TTL = 10% of age since last modification
+	# - Cap heuristic TTL by Cache-Control max-age when provided
+	var now: int = int(Time.get_unix_time_from_system())
 	var expiry: int = 0
 	var no_cache := false
+	var max_age: int = 0
 	if header_map.has("cache-control"):
 		var cc := String(header_map["cache-control"]).to_lower()
 		var flags := parse_cache_flags(cc)
-		no_cache = bool(flags.get("no_cache", false)) or bool(flags.get("must_revalidate", false)) or int(flags.get("max_age", 0)) == 0
-		var max_age := int(flags.get("max_age", 0))
-		if max_age > 0 and not no_cache:
-			expiry = int(Time.get_unix_time_from_system()) + max_age
-	if expiry > 0:
+		no_cache = bool(flags.get("no_cache", false)) or bool(flags.get("must_revalidate", false))
+		max_age = int(flags.get("max_age", 0))
+
+	var last_modified_ts: int = 0
+	if header_map.has("last-modified"):
+		last_modified_ts = HTTPDateUtils.parse_http_date_rfc1123(String(header_map["last-modified"]))
+
+	var ttl_from_lm: int = 0
+	if last_modified_ts > 0 and now > last_modified_ts:
+		var age_seconds: int = now - last_modified_ts
+		ttl_from_lm = int(age_seconds / 10) # 10% heuristic
+
+	var ttl: int = 0
+	if ttl_from_lm > 0 and max_age > 0:
+		ttl = min(ttl_from_lm, max_age)
+	elif ttl_from_lm > 0:
+		ttl = ttl_from_lm
+	elif max_age > 0:
+		ttl = max_age
+
+	if not no_cache and ttl > 0:
+		expiry = now + ttl
 		meta["expiry"] = expiry
 	meta["no_cache"] = no_cache
 	cache_index[save_path] = meta
@@ -123,4 +146,4 @@ func parse_cache_flags(cache_control: String) -> Dictionary:
 				info["max_age"] = int(value)
 	return info
 
-
+# TODO: cleanup ai generated code

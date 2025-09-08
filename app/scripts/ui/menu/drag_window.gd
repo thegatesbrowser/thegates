@@ -65,3 +65,5 @@ func _gui_input(event: InputEvent) -> void:
 			DisplayServer.window_set_position(new_pos)
 			var usable: Rect2i = DisplayServer.screen_get_usable_rect(DisplayServer.window_get_current_screen())
 			pending_maximize_on_release = mouse_global.y <= usable.position.y + snap_top_threshold_px
+
+# TODO: cleanup ai generated code

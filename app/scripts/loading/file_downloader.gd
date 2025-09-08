@@ -176,6 +176,7 @@ func request_completed(save_path: String) -> void:
 
 
 func create_request(url: String, save_path: String, timeout: float = 0, headers: PackedStringArray = PackedStringArray(), session: DownloadSession = null) -> int:
+	Debug.logclr("Downloading " + url + (" [session=" + str(session.id) + "]" if session != null else ""), Color.DIM_GRAY)
 	var http = HTTPRequestPooled.new()
 	http.download_file = save_path
 	http.timeout = timeout
@@ -189,7 +190,6 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 		session.requests.append(download_request)
 	
 	var start_ms: int = Time.get_ticks_msec()
-	Debug.logclr("Downloading " + url + (" [session=" + str(session.id) + "]" if session != null else ""), Color.GRAY)
 	var err = http.request(url, headers)
 	if err != OK: return err
 	var completed = await http.request_completed
@@ -203,11 +203,11 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 	if session != null:
 		session.requests.erase(download_request)
 	
-	Debug.logclr("Downloaded " + url + " code=" + str(code) + " duration_ms=" + str(Time.get_ticks_msec() - start_ms), Color.DIM_GRAY)
 	if code == 200 or code == 304:
 		cache.update_from_response(save_path, url, response_headers, code)
 		recent_validated_ms_by_path[save_path] = Time.get_ticks_msec()
 	
+	Debug.logclr("Downloaded " + url + " code=" + str(code) + " duration_ms=" + str(Time.get_ticks_msec() - start_ms), Color.DIM_GRAY)
 	return code
 
 
@@ -243,3 +243,5 @@ func was_recently_validated(save_path: String) -> bool:
 
 func _exit_tree() -> void:
 	FileDownloader.stop_all()
+
+# TODO: cleanup ai generated code

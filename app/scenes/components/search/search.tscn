@@ -1,7 +1,7 @@
 [gd_scene load_steps=21 format=3 uid="uid://ctam0fxigbefk"]
 
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_ruyeb"]
-[ext_resource type="Script" path="res://scripts/ui/search.gd" id="2_7qvyv"]
+[ext_resource type="Script" path="res://scripts/ui/search/search.gd" id="2_7qvyv"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_685a6"]
 [ext_resource type="Script" path="res://scripts/ui/search/search_status.gd" id="4_cx4ue"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="4_oquth"]

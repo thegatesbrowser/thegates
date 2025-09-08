@@ -2,7 +2,7 @@ extends Node
 class_name HTTPPoolMaintainer
 
 @export var endpoints: Array[HTTPEndpoint]
-@export var check_interval_sec: float = 1.0
+@export var check_interval_sec: float = 0.3
 
 var accumulator_sec: float
 

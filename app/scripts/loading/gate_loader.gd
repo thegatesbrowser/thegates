@@ -10,6 +10,10 @@ var gate: Gate
 var prefetch_session
 var prefetch_cached_gate: ConfigGate
 
+# Active download session for this gate load
+var active_session
+var config_session
+
 # For parallel downloading
 var has_errors: bool
 var load_resources_done: bool
@@ -37,8 +41,9 @@ func load_gate(gate_url: String) -> void:
 	resource_pack_url = ""
 	resource_pack_started_loading = false
 	
-	# 1) Start config revalidation immediately (fire-and-forget)
-	var config_state = FileDownloader.call("download_with_status", config_url, connect_timeout, false)
+	# 1) Start config revalidation immediately (fire-and-forget) within its own session
+	config_session = FileDownloader.create_session()
+	var config_state = FileDownloader.call("download_with_status", config_url, connect_timeout, false, config_session)
 	
 	# 2) Start speculative prefetch using cached config (if available)
 	prefetch_session = null
@@ -79,7 +84,9 @@ func load_gate(gate_url: String) -> void:
 			FileDownloader.cancel_session(prefetch_session)
 			prefetch_session = null
 	
-	# 3) Download all in parallel. If prefetch was kept, these will await in-flight requests
+	# 3) Download all in parallel within a dedicated session.
+	#    If prefetch was kept, these will await in-flight requests based on save_path reuse.
+	active_session = FileDownloader.create_session()
 	load_icon(c_gate)
 	load_image(c_gate)
 	load_resources(c_gate)
@@ -115,20 +122,20 @@ func are_configs_equivalent(a: ConfigGate, b: ConfigGate) -> bool:
 
 
 func load_icon(c_gate: ConfigGate) -> void:
-	gate.icon = await FileDownloader.download(c_gate.icon_url)
+	gate.icon = await FileDownloader.download(c_gate.icon_url, 0.0, false, active_session)
 	gate_events.gate_icon_loaded_emit(gate)
 	# Finish without icon
 
 
 func load_image(c_gate: ConfigGate) -> void:
-	gate.image = await FileDownloader.download(c_gate.image_url)
+	gate.image = await FileDownloader.download(c_gate.image_url, 0.0, false, active_session)
 	gate_events.gate_image_loaded_emit(gate)
 	# Finish without image
 
 
 func load_resources(c_gate: ConfigGate) -> void:
 	resource_pack_url = c_gate.resource_pack_url
-	gate.resource_pack = await FileDownloader.download(c_gate.resource_pack_url)
+	gate.resource_pack = await FileDownloader.download(c_gate.resource_pack_url, 0.0, false, active_session)
 	if gate.resource_pack.is_empty(): return error(GateEvents.GateError.MISSING_PACK)
 	
 	load_resources_done = true
@@ -145,7 +152,7 @@ func load_shared_libs(c_gate: ConfigGate, config_url: String) -> void:
 
 
 func load_lib(config_url: String, lib: String) -> void:
-	gate.shared_libs_dir = await FileDownloader.download_shared_lib(lib, config_url)
+	gate.shared_libs_dir = await FileDownloader.download_shared_lib(lib, config_url, false, active_session)
 	if gate.shared_libs_dir.is_empty(): return error(GateEvents.GateError.MISSING_LIBS)
 	
 	shared_libs_done += 1
@@ -178,6 +185,8 @@ func on_progress(url: String, body_size: int, downloaded_bytes: int) -> void:
 
 func _exit_tree() -> void:
 	FileDownloader.progress.disconnect(on_progress)
-	FileDownloader.stop_all()
+	FileDownloader.cancel_session(prefetch_session)
+	FileDownloader.cancel_session(config_session)
+	FileDownloader.cancel_session(active_session)
 
 # TODO: cleanup ai generated code

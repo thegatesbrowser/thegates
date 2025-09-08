@@ -46,21 +46,18 @@ func create_session() -> DownloadSession:
 
 
 func cancel_session(session: DownloadSession) -> void:
-	if session == null:
-		return
-	# Make a copy to avoid modification during iteration
+	if session == null: return
+	
 	var to_cancel: Array[DownloadRequest] = session.requests.duplicate()
 	for request in to_cancel:
-		if request == null:
-			continue
-		# Cancel HTTP and cleanup
+		if request == null: continue
+		
 		request.http.cancel_request()
 		request.http.queue_free()
 		request.timer.queue_free()
-		# Remove partially downloaded temp file
-		if not request.tmp_save_path.is_empty():
-			DirAccess.remove_absolute(request.tmp_save_path)
-		# Detach from global and session lists
+		
+		DirAccess.remove_absolute(request.tmp_save_path)
+		
 		download_requests.erase(request)
 		session.requests.erase(request)
 
@@ -90,7 +87,7 @@ func download(url: String, timeout: float = 0, force_revalidate: bool = false, s
 	
 	var file_exists := FileAccess.file_exists(save_path)
 	if file_exists and not force_revalidate and (cache.is_fresh(save_path) or was_recently_validated(save_path)):
-		if cache.is_fresh(save_path) and not was_recently_validated(save_path):
+		if cache.is_fresh(save_path):
 			var mins_left: int = cache.get_minutes_until_expiry(save_path)
 			Debug.logclr("Cache fresh for URL: " + url + ", expires in ~" + str(mins_left) + " min", Color.DIM_GRAY)
 		await get_tree().process_frame
@@ -123,7 +120,7 @@ func download_with_status(url: String, timeout: float = 0, force_revalidate: boo
 	var file_exists: bool = FileAccess.file_exists(save_path)
 	# Early return if cache is fresh or was very recently validated and not forcing revalidation
 	if file_exists and not force_revalidate and (cache.is_fresh(save_path) or was_recently_validated(save_path)):
-		if cache.is_fresh(save_path) and not was_recently_validated(save_path):
+		if cache.is_fresh(save_path):
 			var mins_left: int = cache.get_minutes_until_expiry(save_path)
 			Debug.logclr("Cache fresh for URL: " + url + ", expires in ~" + str(mins_left) + " min", Color.DIM_GRAY)
 		await get_tree().process_frame
@@ -157,7 +154,7 @@ func download_shared_lib(url: String, gate_url: String, force_revalidate: bool =
 	
 	var file_exists := FileAccess.file_exists(save_path)
 	if file_exists and not force_revalidate and (cache.is_fresh(save_path) or was_recently_validated(save_path)):
-		if cache.is_fresh(save_path) and not was_recently_validated(save_path):
+		if cache.is_fresh(save_path):
 			var mins_left: int = cache.get_minutes_until_expiry(save_path)
 			Debug.logclr("Cache fresh for URL: " + url + ", expires in ~" + str(mins_left) + " min", Color.DIM_GRAY)
 		await get_tree().process_frame
@@ -205,6 +202,7 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 	var start_ms: int = Time.get_ticks_msec()
 	var err = http.request(url, headers)
 	if err != OK: return err
+	
 	var completed = await http.request_completed
 	var code: int = completed[1]
 	var response_headers: PackedStringArray = completed[2]
@@ -258,6 +256,6 @@ func was_recently_validated(save_path: String) -> bool:
 
 
 func _exit_tree() -> void:
-	FileDownloader.stop_all()
+	stop_all()
 
 # TODO: cleanup ai generated code

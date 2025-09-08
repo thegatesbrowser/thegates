@@ -6,7 +6,7 @@ var request_started_ms: int
 
 
 func _ready() -> void:
-	request_cancelled.connect(on_request_cancelled)
+	request_cancelled.connect(on_request_done)
 
 
 func _get_http_client(host: String, port: int, use_tls: bool) -> HTTPClient:
@@ -15,7 +15,7 @@ func _get_http_client(host: String, port: int, use_tls: bool) -> HTTPClient:
 	return http_client
 
 
-func on_request_cancelled() -> void:
+func on_request_done() -> void:
 	if http_client == null: return
 	HTTPClientPool.release_client(http_client)
 	http_client = null

@@ -10,7 +10,7 @@ class_name PromptResults
 var prompt_size: float
 var result_str: String
 var last_query: String
-var cancel_callbacks: Array = []
+var cancel_callbacks: Array[Callable] = []
 
 
 func _ready() -> void:

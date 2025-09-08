@@ -14,7 +14,6 @@ func _ready() -> void:
 	gate_events.open_gate.connect(set_current_url)
 	gate_events.search.connect(set_current_url)
 	gate_events.exit_gate.connect(set_current_url.bind(""))
-	focus_exited.connect(stop_typing)
 	
 	if focus_on_ready: grab_focus()
 
@@ -25,9 +24,7 @@ func set_current_url(_url: String) -> void:
 	stop_typing()
 
 
-func _on_text_submitted(_url: String) -> void:
-	text = _url
-	
+func _on_text_submitted(_url: String) -> void: # url might be empty
 	open_gate()
 
 
@@ -51,6 +48,9 @@ func _input(event: InputEvent) -> void:
 			and not prompt_panel.get_global_rect().has_point(event.position)
 			and not event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]):
 		
+		stop_typing()
+	
+	if event.is_action_pressed("ui_text_clear_carets_and_selection"):
 		stop_typing()
 	
 	if event.is_action_pressed("ui_text_caret_up"):

@@ -10,7 +10,7 @@ extends VBoxContainer
 @export var no_results_note: PackedScene
 
 var result_str: String = "{}"
-var cancel_callbacks: Array = []
+var cancel_callbacks: Array[Callable] = []
 
 
 func _ready() -> void:

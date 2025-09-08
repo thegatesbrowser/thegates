@@ -2,14 +2,14 @@ extends Node
 #class_name Backend
 
 var cancel_http_func: Callable = func(http: HTTPRequestPooled):
-	http.cancel_request()
-	if http.is_inside_tree():
-		remove_child(http)
+	if is_instance_valid(http):
+		http.cancel_request()
+		http.queue_free()
 
 
-func request(url: String, callbacks: Callable,
+func request(url: String, callback: Callable,
 		body: Dictionary = {}, method: int = HTTPClient.METHOD_GET,
-		cancel_callback: Array = []) -> Error:
+		cancel_callbacks: Array[Callable] = []) -> Error:
 	
 	var data = JSON.stringify(body)
 	var headers = []
@@ -18,22 +18,25 @@ func request(url: String, callbacks: Callable,
 	http.use_threads = true
 	add_child(http)
 	
+	var canceler: Callable = cancel_http_func.bind(http)
+	cancel_callbacks.append(canceler)
+	
 	var err = http.request(url, headers, method, data)
-	cancel_callback.append(cancel_http_func.bind(http))
 	var res = await http.request_completed
 	
 	# If calling object is freed without canceling request
-	if not callbacks.is_valid(): return ERR_INVALID_PARAMETER
+	if not callback.is_valid(): return ERR_INVALID_PARAMETER
 	
-	callbacks.call(res[0], res[1], res[2], res[3])
-	remove_child(http)
+	callback.call(res[0], res[1], res[2], res[3])
+	cancel_callbacks.erase(canceler)
+	http.queue_free()
 	
 	return err
 
 
-func request_raw(url: String, callbacks: Callable,
+func request_raw(url: String, callback: Callable,
 		data: PackedByteArray, method: int = HTTPClient.METHOD_GET,
-		cancel_callback: Array = []) -> Error:
+		cancel_callbacks: Array[Callable] = []) -> Error:
 	
 	var headers = []
 	
@@ -41,14 +44,17 @@ func request_raw(url: String, callbacks: Callable,
 	http.use_threads = true
 	add_child(http)
 	
+	var canceler: Callable = cancel_http_func.bind(http)
+	cancel_callbacks.append(canceler)
+	
 	var err = http.request_raw(url, headers, method, data)
-	cancel_callback.append(cancel_http_func.bind(http))
 	var res = await http.request_completed
 	
 	# If calling object is freed without canceling request
-	if not callbacks.is_valid(): return ERR_INVALID_PARAMETER
+	if not callback.is_valid(): return ERR_INVALID_PARAMETER
 	
-	callbacks.call(res[0], res[1], res[2], res[3])
-	remove_child(http)
+	callback.call(res[0], res[1], res[2], res[3])
+	cancel_callbacks.erase(canceler)
+	http.queue_free()
 	
 	return err

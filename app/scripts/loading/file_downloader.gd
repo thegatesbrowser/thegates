@@ -53,10 +53,8 @@ func cancel_session(session: DownloadSession) -> void:
 			continue
 		# Cancel HTTP and cleanup
 		request.http.cancel_request()
-		if request.timer != null:
-			request.timer.stop()
-			remove_child(request.timer)
-		remove_child(request.http)
+		request.http.queue_free()
+		request.timer.queue_free()
 		# Remove partially downloaded file
 		if not request.save_path.is_empty():
 			DirAccess.remove_absolute(request.save_path)
@@ -199,9 +197,8 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 	var response_headers: PackedStringArray = completed[2]
 	
 	progress.emit(url, http.get_body_size(), http.get_downloaded_bytes())
-	timer.stop()
-	remove_child(timer)
-	remove_child(http)
+	timer.queue_free()
+	http.queue_free()
 	download_requests.erase(download_request)
 	if session != null:
 		session.requests.erase(download_request)
@@ -229,10 +226,8 @@ func create_progress_emitter(url: String, http: HTTPRequestPooled) -> Timer:
 func stop_all() -> void:
 	for request in download_requests:
 		request.http.cancel_request()
-		
-		request.timer.stop()
-		remove_child(request.timer)
-		remove_child(request.http)
+		request.http.queue_free()
+		request.timer.queue_free()
 		
 		DirAccess.remove_absolute(request.save_path)
 	

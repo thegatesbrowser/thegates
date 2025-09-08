@@ -26,6 +26,26 @@ func is_fresh(save_path: String) -> bool:
 	return false
 
 
+func get_expiry_timestamp(save_path: String) -> int:
+	# Returns unix timestamp (UTC seconds) when the cached entry expires, or 0 if unknown.
+	var meta: Dictionary = cache_index.get(save_path, {})
+	if meta.has("expiry"):
+		return int(meta["expiry"])
+	return 0
+
+
+func get_minutes_until_expiry(save_path: String) -> int:
+	# Returns remaining time until expiry in whole minutes. 0 if expired/unknown.
+	var expiry: int = get_expiry_timestamp(save_path)
+	if expiry <= 0:
+		return 0
+	var now: int = int(Time.get_unix_time_from_system())
+	var remaining: int = expiry - now
+	if remaining <= 0:
+		return 0
+	return int(ceil(float(remaining) / 60.0))
+
+
 func build_conditional_headers(save_path: String, file_exists: bool, force_revalidate: bool) -> PackedStringArray:
 	var headers := PackedStringArray()
 	var meta: Dictionary = cache_index.get(save_path, {})
@@ -41,7 +61,7 @@ func build_conditional_headers(save_path: String, file_exists: bool, force_reval
 	return headers
 
 
-func update_from_response(save_path: String, url: String, response_headers: PackedStringArray, _status_code: int) -> void:
+func update_from_response(save_path: String, url: String, response_headers: PackedStringArray, status_code: int) -> void:
 	var header_map := headers_to_map(response_headers)
 	var meta: Dictionary = cache_index.get(save_path, {})
 	meta["url"] = url
@@ -64,9 +84,16 @@ func update_from_response(save_path: String, url: String, response_headers: Pack
 		no_cache = bool(flags.get("no_cache", false)) or bool(flags.get("must_revalidate", false))
 		max_age = int(flags.get("max_age", 0))
 
-	var last_modified_ts: int = 0
+	var last_modified_str := ""
 	if header_map.has("last-modified"):
-		last_modified_ts = HTTPDateUtils.parse_http_date_rfc1123(String(header_map["last-modified"]))
+		last_modified_str = String(header_map["last-modified"])
+	elif meta.has("last_modified"):
+		# 304 responses may omit Last-Modified; reuse stored value
+		last_modified_str = String(meta["last_modified"])
+
+	var last_modified_ts: int = 0
+	if not last_modified_str.is_empty():
+		last_modified_ts = HTTPDateUtils.parse_http_date_rfc1123(last_modified_str)
 
 	var ttl_from_lm: int = 0
 	if last_modified_ts > 0 and now > last_modified_ts:
@@ -80,6 +107,9 @@ func update_from_response(save_path: String, url: String, response_headers: Pack
 		ttl = ttl_from_lm
 	elif max_age > 0:
 		ttl = max_age
+	elif status_code == 304 and meta.has("expiry"):
+		# No explicit validators and no max-age on 304; keep current expiry to avoid immediate re-download loop
+		ttl = max(0, int(meta["expiry"]) - now)
 
 	if not no_cache and ttl > 0:
 		expiry = now + ttl

@@ -5,12 +5,14 @@ signal progress(url: String, body_size: int, downloaded_bytes: int)
 
 class DownloadRequest:
 	var save_path: String
+	var tmp_save_path: String
 	var http: HTTPRequestPooled
 	var timer: Timer
 	var session: DownloadSession
 	
-	func _init(_save_path: String, _http: HTTPRequestPooled, _timer: Timer, _session: DownloadSession = null) -> void:
+	func _init(_save_path: String, _tmp_save_path: String, _http: HTTPRequestPooled, _timer: Timer, _session: DownloadSession = null) -> void:
 		save_path = _save_path
+		tmp_save_path = _tmp_save_path
 		http = _http
 		timer = _timer
 		session = _session
@@ -55,9 +57,9 @@ func cancel_session(session: DownloadSession) -> void:
 		request.http.cancel_request()
 		request.http.queue_free()
 		request.timer.queue_free()
-		# Remove partially downloaded file
-		if not request.save_path.is_empty():
-			DirAccess.remove_absolute(request.save_path)
+		# Remove partially downloaded temp file
+		if not request.tmp_save_path.is_empty():
+			DirAccess.remove_absolute(request.tmp_save_path)
 		# Detach from global and session lists
 		download_requests.erase(request)
 		session.requests.erase(request)
@@ -88,6 +90,9 @@ func download(url: String, timeout: float = 0, force_revalidate: bool = false, s
 	
 	var file_exists := FileAccess.file_exists(save_path)
 	if file_exists and not force_revalidate and (cache.is_fresh(save_path) or was_recently_validated(save_path)):
+		if cache.is_fresh(save_path) and not was_recently_validated(save_path):
+			var mins_left: int = cache.get_minutes_until_expiry(save_path)
+			Debug.logclr("Cache fresh for URL: " + url + ", expires in ~" + str(mins_left) + " min", Color.DIM_GRAY)
 		await get_tree().process_frame
 		return save_path
 	DirAccess.make_dir_recursive_absolute(save_path.get_base_dir())
@@ -118,6 +123,9 @@ func download_with_status(url: String, timeout: float = 0, force_revalidate: boo
 	var file_exists: bool = FileAccess.file_exists(save_path)
 	# Early return if cache is fresh or was very recently validated and not forcing revalidation
 	if file_exists and not force_revalidate and (cache.is_fresh(save_path) or was_recently_validated(save_path)):
+		if cache.is_fresh(save_path) and not was_recently_validated(save_path):
+			var mins_left: int = cache.get_minutes_until_expiry(save_path)
+			Debug.logclr("Cache fresh for URL: " + url + ", expires in ~" + str(mins_left) + " min", Color.DIM_GRAY)
 		await get_tree().process_frame
 		result["path"] = save_path
 		result["status"] = 0
@@ -149,6 +157,9 @@ func download_shared_lib(url: String, gate_url: String, force_revalidate: bool =
 	
 	var file_exists := FileAccess.file_exists(save_path)
 	if file_exists and not force_revalidate and (cache.is_fresh(save_path) or was_recently_validated(save_path)):
+		if cache.is_fresh(save_path) and not was_recently_validated(save_path):
+			var mins_left: int = cache.get_minutes_until_expiry(save_path)
+			Debug.logclr("Cache fresh for URL: " + url + ", expires in ~" + str(mins_left) + " min", Color.DIM_GRAY)
 		await get_tree().process_frame
 		return dir
 	DirAccess.make_dir_recursive_absolute(dir)
@@ -178,13 +189,15 @@ func request_completed(save_path: String) -> void:
 func create_request(url: String, save_path: String, timeout: float = 0, headers: PackedStringArray = PackedStringArray(), session: DownloadSession = null) -> int:
 	Debug.logclr("Downloading " + url + (" [session=" + str(session.id) + "]" if session != null else ""), Color.DIM_GRAY)
 	var http = HTTPRequestPooled.new()
-	http.download_file = save_path
+	# Download into a temporary file first, and promote to final path only on success
+	var tmp_path: String = save_path + ".tmp"
+	http.download_file = tmp_path
 	http.timeout = timeout
 	http.use_threads = true
 	add_child(http)
 	
 	var timer = create_progress_emitter(url, http)
-	var download_request = DownloadRequest.new(save_path, http, timer, session)
+	var download_request = DownloadRequest.new(save_path, tmp_path, http, timer, session)
 	download_requests.append(download_request)
 	if session != null:
 		session.requests.append(download_request)
@@ -197,15 +210,18 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 	var response_headers: PackedStringArray = completed[2]
 	
 	progress.emit(url, http.get_body_size(), http.get_downloaded_bytes())
+	
 	timer.queue_free()
 	http.queue_free()
 	download_requests.erase(download_request)
-	if session != null:
-		session.requests.erase(download_request)
+	if session != null: session.requests.erase(download_request)
 	
 	if code == 200 or code == 304:
 		cache.update_from_response(save_path, url, response_headers, code)
 		recent_validated_ms_by_path[save_path] = Time.get_ticks_msec()
+	
+	if code == 200: DirAccess.rename_absolute(tmp_path, save_path)
+	DirAccess.remove_absolute(tmp_path)
 	
 	Debug.logclr("Downloaded " + url + " code=" + str(code) + " duration_ms=" + str(Time.get_ticks_msec() - start_ms), Color.DIM_GRAY)
 	return code
@@ -229,7 +245,7 @@ func stop_all() -> void:
 		request.http.queue_free()
 		request.timer.queue_free()
 		
-		DirAccess.remove_absolute(request.save_path)
+		DirAccess.remove_absolute(request.tmp_save_path)
 	
 	download_requests.clear()
 

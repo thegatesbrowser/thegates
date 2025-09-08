@@ -17,7 +17,7 @@ func get_string(section: String, key: String) -> String:
 	if config.has_section_key(section, key):
 		value = config.get_value(section, key)
 #		Debug.logr(key + "=" + value)
-	else: Debug.logclr("don't have section " + section + ", key " + key, Color.YELLOW)
+	else: Debug.logclr("don't have section " + section + ", key " + key, Color.GRAY)
 	return value
 
 
@@ -26,7 +26,7 @@ func get_value(section: String, key: String, default: Variant = null) -> Variant
 	if config.has_section_key(section, key):
 		value = config.get_value(section, key)
 #		Debug.logr(key + "=" + str(value))
-	else: Debug.logclr("don't have section " + section + ", key " + key, Color.YELLOW)
+	else: Debug.logclr("don't have section " + section + ", key " + key, Color.GRAY)
 	return value
 
 
@@ -39,7 +39,7 @@ func get_section_keys(section: String) -> PackedStringArray:
 	if config.has_section(section):
 		keys = config.get_section_keys(section)
 #		Debug.logr(keys)
-	else: Debug.logclr("don't have section " + section, Color.YELLOW)
+	else: Debug.logclr("don't have section " + section, Color.GRAY)
 	return keys
 
 

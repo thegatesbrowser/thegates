@@ -26,11 +26,12 @@ func _process(delta: float) -> void:
 		var list: Array = available_by_key[key]
 		for c in list:
 			snapshot.append(c)
+	var busy_count: int = client_to_key.size()
 	mutex.unlock()
 	
 	keepalive_log_counter += 1
 	if keepalive_log_counter % 16 == 0:
-		print("%s keepalive poll; idle_clients=%d" % [LOG_TAG, snapshot.size()])
+		print("%s keepalive poll; idle_clients=%d; busy_clients=%d" % [LOG_TAG, snapshot.size(), busy_count])
 	
 	for client in snapshot:
 		if client is HTTPClient:
@@ -79,6 +80,9 @@ func release_client(client: HTTPClient) -> void:
 	var key: String = client_to_key.get(client, "")
 	mutex.unlock()
 	if key == "": return
+	
+	# Poll once up-front to surface any late-arriving body before the loop
+	client.poll()
 	
 	var start_time: int = Time.get_ticks_msec()
 	while true:

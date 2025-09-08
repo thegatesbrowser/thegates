@@ -1,16 +1,20 @@
 extends VBoxContainer
 class_name PromptResults
 
-@export var gate_events: GateEvents
 @export var api: ApiSettings
+@export var gate_events: GateEvents
 @export var result_scene: PackedScene
-
 @export var panel: Control
+
+@export var request_interval_ms: int = 100
 
 var prompt_size: float
 var result_str: String
 var last_query: String
 var cancel_callbacks: Array[Callable] = []
+var debounce_timer: Timer
+var pending_query: String = ""
+var last_request_ms: int = 0
 
 
 func _ready() -> void:
@@ -20,9 +24,39 @@ func _ready() -> void:
 	
 	panel.visible = true
 	clear()
+	
+	# debounce timer to prevent too many requests
+	debounce_timer = Timer.new()
+	add_child(debounce_timer)
+	debounce_timer.timeout.connect(on_debounce_timeout)
 
 
 func _on_search_text_changed(query: String) -> void:
+	pending_query = query
+	if query.is_empty():
+		debounce_timer.stop()
+		clear()
+		return
+	
+	var now_ms: int = Time.get_ticks_msec()
+	var elapsed: int = now_ms - last_request_ms
+	
+	if elapsed >= request_interval_ms:
+		show_prompts(pending_query)
+		return
+	
+	var remaining: float = float(request_interval_ms - elapsed) / 1000.0
+	if debounce_timer.is_stopped():
+		debounce_timer.start(remaining)
+
+
+func on_debounce_timeout() -> void:
+	debounce_timer.stop()
+	show_prompts(pending_query)
+
+
+func show_prompts(query: String) -> void:
+	last_request_ms = Time.get_ticks_msec()
 	last_query = query
 	if query.is_empty(): clear(); return
 	
@@ -45,6 +79,7 @@ func _on_search_text_changed(query: String) -> void:
 func prompt_request(query: String) -> void:
 	var url = api.prompt + query.uri_encode()
 	var callback = func(_result, code, _headers, body):
+		if query != last_query: return
 		if code == 200:
 			result_str = body.get_string_from_utf8()
 		else: Debug.logclr("Request prompt failed. Code " + str(code), Color.RED)
@@ -59,8 +94,8 @@ func clear() -> void:
 	cancel_callbacks.clear()
 	
 	for child in get_children():
+		if child is not PromptResult: continue
 		child.queue_free()
-		remove_child(child)
 	change_size(0)
 
 

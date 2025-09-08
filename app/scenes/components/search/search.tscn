@@ -367,8 +367,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 script = ExtResource("15_oxssj")
-gate_events = ExtResource("3_685a6")
 api = ExtResource("16_rk35h")
+gate_events = ExtResource("3_685a6")
 result_scene = ExtResource("17_xggpn")
 panel = NodePath("..")
 

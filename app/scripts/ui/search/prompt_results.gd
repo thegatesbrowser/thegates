@@ -12,9 +12,10 @@ var prompt_size: float
 var result_str: String
 var last_query: String
 var cancel_callbacks: Array[Callable] = []
+
 var debounce_timer: Timer
-var pending_query: String = ""
-var last_request_ms: int = 0
+var last_request_ms: int
+var pending_query: String
 
 
 func _ready() -> void:
@@ -27,8 +28,8 @@ func _ready() -> void:
 	
 	# debounce timer to prevent too many requests
 	debounce_timer = Timer.new()
-	add_child(debounce_timer)
 	debounce_timer.timeout.connect(on_debounce_timeout)
+	add_child(debounce_timer)
 
 
 func _on_search_text_changed(query: String) -> void:

@@ -29,7 +29,7 @@ func _ready() -> void:
 	# debounce timer to prevent too many requests
 	debounce_timer = Timer.new()
 	debounce_timer.timeout.connect(on_debounce_timeout)
-	add_child(debounce_timer)
+	get_parent().call_deferred("add_child", debounce_timer) # children are only PromptResults
 
 
 func _on_search_text_changed(query: String) -> void:
@@ -95,7 +95,6 @@ func clear() -> void:
 	cancel_callbacks.clear()
 	
 	for child in get_children():
-		if child is not PromptResult: continue
 		child.queue_free()
 	change_size(0)
 

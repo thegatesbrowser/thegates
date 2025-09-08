@@ -79,8 +79,8 @@ func release_client(client: HTTPClient) -> void:
 		status = client.get_status()
 		print("%s release: drain result=%s status_now=%d" % [LOG_TAG, str(drained_ok), status])
 
-	if status == HTTPClient.STATUS_DISCONNECTED or status == HTTPClient.STATUS_CONNECTION_ERROR or status == HTTPClient.STATUS_TLS_HANDSHAKE_ERROR or status == HTTPClient.STATUS_REQUESTING:
-		# Drop broken client
+	if status == HTTPClient.STATUS_DISCONNECTED or status == HTTPClient.STATUS_CONNECTION_ERROR or status == HTTPClient.STATUS_TLS_HANDSHAKE_ERROR:
+		# Drop immediately on clear error states
 		mutex.lock()
 		client_to_key.erase(client)
 		mutex.unlock()
@@ -88,12 +88,30 @@ func release_client(client: HTTPClient) -> void:
 		return
 
 	if status != HTTPClient.STATUS_CONNECTED:
-		# Not safe to reuse; drop it
-		mutex.lock()
-		client_to_key.erase(client)
-		mutex.unlock()
-		print("%s release dropped non-idle client; status=%d" % [LOG_TAG, status])
-		return
+		# Await until the client settles to CONNECTED (idle) or an error occurs
+		print("%s release awaiting idle; initial_status=%d" % [LOG_TAG, status])
+		var start_time: int = Time.get_ticks_msec()
+		while true:
+			status = client.get_status()
+			if status == HTTPClient.STATUS_CONNECTED:
+				break
+			if status == HTTPClient.STATUS_DISCONNECTED or status == HTTPClient.STATUS_CANT_RESOLVE or status == HTTPClient.STATUS_CANT_CONNECT or status == HTTPClient.STATUS_CONNECTION_ERROR or status == HTTPClient.STATUS_TLS_HANDSHAKE_ERROR:
+				mutex.lock()
+				client_to_key.erase(client)
+				mutex.unlock()
+				print("%s release dropped during await; status=%d" % [LOG_TAG, status])
+				return
+			client.poll()
+			if status == HTTPClient.STATUS_BODY:
+				client.read_response_body_chunk()
+			if Time.get_ticks_msec() - start_time > DRAIN_TIMEOUT_MS:
+				# Timeout waiting for a clean idle connection; drop it
+				mutex.lock()
+				client_to_key.erase(client)
+				mutex.unlock()
+				print("%s release timeout awaiting idle; dropped; last_status=%d" % [LOG_TAG, status])
+				return
+			await get_tree().process_frame
 
 	mutex.lock()
 	var key: String = client_to_key.get(client, "")

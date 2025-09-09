@@ -3,6 +3,7 @@ extends RefCounted
 class_name HTTPCache
 
 const CACHE_INDEX_FILE := "cache_index.json"
+const HEURISTIC_MIN_TTL_SECS := 3
 
 var download_folder: String
 var cache_index_path: String
@@ -72,7 +73,7 @@ func update_from_response(save_path: String, url: String, response_headers: Pack
 
 	# Compute caching policy:
 	# - Respect no-cache/must-revalidate
-	# - Prefer heuristic TTL = 10% of age since last modification
+	# - Prefer heuristic TTL = 10% of age since last modification (based on server Date when available)
 	# - Cap heuristic TTL by Cache-Control max-age when provided
 	var now: int = int(Time.get_unix_time_from_system())
 	var expiry: int = 0
@@ -83,6 +84,12 @@ func update_from_response(save_path: String, url: String, response_headers: Pack
 		var flags := parse_cache_flags(cc)
 		no_cache = bool(flags.get("no_cache", false)) or bool(flags.get("must_revalidate", false))
 		max_age = int(flags.get("max_age", 0))
+
+	# Use server Date header to avoid client clock skew when computing age
+	var server_date_ts: int = 0
+	if header_map.has("date"):
+		server_date_ts = HTTPDateUtils.parse_http_date_rfc1123(String(header_map["date"]))
+	var now_ref: int = server_date_ts if server_date_ts > 0 else now
 
 	var last_modified_str := ""
 	if header_map.has("last-modified"):
@@ -96,9 +103,13 @@ func update_from_response(save_path: String, url: String, response_headers: Pack
 		last_modified_ts = HTTPDateUtils.parse_http_date_rfc1123(last_modified_str)
 
 	var ttl_from_lm: int = 0
-	if last_modified_ts > 0 and now > last_modified_ts:
-		var age_seconds: int = now - last_modified_ts
-		ttl_from_lm = int(age_seconds / 10) # 10% heuristic
+	if last_modified_ts > 0:
+		var age_seconds: int = now_ref - last_modified_ts
+		if age_seconds > 0:
+			ttl_from_lm = int(age_seconds / 10) # 10% heuristic
+		else:
+			# If server time indicates Last-Modified is in the future or equal, use a tiny heuristic TTL
+			ttl_from_lm = HEURISTIC_MIN_TTL_SECS
 
 	var ttl: int = 0
 	if ttl_from_lm > 0 and max_age > 0:

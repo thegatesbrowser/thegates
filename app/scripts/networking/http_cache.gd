@@ -103,13 +103,18 @@ func update_from_response(save_path: String, url: String, response_headers: Pack
 		last_modified_ts = HTTPDateUtils.parse_http_date_rfc1123(last_modified_str)
 
 	var ttl_from_lm: int = 0
+	var age_seconds: int = 0
 	if last_modified_ts > 0:
-		var age_seconds: int = now_ref - last_modified_ts
+		age_seconds = now_ref - last_modified_ts
 		if age_seconds > 0:
-			ttl_from_lm = int(age_seconds / 10) # 10% heuristic
+			# 10% heuristic with minimum floor to avoid truncation to 0 for fresh updates
+			ttl_from_lm = max(int(ceil(float(age_seconds) / 10.0)), HEURISTIC_MIN_TTL_SECS)
 		else:
 			# If server time indicates Last-Modified is in the future or equal, use a tiny heuristic TTL
 			ttl_from_lm = HEURISTIC_MIN_TTL_SECS
+	elif header_map.has("last-modified"):
+		# LM was present but failed to parse -> still use a tiny heuristic TTL to avoid inflating to max-age
+		ttl_from_lm = HEURISTIC_MIN_TTL_SECS
 
 	var ttl: int = 0
 	if ttl_from_lm > 0 and max_age > 0:
@@ -121,6 +126,17 @@ func update_from_response(save_path: String, url: String, response_headers: Pack
 	elif status_code == 304 and meta.has("expiry"):
 		# No explicit validators and no max-age on 304; keep current expiry to avoid immediate re-download loop
 		ttl = max(0, int(meta["expiry"]) - now)
+
+	# Debug: log cache decision for visibility
+	print("[HTTPCache] url=", url,
+		" status=", status_code,
+		" lm=", last_modified_str,
+		" server_date=", (String(header_map.get("date", "")) if header_map.has("date") else ""),
+		" age_s=", age_seconds,
+		" ttl_heuristic=", ttl_from_lm,
+		" max_age=", max_age,
+		" ttl_final=", ttl,
+		" no_cache=", str(no_cache))
 
 	if not no_cache and ttl > 0:
 		expiry = now + ttl

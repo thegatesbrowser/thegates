@@ -1,17 +1,17 @@
 [gd_scene load_steps=29 format=3 uid="uid://5btb7nvgmfhl"]
 
-[ext_resource type="Script" path="res://scripts/ui/menu/menu_navigation.gd" id="1_7anvm"]
-[ext_resource type="Script" path="res://scripts/ui/menu/menu.gd" id="1_o6vga"]
+[ext_resource type="Script" uid="uid://4ainpxjyto5d" path="res://scripts/ui/menu/menu_navigation.gd" id="1_7anvm"]
+[ext_resource type="Script" uid="uid://darfa6nm5toj8" path="res://scripts/ui/menu/menu.gd" id="1_o6vga"]
 [ext_resource type="PackedScene" uid="uid://dkfy3rcfbxqc6" path="res://scenes/components/tab.tscn" id="3_atekt"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_m632k"]
-[ext_resource type="Script" path="res://scripts/ui/menu/window_drag.gd" id="3_o4p76"]
+[ext_resource type="Script" uid="uid://brfe86qp4qxjm" path="res://scripts/ui/menu/window_drag.gd" id="3_o4p76"]
 [ext_resource type="Texture2D" uid="uid://c80732g67qmvx" path="res://assets/textures/plus.svg" id="4_rdyyc"]
 [ext_resource type="PackedScene" uid="uid://ctam0fxigbefk" path="res://scenes/components/search/search.tscn" id="5_li2do"]
 [ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/round_button.tscn" id="6_gxcmo"]
 [ext_resource type="Texture2D" uid="uid://d1ehc1xs5hwyn" path="res://assets/textures/minimize.svg" id="7_ab04l"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="8_8dnbq"]
 [ext_resource type="Texture2D" uid="uid://csjqc48oqb0kc" path="res://assets/textures/maximaze.svg" id="8_yoyw7"]
-[ext_resource type="Script" path="res://scripts/ui/menu/window_buttons.gd" id="10_0d0if"]
+[ext_resource type="Script" uid="uid://dx5y1ggt4idkm" path="res://scripts/ui/menu/window_buttons.gd" id="10_0d0if"]
 [ext_resource type="Texture2D" uid="uid://c4dxov80fjvaq" path="res://assets/textures/arrow_left.svg" id="12_5rx3j"]
 [ext_resource type="Texture2D" uid="uid://bo1pkhkdscf6v" path="res://assets/textures/arrow_right.svg" id="12_nihkw"]
 [ext_resource type="Texture2D" uid="uid://dapysvexbecnd" path="res://assets/textures/reload.svg" id="13_hwfo2"]
@@ -19,16 +19,16 @@
 [ext_resource type="Texture2D" uid="uid://mgtj316adcja" path="res://assets/textures/home.svg" id="14_gbcfo"]
 [ext_resource type="Texture2D" uid="uid://casdqby073onf" path="res://assets/textures/flag.svg" id="17_b36tf"]
 [ext_resource type="Resource" uid="uid://bfg1kjboaitqt" path="res://resources/app_events.res" id="18_xgfab"]
-[ext_resource type="Script" path="res://scripts/ui/menu/help_button.gd" id="19_h4fgg"]
+[ext_resource type="Script" uid="uid://cr4ba7mu31ekk" path="res://scripts/ui/menu/help_button.gd" id="19_h4fgg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pveoh"]
 bg_color = Color(0.0980392, 0.101961, 0.133333, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qg3ls"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cjjfu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eo1gx"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cjjfu"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qg3ls"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_4myyc"]
 content_margin_top = 0.0
@@ -37,12 +37,12 @@ color = Color(0.12549, 0.133333, 0.172549, 1)
 grow_begin = 0.0
 grow_end = 0.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_am55m"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ogb6s"]
 content_margin_left = 6.0
 content_margin_top = 6.0
 content_margin_right = 6.0
 content_margin_bottom = 6.0
-bg_color = Color(0.423529, 0.235294, 0.933333, 1)
+bg_color = Color(0.32549, 0.14902, 0.8, 1)
 corner_radius_top_left = 13
 corner_radius_top_right = 13
 corner_radius_bottom_right = 13
@@ -63,12 +63,12 @@ corner_radius_bottom_left = 13
 shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
 shadow_size = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ogb6s"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_am55m"]
 content_margin_left = 6.0
 content_margin_top = 6.0
 content_margin_right = 6.0
 content_margin_bottom = 6.0
-bg_color = Color(0.32549, 0.14902, 0.8, 1)
+bg_color = Color(0.423529, 0.235294, 0.933333, 1)
 corner_radius_top_left = 13
 corner_radius_top_right = 13
 corner_radius_bottom_right = 13
@@ -148,9 +148,9 @@ custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_colors/icon_normal_color = Color(0.831373, 0.831373, 0.831373, 1)
-theme_override_styles/focus = SubResource("StyleBoxEmpty_qg3ls")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_eo1gx")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_cjjfu")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_eo1gx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qg3ls")
 disabled = true
 icon = ExtResource("4_rdyyc")
 expand_icon = true
@@ -246,9 +246,9 @@ alignment = 2
 
 [node name="Help" parent="VBoxContainer/Top/MarginContainer/VBoxContainer/Navigation/MenuNavigation/HBoxContainer2" instance=ExtResource("6_gxcmo")]
 layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_am55m")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_e0ud7")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ogb6s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e0ud7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_am55m")
 icon = ExtResource("17_b36tf")
 script = ExtResource("19_h4fgg")
 url = "https://forms.gle/1NmJeCQnQh7Yc1KP8"

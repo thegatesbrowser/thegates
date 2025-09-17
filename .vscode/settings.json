@@ -1,0 +1,9 @@
+{
+    "dotnet.defaultSolution": "disable",
+    "godotTools.editorPath.godot4": "godot/bin/godot.linuxbsd.editor.dev.x86_64.llvm",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.trimAutoWhitespace": false,
+    "files.exclude": {
+        "**/*.uid": true
+    }
+}

@@ -59,7 +59,7 @@ code = "shader_type canvas_item;
 render_mode blend_disabled;
 
 uniform vec2 UVScale;
-uniform float BlurAmount : hint_range(0, 5, 0.10000000149012);
+uniform float BlurAmount : hint_range(0.0, 5.0, 0.10000000149012);
 uniform sampler2D ScreenTexture : filter_linear_mipmap, hint_screen_texture;
 uniform sampler2D Vignette : filter_linear_mipmap, repeat_enable;
 uniform vec4 VignetteColor : source_color;

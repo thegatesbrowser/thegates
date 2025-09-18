@@ -90,7 +90,6 @@ func download(url: String, timeout: float = 0, force_revalidate: bool = false, s
 		if cache.is_fresh(save_path):
 			var mins_left: int = cache.get_minutes_until_expiry(save_path)
 			Debug.logclr("Cache fresh for URL: " + url + ", expires in ~" + str(mins_left) + " min", Color.DIM_GRAY)
-		await get_tree().process_frame
 		return save_path
 	DirAccess.make_dir_recursive_absolute(save_path.get_base_dir())
 	
@@ -123,7 +122,6 @@ func download_with_status(url: String, timeout: float = 0, force_revalidate: boo
 		if cache.is_fresh(save_path):
 			var mins_left: int = cache.get_minutes_until_expiry(save_path)
 			Debug.logclr("Cache fresh for URL: " + url + ", expires in ~" + str(mins_left) + " min", Color.DIM_GRAY)
-		await get_tree().process_frame
 		result["path"] = save_path
 		result["status"] = 0
 		return result
@@ -157,7 +155,6 @@ func download_shared_lib(url: String, gate_url: String, force_revalidate: bool =
 		if cache.is_fresh(save_path):
 			var mins_left: int = cache.get_minutes_until_expiry(save_path)
 			Debug.logclr("Cache fresh for URL: " + url + ", expires in ~" + str(mins_left) + " min", Color.DIM_GRAY)
-		await get_tree().process_frame
 		return dir
 	DirAccess.make_dir_recursive_absolute(dir)
 	

@@ -8,8 +8,8 @@ var silent_commands = ["heartbeat"]
 
 
 func _ready() -> void:
-	gate_events.gate_entered.connect(socket_bind)
 	execute_function = _execute_function
+	gate_events.call_or_subscribe(GateEvents.Early.ENTERED, socket_bind)
 
 
 func _physics_process(_delta: float) -> void:

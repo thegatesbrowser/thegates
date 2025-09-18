@@ -59,6 +59,7 @@ func start_reading_pipes() -> void:
 
 
 func read_stdio() -> void:
+	if not is_instance_valid(pipe): return
 	var stdio = pipe["stdio"] as FileAccess
 	var buffer: PackedByteArray
 	
@@ -71,6 +72,7 @@ func read_stdio() -> void:
 
 
 func read_stderr() -> void:
+	if not is_instance_valid(pipe): return
 	var stderr = pipe["stderr"] as FileAccess
 	var buffer: PackedByteArray
 	
@@ -88,8 +90,8 @@ func store_buffer(buffer: PackedByteArray) -> void:
 
 
 func cleanup() -> void:
-	if pipe.has("stdio"): pipe["stdio"].close()
-	if pipe.has("stderr"): pipe["stderr"].close()
+	if is_instance_valid(pipe) and pipe.has("stdio"): pipe["stdio"].close()
+	if is_instance_valid(pipe) and pipe.has("stderr"): pipe["stderr"].close()
 	if thread1 != null and thread1.is_started(): thread1.wait_to_finish()
 	if thread2 != null and thread2.is_started(): thread2.wait_to_finish()
 

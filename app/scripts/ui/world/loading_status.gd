@@ -32,10 +32,11 @@ var first_zero_ticks: int
 
 
 func _ready() -> void:
-	gate_events.gate_info_loaded.connect(on_gate_info_loaded)
-	gate_events.gate_entered.connect(on_gate_entered)
-	gate_events.gate_error.connect(on_gate_error)
 	set_progress("Connecting...", ProgressStatus.CONNECTING)
+	
+	gate_events.call_or_subscribe(GateEvents.Early.INFO_LOADED, on_gate_info_loaded)
+	gate_events.call_or_subscribe(GateEvents.Early.ENTERED, on_gate_entered)
+	gate_events.gate_error.connect(on_gate_error)
 
 
 func on_gate_info_loaded(_gate: Gate) -> void:
@@ -110,7 +111,8 @@ func should_write_current_speed(bytes_sec: int) -> bool:
 
 
 func on_gate_entered() -> void:
-	gate_events.download_progress.disconnect(show_progress)
+	if gate_events.download_progress.is_connected(show_progress):
+		gate_events.download_progress.disconnect(show_progress)
 	set_progress("Starting the gate...", ProgressStatus.STARTING)
 
 

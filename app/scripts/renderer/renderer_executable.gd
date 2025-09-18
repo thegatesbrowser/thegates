@@ -31,13 +31,17 @@ func download(godot_version: String, active_session: FileDownloader.DownloadSess
 		return renderer_path
 	Debug.logclr("Renderer executable not found at " + renderer_path, Color.YELLOW)
 	
-	var url = api_settings.download_renderer % [godot_version, Platform.get_platform_string()]
+	var url = get_download_url(godot_version)
 	var renderer_zip = await FileDownloader.download(url, 0.0, false, active_session)
 	
 	if renderer_zip.is_empty(): Debug.logclr("Failed to download renderer zip", Color.RED); return ""
-	if not UnZip.extract_file(renderer_zip, renderer_path): return ""
+	if not UnZip.extract_file(renderer_zip, renderer_path, true): return ""
 	
 	return renderer_path
+
+
+func get_download_url(godot_version: String) -> String:
+	return api_settings.download_renderer % [Platform.get_platform_string(), godot_version]
 
 
 func get_renderer_path(godot_version: String) -> String:

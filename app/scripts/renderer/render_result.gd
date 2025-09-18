@@ -5,18 +5,23 @@ class_name RenderResult
 @export var command_events: CommandEvents
 @export var ui_events: UiEvents
 
-@onready var width: int = int(size.x * DisplayServer.screen_get_scale())
-@onready var height: int = int(size.y * DisplayServer.screen_get_scale())
+var width: int
+var height: int
 
 var ext_texure: TGExternalTexture
 var texture_rid: RID
 
 
+func _enter_tree() -> void:
+	width = int(size.x * DisplayServer.screen_get_scale())
+	height = int(size.y * DisplayServer.screen_get_scale())
+
+
 func _ready() -> void:
-	gate_events.gate_entered.connect(create_external_texture)
 	command_events.send_filehandle.connect(send_filehandle)
 	command_events.ext_texture_format.connect(set_texture_format)
 	gate_events.first_frame.connect(show_render)
+	gate_events.call_or_subscribe(GateEvents.Early.ENTERED, create_external_texture)
 	
 	# Create empty texture with window size
 	var image = Image.create(width, height, false, Image.FORMAT_RGBA8)

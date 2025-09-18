@@ -7,10 +7,11 @@ extends Control
 
 
 func _ready() -> void:
-	gate_events.gate_image_loaded.connect(show_thumbnail)
+	vignette_blur.hide()
+	
+	gate_events.call_or_subscribe(GateEvents.Early.IMAGE_LOADED, show_thumbnail)
 	gate_events.first_frame.connect(on_first_frame)
 	ui_events.ui_mode_changed.connect(on_ui_mode_changed)
-	vignette_blur.hide()
 
 
 func show_thumbnail(gate: Gate) -> void:

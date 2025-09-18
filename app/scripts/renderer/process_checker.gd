@@ -22,9 +22,9 @@ func _ready() -> void:
 	bootup_timer.timeout.connect(bootup_check)
 	heartbeat_timer.timeout.connect(heartbeat_check)
 	
-	gate_events.gate_entered.connect(start_bootup_check)
 	gate_events.first_frame.connect(start_heartbeat_timer)
 	command_events.heartbeat.connect(restart_heartbeat_timer)
+	gate_events.call_or_subscribe(GateEvents.Early.ENTERED, start_bootup_check)
 
 
 func start_bootup_check() -> void:

@@ -36,4 +36,4 @@ var send_logs: String :
 	get: return url + "/api/send_logs?url="
 
 var download_renderer: String :
-	get: return url + "/api/download_renderer?godot_version=%s&platform=%s"
+	get: return url + "/api/download_renderer/%s-%s" # platform-godot_version

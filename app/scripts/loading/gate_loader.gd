@@ -22,9 +22,11 @@ var renderer_ready: bool
 var shared_libs_count: int = -1
 var shared_libs_done: int
 
-# Show progress when resource pack is started loading
+# Show progress when resource pack or renderer is started loading
 var resource_pack_url: String
 var resource_pack_started_loading: bool
+var renderer_url: String
+var renderer_started_loading: bool
 
 
 func _ready() -> void:
@@ -153,6 +155,7 @@ func load_lib(config_url: String, lib: String) -> void:
 
 
 func load_renderer(c_gate: ConfigGate) -> void:
+	renderer_url = renderer.get_download_url(c_gate.godot_version)
 	gate.renderer = await renderer.download(c_gate.godot_version, active_session)
 	if gate.renderer.is_empty(): return error(GateEvents.GateError.MISSING_RENDERER)
 	
@@ -179,7 +182,10 @@ func on_progress(url: String, body_size: int, downloaded_bytes: int) -> void:
 	if url == resource_pack_url and not resource_pack_started_loading and body_size > 0:
 		resource_pack_started_loading = true
 	
-	if not resource_pack_started_loading:
+	if url == renderer_url and not renderer_started_loading and body_size > 0:
+		renderer_started_loading = true
+	
+	if not resource_pack_started_loading and not renderer_started_loading:
 		return
 	
 	gate_events.download_progress_emit(url, body_size, downloaded_bytes)

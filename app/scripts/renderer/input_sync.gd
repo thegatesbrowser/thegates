@@ -12,8 +12,8 @@ var should_send := false
 
 
 func _ready() -> void:
-	gate_events.gate_entered.connect(start_server)
 	ui_events.ui_mode_changed.connect(on_ui_mode_changed)
+	gate_events.call_or_subscribe(GateEvents.Early.ENTERED, start_server)
 
 
 func start_server() -> void:

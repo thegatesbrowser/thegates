@@ -12,10 +12,11 @@ var gate: Gate
 
 
 func _ready() -> void:
-	gate_events.gate_image_loaded.connect(display_info)
+	clear_info()
+	
+	gate_events.call_or_subscribe(GateEvents.Early.IMAGE_LOADED, display_info)
 	gate_events.first_frame.connect(on_first_frame)
 	gate_events.gate_error.connect(on_gate_error)
-	clear_info()
 
 
 func display_info(_gate: Gate) -> void:

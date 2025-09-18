@@ -2,7 +2,7 @@ extends Node
 class_name UnZip
 
 
-static func extract_file(zip: String, to_path: String) -> bool:
+static func extract_file(zip: String, to_path: String, executable: bool = false) -> bool:
 	var reader = ZIPReader.new()
 	var err = reader.open(zip)
 	if err != OK: Debug.logclr("Cannot open file %s to unzip" % [zip], Color.RED); return false
@@ -18,5 +18,8 @@ static func extract_file(zip: String, to_path: String) -> bool:
 	
 	file.close()
 	reader.close()
+	
+	if executable:
+		FileAccess.set_unix_permissions(to_path, FileAccess.get_unix_permissions(to_path) | FileAccess.UNIX_EXECUTE_OWNER)
 	
 	return true

@@ -17,6 +17,4 @@ func _ready() -> void:
 
 func switch_scene(scene: PackedScene) -> void:
 	for child in scenes_root.get_children(): child.queue_free()
-	await get_tree().process_frame
-	
 	scenes_root.add_child(scene.instantiate())

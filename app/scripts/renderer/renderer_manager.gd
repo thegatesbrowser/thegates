@@ -11,7 +11,7 @@ var renderer_pid: int
 
 
 func _ready() -> void:
-	gate_events.gate_loaded.connect(start_renderer)
+	gate_events.call_or_subscribe(GateEvents.Early.ALL_LOADED, start_renderer)
 
 
 func start_renderer(gate: Gate) -> void:

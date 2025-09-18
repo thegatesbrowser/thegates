@@ -5,14 +5,14 @@ signal progress(url: String, body_size: int, downloaded_bytes: int)
 
 class DownloadRequest:
 	var save_path: String
-	var tmp_save_path: String
+	var part_save_path: String
 	var http: HTTPRequestPooled
 	var timer: Timer
 	var session: DownloadSession
 	
-	func _init(_save_path: String, _tmp_save_path: String, _http: HTTPRequestPooled, _timer: Timer, _session: DownloadSession = null) -> void:
+	func _init(_save_path: String, _part_save_path: String, _http: HTTPRequestPooled, _timer: Timer, _session: DownloadSession = null) -> void:
 		save_path = _save_path
-		tmp_save_path = _tmp_save_path
+		part_save_path = _part_save_path
 		http = _http
 		timer = _timer
 		session = _session
@@ -56,7 +56,7 @@ func cancel_session(session: DownloadSession) -> void:
 		request.http.queue_free()
 		request.timer.queue_free()
 		
-		DirAccess.remove_absolute(request.tmp_save_path)
+		DirAccess.remove_absolute(request.part_save_path)
 		
 		download_requests.erase(request)
 		session.requests.erase(request)
@@ -187,14 +187,14 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 	Debug.logclr("Downloading " + url + (" [session=" + str(session.id) + "]" if session != null else ""), Color.DIM_GRAY)
 	var http = HTTPRequestPooled.new()
 	# Download into a temporary file first, and promote to final path only on success
-	var tmp_path: String = save_path + ".tmp"
-	http.download_file = tmp_path
+	var part_path: String = save_path + ".part"
+	http.download_file = part_path
 	http.timeout = timeout
 	http.use_threads = true
 	add_child(http)
 	
 	var timer = create_progress_emitter(url, http)
-	var download_request = DownloadRequest.new(save_path, tmp_path, http, timer, session)
+	var download_request = DownloadRequest.new(save_path, part_path, http, timer, session)
 	download_requests.append(download_request)
 	if session != null:
 		session.requests.append(download_request)
@@ -218,8 +218,8 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 		cache.update_from_response(save_path, url, response_headers, code)
 		recent_validated_ms_by_path[save_path] = Time.get_ticks_msec()
 	
-	if code == 200: DirAccess.rename_absolute(tmp_path, save_path)
-	DirAccess.remove_absolute(tmp_path)
+	if code == 200: DirAccess.rename_absolute(part_path, save_path)
+	DirAccess.remove_absolute(part_path)
 	
 	Debug.logclr("Downloaded " + url + " code=" + str(code) + " duration_ms=" + str(Time.get_ticks_msec() - start_ms), Color.DIM_GRAY)
 	return code
@@ -243,7 +243,7 @@ func stop_all() -> void:
 		request.http.queue_free()
 		request.timer.queue_free()
 		
-		DirAccess.remove_absolute(request.tmp_save_path)
+		DirAccess.remove_absolute(request.part_save_path)
 	
 	download_requests.clear()
 

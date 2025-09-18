@@ -6,7 +6,7 @@ Usage:
   python3 compress_build_windows.py 0.17.2
 
 Creates, in-place:
-  Windows/TheGates_Windows_<version>.zip containing: TheGates.exe, TheGates.pck, sandbox/
+  Windows/TheGates_Windows_<version>.zip containing: TheGates.exe, TheGates.pck, renderer/
 
 By default, refuses to overwrite existing zip files. Use --force to overwrite.
 """
@@ -65,7 +65,7 @@ def build_windows_zip(version: str, overwrite: bool) -> Path:
 	entries = [
 		"TheGates.exe",
 		"TheGates.pck",
-		"sandbox",
+		"renderer",
 	]
 	zip_entries(windows_dir, entries, output_zip, overwrite)
 	return output_zip

@@ -2,17 +2,17 @@
 
 [ext_resource type="Script" uid="uid://chdajg03b7u04" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
-[ext_resource type="Resource" uid="uid://cmb7xvbue74qa" path="res://resources/sandbox_executable.tres" id="4_shus3"]
-[ext_resource type="Script" uid="uid://csukkr8ml58po" path="res://scripts/sandbox/render_result.gd" id="5_nlg2s"]
+[ext_resource type="Script" uid="uid://csukkr8ml58po" path="res://scripts/renderer/render_result.gd" id="5_nlg2s"]
 [ext_resource type="Resource" uid="uid://l1quiaghft2f" path="res://resources/command_events.res" id="6_18mgg"]
-[ext_resource type="Script" uid="uid://8krktytsxii2" path="res://scripts/sandbox/sandbox_manager.gd" id="6_368sj"]
-[ext_resource type="Script" uid="uid://c12yghi0nsye7" path="res://scripts/sandbox/input_sync.gd" id="8_1blsi"]
-[ext_resource type="Script" uid="uid://b6ntyylfuji8f" path="res://scripts/sandbox/sandbox_logger.gd" id="9_fikc8"]
+[ext_resource type="Script" uid="uid://8krktytsxii2" path="res://scripts/renderer/renderer_manager.gd" id="6_368sj"]
+[ext_resource type="Resource" uid="uid://cmb7xvbue74qa" path="res://resources/renderer_executable.tres" id="7_7jh5o"]
+[ext_resource type="Script" uid="uid://c12yghi0nsye7" path="res://scripts/renderer/input_sync.gd" id="8_1blsi"]
+[ext_resource type="Script" uid="uid://b6ntyylfuji8f" path="res://scripts/renderer/renderer_logger.gd" id="9_fikc8"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="9_ir58h"]
 [ext_resource type="Shader" uid="uid://1vyei3mf3oyp" path="res://shaders/render_result.gdshader" id="10_2auwe"]
-[ext_resource type="Script" uid="uid://6ctlw23psrgy" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
+[ext_resource type="Script" uid="uid://6ctlw23psrgy" path="res://scripts/renderer/command_sync.gd" id="10_cqo55"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="10_vhc7k"]
-[ext_resource type="Script" uid="uid://bxiq26i721bv3" path="res://scripts/sandbox/process_checker.gd" id="11_72cjp"]
+[ext_resource type="Script" uid="uid://bxiq26i721bv3" path="res://scripts/renderer/process_checker.gd" id="11_72cjp"]
 [ext_resource type="Script" uid="uid://d0ne8le6y71x5" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
 [ext_resource type="Resource" uid="uid://bfg1kjboaitqt" path="res://resources/app_events.res" id="13_5np0h"]
 [ext_resource type="Script" uid="uid://dbnurdt5m2qoa" path="res://scripts/ui/world/foreground.gd" id="17_6e5v3"]
@@ -140,14 +140,14 @@ script = ExtResource("1_uxhy6")
 gate_events = ExtResource("2_q7cvi")
 connect_timeout = 10.0
 
-[node name="SandboxManager" type="Node" parent="." node_paths=PackedStringArray("render_result", "snbx_logger")]
+[node name="RendererManager" type="Node" parent="." node_paths=PackedStringArray("render_result", "renderer_logger")]
 script = ExtResource("6_368sj")
 gate_events = ExtResource("2_q7cvi")
 render_result = NodePath("../WorldCanvas/RenderResult")
-snbx_logger = NodePath("../SandboxLogger")
-snbx_executable = ExtResource("4_shus3")
+renderer_logger = NodePath("../RendererLogger")
+executable = ExtResource("7_7jh5o")
 
-[node name="SandboxLogger" type="Node" parent="."]
+[node name="RendererLogger" type="Node" parent="."]
 script = ExtResource("9_fikc8")
 gate_events = ExtResource("2_q7cvi")
 api = ExtResource("10_vhc7k")
@@ -164,11 +164,11 @@ app_events = ExtResource("13_5np0h")
 gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
 
-[node name="ProcessChecker" type="Node" parent="." node_paths=PackedStringArray("snbx_manager")]
+[node name="ProcessChecker" type="Node" parent="." node_paths=PackedStringArray("renderer_manager")]
 script = ExtResource("11_72cjp")
 gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
-snbx_manager = NodePath("../SandboxManager")
+renderer_manager = NodePath("../RendererManager")
 
 [node name="WorldCanvas" type="Control" parent="."]
 layout_mode = 1

@@ -18,20 +18,14 @@ It connects game experiences together like world wide web and allows you to easi
 
 Editor:
 ```
-scons -j $(nproc) dev_build=yes the_gates_sandbox=no compiledb=yes use_llvm=yes linker=lld disable_exceptions=no
+scons -j $(nproc) dev_build=yes tg_renderer=no compiledb=yes use_llvm=yes linker=lld disable_exceptions=no
 ```
 
-Sandbox:
+Renderer:
 ```
-scons -j $(nproc) dev_build=yes target=template_debug the_gates_sandbox=yes compiledb=yes use_llvm=yes linker=lld disable_exceptions=no
+scons -j $(nproc) dev_build=yes target=template_debug tg_renderer=yes compiledb=yes use_llvm=yes linker=lld disable_exceptions=no
 ```
 
-#### 2. Create sandbox environment (only linux)
-
-Run bash command `sandbox/kinda-safe-godot/create_sandbox_env.sh` <br/>
-It will create folder **sandbox** with **sandbox_env.zip** file <br/>
-Copy **sandbox** folder to godot/bin (alongside with compiled editor and sandbox executables)
-
-#### 3. Run project
+#### 2. Run project
 
 Start compiled editor and open godot project inside **app** folder

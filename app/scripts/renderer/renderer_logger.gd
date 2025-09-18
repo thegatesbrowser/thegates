@@ -1,12 +1,12 @@
 extends Node
-class_name SandboxLogger
+class_name RendererLogger
 
 @export var gate_events: GateEvents
 @export var api: ApiSettings
 
 const LOG_FOLDER := "user://logs"
 const LOG_FILE := "log.txt"
-const PRINT_LOGS_ARG := "--sandbox-logs"
+const PRINT_LOGS_ARG := "--renderer-logs"
 const BUFFER_SIZE = 2048
 const FLUSH_DELAY = 5
 

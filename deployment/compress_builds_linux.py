@@ -6,8 +6,8 @@ Usage:
   python3 compress_builds_linux.py 0.17.2
 
 Creates, in-place:
-  Linux/TheGates_Linux_<version>.zip  containing: TheGates.x86_64, sandbox/
-  Windows/TheGates_Windows_<version>.zip containing: TheGates.exe, TheGates.pck, sandbox/
+  Linux/TheGates_Linux_<version>.zip  containing: TheGates.x86_64, renderer/
+  Windows/TheGates_Windows_<version>.zip containing: TheGates.exe, TheGates.pck, renderer/
 
 By default, refuses to overwrite existing zip files. Use --force to overwrite.
 """
@@ -65,7 +65,7 @@ def build_linux_zip(version: str, overwrite: bool) -> Path:
     output_zip = linux_dir / f"TheGates_Linux_{version}.zip"
     entries = [
         "TheGates.x86_64",
-        "sandbox",
+        "renderer",
     ]
     zip_entries(linux_dir, entries, output_zip, overwrite)
     return output_zip
@@ -77,7 +77,7 @@ def build_windows_zip(version: str, overwrite: bool) -> Path:
     entries = [
         "TheGates.exe",
         "TheGates.pck",
-        "sandbox",
+        "renderer",
     ]
     zip_entries(windows_dir, entries, output_zip, overwrite)
     return output_zip

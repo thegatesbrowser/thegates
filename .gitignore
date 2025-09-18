@@ -1,7 +1,7 @@
 .DS_Store
 
 # for ipc files (inter process communication)
-app/sandbox
+app/renderer
 
 # for deployment
 deployment/upload_api.key

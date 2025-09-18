@@ -1,5 +1,5 @@
 extends Resource
-class_name SandboxExecutable
+class_name RendererExecutable
 
 @export var linux: String
 @export var linux_debug: String

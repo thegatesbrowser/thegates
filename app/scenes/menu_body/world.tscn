@@ -1,39 +1,39 @@
 [gd_scene load_steps=41 format=3 uid="uid://kywrsqro3d5i"]
 
-[ext_resource type="Script" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
+[ext_resource type="Script" uid="uid://chdajg03b7u04" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
 [ext_resource type="Resource" uid="uid://cmb7xvbue74qa" path="res://resources/sandbox_executable.tres" id="4_shus3"]
-[ext_resource type="Script" path="res://scripts/sandbox/render_result.gd" id="5_nlg2s"]
+[ext_resource type="Script" uid="uid://csukkr8ml58po" path="res://scripts/sandbox/render_result.gd" id="5_nlg2s"]
 [ext_resource type="Resource" uid="uid://l1quiaghft2f" path="res://resources/command_events.res" id="6_18mgg"]
-[ext_resource type="Script" path="res://scripts/sandbox/sandbox_manager.gd" id="6_368sj"]
-[ext_resource type="Script" path="res://scripts/sandbox/input_sync.gd" id="8_1blsi"]
-[ext_resource type="Script" path="res://scripts/sandbox/sandbox_logger.gd" id="9_fikc8"]
+[ext_resource type="Script" uid="uid://8krktytsxii2" path="res://scripts/sandbox/sandbox_manager.gd" id="6_368sj"]
+[ext_resource type="Script" uid="uid://c12yghi0nsye7" path="res://scripts/sandbox/input_sync.gd" id="8_1blsi"]
+[ext_resource type="Script" uid="uid://b6ntyylfuji8f" path="res://scripts/sandbox/sandbox_logger.gd" id="9_fikc8"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="9_ir58h"]
-[ext_resource type="Shader" path="res://shaders/render_result.gdshader" id="10_2auwe"]
-[ext_resource type="Script" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
+[ext_resource type="Shader" uid="uid://1vyei3mf3oyp" path="res://shaders/render_result.gdshader" id="10_2auwe"]
+[ext_resource type="Script" uid="uid://6ctlw23psrgy" path="res://scripts/sandbox/command_sync.gd" id="10_cqo55"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="10_vhc7k"]
-[ext_resource type="Script" path="res://scripts/sandbox/process_checker.gd" id="11_72cjp"]
-[ext_resource type="Script" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
+[ext_resource type="Script" uid="uid://bxiq26i721bv3" path="res://scripts/sandbox/process_checker.gd" id="11_72cjp"]
+[ext_resource type="Script" uid="uid://d0ne8le6y71x5" path="res://scripts/ui/world/world_ui.gd" id="12_jdwjt"]
 [ext_resource type="Resource" uid="uid://bfg1kjboaitqt" path="res://resources/app_events.res" id="13_5np0h"]
-[ext_resource type="Script" path="res://scripts/ui/world/foreground.gd" id="17_6e5v3"]
+[ext_resource type="Script" uid="uid://dbnurdt5m2qoa" path="res://scripts/ui/world/foreground.gd" id="17_6e5v3"]
 [ext_resource type="PackedScene" uid="uid://c7571vjq7l0jp" path="res://scenes/components/not_responding.tscn" id="17_kwbm3"]
-[ext_resource type="Script" path="res://scripts/ui/world/gate_info.gd" id="18_q06xu"]
+[ext_resource type="Script" uid="uid://bsg3p2j1pj2pd" path="res://scripts/ui/world/gate_info.gd" id="18_q06xu"]
 [ext_resource type="Shader" uid="uid://dd1axtdlit6no" path="res://shaders/vignette_blur.tres" id="18_sat0u"]
-[ext_resource type="Script" path="res://scripts/ui/ui_mode_animation.gd" id="18_sx3kr"]
-[ext_resource type="Script" path="res://scripts/ui/world/vignette_blur.gd" id="19_415fa"]
+[ext_resource type="Script" uid="uid://bmqka8eh3us3" path="res://scripts/ui/ui_mode_animation.gd" id="18_sx3kr"]
+[ext_resource type="Script" uid="uid://crtwlvhtrq7x6" path="res://scripts/ui/world/vignette_blur.gd" id="19_415fa"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="19_tkqw6"]
 [ext_resource type="FontFile" uid="uid://bjeupg0ikc2kv" path="res://assets/fonts/Monospace.ttf" id="20_hoet7"]
 [ext_resource type="FontFile" uid="uid://b3xb1fpllhnf4" path="res://assets/fonts/Inter-Italic.otf" id="21_lpegk"]
 [ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="22_i5khx"]
 [ext_resource type="FontFile" uid="uid://c14w1y1r54wgi" path="res://assets/fonts/Inter-Bold.otf" id="23_t1gqo"]
 [ext_resource type="PackedScene" uid="uid://dr1hykfog1h85" path="res://scenes/components/loading_tatus.tscn" id="25_3436m"]
-[ext_resource type="Script" path="res://scripts/ui/world/release_focus.gd" id="26_u6afs"]
+[ext_resource type="Script" uid="uid://cylmi0wcawaqu" path="res://scripts/ui/world/release_focus.gd" id="26_u6afs"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_be6ex"]
 resource_local_to_scene = true
 shader = ExtResource("10_2auwe")
-shader_parameter/ext_texture_is_bgra = null
-shader_parameter/show_render = null
+shader_parameter/ext_texture_is_bgra = false
+shader_parameter/show_render = false
 
 [sub_resource type="Curve" id="Curve_rju31"]
 _data = [Vector2(0.0876494, 0.913189), 0.0, -0.118897, 0, 0, Vector2(0.50996, 0.316361), -1.65368, -1.65368, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -46,8 +46,8 @@ curve = SubResource("Curve_rju31")
 shader = ExtResource("18_sat0u")
 shader_parameter/UVScale = Vector2(0.9, 0.9)
 shader_parameter/BlurAmount = 2.5
-shader_parameter/VignetteColor = Color(0.126, 0.1719, 0.18, 1)
 shader_parameter/Vignette = SubResource("CurveTexture_yw30u")
+shader_parameter/VignetteColor = Color(0.126, 0.1719, 0.18, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_axrau"]
 bg_color = Color(1, 1, 1, 1)
@@ -115,9 +115,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sld6k"]
 _data = {
-"RESET": SubResource("Animation_beyyv"),
-"focused": SubResource("Animation_tper3"),
-"initial": SubResource("Animation_77flb")
+&"RESET": SubResource("Animation_beyyv"),
+&"focused": SubResource("Animation_tper3"),
+&"initial": SubResource("Animation_77flb")
 }
 
 [node name="World" type="Control" node_paths=PackedStringArray("render_result")]
@@ -301,15 +301,15 @@ mouse_default_cursor_shape = 1
 theme_override_colors/default_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_colors/selection_color = Color(0.419608, 0.231373, 0.929412, 0.588235)
 theme_override_fonts/normal_font = ExtResource("19_tkqw6")
-theme_override_fonts/mono_font = ExtResource("20_hoet7")
-theme_override_fonts/italics_font = ExtResource("21_lpegk")
-theme_override_fonts/bold_italics_font = ExtResource("22_i5khx")
 theme_override_fonts/bold_font = ExtResource("23_t1gqo")
+theme_override_fonts/bold_italics_font = ExtResource("22_i5khx")
+theme_override_fonts/italics_font = ExtResource("21_lpegk")
+theme_override_fonts/mono_font = ExtResource("20_hoet7")
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 15
 theme_override_font_sizes/bold_italics_font_size = 20
 theme_override_font_sizes/italics_font_size = 20
 theme_override_font_sizes/mono_font_size = 20
-theme_override_font_sizes/normal_font_size = 20
-theme_override_font_sizes/bold_font_size = 15
 theme_override_styles/focus = SubResource("StyleBoxEmpty_tnu6q")
 text = "Welcome"
 fit_content = true
@@ -324,15 +324,15 @@ mouse_default_cursor_shape = 1
 theme_override_colors/default_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_colors/selection_color = Color(0.419608, 0.231373, 0.929412, 0.588235)
 theme_override_fonts/normal_font = ExtResource("19_tkqw6")
-theme_override_fonts/mono_font = ExtResource("20_hoet7")
-theme_override_fonts/italics_font = ExtResource("21_lpegk")
-theme_override_fonts/bold_italics_font = ExtResource("22_i5khx")
 theme_override_fonts/bold_font = ExtResource("23_t1gqo")
+theme_override_fonts/bold_italics_font = ExtResource("22_i5khx")
+theme_override_fonts/italics_font = ExtResource("21_lpegk")
+theme_override_fonts/mono_font = ExtResource("20_hoet7")
+theme_override_font_sizes/normal_font_size = 15
+theme_override_font_sizes/bold_font_size = 15
 theme_override_font_sizes/bold_italics_font_size = 15
 theme_override_font_sizes/italics_font_size = 15
 theme_override_font_sizes/mono_font_size = 15
-theme_override_font_sizes/normal_font_size = 15
-theme_override_font_sizes/bold_font_size = 15
 theme_override_styles/focus = SubResource("StyleBoxEmpty_tnu6q")
 bbcode_enabled = true
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
@@ -350,7 +350,7 @@ layout_mode = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_sld6k")
+&"": SubResource("AnimationLibrary_sld6k")
 }
 script = ExtResource("18_sx3kr")
 ui_events = ExtResource("9_ir58h")

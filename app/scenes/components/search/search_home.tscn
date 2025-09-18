@@ -1,13 +1,13 @@
 [gd_scene load_steps=17 format=3 uid="uid://bs2cwop0ei1r1"]
 
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_767gv"]
-[ext_resource type="Script" path="res://scripts/ui/search/search.gd" id="2_h4fn7"]
+[ext_resource type="Script" uid="uid://q034488v3hn0" path="res://scripts/ui/search/search.gd" id="2_h4fn7"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_xrtl6"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="4_kr3b7"]
 [ext_resource type="Texture2D" uid="uid://ckkmluvnrorek" path="res://assets/textures/search_96.svg" id="4_m7aa2"]
-[ext_resource type="Script" path="res://scripts/ui/search/prompt_navigation.gd" id="5_iptg2"]
-[ext_resource type="Script" path="res://scripts/ui/search/fix_promt_position.gd" id="6_c6kyf"]
-[ext_resource type="Script" path="res://scripts/ui/search/prompt_results.gd" id="7_ijfkq"]
+[ext_resource type="Script" uid="uid://c5rv12bcypf77" path="res://scripts/ui/search/prompt_navigation.gd" id="5_iptg2"]
+[ext_resource type="Script" uid="uid://2hpv4d5wi773" path="res://scripts/ui/search/fix_promt_position.gd" id="6_c6kyf"]
+[ext_resource type="Script" uid="uid://dn4uudt3klmqs" path="res://scripts/ui/search/prompt_results.gd" id="7_ijfkq"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="8_8atq2"]
 [ext_resource type="PackedScene" uid="uid://b57n6cvtqn5b7" path="res://scenes/components/search/prompt.tscn" id="9_aknf3"]
 
@@ -42,7 +42,14 @@ corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
 corner_detail = 10
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ym5t0"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1hgyb"]
+bg_color = Color(0.32549, 0.14902, 0.8, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t00so"]
 bg_color = Color(0.32549, 0.14902, 0.8, 1)
 corner_radius_top_left = 22
 corner_radius_top_right = 22
@@ -56,14 +63,7 @@ corner_radius_top_right = 22
 corner_radius_bottom_right = 22
 corner_radius_bottom_left = 22
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t00so"]
-bg_color = Color(0.32549, 0.14902, 0.8, 1)
-corner_radius_top_left = 22
-corner_radius_top_right = 22
-corner_radius_bottom_right = 22
-corner_radius_bottom_left = 22
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1hgyb"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ym5t0"]
 bg_color = Color(0.32549, 0.14902, 0.8, 1)
 corner_radius_top_left = 22
 corner_radius_top_right = 22
@@ -84,13 +84,13 @@ size_flags_horizontal = 3
 localize_numeral_system = false
 focus_next = NodePath("Prompt")
 focus_mode = 1
-theme_override_colors/selection_color = Color(0.4185, 0.2325, 0.93, 0.588235)
-theme_override_colors/font_placeholder_color = Color(0.431373, 0.435294, 0.494118, 1)
 theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_colors/font_placeholder_color = Color(0.431373, 0.435294, 0.494118, 1)
+theme_override_colors/selection_color = Color(0.4185, 0.2325, 0.93, 0.588235)
 theme_override_fonts/font = ExtResource("1_767gv")
 theme_override_font_sizes/font_size = 20
-theme_override_styles/focus = SubResource("StyleBoxFlat_w0n18")
 theme_override_styles/normal = SubResource("StyleBoxFlat_w0n18")
+theme_override_styles/focus = SubResource("StyleBoxFlat_w0n18")
 placeholder_text = "What are you looking for today?"
 select_all_on_focus = true
 script = ExtResource("2_h4fn7")
@@ -177,16 +177,16 @@ grow_horizontal = 0
 grow_vertical = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
-theme_override_colors/font_hover_color = Color(0.831373, 0.831373, 0.831373, 1)
-theme_override_colors/font_pressed_color = Color(0.831373, 0.831373, 0.831373, 1)
-theme_override_colors/font_focus_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_colors/font_focus_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_colors/font_pressed_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_colors/font_hover_color = Color(0.831373, 0.831373, 0.831373, 1)
 theme_override_fonts/font = ExtResource("1_767gv")
 theme_override_font_sizes/font_size = 20
-theme_override_styles/focus = SubResource("StyleBoxFlat_ym5t0")
-theme_override_styles/hover = SubResource("StyleBoxFlat_yso1e")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_t00so")
 theme_override_styles/normal = SubResource("StyleBoxFlat_1hgyb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_t00so")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yso1e")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ym5t0")
 text = "Search"
 
 [connection signal="text_changed" from="." to="Prompt/Panel/VBoxContainer" method="_on_search_text_changed"]

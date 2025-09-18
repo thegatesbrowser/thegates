@@ -8,7 +8,7 @@ class_name RenderResult
 @onready var width: int = int(size.x * DisplayServer.screen_get_scale())
 @onready var height: int = int(size.y * DisplayServer.screen_get_scale())
 
-var ext_texure: ExternalTexture
+var ext_texure: TGExternalTexture
 var texture_rid: RID
 
 
@@ -42,7 +42,7 @@ func create_external_texture() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	
-	ext_texure = ExternalTexture.new()
+	ext_texure = TGExternalTexture.new()
 	var err = ext_texure.create(t_format, t_view)
 	if err: Debug.logerr("Cannot create external texture")
 	else: Debug.logclr("External texture created", Color.DIM_GRAY)

@@ -20,6 +20,7 @@ func send_discover_gate(c_url: String, c_gate: ConfigGate) -> void:
 	body.icon = c_gate.icon_url
 	body.image = c_gate.image_url
 	body.resource_pack = c_gate.resource_pack_url
+	body.godot_version = c_gate.godot_version
 	body.libraries = c_gate.libraries
 	
 	var url = api.discover_gate

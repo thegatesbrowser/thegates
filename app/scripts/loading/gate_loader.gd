@@ -1,5 +1,6 @@
 extends Node
 
+@export var renderer: RendererExecutable
 @export var gate_events: GateEvents
 @export var connect_timeout: float
 @export var speculative_prefetch: bool = true
@@ -7,16 +8,17 @@ extends Node
 var gate: Gate
 
 # Speculative prefetch session
-var prefetch_session
+var prefetch_session: FileDownloader.DownloadSession
 var prefetch_cached_gate: ConfigGate
 
 # Active download session for this gate load
-var active_session
-var config_session
+var active_session: FileDownloader.DownloadSession
+var config_session: FileDownloader.DownloadSession
 
 # For parallel downloading
 var has_errors: bool
 var load_resources_done: bool
+var renderer_ready: bool
 var shared_libs_count: int = -1
 var shared_libs_done: int
 
@@ -33,13 +35,6 @@ func _ready() -> void:
 func load_gate(gate_url: String) -> void:
 	Debug.logclr("======== " + gate_url + " ========", Color.GREEN)
 	var config_url = gate_url.split("?")[0]
-	# Reset state for a fresh load
-	has_errors = false
-	load_resources_done = false
-	shared_libs_count = -1
-	shared_libs_done = 0
-	resource_pack_url = ""
-	resource_pack_started_loading = false
 	
 	# 1) Start config revalidation immediately (fire-and-forget) within its own session
 	config_session = FileDownloader.create_session()
@@ -59,14 +54,12 @@ func load_gate(gate_url: String) -> void:
 	var config_path: String = cfg_result.get("path", "")
 	var cfg_status: int = int(cfg_result.get("status", 0))
 	if config_path.is_empty():
-		if prefetch_session != null:
-			FileDownloader.cancel_session(prefetch_session)
+		FileDownloader.cancel_session(prefetch_session)
 		return error(GateEvents.GateError.NOT_FOUND)
 	
 	var c_gate = ConfigGate.new(config_path, config_url)
 	if c_gate.load_result != OK:
-		if prefetch_session != null:
-			FileDownloader.cancel_session(prefetch_session)
+		FileDownloader.cancel_session(prefetch_session)
 		return error(GateEvents.GateError.INVALID_CONFIG)
 	gate_events.gate_config_loaded_emit(config_url, c_gate)
 	
@@ -91,7 +84,7 @@ func load_gate(gate_url: String) -> void:
 	load_image(c_gate)
 	load_resources(c_gate)
 	load_shared_libs(c_gate, config_url)
-	# Done
+	load_renderer(c_gate)
 
 
 func prefetch_assets(c_gate: ConfigGate, config_url: String):
@@ -159,16 +152,25 @@ func load_lib(config_url: String, lib: String) -> void:
 	try_finish_loading()
 
 
+func load_renderer(c_gate: ConfigGate) -> void:
+	gate.renderer = await renderer.download(c_gate.godot_version, active_session)
+	if gate.renderer.is_empty(): return error(GateEvents.GateError.MISSING_RENDERER)
+	
+	renderer_ready = true
+	try_finish_loading()
+
+
 func try_finish_loading() -> void:
 	if has_errors: return
 	if not load_resources_done: return
+	if not renderer_ready: return
 	if shared_libs_count == -1 or shared_libs_done != shared_libs_count: return
 	
 	gate_events.gate_loaded_emit(gate)
 
 
 func error(code: GateEvents.GateError) -> void:
-	Debug.logclr("GateError: " + GateEvents.GateError.keys()[code], Color.MAROON)
+	Debug.logerr("GateError: " + GateEvents.GateError.keys()[code])
 	has_errors = true
 	gate_events.gate_error_emit(code)
 

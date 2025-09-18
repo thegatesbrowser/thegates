@@ -17,6 +17,7 @@ class_name Gate
 
 var resource_pack: String
 var shared_libs_dir: String # local path where libs downloaded
+var renderer: String
 
 
 static func create(_url: String, _title: String, _description: String, _icon_url: String, _image_url: String) -> Gate:

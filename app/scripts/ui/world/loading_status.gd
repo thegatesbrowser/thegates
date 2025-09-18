@@ -122,6 +122,8 @@ func on_gate_error(code: GateEvents.GateError) -> void:
 			set_progress("Gate not found", ProgressStatus.ERROR)
 		GateEvents.GateError.MISSING_PACK, GateEvents.GateError.MISSING_LIBS:
 			set_progress("Cannot load gate resources", ProgressStatus.ERROR)
+		GateEvents.GateError.MISSING_RENDERER:
+			set_progress("Cannot load renderer for this gate", ProgressStatus.ERROR)
 		_:
 			set_progress("Unknown error", ProgressStatus.ERROR)
 

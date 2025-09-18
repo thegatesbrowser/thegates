@@ -1,12 +1,16 @@
-[gd_resource type="Resource" script_class="RendererExecutable" load_steps=2 format=3 uid="uid://cmb7xvbue74qa"]
+[gd_resource type="Resource" script_class="RendererExecutable" load_steps=3 format=3 uid="uid://cmb7xvbue74qa"]
 
+[ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="1_l5jt7"]
 [ext_resource type="Script" uid="uid://d10tol3dqm8hy" path="res://scripts/renderer/renderer_executable.gd" id="1_q0dqh"]
 
 [resource]
 script = ExtResource("1_q0dqh")
-linux = "renderer/Renderer.x86_64"
+api_settings = ExtResource("1_l5jt7")
+supported_godot_versions = Array[String](["4.3", "4.5"])
+current_godot_version = "4.5"
+linux = "renderer/Renderer-godot_v%s.x86_64"
 linux_debug = "godot.linuxbsd.template_debug.dev.renderer.x86_64.llvm"
-windows = "renderer/Renderer.exe"
+windows = "renderer/Renderer-godot_v%s.exe"
 windows_debug = "godot.windows.template_debug.dev.renderer.x86_64.llvm.exe"
-macos = "../Frameworks/Renderer.universal"
+macos = "../Frameworks/Renderer-godot_v%s.universal"
 macos_debug = "godot.macos.template_debug.dev.renderer.arm64"

@@ -10,6 +10,15 @@ enum {
 	WEB
 }
 
+static var platform_to_string: Dictionary = {
+	WINDOWS: "windows",
+	MACOS: "macos",
+	LINUX_BSD: "linux",
+	ANDROID: "android",
+	IOS: "ios",
+	WEB: "web"
+}
+
 
 static func is_windows() -> bool:
 	return get_platform() == WINDOWS
@@ -44,3 +53,7 @@ static func get_platform() -> int:
 		_:
 			assert(false, "No such platform")
 			return -1
+
+
+static func get_platform_string() -> String:
+	return platform_to_string[get_platform()]

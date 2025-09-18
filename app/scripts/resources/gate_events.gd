@@ -21,7 +21,8 @@ enum GateError
 	NOT_FOUND,
 	INVALID_CONFIG,
 	MISSING_PACK,
-	MISSING_LIBS
+	MISSING_LIBS,
+	MISSING_RENDERER
 }
 
 var current_search_query: String

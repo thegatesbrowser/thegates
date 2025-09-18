@@ -137,6 +137,7 @@ render_result = NodePath("WorldCanvas/RenderResult")
 
 [node name="GateLoader" type="Node" parent="."]
 script = ExtResource("1_uxhy6")
+renderer = ExtResource("7_7jh5o")
 gate_events = ExtResource("2_q7cvi")
 connect_timeout = 10.0
 
@@ -145,12 +146,17 @@ script = ExtResource("6_368sj")
 gate_events = ExtResource("2_q7cvi")
 render_result = NodePath("../WorldCanvas/RenderResult")
 renderer_logger = NodePath("../RendererLogger")
-executable = ExtResource("7_7jh5o")
 
 [node name="RendererLogger" type="Node" parent="."]
 script = ExtResource("9_fikc8")
 gate_events = ExtResource("2_q7cvi")
 api = ExtResource("10_vhc7k")
+
+[node name="ProcessChecker" type="Node" parent="." node_paths=PackedStringArray("renderer_manager")]
+script = ExtResource("11_72cjp")
+gate_events = ExtResource("2_q7cvi")
+command_events = ExtResource("6_18mgg")
+renderer_manager = NodePath("../RendererManager")
 
 [node name="InputSync" type="Node" parent="." node_paths=PackedStringArray("render_result")]
 script = ExtResource("8_1blsi")
@@ -163,12 +169,6 @@ script = ExtResource("10_cqo55")
 app_events = ExtResource("13_5np0h")
 gate_events = ExtResource("2_q7cvi")
 command_events = ExtResource("6_18mgg")
-
-[node name="ProcessChecker" type="Node" parent="." node_paths=PackedStringArray("renderer_manager")]
-script = ExtResource("11_72cjp")
-gate_events = ExtResource("2_q7cvi")
-command_events = ExtResource("6_18mgg")
-renderer_manager = NodePath("../RendererManager")
 
 [node name="WorldCanvas" type="Control" parent="."]
 layout_mode = 1

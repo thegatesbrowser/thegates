@@ -19,11 +19,15 @@ var drag_offset: Vector2i
 func restore_from_maximized(mouse_global: Vector2i) -> void:
 	var usable: Rect2i = DisplayServer.screen_get_usable_rect(DisplayServer.window_get_current_screen())
 	var target_size: Vector2i = Vector2i(int(usable.size.x * restored_window_ratio), int(usable.size.y * restored_window_ratio))
+	
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	await get_tree().process_frame # Wait for window to be resized
+	await get_tree().process_frame
+	DisplayServer.window_set_size(target_size)
+	
 	var ratio_x: float = 0.5
 	if press_window_size.x > 0:
 		ratio_x = clamp(float(press_mouse_global.x - press_window_pos.x) / float(press_window_size.x), 0.0, 1.0)
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	DisplayServer.window_set_size(target_size)
 	var target_pos_x: int = mouse_global.x - int(ratio_x * float(target_size.x))
 	var dy: int = press_mouse_global.y - press_window_pos.y
 	var titlebar_click_y: int = dy if dy < 32 else 32

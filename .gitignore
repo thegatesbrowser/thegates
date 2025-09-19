@@ -1,5 +1,8 @@
 .DS_Store
 
+# added to skip-worktree to ignore local changes
+.vscode/settings.json
+
 # for ipc files (inter process communication)
 app/renderer
 

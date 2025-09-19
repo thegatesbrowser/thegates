@@ -13,6 +13,7 @@ class_name RendererExecutable
 
 @export var macos: String
 @export var macos_debug: String
+@export var macos_debug_old: String
 
 var supported_platforms := [Platform.WINDOWS, Platform.LINUX_BSD, Platform.MACOS]
 
@@ -57,7 +58,10 @@ func get_renderer_path(godot_version: String) -> String:
 		Platform.LINUX_BSD:
 			filename = linux_debug if use_debug else linux % [godot_version]
 		Platform.MACOS:
-			filename = macos_debug if use_debug else macos % [godot_version]
+			use_debug = Platform.is_debug()
+			var current = godot_version == current_godot_version
+			var debug_filename = macos_debug if current else macos_debug_old % [godot_version]
+			filename = debug_filename if use_debug else macos % [godot_version]
 		_:
 			assert(false, "Platform is not supported")
 	

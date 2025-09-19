@@ -13,6 +13,7 @@ func _ready() -> void:
 	window.dpi_changed.connect(scale_content)
 	resized.connect(on_resized)
 	
+	change_window_settings()
 	scale_content()
 	on_resized()
 
@@ -20,6 +21,16 @@ func _ready() -> void:
 func on_resized() -> void:
 	Debug.logclr("Ui resized: %dx%d" % [size.x, size.y], Debug.SILENT_CLR)
 	ui_events.ui_size_changed_emit(size)
+
+
+func change_window_settings() -> void:
+	if Platform.is_macos():
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		Debug.logclr("Setting fullscreen mode", Debug.SILENT_CLR)
+	
+	if Platform.is_linux():
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_MAILBOX)
+		Debug.logclr("Setting vsync to mailbox", Debug.SILENT_CLR)
 
 
 func scale_content() -> void:
@@ -37,14 +48,6 @@ func set_initial_screen() -> void:
 	
 	DisplayServer.window_set_current_screen(last_screen)
 	Debug.logclr("Initial screen: %d" % [last_screen], Debug.SILENT_CLR)
-	
-	if Platform.is_macos():
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		Debug.logclr("Setting fullscreen mode", Debug.SILENT_CLR)
-	
-	if Platform.is_linux():
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_MAILBOX)
-		Debug.logclr("Setting vsync to mailbox", Debug.SILENT_CLR)
 
 
 func _exit_tree() -> void:

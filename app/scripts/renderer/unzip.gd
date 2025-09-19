@@ -9,6 +9,7 @@ static func extract_file(zip: String, to_path: String, executable: bool = false)
 	
 	if not reader.file_exists(to_path.get_file()):
 		Debug.logclr("File %s not found in zip %s" % [to_path.get_file(), zip], Color.RED); return false
+	DirAccess.make_dir_recursive_absolute(to_path.get_base_dir())
 	
 	var buffer = reader.read_file(to_path.get_file())
 	var file = FileAccess.open(to_path, FileAccess.WRITE)

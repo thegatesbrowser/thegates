@@ -59,7 +59,6 @@ func start_reading_pipes() -> void:
 
 
 func read_stdio() -> void:
-	if not is_instance_valid(pipe): return
 	var stdio = pipe["stdio"] as FileAccess
 	var buffer: PackedByteArray
 	
@@ -72,7 +71,6 @@ func read_stdio() -> void:
 
 
 func read_stderr() -> void:
-	if not is_instance_valid(pipe): return
 	var stderr = pipe["stderr"] as FileAccess
 	var buffer: PackedByteArray
 	

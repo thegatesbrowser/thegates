@@ -57,6 +57,7 @@ func send_filehandle(filehandle_path: String) -> void:
 	Debug.logclr("Sending filehandle...", Color.DIM_GRAY)
 	var sent = false
 	while not sent:
+		if not is_instance_valid(ext_texure): return
 		sent = ext_texure.send_filehandle(filehandle_path)
 		await get_tree().process_frame
 	Debug.logclr("filehandle was sent", Color.DIM_GRAY)

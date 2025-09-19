@@ -3,15 +3,16 @@ extends Control
 @export var ui_events: UiEvents
 
 var window: Window
+var initial_screen_set: bool
 
 
 func _ready() -> void:
 	window = get_window()
 	
+	window.focus_entered.connect(set_initial_screen)
 	window.dpi_changed.connect(scale_content)
 	resized.connect(on_resized)
 	
-	set_initial_screen()
 	scale_content()
 	on_resized()
 
@@ -29,6 +30,9 @@ func scale_content() -> void:
 
 
 func set_initial_screen() -> void:
+	if initial_screen_set: return
+	initial_screen_set = true
+	
 	var last_screen = DataSaver.get_value("settings", "last_screen", 0)
 	
 	DisplayServer.window_set_current_screen(last_screen)
@@ -44,5 +48,5 @@ func set_initial_screen() -> void:
 
 
 func _exit_tree() -> void:
-		var last_screen = DisplayServer.window_get_current_screen()
-		DataSaver.set_value("settings", "last_screen", last_screen)
+	var last_screen = DisplayServer.window_get_current_screen()
+	DataSaver.set_value("settings", "last_screen", last_screen)

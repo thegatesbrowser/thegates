@@ -115,15 +115,15 @@ func call_or_subscribe(event: Early, callback: Callable) -> void:
 	else:
 		match event:
 			Early.INFO_LOADED:
-				gate_info_loaded.connect(callback)
+				gate_info_loaded.connect(callback, CONNECT_ONE_SHOT)
 			Early.ICON_LOADED:
-				gate_icon_loaded.connect(callback)
+				gate_icon_loaded.connect(callback, CONNECT_ONE_SHOT)
 			Early.IMAGE_LOADED:
-				gate_image_loaded.connect(callback)
+				gate_image_loaded.connect(callback, CONNECT_ONE_SHOT)
 			Early.ALL_LOADED:
-				gate_loaded.connect(callback)
+				gate_loaded.connect(callback, CONNECT_ONE_SHOT)
 			Early.ENTERED:
-				gate_entered.connect(callback)
+				gate_entered.connect(callback, CONNECT_ONE_SHOT)
 
 
 func clear_current_gate() -> void:

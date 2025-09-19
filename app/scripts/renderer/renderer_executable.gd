@@ -35,7 +35,10 @@ func download(godot_version: String, active_session: FileDownloader.DownloadSess
 	var renderer_zip = await FileDownloader.download(url, 0.0, false, active_session)
 	
 	if renderer_zip.is_empty(): Debug.logclr("Failed to download renderer zip", Color.RED); return ""
-	if not UnZip.extract_file(renderer_zip, renderer_path, true): return ""
+	
+	var extracted = UnZip.extract_file(renderer_zip, renderer_path, true)
+	DirAccess.remove_absolute(renderer_zip)
+	if not extracted: return ""
 	
 	return renderer_path
 

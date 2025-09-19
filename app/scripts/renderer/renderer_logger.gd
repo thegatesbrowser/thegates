@@ -19,8 +19,8 @@ var gate: Gate
 var print_logs: bool
 var logs_sent: bool
 
-var thread1: Thread = Thread.new()
-var thread2: Thread = Thread.new()
+var thread1: Thread
+var thread2: Thread
 
 
 func _ready() -> void:

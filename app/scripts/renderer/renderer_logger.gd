@@ -88,8 +88,8 @@ func store_buffer(buffer: PackedByteArray) -> void:
 
 
 func cleanup() -> void:
-	if is_instance_valid(pipe) and pipe.has("stdio"): pipe["stdio"].close()
-	if is_instance_valid(pipe) and pipe.has("stderr"): pipe["stderr"].close()
+	if pipe.has("stdio"): pipe["stdio"].close()
+	if pipe.has("stderr"): pipe["stderr"].close()
 	if thread1 != null and thread1.is_started(): thread1.wait_to_finish()
 	if thread2 != null and thread2.is_started(): thread2.wait_to_finish()
 

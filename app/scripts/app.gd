@@ -9,7 +9,7 @@ extends Node
 
 func _ready() -> void:
 	gate_events.search.connect(func(_query): switch_scene(search_results))
-	gate_events.open_gate.connect(func(_url): switch_scene(world_scene))
+	gate_events.open_gate_app.connect(func(_url): switch_scene(world_scene))
 	gate_events.exit_gate.connect(func(): switch_scene(home))
 	
 	switch_scene(home)

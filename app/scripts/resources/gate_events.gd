@@ -3,6 +3,7 @@ class_name GateEvents
 
 signal search(query: String)
 signal open_gate(url: String)
+signal open_gate_app(url: String) # only for app.gd, called after open_gate
 signal gate_config_loaded(url: String, config: ConfigGate)
 signal gate_info_loaded(gate: Gate)
 signal gate_icon_loaded(gate: Gate) # might be empty icon
@@ -52,6 +53,7 @@ func open_gate_emit(url: String) -> void:
 	clear_current_gate()
 	current_gate_url = Url.fix_gate_url(url)
 	open_gate.emit(current_gate_url)
+	open_gate_app.emit(current_gate_url)
 
 
 func gate_config_loaded_emit(url: String, config: ConfigGate) -> void:

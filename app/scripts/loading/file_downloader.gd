@@ -105,7 +105,7 @@ func download(url: String, timeout: float = 0, force_revalidate: bool = false, s
 		return ""
 
 
-func download_with_status(url: String, timeout: float = 0, force_revalidate: bool = true, session: DownloadSession = null) -> Dictionary:
+func download_with_status(url: String, timeout: float = 0, force_revalidate: bool = false, session: DownloadSession = null) -> Dictionary:
 	# Returns { "path": String, "status": int }. If not forced and cache is fresh/recent,
 	# skips network and returns the cached path with status 0.
 	var result: Dictionary = {"path": "", "status": 0}

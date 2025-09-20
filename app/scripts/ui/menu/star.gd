@@ -49,9 +49,7 @@ func update_info(_gate: Gate) -> void:
 
 
 func _on_star_pressed() -> void:
-	if gate == null:
-		gate = Gate.new()
-		gate.url = url
+	if gate == null: return
 	
 	bookmarks.star(gate)
 	star.visible = false
@@ -59,9 +57,7 @@ func _on_star_pressed() -> void:
 
 
 func _on_unstar_pressed() -> void:
-	if gate == null:
-		gate = Gate.new()
-		gate.url = url
+	if gate == null: return
 	
 	bookmarks.unstar(gate)
 	star.visible = true

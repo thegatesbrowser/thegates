@@ -18,7 +18,7 @@ Special case: when exporting Windows pack from Linux host, override output path 
 Editor binaries to use:
 - Linux:  godot/bin/godot.linuxbsd.editor.dev.x86_64.llvm
 - macOS:  godot/bin/godot.macos.editor.dev.arm64
-- Windows: godot/bin/godot.windows.editor.dev.x86_64.exe
+- Windows: godot/bin/godot.windows.editor.dev.x86_64.llvm.exe
 
 Only release builds are exported (uses --export-release).
 """
@@ -42,7 +42,7 @@ EXPORT_PRESETS_PATH = APP_DIR / "export_presets.cfg"
 
 LINUX_EDITOR_RELATIVE = Path("godot/bin/godot.linuxbsd.editor.dev.x86_64.llvm")
 MACOS_EDITOR_RELATIVE = Path("godot/bin/godot.macos.editor.dev.arm64")
-WINDOWS_EDITOR_RELATIVE = Path("godot/bin/godot.windows.editor.dev.x86_64.exe")
+WINDOWS_EDITOR_RELATIVE = Path("godot/bin/godot.windows.editor.dev.x86_64.llvm.exe")
 
 LINUX_WINDOWS_PCK_OVERRIDE_PATH = Path("/media/common/Projects/thegates-folder/AppBuilds/Windows/TheGates.pck")
 

@@ -6,6 +6,10 @@ var window: Window
 var initial_screen_set: bool
 
 
+func _enter_tree() -> void:
+	change_window_settings()
+
+
 func _ready() -> void:
 	window = get_window()
 	
@@ -13,7 +17,6 @@ func _ready() -> void:
 	window.dpi_changed.connect(scale_content)
 	resized.connect(on_resized)
 	
-	change_window_settings()
 	scale_content()
 	on_resized()
 

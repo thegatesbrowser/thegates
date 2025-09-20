@@ -12,8 +12,8 @@ class_name RendererExecutable
 @export var windows_debug: String
 
 @export var macos: String
+@export var macos_framework: String
 @export var macos_debug: String
-@export var macos_debug_old: String
 
 var supported_platforms := [Platform.WINDOWS, Platform.LINUX_BSD, Platform.MACOS]
 
@@ -28,16 +28,14 @@ func download(godot_version: String, active_session: FileDownloader.DownloadSess
 		return ""
 	
 	var renderer_path = get_renderer_path(godot_version)
-	if FileAccess.file_exists(renderer_path):
-		return renderer_path
+	if FileAccess.file_exists(renderer_path): return renderer_path
 	Debug.logclr("Renderer executable not found at " + renderer_path, Color.YELLOW)
 	
 	var url = get_download_url(godot_version)
 	var renderer_zip = await FileDownloader.download(url, 0.0, false, active_session)
-	
 	if renderer_zip.is_empty(): Debug.logclr("Failed to download renderer zip", Color.RED); return ""
 	
-	var extracted = UnZip.extract_file(renderer_zip, renderer_path, true)
+	var extracted = UnZip.extract_renderer_files(renderer_zip, renderer_path)
 	DirAccess.remove_absolute(renderer_zip)
 	if not extracted: return ""
 	
@@ -49,21 +47,37 @@ func get_download_url(godot_version: String) -> String:
 
 
 func get_renderer_path(godot_version: String) -> String:
-	var use_debug = Platform.is_debug() and godot_version == current_godot_version
-	var filename = ""
-	
 	match Platform.get_platform():
 		Platform.WINDOWS:
-			filename = windows_debug if use_debug else windows % [godot_version]
+			var use_debug = Platform.is_debug() and godot_version == current_godot_version
+			var filename = windows_debug if use_debug else windows % [godot_version]
+			return OS.get_executable_path().get_base_dir() + "/" + filename
+			
 		Platform.LINUX_BSD:
-			filename = linux_debug if use_debug else linux % [godot_version]
+			var use_debug = Platform.is_debug() and godot_version == current_godot_version
+			var filename = linux_debug if use_debug else linux % [godot_version]
+			return OS.get_executable_path().get_base_dir() + "/" + filename
+			
 		Platform.MACOS:
-			use_debug = Platform.is_debug()
-			var current = godot_version == current_godot_version
-			var debug_filename = macos_debug if current else macos_debug_old % [godot_version]
-			filename = debug_filename if use_debug else macos % [godot_version]
+			return get_renderer_path_macos(godot_version)
+			
 		_:
 			assert(false, "Platform is not supported")
 	
-	var executable_dir = OS.get_executable_path().get_base_dir() + "/"
-	return executable_dir + filename
+	return ""
+
+
+func get_renderer_path_macos(godot_version: String) -> String:
+	if not Platform.is_debug() and godot_version == current_godot_version:
+		return OS.get_executable_path().get_base_dir() + "/" + macos_framework % [godot_version]
+	
+	if not Platform.is_debug() and godot_version != current_godot_version:
+		return ProjectSettings.globalize_path("user://") + macos % [godot_version]
+	
+	if Platform.is_debug() and godot_version == current_godot_version:
+		return OS.get_executable_path().get_base_dir() + "/" + macos_debug
+	
+	if Platform.is_debug() and godot_version != current_godot_version:
+		return OS.get_executable_path().get_base_dir() + "/" + macos % [godot_version]
+	
+	return ""

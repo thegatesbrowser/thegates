@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ibqfwrvrximj"]
 
-[ext_resource type="Script" path="res://scripts/url.gd" id="1_jqily"]
+[ext_resource type="Script" uid="uid://cdr6shkc3kbwq" path="res://scripts/url.gd" id="1_jqily"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="2_nw0pg"]
 
 [node name="Url" type="Node"]

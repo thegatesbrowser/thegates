@@ -1,11 +1,11 @@
 [gd_scene load_steps=16 format=3 uid="uid://dh3owgirapji5"]
 
-[ext_resource type="Script" path="res://scripts/ui/search/search_results.gd" id="1_bycb5"]
+[ext_resource type="Script" uid="uid://cbhov2ptmjii2" path="res://scripts/ui/search/search_results.gd" id="1_bycb5"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_mgpxk"]
-[ext_resource type="Script" path="res://addons/max_size_container/max_size_container.gd" id="1_scp2i"]
+[ext_resource type="Script" uid="uid://cy8sr5n3g4ys2" path="res://addons/max_size_container/max_size_container.gd" id="1_scp2i"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_2plpa"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="3_263ma"]
-[ext_resource type="Script" path="res://scripts/ui/search/search_results_header.gd" id="3_cuw8t"]
+[ext_resource type="Script" uid="uid://bwxcq65yynmnt" path="res://scripts/ui/search/search_results_header.gd" id="3_cuw8t"]
 [ext_resource type="PackedScene" uid="uid://i3lgu2dyypcq" path="res://scenes/components/search/result.tscn" id="4_yxn4t"]
 [ext_resource type="PackedScene" uid="uid://dntnp0igpccdt" path="res://scenes/components/search/suggestion.tscn" id="8_1alsm"]
 [ext_resource type="PackedScene" uid="uid://bj6j3nyldlqjm" path="res://scenes/components/search/no_results_note.tscn" id="8_kxod6"]
@@ -78,7 +78,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
+theme_override_constants/margin_right = 899
 theme_override_constants/margin_bottom = 0
 script = ExtResource("1_scp2i")
 limit = Vector2(1015, -1)

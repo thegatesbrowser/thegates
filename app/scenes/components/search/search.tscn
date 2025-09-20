@@ -1,21 +1,21 @@
 [gd_scene load_steps=21 format=3 uid="uid://ctam0fxigbefk"]
 
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="1_ruyeb"]
-[ext_resource type="Script" path="res://scripts/ui/search/search.gd" id="2_7qvyv"]
+[ext_resource type="Script" uid="uid://q034488v3hn0" path="res://scripts/ui/search/search.gd" id="2_7qvyv"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="3_685a6"]
-[ext_resource type="Script" path="res://scripts/ui/search/search_status.gd" id="4_cx4ue"]
+[ext_resource type="Script" uid="uid://b77oevqkschwo" path="res://scripts/ui/search/search_status.gd" id="4_cx4ue"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="4_oquth"]
 [ext_resource type="Texture2D" uid="uid://byrcelmfy6r3l" path="res://assets/textures/search.svg" id="5_c6ql8"]
 [ext_resource type="Texture2D" uid="uid://cx3xxaqo3s3eq" path="res://assets/textures/gate.svg" id="6_p0kxs"]
-[ext_resource type="Script" path="res://scripts/ui/search/download_animation.gd" id="7_x8glc"]
+[ext_resource type="Script" uid="uid://c08fwx0mkx0vs" path="res://scripts/ui/search/download_animation.gd" id="7_x8glc"]
 [ext_resource type="Texture2D" uid="uid://cli88m5w3op6l" path="res://assets/textures/close_tab.svg" id="8_c6y7s"]
-[ext_resource type="Script" path="res://scripts/ui/menu/star.gd" id="9_ddnf2"]
+[ext_resource type="Script" uid="uid://mt1ftp8euquh" path="res://scripts/ui/menu/star.gd" id="9_ddnf2"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="10_ih0xb"]
 [ext_resource type="Texture2D" uid="uid://c7ljriip50hte" path="res://assets/textures/star.svg" id="11_36jkj"]
 [ext_resource type="Texture2D" uid="uid://itloduvrh00o" path="res://assets/textures/star_color.svg" id="12_fj18v"]
-[ext_resource type="Script" path="res://scripts/ui/search/prompt_navigation.gd" id="13_2wt6m"]
-[ext_resource type="Script" path="res://scripts/ui/search/fix_promt_position.gd" id="14_t74qb"]
-[ext_resource type="Script" path="res://scripts/ui/search/prompt_results.gd" id="15_oxssj"]
+[ext_resource type="Script" uid="uid://c5rv12bcypf77" path="res://scripts/ui/search/prompt_navigation.gd" id="13_2wt6m"]
+[ext_resource type="Script" uid="uid://2hpv4d5wi773" path="res://scripts/ui/search/fix_promt_position.gd" id="14_t74qb"]
+[ext_resource type="Script" uid="uid://dn4uudt3klmqs" path="res://scripts/ui/search/prompt_results.gd" id="15_oxssj"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="16_rk35h"]
 [ext_resource type="PackedScene" uid="uid://b57n6cvtqn5b7" path="res://scenes/components/search/prompt.tscn" id="17_xggpn"]
 
@@ -64,13 +64,13 @@ size_flags_horizontal = 3
 localize_numeral_system = false
 focus_next = NodePath("Prompt")
 focus_mode = 1
-theme_override_colors/selection_color = Color(0.419608, 0.231373, 0.929412, 0.588235)
-theme_override_colors/font_placeholder_color = Color(0.431373, 0.435294, 0.494118, 1)
 theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_colors/font_placeholder_color = Color(0.431373, 0.435294, 0.494118, 1)
+theme_override_colors/selection_color = Color(0.419608, 0.231373, 0.929412, 0.588235)
 theme_override_fonts/font = ExtResource("1_ruyeb")
 theme_override_font_sizes/font_size = 15
-theme_override_styles/focus = SubResource("StyleBoxFlat_hyysn")
 theme_override_styles/normal = SubResource("StyleBoxFlat_hyysn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_hyysn")
 placeholder_text = "Search or type URL"
 select_all_on_focus = true
 script = ExtResource("2_7qvyv")
@@ -215,6 +215,7 @@ size_flags_vertical = 1
 size_flags_stretch_ratio = 1.0
 localize_numeral_system = true
 tooltip_text = ""
+tooltip_auto_translate_mode = 0
 focus_neighbor_left = NodePath("")
 focus_neighbor_top = NodePath("")
 focus_neighbor_right = NodePath("")
@@ -222,9 +223,18 @@ focus_neighbor_bottom = NodePath("")
 focus_next = NodePath("")
 focus_previous = NodePath("")
 focus_mode = 2
+focus_behavior_recursive = 0
 mouse_filter = 0
+mouse_behavior_recursive = 0
 mouse_force_pass_scroll_events = true
 mouse_default_cursor_shape = 2
+accessibility_name = ""
+accessibility_description = ""
+accessibility_live = 0
+accessibility_controls_nodes = Array[NodePath]([])
+accessibility_described_by_nodes = Array[NodePath]([])
+accessibility_labeled_by_nodes = Array[NodePath]([])
+accessibility_flow_to_nodes = Array[NodePath]([])
 theme = null
 theme_type_variation = &""
 disabled = false
@@ -298,6 +308,7 @@ size_flags_vertical = 1
 size_flags_stretch_ratio = 1.0
 localize_numeral_system = true
 tooltip_text = ""
+tooltip_auto_translate_mode = 0
 focus_neighbor_left = NodePath("")
 focus_neighbor_top = NodePath("")
 focus_neighbor_right = NodePath("")
@@ -305,9 +316,18 @@ focus_neighbor_bottom = NodePath("")
 focus_next = NodePath("")
 focus_previous = NodePath("")
 focus_mode = 2
+focus_behavior_recursive = 0
 mouse_filter = 0
+mouse_behavior_recursive = 0
 mouse_force_pass_scroll_events = true
 mouse_default_cursor_shape = 2
+accessibility_name = ""
+accessibility_description = ""
+accessibility_live = 0
+accessibility_controls_nodes = Array[NodePath]([])
+accessibility_described_by_nodes = Array[NodePath]([])
+accessibility_labeled_by_nodes = Array[NodePath]([])
+accessibility_flow_to_nodes = Array[NodePath]([])
 theme = null
 theme_type_variation = &""
 disabled = false

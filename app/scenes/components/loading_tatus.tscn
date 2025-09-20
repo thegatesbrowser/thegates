@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dr1hykfog1h85"]
 
 [ext_resource type="LabelSettings" uid="uid://bo2334w4lf3ug" path="res://assets/styles/text.tres" id="1_gjtj0"]
-[ext_resource type="Script" path="res://scripts/ui/world/loading_status.gd" id="1_m3y11"]
+[ext_resource type="Script" uid="uid://s5hodmwpxkmt" path="res://scripts/ui/world/loading_status.gd" id="1_m3y11"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_0ylq1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ydgjs"]

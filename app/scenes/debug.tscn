@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://byrcbqat0n2px"]
 
-[ext_resource type="Script" path="res://scripts/debug_log/debug_window.gd" id="1_j4w8w"]
+[ext_resource type="Script" uid="uid://drtyjcj7olgfx" path="res://scripts/debug_log/debug_window.gd" id="1_j4w8w"]
 [ext_resource type="Resource" uid="uid://crjhix0osmtnf" path="res://resources/ui_events.res" id="2_274f6"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="2_da5xc"]
-[ext_resource type="Script" path="res://scripts/debug_log/debug_log.gd" id="2_lgt6s"]
+[ext_resource type="Script" uid="uid://ctop6ixvl36cs" path="res://scripts/debug_log/debug_log.gd" id="2_lgt6s"]
 [ext_resource type="FontFile" uid="uid://c14w1y1r54wgi" path="res://assets/fonts/Inter-Bold.otf" id="3_w27g3"]
 [ext_resource type="FontFile" uid="uid://b3xb1fpllhnf4" path="res://assets/fonts/Inter-Italic.otf" id="4_jcerd"]
 [ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="5_jgvml"]
@@ -19,6 +19,7 @@ window = NodePath("Window")
 
 [node name="Window" type="Window" parent="."]
 disable_3d = true
+oversampling_override = 1.0
 title = "Debug Log"
 initial_position = 5
 size = Vector2i(800, 600)
@@ -41,10 +42,10 @@ grow_vertical = 2
 focus_mode = 2
 theme_override_colors/selection_color = Color(0.419608, 0.231373, 0.929412, 0.588235)
 theme_override_fonts/normal_font = ExtResource("2_da5xc")
-theme_override_fonts/mono_font = ExtResource("6_vcylm")
-theme_override_fonts/italics_font = ExtResource("4_jcerd")
-theme_override_fonts/bold_italics_font = ExtResource("5_jgvml")
 theme_override_fonts/bold_font = ExtResource("3_w27g3")
+theme_override_fonts/bold_italics_font = ExtResource("5_jgvml")
+theme_override_fonts/italics_font = ExtResource("4_jcerd")
+theme_override_fonts/mono_font = ExtResource("6_vcylm")
 bbcode_enabled = true
 scroll_following = true
 autowrap_mode = 1

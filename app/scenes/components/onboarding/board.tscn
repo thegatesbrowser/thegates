@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://pbsmrx55rb5g"]
 
-[ext_resource type="Script" path="res://scripts/ui/onboarding/board.gd" id="1_dxxs8"]
+[ext_resource type="Script" uid="uid://caw41kfhy6sm" path="res://scripts/ui/onboarding/board.gd" id="1_dxxs8"]
 [ext_resource type="Texture2D" uid="uid://xvojwttib03s" path="res://assets/textures/onboarding/1_internet.png" id="2_8iccy"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="3_t5hfc"]
 

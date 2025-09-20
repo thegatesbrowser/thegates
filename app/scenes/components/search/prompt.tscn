@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://b57n6cvtqn5b7"]
 
-[ext_resource type="Script" path="res://scripts/ui/search/prompt.gd" id="1_7xv44"]
+[ext_resource type="Script" uid="uid://c2sowtufpb1vs" path="res://scripts/ui/search/prompt.gd" id="1_7xv44"]
 [ext_resource type="StyleBox" uid="uid://c6dqs0nhh726" path="res://assets/styles/prompt.stylebox" id="1_cbfrs"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_33m26"]
 [ext_resource type="LabelSettings" uid="uid://bo2334w4lf3ug" path="res://assets/styles/text.tres" id="3_rbghg"]
@@ -20,9 +20,9 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
-theme_override_styles/hover = ExtResource("1_cbfrs")
-theme_override_styles/pressed = ExtResource("1_cbfrs")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_l81vq")
+theme_override_styles/pressed = ExtResource("1_cbfrs")
+theme_override_styles/hover = ExtResource("1_cbfrs")
 script = ExtResource("1_7xv44")
 gate_events = ExtResource("2_33m26")
 prompt_text = NodePath("Label")

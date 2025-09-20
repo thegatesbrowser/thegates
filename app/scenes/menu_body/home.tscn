@@ -1,15 +1,15 @@
 [gd_scene load_steps=23 format=3 uid="uid://ca647gp63bshc"]
 
 [ext_resource type="Texture2D" uid="uid://bw1cffhlt112i" path="res://assets/textures/icon_round.svg" id="1_dh3vr"]
-[ext_resource type="Script" path="res://scripts/ui/menu/bookmark_container.gd" id="1_g38mt"]
-[ext_resource type="Script" path="res://scripts/ui/menu/scroll_container.gd" id="1_nto68"]
+[ext_resource type="Script" uid="uid://bpjvvsx5l8uij" path="res://scripts/ui/menu/bookmark_container.gd" id="1_g38mt"]
+[ext_resource type="Script" uid="uid://l3738k1ij6ce" path="res://scripts/ui/menu/scroll_container.gd" id="1_nto68"]
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="2_2igc6"]
-[ext_resource type="Script" path="res://addons/max_size_container/max_size_container.gd" id="2_ceb6w"]
+[ext_resource type="Script" uid="uid://cy8sr5n3g4ys2" path="res://addons/max_size_container/max_size_container.gd" id="2_ceb6w"]
 [ext_resource type="PackedScene" uid="uid://bs2cwop0ei1r1" path="res://scenes/components/search/search_home.tscn" id="3_guc56"]
 [ext_resource type="PackedScene" uid="uid://82ca8so31njy" path="res://scenes/components/bookmark.tscn" id="3_isdis"]
 [ext_resource type="PackedScene" uid="uid://xagbhqfidf2" path="res://scenes/components/round_button.tscn" id="7_bbq84"]
 [ext_resource type="Texture2D" uid="uid://dy5lmm2egk4w1" path="res://assets/textures/help.svg" id="8_3cxe2"]
-[ext_resource type="Script" path="res://scripts/ui/menu/help_button.gd" id="10_ant0e"]
+[ext_resource type="Script" uid="uid://cr4ba7mu31ekk" path="res://scripts/ui/menu/help_button.gd" id="10_ant0e"]
 [ext_resource type="Resource" uid="uid://bfg1kjboaitqt" path="res://resources/app_events.res" id="11_2td0u"]
 [ext_resource type="PackedScene" uid="uid://b5tbn17l1pfs1" path="res://scenes/components/onboarding/onboarding.tscn" id="11_kyh0m"]
 
@@ -46,7 +46,7 @@ VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_0quyf")
 VScrollBar/styles/scroll = SubResource("StyleBoxLine_ifq5u")
 VScrollBar/styles/scroll_focus = null
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f0k7f"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37fyt"]
 content_margin_left = 12.0
 content_margin_top = 12.0
 content_margin_right = 12.0
@@ -59,7 +59,7 @@ corner_radius_bottom_left = 22
 shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
 shadow_size = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2pbt7"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ae6qa"]
 content_margin_left = 12.0
 content_margin_top = 12.0
 content_margin_right = 12.0
@@ -85,7 +85,7 @@ corner_radius_bottom_left = 22
 shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
 shadow_size = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ae6qa"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2pbt7"]
 content_margin_left = 12.0
 content_margin_top = 12.0
 content_margin_right = 12.0
@@ -98,7 +98,7 @@ corner_radius_bottom_left = 22
 shadow_color = Color(0.0862745, 0.0901961, 0.117647, 0.784314)
 shadow_size = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37fyt"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f0k7f"]
 content_margin_left = 12.0
 content_margin_top = 12.0
 content_margin_right = 12.0
@@ -181,9 +181,9 @@ size_flags_horizontal = 3
 [node name="MaxSizeContainer2" type="MarginContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(300, 44)
 layout_mode = 2
-theme_override_constants/margin_left = 0
+theme_override_constants/margin_left = 393
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
+theme_override_constants/margin_right = 393
 theme_override_constants/margin_bottom = 0
 script = ExtResource("2_ceb6w")
 limit = Vector2(720, -1)
@@ -200,9 +200,9 @@ custom_minimum_size = Vector2(180, 400)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
-theme_override_constants/margin_left = 0
+theme_override_constants/margin_left = 278
 theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
+theme_override_constants/margin_right = 278
 theme_override_constants/margin_bottom = 0
 script = ExtResource("2_ceb6w")
 limit = Vector2(950, -1)
@@ -243,11 +243,11 @@ offset_right = -12.0
 offset_bottom = -12.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_styles/focus = SubResource("StyleBoxFlat_f0k7f")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_2pbt7")
-theme_override_styles/hover = SubResource("StyleBoxFlat_p1ofm")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_ae6qa")
 theme_override_styles/normal = SubResource("StyleBoxFlat_37fyt")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ae6qa")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p1ofm")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_2pbt7")
+theme_override_styles/focus = SubResource("StyleBoxFlat_f0k7f")
 icon = ExtResource("8_3cxe2")
 script = ExtResource("10_ant0e")
 url = "https://forms.gle/1NmJeCQnQh7Yc1KP8"

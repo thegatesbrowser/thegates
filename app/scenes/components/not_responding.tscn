@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://c7571vjq7l0jp"]
 
-[ext_resource type="Script" path="res://scripts/ui/world/not_responding.gd" id="1_feqd7"]
+[ext_resource type="Script" uid="uid://btu6plklkbh0y" path="res://scripts/ui/world/not_responding.gd" id="1_feqd7"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_8u6e2"]
 [ext_resource type="FontFile" uid="uid://do40418waa8w3" path="res://assets/fonts/Inter-Regular.otf" id="2_ugt55"]
 [ext_resource type="Resource" uid="uid://bqgikyax6jfqa" path="res://resources/history.tres" id="3_ge6h5"]
@@ -87,16 +87,9 @@ label_settings = ExtResource("5_ruiif")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Control" type="Control" parent="TextureButton/Popup/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="TextureButton/Popup/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Label2" type="Label" parent="TextureButton/Popup/MarginContainer/VBoxContainer/Control"]
-layout_mode = 2
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 size_flags_vertical = 6
 text = "The connection to this world has been lost. Reload to try again or go back to safety."
 label_settings = SubResource("LabelSettings_bkr01")
@@ -111,8 +104,8 @@ theme_override_constants/separation = 22
 [node name="Reload" parent="TextureButton/Popup/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("7_mxyw0")]
 custom_minimum_size = Vector2(90, 26)
 layout_mode = 2
-theme_override_colors/font_disabled_color = Color(0.431373, 0.435294, 0.494118, 1)
 theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_colors/font_disabled_color = Color(0.431373, 0.435294, 0.494118, 1)
 theme_override_fonts/font = ExtResource("2_ugt55")
 theme_override_font_sizes/font_size = 20
 text = "Reload"
@@ -121,8 +114,8 @@ icon = null
 [node name="Back" parent="TextureButton/Popup/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("7_mxyw0")]
 custom_minimum_size = Vector2(100, 26)
 layout_mode = 2
-theme_override_colors/font_disabled_color = Color(0.431373, 0.435294, 0.494118, 1)
 theme_override_colors/font_color = Color(0.831373, 0.831373, 0.831373, 1)
+theme_override_colors/font_disabled_color = Color(0.431373, 0.435294, 0.494118, 1)
 theme_override_fonts/font = ExtResource("2_ugt55")
 theme_override_font_sizes/font_size = 20
 text = "Go back"

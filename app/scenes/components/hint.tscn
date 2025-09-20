@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://m622v03jydnq"]
 
-[ext_resource type="Script" path="res://scripts/ui/hint.gd" id="1_mhnl1"]
+[ext_resource type="Script" uid="uid://b87ds8np3pgri" path="res://scripts/ui/hint.gd" id="1_mhnl1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7wdcy"]
 bg_color = Color(0.22, 0.22, 0.22, 0.631373)
@@ -37,8 +37,8 @@ length = 0.001
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_l0m26"]
 _data = {
-"Bounce": SubResource("Animation_tul52"),
-"RESET": SubResource("Animation_a1w2o")
+&"Bounce": SubResource("Animation_tul52"),
+&"RESET": SubResource("Animation_a1w2o")
 }
 
 [node name="Hint" type="Control"]
@@ -83,5 +83,5 @@ vertical_alignment = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_l0m26")
+&"": SubResource("AnimationLibrary_l0m26")
 }

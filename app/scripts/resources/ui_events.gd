@@ -22,6 +22,7 @@ var is_debug_window_opened: bool
 var is_onboarding_requested: bool
 var is_onboarding_started: bool
 var is_typing_search: bool
+var is_dragging_window: bool
 
 
 func ui_mode_changed_emit(mode: UiMode) -> void:
@@ -62,3 +63,7 @@ func onboarding_finished_emit() -> void:
 
 func set_typing_search(is_typing: bool) -> void:
 	is_typing_search = is_typing
+
+
+func set_dragging_window(is_dragging: bool) -> void:
+	is_dragging_window = is_dragging

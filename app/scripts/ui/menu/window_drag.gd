@@ -1,5 +1,6 @@
 extends Control
 
+@export var ui_events: UiEvents
 @export var restore_drag_y_threshold: int = 24
 @export var snap_top_threshold_px: int = 8
 @export var restored_window_ratio: float = 0.75
@@ -41,7 +42,7 @@ func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			mouse_pressed = true
-			dragging = false
+			set_dragging(false)
 			restored_from_maximize = false
 			pending_maximize_on_release = false
 			press_mouse_global = DisplayServer.mouse_get_position()
@@ -54,20 +55,26 @@ func _gui_input(event: InputEvent) -> void:
 			if pending_maximize_on_release:
 				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 			pending_maximize_on_release = false
-			dragging = false
+			set_dragging(false)
 	if event is InputEventMouseMotion and mouse_pressed:
 		var mouse_global: Vector2i = DisplayServer.mouse_get_position()
 		if was_maximized_at_press and not restored_from_maximize:
 			if abs(mouse_global.y - press_mouse_global.y) >= restore_drag_y_threshold:
 				restore_from_maximized(mouse_global)
 				restored_from_maximize = true
-				dragging = true
+				set_dragging(true)
 		else:
-			dragging = true
+			set_dragging(true)
 		if dragging:
 			var new_pos: Vector2i = mouse_global - drag_offset
 			DisplayServer.window_set_position(new_pos)
 			var usable: Rect2i = DisplayServer.screen_get_usable_rect(DisplayServer.window_get_current_screen())
 			pending_maximize_on_release = mouse_global.y <= usable.position.y + snap_top_threshold_px
+
+
+func set_dragging(is_dragging: bool) -> void:
+	dragging = is_dragging
+	ui_events.set_dragging_window(is_dragging)
+
 
 # TODO: cleanup ai generated code

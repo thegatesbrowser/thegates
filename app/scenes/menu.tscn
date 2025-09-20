@@ -107,6 +107,7 @@ theme_override_constants/separation = 0
 custom_minimum_size = Vector2(0, 101)
 layout_mode = 2
 script = ExtResource("3_o4p76")
+ui_events = ExtResource("8_8dnbq")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Top"]
 layout_mode = 1

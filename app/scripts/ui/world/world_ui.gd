@@ -74,6 +74,7 @@ func hide_ui() -> void:
 	if not is_app_in_focus(): return
 	if ui_events.is_typing_search: return
 	if ui_events.is_debug_window_opened: return
+	if ui_events.is_dragging_window: return
 	
 	_visible = false
 	

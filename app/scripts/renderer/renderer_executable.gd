@@ -47,19 +47,16 @@ func get_download_url(godot_version: String) -> String:
 
 
 func get_renderer_path(godot_version: String) -> String:
+	var dir = get_renderer_dir(godot_version)
 	match Platform.get_platform():
 		Platform.WINDOWS:
-			var use_debug = Platform.is_debug() and godot_version == current_godot_version
-			var filename = windows_debug if use_debug else windows % [godot_version]
-			return OS.get_executable_path().get_base_dir() + "/" + filename
+			return dir + get_renderer_filename(godot_version, windows, windows_debug)
 			
 		Platform.LINUX_BSD:
-			var use_debug = Platform.is_debug() and godot_version == current_godot_version
-			var filename = linux_debug if use_debug else linux % [godot_version]
-			return OS.get_executable_path().get_base_dir() + "/" + filename
+			return dir + get_renderer_filename(godot_version, linux, linux_debug)
 			
 		Platform.MACOS:
-			return get_renderer_path_macos(godot_version)
+			return dir + get_renderer_filename(godot_version, macos, macos_debug)
 			
 		_:
 			assert(false, "Platform is not supported")
@@ -67,17 +64,18 @@ func get_renderer_path(godot_version: String) -> String:
 	return ""
 
 
-func get_renderer_path_macos(godot_version: String) -> String:
-	if not Platform.is_debug() and godot_version == current_godot_version:
-		return OS.get_executable_path().get_base_dir() + "/" + macos_framework % [godot_version]
+func get_renderer_filename(godot_version: String, release: String, debug: String) -> String:
+	var is_current = godot_version == current_godot_version
 	
-	if not Platform.is_debug() and godot_version != current_godot_version:
-		return ProjectSettings.globalize_path("user://") + macos % [godot_version]
+	if Platform.is_debug() and is_current:
+		return debug
 	
-	if Platform.is_debug() and godot_version == current_godot_version:
-		return OS.get_executable_path().get_base_dir() + "/" + macos_debug
+	if is_current and Platform.is_macos():
+		return macos_framework % [godot_version]
 	
-	if Platform.is_debug() and godot_version != current_godot_version:
-		return OS.get_executable_path().get_base_dir() + "/" + macos % [godot_version]
-	
-	return ""
+	return release % [godot_version]
+
+
+func get_renderer_dir(godot_version: String) -> String:
+	if godot_version != current_godot_version: return ProjectSettings.globalize_path("user://")
+	else: return OS.get_executable_path().get_base_dir() + "/"

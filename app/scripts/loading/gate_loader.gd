@@ -173,7 +173,7 @@ func try_finish_loading() -> void:
 
 
 func error(code: GateEvents.GateError) -> void:
-	Debug.logerr("GateError: " + GateEvents.GateError.keys()[code])
+	Debug.logclr("GateError: " + GateEvents.GateError.keys()[code], Color.MAROON)
 	has_errors = true
 	gate_events.gate_error_emit(code)
 

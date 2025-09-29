@@ -144,6 +144,7 @@ func drain_body(client: HTTPClient, timeout_ms: int) -> bool:
 		if Time.get_ticks_msec() - start_time > timeout_ms:
 			return false
 		
+		if get_tree() == null: return false
 		await get_tree().process_frame
 	
 	return client.get_status() == HTTPClient.STATUS_CONNECTED

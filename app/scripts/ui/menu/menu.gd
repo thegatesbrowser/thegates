@@ -45,31 +45,41 @@ func change_window_settings() -> void:
 
 
 func scale_content() -> void:
-	var screen_scale = DisplayServer.screen_get_scale()
-	var screen_dpi = DisplayServer.screen_get_dpi()
-	
-	if screen_dpi == last_dpi: return
-	last_dpi = screen_dpi
-	
-	if not Platform.is_macos():
-		var scale_raw = screen_dpi / 96.0
-		screen_scale = get_supported_screen_scale(scale_raw)
-		Debug.logclr("DPI: %d / 96 = %.2f" % [screen_dpi, scale_raw], Debug.SILENT_CLR)
-	
+	var screen_scale = get_auto_display_scale()
+	if get_window().content_scale_factor == screen_scale: return
 	get_window().content_scale_factor = screen_scale
 	Debug.logclr("Content scale factor: %.2f" % [screen_scale], Debug.SILENT_CLR)
 
 
-func get_supported_screen_scale(scale_value: float) -> float:
-	var allowed_scales = [0.5, 1.0, 1.25, 1.5, 2.0, 3.0, 4.0]
-	var closest_scale = allowed_scales[0]
-	var smallest_delta = abs(scale_value - closest_scale)
-	for allowed_scale in allowed_scales:
-		var delta = abs(scale_value - allowed_scale)
-		if delta < smallest_delta:
-			smallest_delta = delta
-			closest_scale = allowed_scale
-	return closest_scale
+## From editor scale detection
+## https://github.com/godotengine/godot/blob/5675c76461e197d3929a1142cfb84ab1a76ac9dd/editor/editor_settings.cpp#L1575
+func get_auto_display_scale() -> float:
+	if Platform.is_linux():
+		var display_name = DisplayServer.get_name()
+		if display_name == "Wayland":
+			var main_window_scale = DisplayServer.screen_get_scale(DisplayServer.SCREEN_OF_MAIN_WINDOW)
+			var fractional_part = main_window_scale - floor(main_window_scale)
+			if DisplayServer.get_screen_count() == 1 or not is_equal_approx(fractional_part, 0.0):
+				return main_window_scale
+			return DisplayServer.screen_get_max_scale()
+	
+	if Platform.is_macos() or Platform.get_platform() == Platform.ANDROID:
+		return DisplayServer.screen_get_max_scale()
+	
+	var screen = DisplayServer.window_get_current_screen()
+	var screen_size = DisplayServer.screen_get_size(screen)
+	if screen_size == Vector2i.ZERO:
+		return 1.0
+	
+	var smallest_dimension = min(screen_size.x, screen_size.y)
+	var screen_dpi = DisplayServer.screen_get_dpi(screen)
+	if screen_dpi >= 192 and smallest_dimension >= 1400:
+		return 2.0
+	elif smallest_dimension >= 1700:
+		return 1.5
+	elif smallest_dimension <= 800:
+		return 0.75
+	return 1.0
 
 
 func set_initial_screen() -> void:

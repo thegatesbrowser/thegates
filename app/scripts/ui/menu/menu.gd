@@ -32,6 +32,7 @@ func on_resized() -> void:
 	Debug.logclr("Ui resized: %dx%d" % [size.x, size.y], Debug.SILENT_CLR)
 	ui_events.ui_size_changed_emit(size)
 	scale_content()
+	fix_window_size()
 
 
 func change_window_settings() -> void:
@@ -80,6 +81,15 @@ func get_auto_display_scale() -> float:
 	elif smallest_dimension <= 800:
 		return 0.75
 	return 1.0
+
+
+func fix_window_size() -> void:
+	# Hack: Fix windows maximized mode 2px gap
+	if Platform.is_windows() and DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_MAXIMIZED \
+		and abs(DisplayServer.screen_get_size().x - size.x) > 0:
+		
+		var usable_rect = DisplayServer.screen_get_usable_rect()
+		window.size.x = usable_rect.size.x
 
 
 func set_initial_screen() -> void:

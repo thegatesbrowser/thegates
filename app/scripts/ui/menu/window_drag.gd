@@ -18,7 +18,7 @@ var drag_offset: Vector2i
 
 
 func restore_from_maximized(mouse_global: Vector2i) -> void:
-	var usable: Rect2i = DisplayServer.screen_get_usable_rect(DisplayServer.window_get_current_screen())
+	var usable: Rect2i = DisplayServer.screen_get_usable_rect()
 	var target_size: Vector2i = Vector2i(int(usable.size.x * restored_window_ratio), int(usable.size.y * restored_window_ratio))
 	
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
@@ -68,7 +68,7 @@ func _gui_input(event: InputEvent) -> void:
 		if dragging:
 			var new_pos: Vector2i = mouse_global - drag_offset
 			DisplayServer.window_set_position(new_pos)
-			var usable: Rect2i = DisplayServer.screen_get_usable_rect(DisplayServer.window_get_current_screen())
+			var usable: Rect2i = DisplayServer.screen_get_usable_rect()
 			pending_maximize_on_release = mouse_global.y <= usable.position.y + snap_top_threshold_px
 
 

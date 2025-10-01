@@ -84,12 +84,8 @@ func get_auto_display_scale() -> float:
 
 
 func fix_window_size() -> void:
-	# Hack: Fix windows maximized mode 2px gap
-	if Platform.is_windows() and DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_MAXIMIZED \
-		and abs(DisplayServer.screen_get_size().x - size.x) > 0:
-		
-		var usable_rect = DisplayServer.screen_get_usable_rect()
-		window.size.x = usable_rect.size.x
+	# TODO: Previous solution for windows maximized mode 2px gap did not work
+	pass
 
 
 func set_initial_screen() -> void:

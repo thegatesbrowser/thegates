@@ -28,15 +28,21 @@ func download(godot_version: String, active_session: FileDownloader.DownloadSess
 		return ""
 	
 	var renderer_path = get_renderer_path(godot_version)
-	if FileAccess.file_exists(renderer_path): return renderer_path
-	Debug.logclr("Renderer executable not found at " + renderer_path, Color.YELLOW)
+	if not need_download(renderer_path, godot_version): return renderer_path
 	
 	var url = get_download_url(godot_version)
-	var renderer_zip = await FileDownloader.download(url, 0.0, false, active_session)
-	if renderer_zip.is_empty(): Debug.logclr("Failed to download renderer zip", Color.RED); return ""
+	var renderer_result = await FileDownloader.download_with_status(url, 0.0, false, active_session)
 	
+	var status = renderer_result.get("status", 0)
+	if status == 304 or status == 0:
+		Debug.logclr("Renderer is already downloaded", Color.DIM_GRAY)
+		return renderer_path
+	elif status != 200:
+		Debug.logclr("Failed to download renderer. Code: " + str(status), Color.RED)
+		return ""
+	
+	var renderer_zip = renderer_result.get("path", "")
 	var extracted = UnZip.extract_renderer_files(renderer_zip, renderer_path)
-	DirAccess.remove_absolute(renderer_zip)
 	if not extracted: return ""
 	
 	return renderer_path
@@ -79,3 +85,14 @@ func get_renderer_filename(godot_version: String, release: String, debug: String
 func get_renderer_dir(godot_version: String) -> String:
 	if godot_version != current_godot_version: return ProjectSettings.globalize_path("user://")
 	else: return OS.get_executable_path().get_base_dir() + "/"
+
+
+func need_download(renderer_path: String, godot_version: String) -> bool:
+	var is_current = godot_version == current_godot_version
+	
+	if not is_current: # Always download old versions
+		return true
+	elif Platform.is_debug(): # Never download debug builds
+		return false
+	else:
+		return not FileAccess.file_exists(renderer_path)

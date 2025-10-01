@@ -27,6 +27,7 @@ func start_server() -> void:
 
 func on_ui_mode_changed(mode: UiEvents.UiMode) -> void:
 	should_send = mode == UiEvents.UiMode.FOCUSED
+	if should_send: update_mouse_position()
 
 
 func _input(_event: InputEvent) -> void:
@@ -37,6 +38,15 @@ func _input(_event: InputEvent) -> void:
 		event = _event.duplicate()
 		event.position = get_scaled_mouse_pos(event.position)
 		event.global_position = get_scaled_mouse_pos(event.global_position)
+	
+	input_sync.send_input_event(event)
+
+
+func update_mouse_position() -> void:
+	var event = InputEventMouseMotion.new()
+	var last_mouse_position = get_viewport().get_mouse_position()
+	event.position = get_scaled_mouse_pos(last_mouse_position)
+	event.global_position = get_scaled_mouse_pos(last_mouse_position)
 	
 	input_sync.send_input_event(event)
 

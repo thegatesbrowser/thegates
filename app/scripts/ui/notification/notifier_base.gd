@@ -1,5 +1,5 @@
 extends Node
-class_name NotificationBase
+class_name NotifierBase
 
 signal show(message: String, icon: Texture2D)
 signal hide()

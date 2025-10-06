@@ -1,5 +1,5 @@
-extends NotificationBase
-class_name NotificationMouse
+extends NotifierBase
+class_name NotifierMouse
 
 @export var ui_events: UiEvents
 

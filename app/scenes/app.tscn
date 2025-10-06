@@ -10,11 +10,11 @@
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="6_rupvx"]
 [ext_resource type="PackedScene" uid="uid://byrcbqat0n2px" path="res://scenes/debug.tscn" id="7_3xeb8"]
 [ext_resource type="Script" uid="uid://dc24inl2k13qd" path="res://scripts/api/analytics/analytics.gd" id="9_a1ttg"]
-[ext_resource type="Script" uid="uid://ciduynoj86kx6" path="res://scripts/ui/notification/notification_mouse.gd" id="9_kdd54"]
+[ext_resource type="Script" uid="uid://ciduynoj86kx6" path="res://scripts/ui/notification/notifier_mouse.gd" id="9_kdd54"]
 [ext_resource type="Script" uid="uid://dfrnyf0xausu8" path="res://scripts/ui/notification/notification_manager.gd" id="9_rwihi"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="10_04o5h"]
-[ext_resource type="Texture2D" uid="uid://bevejhgdw7mey" path="res://assets/textures/close.svg" id="11_681kt"]
 [ext_resource type="Script" uid="uid://cxxxems5gu4e0" path="res://scripts/api/analytics/analytics_sender_app.gd" id="11_cwwqp"]
+[ext_resource type="Texture2D" uid="uid://cli88m5w3op6l" path="res://assets/textures/close_tab.svg" id="12_681kt"]
 [ext_resource type="Script" uid="uid://bfpocd40pnxaj" path="res://scripts/api/analytics/analytics_sender_error.gd" id="12_rfjm7"]
 [ext_resource type="Script" uid="uid://c8vqsgpqnci7t" path="res://scripts/api/discover_gate.gd" id="13_3xhql"]
 [ext_resource type="Script" uid="uid://duwvf8sq1pkd" path="res://scripts/api/analytics/analytics_sender_bookmark.gd" id="13_74yg1"]
@@ -54,7 +54,7 @@ script = ExtResource("9_kdd54")
 ui_events = ExtResource("16_6u24i")
 message = "Your mouse is captured,
 Press Escape to show it."
-icon = ExtResource("11_681kt")
+icon = ExtResource("12_681kt")
 
 [node name="Api" type="Node" parent="."]
 

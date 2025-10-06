@@ -268,3 +268,5 @@ size_flags_vertical = 3
 
 [node name="NotificationBar" parent="." instance=ExtResource("22_fy8yy")]
 layout_mode = 1
+offset_top = 119.0
+offset_bottom = 632.0

@@ -1,12 +1,12 @@
 extends Control
-class_name NotificationPopup
+class_name Notification
 
 @export var icon: TextureRect
 @export var message: Label
 @export var root: Control
 @export var appear_duration: float = 0.4
 @export var hide_duration: float = 0.3
-@export var start_offset: Vector2 = Vector2(400.0, 0.0)
+@export var start_offset: Vector2 = Vector2(312.0, 0.0)
 
 var tween: Tween
 

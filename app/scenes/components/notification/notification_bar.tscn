@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b5fqa6box556e"]
 
-[ext_resource type="PackedScene" uid="uid://1a4h8k7mfv1e" path="res://scenes/components/notification/notification_popup.tscn" id="1_gead4"]
+[ext_resource type="PackedScene" uid="uid://1a4h8k7mfv1e" path="res://scenes/components/notification/notification.tscn" id="1_gead4"]
 [ext_resource type="Script" uid="uid://ck5x1jvxte7yl" path="res://scripts/ui/notification/notification_bar.gd" id="1_rgplm"]
 
 [node name="NotificationBar" type="Control" node_paths=PackedStringArray("container")]
@@ -11,9 +11,9 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -312.0
-offset_top = 113.0
+offset_top = 125.0
 offset_right = -12.0
-offset_bottom = 626.0
+offset_bottom = 638.0
 grow_horizontal = 0
 script = ExtResource("1_rgplm")
 notification_scene = ExtResource("1_gead4")

@@ -5,14 +5,14 @@ class_name NotificationBar
 @export var container: VBoxContainer
 
 
-func show_notification(message: String, icon: Texture2D) -> NotificationPopup:
-	var popup: NotificationPopup = notification_scene.instantiate()
-	popup.fill(message, icon)
+func show_notification(message: String, icon: Texture2D) -> Notification:
+	var ntf: Notification = notification_scene.instantiate()
+	ntf.fill(message, icon)
 	
-	container.add_child(popup)
-	return popup
+	container.add_child(ntf)
+	return ntf
 
 
-func hide_popup(popup: NotificationPopup) -> void:
-	await popup.hide_notification() 
-	popup.queue_free()
+func hide_notification(ntf: Notification) -> void:
+	await ntf.hide_notification() 
+	ntf.queue_free()

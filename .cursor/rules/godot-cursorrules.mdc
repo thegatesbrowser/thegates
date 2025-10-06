@@ -13,7 +13,6 @@ alwaysApply: true
 
 ## Code Style
 
-- Document complex functions with docstrings
 - Keep methods focused and under 24 lines
 - Use meaningful variable and function names
 - Group related properties and methods together
@@ -58,8 +57,3 @@ alwaysApply: true
 - Implement object pooling for frequently spawned objects
 - Use physics layers to optimize collision detection
 - Prefer packed arrays (PackedVector2Array, etc.) over regular arrays
-
-## Error Handling
-
-- Log errors appropriately in production builds
-- Handle network errors gracefully in multiplayer games

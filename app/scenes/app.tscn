@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ct8gsph3wnepl"]
+[gd_scene load_steps=26 format=3 uid="uid://ct8gsph3wnepl"]
 
 [ext_resource type="Script" uid="uid://cp0xkloif6sa0" path="res://scripts/app.gd" id="1_skc7d"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_cdryv"]
@@ -10,7 +10,10 @@
 [ext_resource type="Resource" uid="uid://bewhdj6jugt6q" path="res://resources/bookmarks.tres" id="6_rupvx"]
 [ext_resource type="PackedScene" uid="uid://byrcbqat0n2px" path="res://scenes/debug.tscn" id="7_3xeb8"]
 [ext_resource type="Script" uid="uid://dc24inl2k13qd" path="res://scripts/api/analytics/analytics.gd" id="9_a1ttg"]
+[ext_resource type="Script" uid="uid://ciduynoj86kx6" path="res://scripts/ui/notification/notification_mouse.gd" id="9_kdd54"]
+[ext_resource type="Script" uid="uid://dfrnyf0xausu8" path="res://scripts/ui/notification/notification_manager.gd" id="9_rwihi"]
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="10_04o5h"]
+[ext_resource type="Texture2D" uid="uid://bevejhgdw7mey" path="res://assets/textures/close.svg" id="11_681kt"]
 [ext_resource type="Script" uid="uid://cxxxems5gu4e0" path="res://scripts/api/analytics/analytics_sender_app.gd" id="11_cwwqp"]
 [ext_resource type="Script" uid="uid://bfpocd40pnxaj" path="res://scripts/api/analytics/analytics_sender_error.gd" id="12_rfjm7"]
 [ext_resource type="Script" uid="uid://c8vqsgpqnci7t" path="res://scripts/api/discover_gate.gd" id="13_3xhql"]
@@ -41,6 +44,17 @@ script = ExtResource("5_ev0ch")
 save_dir = "user://resources"
 icon_save_dir = "user://icons"
 bookmarks = ExtResource("6_rupvx")
+
+[node name="NotificationManager" type="Node" parent="." node_paths=PackedStringArray("notification_bar")]
+script = ExtResource("9_rwihi")
+notification_bar = NodePath("../Menu/NotificationBar")
+
+[node name="NotificationMouse" type="Node" parent="NotificationManager"]
+script = ExtResource("9_kdd54")
+ui_events = ExtResource("16_6u24i")
+message = "Your mouse is captured,
+Press Escape to show it."
+icon = ExtResource("11_681kt")
 
 [node name="Api" type="Node" parent="."]
 

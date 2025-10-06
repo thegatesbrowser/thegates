@@ -3,6 +3,7 @@ class_name UiEvents
 
 signal ui_mode_changed(mode: UiMode)
 signal ui_size_changed(size: Vector2)
+signal mouse_mode_changed(mode: int)
 
 signal debug_window_opened()
 signal debug_window_closed()
@@ -32,6 +33,10 @@ func ui_mode_changed_emit(mode: UiMode) -> void:
 func ui_size_changed_emit(size: Vector2) -> void:
 	current_ui_size = size
 	ui_size_changed.emit(size)
+
+
+func mouse_mode_changed_emit(mode: int) -> void:
+	mouse_mode_changed.emit(mode)
 
 
 func debug_window_opened_emit() -> void:

@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=3 uid="uid://1a4h8k7mfv1e"]
+
+[ext_resource type="Script" uid="uid://6p4mottomv8l" path="res://scripts/ui/notification/notification_popup.gd" id="1_ug4gx"]
+[ext_resource type="Texture2D" uid="uid://byrcelmfy6r3l" path="res://assets/textures/search.svg" id="2_4aufh"]
+[ext_resource type="LabelSettings" uid="uid://bo2334w4lf3ug" path="res://assets/styles/text.tres" id="3_nppdx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6wigr"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.3264042, 0.14733289, 0.8001019, 0.90000004)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+
+[node name="Notification" type="Control" node_paths=PackedStringArray("icon", "message", "root")]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 300.0
+offset_bottom = 65.0
+script = ExtResource("1_ug4gx")
+icon = NodePath("Panel/MarginContainer/HBoxContainer/TextureRect")
+message = NodePath("Panel/MarginContainer/HBoxContainer/Label")
+root = NodePath("Panel")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6wigr")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 18
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="TextureRect" type="TextureRect" parent="Panel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+texture = ExtResource("2_4aufh")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Your mouse is captured,
+Press Escape to show it."
+label_settings = ExtResource("3_nppdx")
+vertical_alignment = 1

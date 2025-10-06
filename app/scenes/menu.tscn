@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://5btb7nvgmfhl"]
+[gd_scene load_steps=30 format=3 uid="uid://5btb7nvgmfhl"]
 
 [ext_resource type="Script" uid="uid://4ainpxjyto5d" path="res://scripts/ui/menu/menu_navigation.gd" id="1_7anvm"]
 [ext_resource type="Script" uid="uid://darfa6nm5toj8" path="res://scripts/ui/menu/menu.gd" id="1_o6vga"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://casdqby073onf" path="res://assets/textures/flag.svg" id="17_b36tf"]
 [ext_resource type="Resource" uid="uid://bfg1kjboaitqt" path="res://resources/app_events.res" id="18_xgfab"]
 [ext_resource type="Script" uid="uid://cr4ba7mu31ekk" path="res://scripts/ui/menu/help_button.gd" id="19_h4fgg"]
+[ext_resource type="PackedScene" uid="uid://b5fqa6box556e" path="res://scenes/components/notification/notification_bar.tscn" id="22_fy8yy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pveoh"]
 bg_color = Color(0.0980392, 0.101961, 0.133333, 1)
@@ -264,3 +265,6 @@ icon = ExtResource("13_ncruo")
 [node name="Body" type="Control" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="NotificationBar" parent="." instance=ExtResource("22_fy8yy")]
+layout_mode = 1

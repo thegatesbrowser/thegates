@@ -18,7 +18,7 @@ func _ready() -> void:
 	gate_events.not_responding.connect(on_not_responding)
 	ui_events.debug_window_opened.connect(show_ui)
 
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func _input(event: InputEvent) -> void:
@@ -56,14 +56,14 @@ func on_first_frame() -> void:
 
 
 func on_not_responding() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func show_ui() -> void:
 	if _visible: return
 	_visible = true
 	
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	ui_events.ui_mode_changed_emit(UiEvents.UiMode.INITIAL)
 	render_result.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 
@@ -88,7 +88,12 @@ func try_apply_child_mouse_mode() -> void:
 	if not gate_started: return
 	if not is_app_in_focus(): return
 	
-	Input.set_mouse_mode(child_mouse_mode)
+	set_mouse_mode(child_mouse_mode)
+
+
+func set_mouse_mode(mode: int) -> void:
+	Input.set_mouse_mode(mode)
+	ui_events.mouse_mode_changed_emit(mode)
 
 
 func is_app_in_focus() -> bool:

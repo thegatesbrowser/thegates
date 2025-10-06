@@ -3,6 +3,7 @@ extends Node
 
 @export var keepalive_poll_interval_sec: float = 0.3
 @export var drain_timeout_ms: int = 2000
+@export var log_enabled: bool = false
 
 const LOG_TAG: String = "[HTTPClientPool]"
 
@@ -12,6 +13,11 @@ var mutex: Mutex = Mutex.new()
 
 var poll_accumulator_sec: float
 var keepalive_log_counter: int
+
+
+func debug_log(message: String) -> void:
+	if not log_enabled: return
+	print(message)
 
 
 func _process(delta: float) -> void:
@@ -31,7 +37,7 @@ func _process(delta: float) -> void:
 	
 	keepalive_log_counter += 1
 	if keepalive_log_counter % 16 == 0:
-		print("%s keepalive poll; idle_clients=%d; busy_clients=%d" % [LOG_TAG, snapshot.size(), busy_count])
+		debug_log("%s keepalive poll; idle_clients=%d; busy_clients=%d" % [LOG_TAG, snapshot.size(), busy_count])
 	
 	for client in snapshot:
 		if client is HTTPClient:
@@ -45,32 +51,32 @@ func _process(delta: float) -> void:
 					list.erase(client)
 					available_by_key[key] = list
 				mutex.unlock()
-				print("%s keepalive poll; removed client; status=%d" % [LOG_TAG, status])
+				debug_log("%s keepalive poll; removed client; status=%d" % [LOG_TAG, status])
 
 
 func acquire_client(_http: HTTPRequestPooled, host: String, port: int, use_tls: bool) -> HTTPClient:
 	var key: String = make_key(host, port, use_tls)
 	var client: HTTPClient = get_fresh_client_for_key(key)
-	
-	print("%s acquire requested key=%s (host=%s port=%d tls=%s); had_available=%s size_after_pop=%d" % [
+
+	debug_log("%s acquire requested key=%s (host=%s port=%d tls=%s); had_available=%s size_after_pop=%d" % [
 		LOG_TAG, key, host, port, str(use_tls), str(client != null), (available_by_key.get(key, []) as Array).size()
 	])
 	
 	if client == null:
 		client = HTTPClient.new()
-		print("%s created new HTTPClient for key=%s" % [LOG_TAG, key])
+		debug_log("%s created new HTTPClient for key=%s" % [LOG_TAG, key])
 	
 	if client.get_status() in [HTTPClient.STATUS_DISCONNECTED, HTTPClient.STATUS_CANT_RESOLVE, \
 			HTTPClient.STATUS_CANT_CONNECT, HTTPClient.STATUS_CONNECTION_ERROR, HTTPClient.STATUS_TLS_HANDSHAKE_ERROR, \
 			HTTPClient.STATUS_BODY, HTTPClient.STATUS_REQUESTING]:
-		print("%s connecting to host=%s port=%d tls=%s" % [LOG_TAG, host, port, str(use_tls)])
+		debug_log("%s connecting to host=%s port=%d tls=%s" % [LOG_TAG, host, port, str(use_tls)])
 		client.connect_to_host(host, port, TLSOptions.client() if use_tls else null)
 	
 	mutex.lock()
 	client_to_key[client] = key
 	mutex.unlock()
 	
-	print("%s acquired client for key=%s; status=%d" % [LOG_TAG, key, client.get_status()])
+	debug_log("%s acquired client for key=%s; status=%d" % [LOG_TAG, key, client.get_status()])
 	return client
 
 
@@ -93,10 +99,10 @@ func release_client(client: HTTPClient) -> void:
 				break
 				
 			HTTPClient.STATUS_BODY:
-				print("%s release: draining leftover body; status=%d" % [LOG_TAG, status])
+				debug_log("%s release: draining leftover body; status=%d" % [LOG_TAG, status])
 				var drained_ok: bool = await drain_body(client, drain_timeout_ms)
 				status = client.get_status()
-				print("%s release: drain result=%s status_now=%d" % [LOG_TAG, str(drained_ok), status])
+				debug_log("%s release: drain result=%s status_now=%d" % [LOG_TAG, str(drained_ok), status])
 				continue
 				
 			HTTPClient.STATUS_DISCONNECTED, HTTPClient.STATUS_CANT_RESOLVE, HTTPClient.STATUS_CANT_CONNECT, \
@@ -104,7 +110,7 @@ func release_client(client: HTTPClient) -> void:
 				mutex.lock()
 				client_to_key.erase(client)
 				mutex.unlock()
-				print("%s release dropped during await; status=%d" % [LOG_TAG, status])
+				debug_log("%s release dropped during await; status=%d" % [LOG_TAG, status])
 				return
 				
 			_:
@@ -114,7 +120,7 @@ func release_client(client: HTTPClient) -> void:
 			mutex.lock()
 			client_to_key.erase(client)
 			mutex.unlock()
-			print("%s release timeout awaiting idle; dropped; last_status=%d" % [LOG_TAG, status])
+			debug_log("%s release timeout awaiting idle; dropped; last_status=%d" % [LOG_TAG, status])
 			return
 		
 		await get_tree().process_frame
@@ -126,7 +132,7 @@ func release_client(client: HTTPClient) -> void:
 	client_to_key.erase(client)
 	mutex.unlock()
 	
-	print("%s released client back to pool; key=%s pool_size=%d" % [LOG_TAG, key, (available_by_key.get(key, []) as Array).size()])
+	debug_log("%s released client back to pool; key=%s pool_size=%d" % [LOG_TAG, key, (available_by_key.get(key, []) as Array).size()])
 
 
 func drain_body(client: HTTPClient, timeout_ms: int) -> bool:
@@ -139,7 +145,7 @@ func drain_body(client: HTTPClient, timeout_ms: int) -> bool:
 		
 		iterations += 1
 		if iterations % 32 == 0:
-			print("%s draining body... iter=%d chunk_size=%d" % [LOG_TAG, iterations, chunk.size()])
+			debug_log("%s draining body... iter=%d chunk_size=%d" % [LOG_TAG, iterations, chunk.size()])
 		
 		if Time.get_ticks_msec() - start_time > timeout_ms:
 			return false
@@ -166,7 +172,7 @@ func get_connection_count(endpoint: HTTPEndpoint) -> int:
 
 func spawn_idle_connection(endpoint: HTTPEndpoint) -> void:
 	var key: String = make_key(endpoint.host, endpoint.port, endpoint.use_tls)
-	print("%s spawn requested key=%s (host=%s port=%d tls=%s)" % [LOG_TAG, key, endpoint.host, endpoint.port, str(endpoint.use_tls)])
+	debug_log("%s spawn requested key=%s (host=%s port=%d tls=%s)" % [LOG_TAG, key, endpoint.host, endpoint.port, str(endpoint.use_tls)])
 	
 	var client: HTTPClient = HTTPClient.new()
 	client.connect_to_host(endpoint.host, endpoint.port, TLSOptions.client() if endpoint.use_tls else null)

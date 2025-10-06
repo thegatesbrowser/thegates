@@ -38,7 +38,7 @@ font_color = Color(0.831373, 0.831373, 0.831373, 1)
 
 [node name="Onboarding" type="Control" node_paths=PackedStringArray("root", "close")]
 top_level = true
-z_index = 10
+z_index = 50
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -120,6 +120,8 @@ offset_left = 0.0
 offset_top = 0.0
 offset_right = 600.0
 offset_bottom = 700.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="Board2" parent="Root/Carousel/Line" instance=ExtResource("3_04ofy")]
 layout_mode = 0
@@ -132,6 +134,8 @@ offset_left = 650.0
 offset_top = 0.0
 offset_right = 1250.0
 offset_bottom = 700.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="TextureRect" parent="Root/Carousel/Line/Board2/VBoxContainer/Panel" index="0"]
 texture = ExtResource("6_60kxa")
@@ -155,6 +159,8 @@ offset_left = 1300.0
 offset_top = 0.0
 offset_right = 1900.0
 offset_bottom = 700.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="TextureRect" parent="Root/Carousel/Line/Board3/VBoxContainer/Panel" index="0"]
 texture = ExtResource("7_icqbo")
@@ -178,6 +184,8 @@ offset_left = 1950.0
 offset_top = 0.0
 offset_right = 2550.0
 offset_bottom = 700.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="TextureRect" parent="Root/Carousel/Line/Board4/VBoxContainer/Panel" index="0"]
 texture = ExtResource("8_asgtb")

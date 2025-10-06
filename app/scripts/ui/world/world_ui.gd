@@ -6,7 +6,7 @@ extends Control
 @export var render_result: RenderResult
 
 var _visible: bool = true
-var child_mouse_mode: int = Input.MOUSE_MODE_VISIBLE
+var child_mouse_mode: Input.MouseMode = Input.MOUSE_MODE_VISIBLE
 var mouse_in_window: bool = true
 var window_focused: bool = true
 var gate_started: bool
@@ -45,7 +45,7 @@ func _notification(what: int) -> void:
 			mouse_in_window = false
 
 
-func set_child_mouse_mode(mode: int) -> void:
+func set_child_mouse_mode(mode: Input.MouseMode) -> void:
 	child_mouse_mode = mode
 	try_apply_child_mouse_mode()
 
@@ -91,7 +91,7 @@ func try_apply_child_mouse_mode() -> void:
 	set_mouse_mode(child_mouse_mode)
 
 
-func set_mouse_mode(mode: int) -> void:
+func set_mouse_mode(mode: Input.MouseMode) -> void:
 	Input.set_mouse_mode(mode)
 	ui_events.mouse_mode_changed_emit(mode)
 

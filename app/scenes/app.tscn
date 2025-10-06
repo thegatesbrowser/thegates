@@ -14,7 +14,7 @@
 [ext_resource type="Resource" uid="uid://cjcdum6fm4ta0" path="res://resources/api_settings.tres" id="10_04o5h"]
 [ext_resource type="Script" uid="uid://dgh62228rvknj" path="res://scripts/ui/notification/notifier_mouse_captured.gd" id="10_681kt"]
 [ext_resource type="Script" uid="uid://cxxxems5gu4e0" path="res://scripts/api/analytics/analytics_sender_app.gd" id="11_cwwqp"]
-[ext_resource type="Texture2D" uid="uid://cli88m5w3op6l" path="res://assets/textures/close_tab.svg" id="12_681kt"]
+[ext_resource type="Texture2D" uid="uid://wuvhs6f87wud" path="res://assets/textures/cursor.svg" id="12_681kt"]
 [ext_resource type="Script" uid="uid://bfpocd40pnxaj" path="res://scripts/api/analytics/analytics_sender_error.gd" id="12_rfjm7"]
 [ext_resource type="Script" uid="uid://c8vqsgpqnci7t" path="res://scripts/api/discover_gate.gd" id="13_3xhql"]
 [ext_resource type="Script" uid="uid://duwvf8sq1pkd" path="res://scripts/api/analytics/analytics_sender_bookmark.gd" id="13_74yg1"]
@@ -52,8 +52,8 @@ notification_bar = NodePath("../Menu/NotificationBar")
 [node name="NotificationMouseCaptured" type="Node" parent="NotificationManager"]
 script = ExtResource("10_681kt")
 ui_events = ExtResource("16_6u24i")
-message = "Your mouse is captured,
-Press Escape to show it."
+message = "Your mouse is captured
+Press Escape to show it"
 icon = ExtResource("12_681kt")
 
 [node name="Api" type="Node" parent="."]

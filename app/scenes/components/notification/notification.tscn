@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://1a4h8k7mfv1e"]
 
 [ext_resource type="Script" uid="uid://6p4mottomv8l" path="res://scripts/ui/notification/notification.gd" id="1_r2fqo"]
-[ext_resource type="Texture2D" uid="uid://cli88m5w3op6l" path="res://assets/textures/close_tab.svg" id="2_pu6kl"]
+[ext_resource type="Texture2D" uid="uid://wuvhs6f87wud" path="res://assets/textures/cursor.svg" id="2_r2fqo"]
 [ext_resource type="LabelSettings" uid="uid://bo2334w4lf3ug" path="res://assets/styles/text.tres" id="3_3ti1b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6wigr"]
@@ -46,18 +46,18 @@ theme_override_constants/margin_left = 18
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 15
 
 [node name="TextureRect" type="TextureRect" parent="Panel/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(28, 28)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
-texture = ExtResource("2_pu6kl")
+texture = ExtResource("2_r2fqo")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/HBoxContainer"]
 layout_mode = 2
-text = "Your mouse is captured,
-Press Escape to show it."
+text = "Your mouse is captured
+Press Escape to show it"
 label_settings = ExtResource("3_3ti1b")
 vertical_alignment = 1

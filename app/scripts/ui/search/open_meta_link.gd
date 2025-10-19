@@ -1,4 +1,5 @@
 extends RichTextLabel
+class_name OpenMetaLink
 
 @export var app_events: AppEvents
 

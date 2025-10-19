@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://kywrsqro3d5i"]
+[gd_scene load_steps=42 format=3 uid="uid://kywrsqro3d5i"]
 
 [ext_resource type="Script" uid="uid://chdajg03b7u04" path="res://scripts/loading/gate_loader.gd" id="1_uxhy6"]
 [ext_resource type="Resource" uid="uid://b1xvdym0qh6td" path="res://resources/gate_events.res" id="2_q7cvi"]
@@ -27,6 +27,7 @@
 [ext_resource type="FontFile" uid="uid://tfj3o1e1wytn" path="res://assets/fonts/Inter-BoldItalic.otf" id="22_i5khx"]
 [ext_resource type="FontFile" uid="uid://c14w1y1r54wgi" path="res://assets/fonts/Inter-Bold.otf" id="23_t1gqo"]
 [ext_resource type="PackedScene" uid="uid://dr1hykfog1h85" path="res://scenes/components/loading_tatus.tscn" id="25_3436m"]
+[ext_resource type="Script" uid="uid://1cmhxlv8up1u" path="res://scripts/ui/world/gate_description.gd" id="26_86y57"]
 [ext_resource type="Script" uid="uid://cylmi0wcawaqu" path="res://scripts/ui/world/release_focus.gd" id="26_u6afs"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_be6ex"]
@@ -339,7 +340,8 @@ text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
 fit_content = true
 context_menu_enabled = true
 selection_enabled = true
-script = ExtResource("26_u6afs")
+script = ExtResource("26_86y57")
+app_events = ExtResource("13_5np0h")
 
 [node name="Space2" type="Control" parent="Foreground/GateInfo"]
 custom_minimum_size = Vector2(0, 16)

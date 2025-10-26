@@ -65,14 +65,15 @@ func show_prompts(query: String) -> void:
 	if query != last_query: return
 	clear()
 	
-	var prompts = JSON.parse_string(result_str)
+	var result = JSON.parse_string(result_str)
+	var prompts = result["prompts"]
 	if prompts == null or prompts.is_empty():
 		return
 	
 	for prompt in prompts:
-		var result: PromptResult = result_scene.instantiate()
-		result.fill(prompt)
-		add_child(result)
+		var prompt_result: PromptResult = result_scene.instantiate()
+		prompt_result.fill(prompt)
+		add_child(prompt_result)
 	
 	change_size(prompts.size())
 

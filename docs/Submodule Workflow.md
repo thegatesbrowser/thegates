@@ -22,6 +22,21 @@ Inside the submodule (`godot/`):
 
 `origin/HEAD` on the submodule points to `tg-master`. A fresh `git submodule update --init` checks out the commit the parent points to (detached HEAD), not `tg-master` — that's normal submodule behavior.
 
+### The tg-4.5 / tg-master sync rule
+
+**Every commit pushed to `tg-4.5` must also be cherry-picked to `tg-master` and pushed.** `tg-master` is the integration branch and has to include everything `tg-4.5` does. The two branches diverge in SHA (because `tg-master` is independently rebased on upstream Godot), but their content stays equivalent.
+
+```bash
+# inside godot/, after work lands on tg-4.5:
+git push origin tg-4.5
+git checkout tg-master
+git cherry-pick <sha>           # or <sha1>^..<shaN> for a range
+git push origin tg-master
+git checkout tg-4.5
+```
+
+Cherry-pick mechanically with `git commit -C <sha>` if you want to keep the original message verbatim after a `-n` cherry-pick. Don't try to rewrite commit messages to match SHAs across branches — the original SHA in a message body (e.g. "Added in commit `170ccff0a9`") will dangle on the other branch, which is acceptable; the equivalent commit on the other branch shares the same commit-message text and can be found by `git log --grep`.
+
 In the parent (`thegates/`):
 
 The parent has a single working branch (`main`). The submodule pointer (`git ls-tree HEAD godot`) records the godot commit that goes with each parent commit.

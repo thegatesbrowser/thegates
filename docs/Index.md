@@ -6,6 +6,8 @@ tags: [meta, moc]
 
 The starting point. Every note in the vault is reachable from here.
 
+> **Note:** Fork-specific engine notes (Custom Godot Fork, Custom Godot Module, External Texture Sharing, Platform Differences, Build System, C++ Style Guide) live alongside the godot submodule in `../godot/notes/`. They are still part of this Obsidian vault when opened from the parent `thegates/` folder — wikilinks below resolve normally.
+
 ## Start here
 
 - [[Architecture Overview]] — the one-page big picture

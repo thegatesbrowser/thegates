@@ -38,6 +38,7 @@ The starting point. Every note in the vault is reachable from here.
 ## Working in this codebase
 
 - [[Gotchas and Conventions]] — non-obvious things that bite. Read before debugging.
+- [[Submodule Workflow]] — branch landscape inside `godot/`, the cross-repo commit pattern, and the submodule-specific gotchas.
 
 ## Style and patterns (mandatory before writing code)
 

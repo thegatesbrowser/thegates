@@ -8,3 +8,6 @@ app/renderer
 
 # for deployment
 deployment/upload_api.key
+
+# Obsidian per-user workspace state (docs/ vault)
+docs/.obsidian/

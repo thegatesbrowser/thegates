@@ -384,15 +384,77 @@ Resources don't get `_exit_tree`; the moral equivalent is destructor-like behavi
 
 ## Comments
 
+**The codebase is nearly comment-free, and that's the rule, not an accident.** Across `app/` there are roughly 1–2 comment lines per 100 LOC, and the modal function has zero. Match that density.
+
+**The real test is intent, not line count: would this comment make more sense in the commit message?** If yes, delete it and let `git log` carry it. Comments that justify a change you just made age into noise — they describe the diff, not the code. Comments that name an invariant the symbol can't carry stay true regardless of what changed:
+
+```gdscript
+# BAD — PR-description prose pretending to be a code comment
+# sandbox-spawned children have no inherited stdio handles — they write their own log file
+if pipe.has("stdio") and pipe.has("stderr"):
+	start_reading_pipes()
+
+
+# GOOD — names an invariant the symbol can't carry, true regardless of edits
+# only for app.gd, called after open_gate
+signal first_gate_open_started
+```
+
+Multi-line `#` blocks are usually a tell — agents reach for them when explaining "why I did this." If you find one in front of you, the right move is almost always delete (the commit message explains itself) or move the prose into the relevant note under `docs/` and let that be the source of truth.
+
+```gdscript
+# BAD — multi-line block narrating a fix; AI smell, delete it
+# Use a per-renderer-spawn ipc subdir and unique monitor endpoint so
+# nothing about the previous gate's sockets contaminates the new one.
+# Without this, the third and later gate openings on Windows don't
+# receive any commands from the renderer.
+
+
+# GOOD — one line, lowercase, no period, names a constraint the symbol can't carry
+# only for app.gd, called after open_gate
+signal first_gate_open_started
+
+# might be empty icon
+signal gate_icon_loaded(gate: Gate)
+
+# local path where libs downloaded
+@export var libs_path: String
+
+
+# GOOD — section divider labeling a multi-line phase within a function (file_tools.gd)
+# List directory content
+var err : Error
+dir.list_dir_begin()
+var file_name = dir.get_next()
+while file_name != "":
+	...
+	file_name = dir.get_next()
+
+# Remove current path
+err = dir.remove(path)
+if err != OK: Debug.logerr("Error removing: " + path)
+```
+
+Section dividers exist at multiple scopes and are all the same pattern: labelling a *group* of related lines so a human can scan the file or function in chunks. Between top-level symbols (`analytics_events.gd`'s `# APP` / `# SEARCH` / `# GATE`), between function groups (`renderer_logger.gd`'s `# READING FROM PIPES` / `# FLUSH AND SEND LOGS`), or within a long function (`file_tools.gd`'s `# List directory content` / `# Remove current path`). They earn their place as long as the block they label is genuinely multi-line and represents a single phase. A 1-line "comment" over a 1-line call is *not* a section divider — that's narration, delete it.
+
+If a constraint really does span two systems and one line genuinely can't hold it, the comment is in the wrong place — write a paragraph in the right note under `docs/` (e.g. `Renderer Process.md`, `Two-Process Model.md`) and point to it from a one-liner, or skip the comment entirely and let the doc be the source of truth.
+
+Approved styles:
+
 | Style | When |
 |-------|------|
-| `# inline comment` | Most comments. Lowercase OK. End with no period. |
-| `# TODO: ...` | Known follow-ups. Always actionable. |
-| `# TODO: cleanup ai generated code` | Special marker meaning "this file's style doesn't represent the project — clean it up before copying patterns." |
-| `## doc comment` (Godot) | For non-trivial functions or classes that need real documentation. Becomes hover-help in the editor. Markdown-ish. |
-| `# === SECTION HEADER ===` or `# SECTION HEADER` | Visual dividers between groups of related functions in long files (see `renderer_logger.gd`). Sparingly. |
+| `# one line, lowercase, no period` | The default. |
+| `# TODO: ...` | Known follow-ups. Actionable. Keep rare. |
+| `# TODO: cleanup ai generated code` | Marker meaning "this file's style doesn't represent the project — don't copy patterns from it." |
+| `## doc comment` (Godot) | Reserved. Add only if Godot editor hover-help is genuinely the right home — usually it isn't, the docs vault is. |
+| `# SECTION HEADER` | Labels a multi-line group of related code so it can be scanned as one chunk. Works at file scope (`analytics_events.gd`'s `# APP` / `# SEARCH` / `# GATE`), between function groups (`renderer_logger.gd`'s `# READING FROM PIPES` / `# FLUSH AND SEND LOGS`), and within a long function (`file_tools.gd`'s `# List directory content` over the traversal loop, `# Remove current path` over the final removal). A 1-line label over 1 line of code is narration, not a divider. |
+| `#commented-out code` | Acceptable when kept as an alternative you'd un-comment again (`config_base.gd`'s `#Debug.logr(...)` debug lines). |
 
-Default to no comment when the code is self-explanatory. Comment the *why*, not the *what*. See [[Gotchas and Conventions]].
+> **Note on `app/scripts/renderer/`.** This subdirectory was largely added by AI agents during the chromium-sandboxing work and contains multi-line WHY blocks that violate this rule. Read it for behavior, not for comment style — clean comments as you touch it. The same applies to any other file with the `# TODO: cleanup ai generated code` marker.
+
+If you're about to write a comment, first try: rename the variable, extract a function, split the line, or write a note in `docs/`. Comment only what those moves can't fix. See [[Gotchas and Conventions]].
+
+**Don't enforce this rule retroactively.** Old terse 1-liners that predate the agent-assistance era are part of the codebase's vernacular and earned their place at the time. Cleanup passes target *uncommitted WIP* and *recent agent-flavored commits*, not legacy lines. Use `git blame` before deleting — if the line is old, leave it.
 
 ## Idioms catalog
 

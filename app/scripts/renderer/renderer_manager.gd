@@ -14,7 +14,7 @@ func _ready() -> void:
 
 
 func start_renderer(gate: Gate) -> void:
-	var pipe = start_process(gate)
+	var pipe := start_process(gate)
 	if pipe.is_empty(): return
 
 	renderer_pid = pipe["pid"]
@@ -30,9 +30,9 @@ func start_process(gate: Gate) -> Dictionary:
 	var user_dir := ProjectSettings.globalize_path("user://gates_storage/" + folder)
 	DirAccess.make_dir_recursive_absolute(user_dir)
 
-	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
-	var shared_libs = ProjectSettings.globalize_path(gate.shared_libs_dir)
-	var args = [
+	var pack_file := ProjectSettings.globalize_path(gate.resource_pack)
+	var shared_libs := ProjectSettings.globalize_path(gate.shared_libs_dir)
+	var args: Array[String] = [
 		"--main-pack", pack_file,
 		"--resolution", "%dx%d" % [render_result.width, render_result.height],
 		"--url", gate.url,
@@ -48,7 +48,7 @@ func start_process(gate: Gate) -> Dictionary:
 	if broker != null and not broker.is_target():
 		var verify_err: int = broker.verify_binary(gate.renderer)
 		if verify_err != OK:
-			Debug.logerr("Sandbox.verify_binary refused " + gate.renderer + " (err=" + str(verify_err) + "); refusing to spawn")
+			Debug.logerr("Sandbox.verify_binary refused %s (err=%d); refusing to spawn" % [gate.renderer, verify_err])
 			return {}
 
 		broker.apply_renderer_acl(user_dir)
@@ -70,7 +70,7 @@ func start_process(gate: Gate) -> Dictionary:
 		var info: Dictionary = broker.spawn_target(policy, gate.renderer, args)
 		if not info.is_empty():
 			sandbox_broker = broker
-			Debug.logclr("Renderer launched as sandbox target pid=" + str(info["pid"]), Color.DIM_GRAY)
+			Debug.logclr("Renderer launched as sandbox target pid=%s" % [info["pid"]], Color.DIM_GRAY)
 			return {"pid": info["pid"]}
 		Debug.logerr("Sandbox.spawn_target failed; falling back to OS.execute_with_pipe")
 
@@ -85,11 +85,11 @@ func kill_renderer() -> void:
 	if sandbox_broker != null:
 		if sandbox_broker.is_target_running():
 			sandbox_broker.kill_target()
-			Debug.logclr("Sandbox target killed pid=" + str(renderer_pid), Color.DIM_GRAY)
+			Debug.logclr("Sandbox target killed pid=%d" % [renderer_pid], Color.DIM_GRAY)
 		sandbox_broker = null
 	elif OS.is_process_running(renderer_pid):
 		OS.kill(renderer_pid)
-		Debug.logclr("Process killed " + str(renderer_pid), Color.DIM_GRAY)
+		Debug.logclr("Process killed %d" % [renderer_pid], Color.DIM_GRAY)
 
 	renderer_logger.call_thread_safe("cleanup")
 

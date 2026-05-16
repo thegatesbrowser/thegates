@@ -1,9 +1,6 @@
 extends Node
 
-# TODO: restore `class_name Autotest` reference once the editor regenerates
-# the global script class cache (open project.godot in the editor once).
-# Kept as preload() for agent-loop iteration: avoids requiring an editor run
-# every time autotest.gd is added/renamed.
+# TODO: restore `class_name Autotest` once the editor regenerates the global class cache.
 const Autotest := preload("res://scripts/autotest.gd")
 
 @export var gate_events: GateEvents

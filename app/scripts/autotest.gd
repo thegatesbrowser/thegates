@@ -1,20 +1,8 @@
-# TODO: restore `class_name Autotest` once the editor regenerates the
-# global script class cache. See app.gd for the matching note.
+# TODO: restore `class_name Autotest` once the editor regenerates the global class cache.
 extends RefCounted
 
-
-# Parses --gate-url and --autotest-timeout from OS.get_cmdline_user_args() and
-# OS.get_cmdline_args() and drives the launcher through a deterministic scripted
-# session so an external runner can verify the launcher+renderer pipeline.
-#
-# Tagged log lines emitted (always prefixed with [AUTOTEST-...] so a runner can
-# grep them out of mixed engine output):
-#   [AUTOTEST-START]         on _ready
-#   [AUTOTEST-OPEN] <url>    when Navigation.open is called
-#   [AUTOTEST-GATE-ENTERED]  when renderer has been spawned for the gate
-#   [AUTOTEST-RENDERER-PID] <pid>
-#   [AUTOTEST-TIMEOUT]       fired when the autotest timeout elapses
-#   [AUTOTEST-EXIT] <reason> on quit
+# Drives the launcher through a scripted gate-open session for an external
+# verifier; emits [AUTOTEST-*] tagged lines that run-sandbox-test.ps1 greps.
 
 
 const TAG := "[AUTOTEST-"
@@ -36,17 +24,10 @@ static func parse_args() -> Dictionary:
 			out["timeout"] = float(all[i + 1])
 			i += 2
 		elif a == "--autotest-cycles" and i + 1 < all.size():
-			# Number of additional times to re-open the gate after the first
-			# entry. cycles=2 means: open initial gate, then re-open twice
-			# (total 3 gate spawns). Used to reproduce the multi-gate IPC
-			# regression on chromium-sandboxing.
+			# extra re-opens after the first; cycles=N → N+1 gate spawns total.
 			out["cycles"] = int(all[i + 1])
 			i += 2
 		elif a == "--autotest-cycle-delay" and i + 1 < all.size():
-			# Seconds to wait after gate_entered before opening the next gate.
-			# Needs to be long enough that the renderer has finished its bind
-			# and the first command round-trip happened, otherwise we conflate
-			# "no commands ever" with "didn't wait long enough."
 			out["cycle_delay"] = float(all[i + 1])
 			i += 2
 		elif a == "--autotest":
@@ -71,8 +52,6 @@ static func start(node: Node, gate_events: GateEvents) -> void:
 	var cycles: int = args.get("cycles", 0)
 	var cycle_delay: float = args.get("cycle_delay", 5.0)
 
-	# Counter for tagging which gate-entry we're on. Starts at 0; the first
-	# gate_entered bumps it to 1.
 	var cycle_state := {"entered": 0, "remaining": cycles}
 
 	gate_events.gate_entered.connect(func():

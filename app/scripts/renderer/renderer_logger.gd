@@ -39,13 +39,10 @@ func start(_pipe: Dictionary, _gate: Gate) -> void:
 
 
 func create_log_file() -> void:
-	var folder = gate.url.split("?")[0].replace("http://", "").replace("https://", "").replace(".gate", "")
-	folder = folder.replace(":", "_") # remove ':' before port
-	
-	var path = LOG_FOLDER + "/" + folder + "/" + LOG_FILE
+	var path = LOG_FOLDER + "/" + RendererManager.gate_folder(gate.url) + "/" + LOG_FILE
 	var global_path = ProjectSettings.globalize_path(path)
 	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
-	
+
 	log_file = FileAccess.open(path, FileAccess.WRITE_READ)
 	Debug.logclr("Logs written to [url]%s[/url]" % [global_path], Color.GRAY)
 

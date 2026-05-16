@@ -28,7 +28,6 @@ func start_process(gate: Gate) -> Dictionary:
 	var folder := gate_folder(gate.url)
 	var user_dir := ProjectSettings.globalize_path("user://gates_storage/" + folder)
 	DirAccess.make_dir_recursive_absolute(user_dir)
-	gate_events.current_gate_user_dir = user_dir
 
 	var pack_file = ProjectSettings.globalize_path(gate.resource_pack)
 	var shared_libs = ProjectSettings.globalize_path(gate.shared_libs_dir)
@@ -47,10 +46,20 @@ func start_process(gate: Gate) -> Dictionary:
 	if Platform.get_platform() == Platform.WINDOWS and ClassDB.class_exists("SandboxingWin"):
 		var broker: Object = ClassDB.instantiate("SandboxingWin")
 		if broker != null and not broker.is_target():
+			broker.apply_untrusted_acl(user_dir)
+
 			var log_path := ProjectSettings.globalize_path("user://logs/" + folder + "/log.txt")
 			DirAccess.make_dir_recursive_absolute(log_path.get_base_dir())
 
-			var info: Dictionary = broker.spawn_target(gate.renderer, args, log_path)
+			var launcher_dir := OS.get_user_data_dir()
+			var rw_files := PackedStringArray([
+				launcher_dir.path_join("command_sync"),
+				launcher_dir.path_join("input_sync"),
+				launcher_dir.path_join("external_texture"),
+			])
+			var ro_files := PackedStringArray([pack_file])
+
+			var info: Dictionary = broker.spawn_target(gate.renderer, args, log_path, user_dir, rw_files, ro_files)
 			if not info.is_empty():
 				Debug.logclr("Renderer launched as sandbox target pid=" + str(info["pid"]), Color.DIM_GRAY)
 				return {"pid": info["pid"]}

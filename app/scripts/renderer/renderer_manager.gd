@@ -51,14 +51,17 @@ func start_process(gate: Gate) -> Dictionary:
 		DirAccess.make_dir_recursive_absolute(log_path.get_base_dir())
 
 		var launcher_dir := OS.get_user_data_dir()
-		var rw_files := PackedStringArray([
+		var policy := SandboxPolicy.new()
+		policy.set_rw_dir(user_dir)
+		policy.set_child_stdout_log_path(log_path)
+		policy.set_rw_files(PackedStringArray([
 			launcher_dir.path_join("command_sync"),
 			launcher_dir.path_join("input_sync"),
 			launcher_dir.path_join("external_texture"),
-		])
-		var ro_files := PackedStringArray([pack_file])
+		]))
+		policy.set_ro_files(PackedStringArray([pack_file]))
 
-		var info: Dictionary = broker.spawn_target(gate.renderer, args, log_path, user_dir, rw_files, ro_files)
+		var info: Dictionary = broker.spawn_target(policy, gate.renderer, args)
 		if not info.is_empty():
 			Debug.logclr("Renderer launched as sandbox target pid=" + str(info["pid"]), Color.DIM_GRAY)
 			return {"pid": info["pid"]}

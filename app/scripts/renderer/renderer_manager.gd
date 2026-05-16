@@ -45,6 +45,11 @@ func start_process(gate: Gate) -> Dictionary:
 
 	var broker: Sandbox = Sandbox.create()
 	if broker != null and not broker.is_target():
+		var verify_err: int = broker.verify_binary(gate.renderer)
+		if verify_err != OK:
+			Debug.logerr("Sandbox.verify_binary refused " + gate.renderer + " (err=" + str(verify_err) + "); refusing to spawn")
+			return {}
+
 		broker.apply_renderer_acl(user_dir)
 
 		var log_path := ProjectSettings.globalize_path("user://logs/" + folder + "/log.txt")

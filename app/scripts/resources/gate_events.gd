@@ -41,6 +41,7 @@ var emitted_events: Array[Early] = []
 var current_search_query: String
 var current_gate_url: String
 var current_gate: Gate
+var current_gate_user_dir: String
 
 
 func search_emit(query: String) -> void:
@@ -132,5 +133,6 @@ func clear_current_gate() -> void:
 	current_search_query = ""
 	current_gate_url = ""
 	current_gate = null
-	
+	current_gate_user_dir = ""
+
 	emitted_events.clear()

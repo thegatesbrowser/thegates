@@ -19,7 +19,7 @@ func _ready() -> void:
 func start_server() -> void:
 	input_sync = InputSync.new()
 	input_sync.socket_bind()
-	
+
 	scale = DisplayServer.screen_get_scale()
 	offset = render_result.global_position
 	Debug.logclr("Mouse position scale: %.2f. Offset: %.2f" % [scale, offset.y], Color.DIM_GRAY)

@@ -8,6 +8,19 @@ A 3D web browser. Two cooperating Godot processes — a launcher (the browser UI
 
 For everything else, the knowledge vault is the source of truth. App-side and project-overview notes live in [`docs/`](./docs/); fork-specific engine notes live alongside the godot submodule in [`godot/notes/`](./godot/notes/). Both are part of the same Obsidian vault — open `thegates/` as the vault root and wikilinks resolve across folders.
 
+## Before you Edit or Write code: required reading by file extension
+
+**Hard rule, no exceptions.** Before your first `Edit` / `Write` / `MultiEdit` to a file matching these patterns, you must have `Read` the linked doc(s) **earlier in this same session**. Once per session is enough.
+
+| About to change... | You must have read first |
+|---|---|
+| `app/**/*.gd` | [GDScript Style Guide](./docs/GDScript%20Style%20Guide.md) **and** [Event Architecture](./docs/Event%20Architecture.md) |
+| `godot/**/*.cpp`, `*.h`, `*.mm` | [C++ Style Guide](./godot/notes/C%2B%2B%20Style%20Guide.md) |
+| Anything under `godot/modules/the_gates/` | also [Custom Godot Module](./godot/notes/Custom%20Godot%20Module.md) |
+| Code inside an `#ifdef TG_RENDERER` block in upstream files | also [Custom Godot Fork](./godot/notes/Custom%20Godot%20Fork.md) |
+
+If the user pushes back on something stylistic — naming, comment shape, signal pattern — **re-read the matching guide before responding**. The rule almost certainly exists in the doc and you missed it. Ignoring this is the single most common source of revert-and-redo cycles in this repo.
+
 ## Mandatory reading before writing code
 
 Read these in order. They take ~10 minutes total.
@@ -38,12 +51,14 @@ These are not preferences. Deviations get reverted.
 - **No autoloads for new shared state.** Use the [Event Architecture](./docs/Event%20Architecture.md) pattern: `Resource` with signals + `_emit` wrappers + state, instantiated as `.res` under `app/resources/`, distributed via `@export`. Existing autoloads (`Debug`, `DataSaver`, `FileDownloader`, `Backend`, `AnalyticsEvents`, `AfkManager`, `HTTPClientPool`, `Navigation`, `Url`) are grandfathered.
 - **Logging is `Debug.logclr(msg, color)` / `Debug.logerr(msg)` / `Debug.logr(msg)`.** Never raw `print()` / `printerr()` in committed code.
 - **Type hints everywhere.** Function signatures, `var` declarations, `@export` properties. Use `:=` for inferred locals, explicit types for everything else.
+- **No internal-decision prose in comments.** If a comment explains *why you wrote this code* — the constraint that drove a choice, the alternatives you weighed — it's PR-description content. Put it in the commit message. **Agent-specific:** if you feel the urge to leave a comment proving you considered the edge cases of the fix you just made, that *is* the smell. Section dividers labelling a multi-line phase are fine; one-line labels narrating the next line are not.
 - Full rules: [`docs/GDScript Style Guide.md`](./docs/GDScript%20Style%20Guide.md).
 
 ### C++ (`godot/`)
 
 - **Match upstream Godot 4.5 exactly.** This is a fork; we don't have our own C++ style. Run `pre-commit` (configured in `godot/.pre-commit-config.yaml`) — it enforces clang-format 20.1, clang-tidy, header guards, copyright headers, codespell.
 - **Fork-specific changes are wrapped in `#ifdef TG_RENDERER` or live in `modules/the_gates/`.** Nothing else. If your change doesn't fit one of those, it probably belongs upstream — discuss before merging.
+- **No internal-decision prose in comments.** If a comment explains *why you wrote this code* — the constraint that drove a choice, the alternatives you weighed — it's PR-description content. Put it in the commit message. **Agent-specific:** if you feel the urge to leave a comment proving you considered the edge cases of the fix you just made, that *is* the smell. Multi-line is reserved for external-contract docs (Vulkan struct semantics, OS-API quirks, SDDL/RFC citations, `(GH-XXXXX)` workarounds).
 - Full rules: [`godot/notes/C++ Style Guide.md`](./godot/notes/C%2B%2B%20Style%20Guide.md).
 
 ### Architecture

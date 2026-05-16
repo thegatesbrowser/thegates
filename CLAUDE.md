@@ -67,10 +67,12 @@ If you're modifying these files: clean as you go (refactor toward the style guid
 
 Build commands are in the parent [`README.md`](./README.md). They change; trust the README, not memory.
 
-Day-to-day:
-- Editor / launcher binary: `scons -j$(nproc) dev_build=yes tg_renderer=no compiledb=yes use_llvm=yes linker=lld disable_exceptions=no` from `godot/`
-- Renderer binary: same with `tg_renderer=yes target=template_debug`
+Day-to-day, from `godot/`:
+- Editor / launcher binary: `python tools/build.py launcher`
+- Renderer binary: `python tools/build.py renderer`
 - Run the launcher → open `app/project.godot`
+
+`tools/build.py` is the single source of truth for scons flag combinations. Run `python tools/build.py --help` for profiles (dev / release variants) and flags (`--mac-intel`, `--no-sandbox`, `-j N`). It defaults to `-j (cpu_count - 2)` so the OS stays responsive during long builds.
 
 Output binaries land in `godot/bin/`. The `.console.exe` variants (Windows) are invaluable for renderer logging — see [`docs/Renderer Process.md`](./docs/Renderer%20Process.md).
 

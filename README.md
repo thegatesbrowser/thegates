@@ -16,15 +16,19 @@ It connects game experiences together like world wide web and allows you to easi
 
 #### 1. Build godot submodule:
 
-Editor:
+From `godot/`:
+
+Editor / launcher:
 ```
-scons -j $(nproc) dev_build=yes tg_renderer=no compiledb=yes use_llvm=yes linker=lld disable_exceptions=no
+python tools/build.py launcher
 ```
 
 Renderer:
 ```
-scons -j $(nproc) dev_build=yes target=template_debug tg_renderer=yes compiledb=yes use_llvm=yes linker=lld disable_exceptions=no
+python tools/build.py renderer
 ```
+
+`tools/build.py` wraps scons with the canonical flag combinations. Run `python tools/build.py --help` for release variants and flags (`--mac-intel`, `--no-sandbox`, `-j N`). It defaults to `-j (cpu_count - 2)` so the OS stays responsive during builds.
 
 #### 2. Run project
 

@@ -1,5 +1,5 @@
 # Exclude large third-party engine submodule and binaries
-godot/**
+# godot/**
 
 # Godot caches and import artifacts
 **/.godot/**

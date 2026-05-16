@@ -14,11 +14,93 @@ This is a **strict superset** of the [official Godot GDScript style guide](https
 
 1. **Reference nodes via `@export var foo: NodeType`. Never `$NodePath`. Never `get_node()`.** One existing `$AnimationPlayer` line in `hint.gd` is grandfathered. Don't add a second.
 2. **Two blank lines between every function**, after the header block, after the var block. Consistent with Godot's official guide; we're stricter about enforcing it.
-3. **Type hints everywhere.** No untyped `var x = 5` in committed code. Use `:=` only for inferred locals.
-4. **No new autoloads.** Use the [[Event Architecture]] pattern (`Resource` + `_emit` wrappers + `@export`) instead.
-5. **Logging is `Debug.logclr` / `Debug.logerr` / `Debug.logr`.** Never raw `print()` or `printerr()`.
+3. **Tabs, not spaces, for indentation.** The Godot editor defaults to tabs — don't reconfigure it. Most-violated rule by AI agents that default to spaces from other languages. Full mechanical-formatting rules in the next section.
+4. **Type hints everywhere.** No untyped `var x = 5` in committed code. Use `:=` only for inferred locals.
+5. **No new autoloads.** Use the [[Event Architecture]] pattern (`Resource` + `_emit` wrappers + `@export`) instead.
+6. **Logging is `Debug.logclr` / `Debug.logerr` / `Debug.logr`.** Never raw `print()` or `printerr()`.
 
 The rest of this doc explains why and the fine print.
+
+---
+
+## Mechanical formatting (inherited from Godot upstream)
+
+The project guide is a strict superset of the [official Godot GDScript style guide](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_styleguide.html). The mechanical rules from upstream are inlined here because agents won't fetch the link and will default to other-language habits otherwise. Project deviations are marked **(project overrides)**.
+
+### Indentation
+
+- **Tabs, not spaces.** One tab per level. The Godot editor inserts tabs by default — don't reconfigure it.
+- Wrapped lines (continuation): use **2 tab levels** to distinguish them from a regular indented block.
+  ```gdscript
+  effect.interpolate_property(sprite, "transform/scale",
+          sprite.get_scale(), Vector2(2.0, 2.0), 0.3)
+  ```
+- Array / dict / enum bodies: single-level indent.
+  ```gdscript
+  var party = [
+      "Godot",
+      "Godette",
+  ]
+  ```
+
+### Line length
+
+Under 100 chars; aim for 80 when you can. Helps side-by-side diffs.
+
+### Whitespace
+
+| Rule | Example |
+|------|---------|
+| One space around binary operators | `position.x = 5`, `a + b` |
+| One space after commas | `[4, 5, 6]` |
+| No spaces inside `()` or `[]` | `print("foo")`, `dict["key"]` |
+| Single-line dict literal: spaces inside braces | `{ key = "value" }` |
+| Never align expressions with extra spaces | (don't pad `=` to a column) |
+
+### Quotes
+
+Double quotes by default. Single quotes only to dodge escapes.
+
+```gdscript
+print("hello 'world'")     # default
+print('hello "world"')     # avoids escape
+```
+
+### Trailing commas
+
+- Multi-line array / dict / enum: trailing comma after the last element.
+- Single-line literal: no trailing comma.
+
+### Boolean operators
+
+`and` / `or` / `not` — never `&&` / `||` / `!`.
+
+### Wrapping multi-line statements
+
+Use parens, never backslash. Place `and` / `or` at the **start** of continuation lines, not the end.
+
+### One statement per line
+
+Upstream forbids combining statements; ternary (`x if cond else y`) is its only exception.
+
+**(project overrides)** — `if cond: stmt` and `stmt1; stmt2` are widely used here for tight guards. See [Single-line `if`](#single-line-if).
+
+### Numbers
+
+- Floats: leading and trailing zeros — `0.234`, `13.0` (not `.234`, `13.`).
+- Hex: lowercase letters — `0xfb8c0b`.
+- Large ints: underscore separators — `1_234_567_890`.
+
+### Comment spacing
+
+| Style | After `#` |
+|-------|-----------|
+| `# regular` | space |
+| `## doc` | space |
+| `#disabled-code` | no space |
+| `#region` / `#endregion` | no space |
+
+Prefer comments on their own line over trailing-inline. Project rules on *what to comment* (stricter than upstream) live in the [Comments](#comments) section below.
 
 ---
 

@@ -31,9 +31,10 @@ func _ready() -> void:
 func start(_pipe: Dictionary, _gate: Gate) -> void:
 	pipe = _pipe
 	gate = _gate
-	
+
 	create_log_file()
-	start_reading_pipes()
+	if pipe.has("stdio") and pipe.has("stderr"):
+		start_reading_pipes()
 	start_flushing_logs()
 
 

@@ -20,7 +20,7 @@ Almost. It's a Godot with a real Vulkan device and a real (invisible) window —
 ## Code-level traps
 
 ### `recv_filehandle` is BLOCKING
-Both `TGExternalTexture::recv_filehandle` and `TgPipeIpc::pop_message` (when called in the recv loop) will sit forever waiting. The renderer's startup blocks here intentionally. If you're adding a new handshake step, do not add a new blocking call without a timeout or a peer-liveness check.
+`TGExternalTexture::recv_filehandle` (and the equivalent blocking `sock.recv(msg)` on any new handshake socket) will sit forever waiting. The renderer's startup blocks here intentionally. If you're adding a new handshake step, do not add a new blocking call without a timeout or a peer-liveness check.
 
 ### The renderer crashes itself on disconnect — *on purpose*
 ```cpp
@@ -28,7 +28,7 @@ if (!command_sync->is_peer_connected()) {
     CRASH_NOW_MSG("CommandSync peer disconnected. Exiting child.");
 }
 ```
-Comment in source: *"hack to avoid hanging because of uncleaned pipes created by `OS::execute_with_pipe`."* So if you see the renderer "crash" when the user closes the launcher, that's not a bug — it's the cleanup mechanism. If you're investigating the renderer crashing for other reasons, this same path will fire if the pipe is still alive but the peer-side process has gone away.
+Peer-disconnect is detected by the zmq socket monitor (`CommandSync::poll_monitor`, fired every iteration of the main loop). So if you see the renderer "crash" when the user closes the launcher, that's not a bug — it's the cleanup mechanism. The same path fires if the socket is still alive but the peer-side process has gone away.
 
 ### The launcher allocates the shared texture, the renderer imports it
 Counterintuitive. Even though the renderer is the producer of pixels, the *launcher* calls `TGExternalTexture::create()` (allocates Vulkan memory + exports a handle) and the *renderer* calls `TGExternalTexture::import()`. Direction is intentional — the launcher outlives any single renderer. Documented at [[External Texture Sharing]] § "Why the launcher allocates."
@@ -50,8 +50,8 @@ This means:
 - **You can't fix every gate by rebuilding the renderer in `godot/bin/`** — only gates declaring the same `godot_version` as your build will pick it up.
 - The IPC protocol is a public stable surface across renderer versions. Don't change command names or payload shapes without a version negotiation.
 
-### Stale named pipe placeholder files
-On Windows, `app/renderer/` contains zero-byte placeholder files (`command_sync`, `input_sync`, `external_texture`) that may be left over after a process exits. They aren't lock files and don't prevent re-launch — but they can be confusing on inspection. Leave them; the actual pipes live in the `\\.\pipe\` namespace.
+### Stale AF_UNIX socket files
+The zmq `ipc://` transport leaves real socket files behind under `OS::get_user_data_dir()` (or `/tmp` on Linux): `command_sync`, `input_sync`, `external_texture`. They aren't lock files and don't prevent re-launch — libzmq unlinks-and-recreates on bind. They can be confusing on inspection; leave them.
 
 ## GDScript / engine API conventions used in `app/`
 
@@ -73,7 +73,7 @@ On Windows, `app/renderer/` contains zero-byte placeholder files (`command_sync`
 
 ## When changing IPC
 
-- All three pipes use `TgPipeIpc`. Touch one place, all the IPC works.
+- All three channels are libzmq `ipc://` PAIR sockets. Address constants live next to the C++ classes (`command_sync.h`, `input_sync.h`, `external_texture.h`); shared helpers in `zmq_context.h`. Renderer binds, launcher connects — do not reverse.
 - **Do not** change the command name strings or arg counts in `command_sync.gd` without a version-aware fallback — there are old renderer binaries cached on users' machines that will send the old names.
 - Adding a new command? Both ends:
   1. Renderer side: `command_sync->send_command("new_name", args)` somewhere meaningful.

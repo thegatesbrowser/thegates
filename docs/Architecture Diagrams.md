@@ -57,11 +57,11 @@ flowchart TB
     RR --> UI
 
     UI -->|"InputEvent"| ISL
-    ISL <==>|"input_sync pipe"| ISR
+    ISL <==>|"input_sync (zmq ipc)"| ISR
     ISR -->|"Input.parse_input_event"| GAME
 
     GAME -->|"send_command"| CSR
-    CSR <==>|"command_sync pipe"| CSL
+    CSR <==>|"command_sync (zmq ipc)"| CSL
     CSL -->|"dispatch"| NAV
 
     classDef shared fill:#fde9d9,stroke:#c47b3a,stroke-width:3px,color:#000
@@ -71,7 +71,7 @@ flowchart TB
 **How to read it:**
 - Solid arrows = data/control flow.
 - `==>` thick arrows = the **frame data path** (renderer → shared GPU memory → launcher).
-- `<==>` bidirectional thick = the **named-pipe IPC** channels.
+- `<==>` bidirectional thick = the **zmq `ipc://` IPC channels**.
 - Dotted arrows around `SHARED` = **resource ownership** (the launcher *creates* the shared texture; the renderer *imports* it). Counterintuitive — see [[External Texture Sharing]] § "Why the launcher allocates."
 
 ---
@@ -102,7 +102,7 @@ sequenceDiagram
     RM->>R: OS.execute_with_pipe(renderer,<br/>[--main-pack, --resolution, --url])
     activate R
 
-    R->>LU: connect command_sync, input_sync pipes
+    R->>LU: bind command_sync + input_sync;<br/>launcher connects
     R->>LU: cmd "ext_texture_format" [RGBA8 / BGRA8]
     LU->>RR: set_texture_format()<br/>(shader swizzle)
 
@@ -110,7 +110,7 @@ sequenceDiagram
     LU->>RR: send_filehandle(path)
 
     Note over RR,R: handle transfer (per-OS)
-    RR->>R: Win: DuplicateHandle + pipe(int64)<br/>Mac: IOSurfaceID over pipe<br/>Linux: FD via flingfd
+    RR->>R: Win: DuplicateHandle + zmq PAIR(int64)<br/>Mac: IOSurfaceID over zmq PAIR<br/>Linux: FD via flingfd
 
     R->>R: ext.recv_filehandle (BLOCKING)
     R->>R: ext.import(format, view)

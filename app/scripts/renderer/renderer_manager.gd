@@ -6,6 +6,7 @@ class_name RendererManager
 @export var renderer_logger: RendererLogger
 
 var renderer_pid: int
+var sandbox_broker: Sandbox
 
 
 func _ready() -> void:
@@ -68,6 +69,7 @@ func start_process(gate: Gate) -> Dictionary:
 
 		var info: Dictionary = broker.spawn_target(policy, gate.renderer, args)
 		if not info.is_empty():
+			sandbox_broker = broker
 			Debug.logclr("Renderer launched as sandbox target pid=" + str(info["pid"]), Color.DIM_GRAY)
 			return {"pid": info["pid"]}
 		Debug.logerr("Sandbox.spawn_target failed; falling back to OS.execute_with_pipe")
@@ -80,7 +82,12 @@ static func gate_folder(url: String) -> String:
 
 
 func kill_renderer() -> void:
-	if OS.is_process_running(renderer_pid):
+	if sandbox_broker != null:
+		if sandbox_broker.is_target_running():
+			sandbox_broker.kill_target()
+			Debug.logclr("Sandbox target killed pid=" + str(renderer_pid), Color.DIM_GRAY)
+		sandbox_broker = null
+	elif OS.is_process_running(renderer_pid):
 		OS.kill(renderer_pid)
 		Debug.logclr("Process killed " + str(renderer_pid), Color.DIM_GRAY)
 
@@ -88,6 +95,8 @@ func kill_renderer() -> void:
 
 
 func is_process_running() -> bool:
+	if sandbox_broker != null:
+		return sandbox_broker.is_target_running()
 	return OS.is_process_running(renderer_pid)
 
 

@@ -65,11 +65,17 @@ static func start(node: Node, gate_events: GateEvents) -> void:
 			print("%sCYCLE-SCHEDULED] next_cycle=%d delay=%.1f url=%s" % [
 				TAG, next_cycle, cycle_delay, url
 			])
-			var t := node.get_tree().create_timer(cycle_delay)
+			var t := Timer.new()
+			t.one_shot = true
+			t.process_callback = Timer.TIMER_PROCESS_IDLE
+			t.wait_time = cycle_delay
+			node.add_child(t)
 			t.timeout.connect(func():
 				print("%sCYCLE-REOPEN] cycle=%d url=%s" % [TAG, next_cycle, url])
 				gate_events.open_gate_emit(url)
+				t.queue_free()
 			)
+			t.start()
 	)
 
 	if not url.is_empty():
@@ -80,9 +86,19 @@ static func start(node: Node, gate_events: GateEvents) -> void:
 		, CONNECT_ONE_SHOT)
 
 	if timeout > 0.0:
-		var timer := node.get_tree().create_timer(timeout)
-		timer.timeout.connect(func():
-			print("%sTIMEOUT] elapsed=%.1f" % [TAG, timeout])
-			print("%sEXIT] reason=timeout" % TAG)
-			node.get_tree().quit(0)
+		# Thread-based deadline. SceneTreeTimer and Timer-node approaches both
+		# fail to fire reliably across multi-cycle gate switches — switch_scene
+		# tears down + reinstantiates world_scene every cycle and the main
+		# loop's idle delta accumulates against the timer in ways that delay
+		# (or skip) the timeout signal. A separate thread that sleeps for
+		# `timeout` seconds and then call_deferred's quit is the only path
+		# that fires on real-wall-time regardless of scene churn.
+		var deadline_thread := Thread.new()
+		deadline_thread.start(func():
+			OS.delay_msec(int(timeout * 1000.0))
+			(func():
+				print("%sTIMEOUT] elapsed=%.1f" % [TAG, timeout])
+				print("%sEXIT] reason=timeout" % TAG)
+				node.get_tree().quit(0)
+			).call_deferred()
 		)

@@ -45,19 +45,43 @@ static func is_enabled() -> bool:
 
 static func start(node: Node, gate_events: GateEvents) -> void:
 	var args := parse_args()
-	print("%sSTART] args=%s" % [TAG, str(args)])
+	print("%sSTART] args=%s ms=%d" % [TAG, str(args), Time.get_ticks_msec()])
 
 	var url: String = args.get("gate_url", "")
 	var timeout: float = args.get("timeout", 0.0)
 	var cycles: int = args.get("cycles", 0)
 	var cycle_delay: float = args.get("cycle_delay", 5.0)
 
-	var cycle_state := {"entered": 0, "remaining": cycles}
+	var cycle_state := {
+		"entered": 0,
+		"remaining": cycles,
+		"reopen_ms": 0,
+		"last_tick_ms": 0,
+		"max_gap_ms": 0,
+	}
+
+	# Sample main-thread liveness every frame; max gap between ticks during a
+	# cycle is the responsiveness signal — a blocking call freezes ticks.
+	node.get_tree().process_frame.connect(func():
+		var now := Time.get_ticks_msec()
+		var last: int = cycle_state["last_tick_ms"]
+		if last != 0:
+			var gap := now - last
+			if gap > (cycle_state["max_gap_ms"] as int):
+				cycle_state["max_gap_ms"] = gap
+		cycle_state["last_tick_ms"] = now
+	)
 
 	gate_events.gate_entered.connect(func():
 		cycle_state["entered"] += 1
 		var idx: int = cycle_state["entered"]
-		print("%sGATE-ENTERED] cycle=%d" % [TAG, idx])
+		var now := Time.get_ticks_msec()
+		var since_reopen: int = now - (cycle_state["reopen_ms"] as int) if cycle_state["reopen_ms"] != 0 else -1
+		var max_gap: int = cycle_state["max_gap_ms"]
+		print("%sGATE-ENTERED] cycle=%d ms=%d since_reopen=%d max_tick_gap=%d" % [
+			TAG, idx, now, since_reopen, max_gap
+		])
+		cycle_state["max_gap_ms"] = 0
 
 		if cycle_state["remaining"] > 0:
 			cycle_state["remaining"] -= 1
@@ -71,7 +95,10 @@ static func start(node: Node, gate_events: GateEvents) -> void:
 			t.wait_time = cycle_delay
 			node.add_child(t)
 			t.timeout.connect(func():
-				print("%sCYCLE-REOPEN] cycle=%d url=%s" % [TAG, next_cycle, url])
+				cycle_state["reopen_ms"] = Time.get_ticks_msec()
+				print("%sCYCLE-REOPEN] cycle=%d url=%s ms=%d" % [
+					TAG, next_cycle, url, cycle_state["reopen_ms"]
+				])
 				gate_events.open_gate_emit(url)
 				t.queue_free()
 			)
@@ -81,7 +108,7 @@ static func start(node: Node, gate_events: GateEvents) -> void:
 	if not url.is_empty():
 		# Defer the open call by one frame so all autoload _ready hooks have run.
 		node.get_tree().process_frame.connect(func():
-			print("%sOPEN] %s" % [TAG, url])
+			print("%sOPEN] %s ms=%d" % [TAG, url, Time.get_ticks_msec()])
 			Navigation.open(url)
 		, CONNECT_ONE_SHOT)
 

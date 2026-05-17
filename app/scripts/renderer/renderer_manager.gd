@@ -14,7 +14,7 @@ func _ready() -> void:
 
 
 func start_renderer(gate: Gate) -> void:
-	var pipe := start_process(gate)
+	var pipe: Dictionary = await start_process(gate)
 	if pipe.is_empty(): return
 
 	renderer_pid = pipe["pid"]
@@ -46,7 +46,7 @@ func start_process(gate: Gate) -> Dictionary:
 
 	var broker: Sandbox = Sandbox.create()
 	if broker != null and not broker.is_target():
-		var verify_err: int = broker.verify_binary(gate.renderer)
+		var verify_err: int = await broker.verify_binary(gate.renderer)
 		if verify_err != OK:
 			Debug.logerr("Sandbox.verify_binary refused %s (err=%d); refusing to spawn" % [gate.renderer, verify_err])
 			return {}

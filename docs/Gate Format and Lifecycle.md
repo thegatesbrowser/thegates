@@ -58,7 +58,7 @@ Plus *implicitly*: the renderer binary for the declared Godot version. That's no
 9. User navigates away → kill renderer, free pipes, free texture
 ```
 
-See [[Launcher App]] for the file-by-file map of step 1–9.
+See [[Launcher App]] for the file-by-file map of step 1–9, and [[Gate Cycle]] for the runtime event sequence (what fires, when, and what gets torn down vs reused when a second gate opens).
 
 ## Why each gate ships its own engine
 

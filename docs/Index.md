@@ -24,6 +24,7 @@ The starting point. Every note in the vault is reachable from here.
 ## What we ship
 
 - [[Gate Format and Lifecycle]] — what a `.gate` file is, how it's downloaded, why each gate ships its own renderer binary
+- [[Gate Cycle]] — runtime event sequence when a gate opens / re-opens: triggers, `clear_current_gate`, `switch_scene`, renderer spawn, the Early events
 - [[Build System]] — `scons` flags, build variants, output binaries
 
 ## The fork

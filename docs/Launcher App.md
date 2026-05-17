@@ -51,6 +51,9 @@ This folder is what makes the launcher a "browser" rather than just a Godot UI. 
 
 ## How a gate visit hits these files
 
+For the full runtime event sequence — open_gate → clear → switch_scene → spawn — plus what gets torn down vs reused when a second gate opens, see [[Gate Cycle]].
+
+
 ```
 User clicks/types URL
        │

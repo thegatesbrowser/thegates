@@ -65,7 +65,10 @@ func start_process(gate: Gate) -> Dictionary:
 			launcher_dir.path_join("input_sync"),
 			launcher_dir.path_join("external_texture"),
 		]))
-		policy.set_ro_files(PackedStringArray([pack_file]))
+		var ro: PackedStringArray = [pack_file]
+		# Extensions now load post-lockdown — landlock/MIC must allow reads from the libs dir.
+		if not shared_libs.is_empty(): ro.append(shared_libs)
+		policy.set_ro_files(ro)
 
 		var info: Dictionary = broker.spawn_target(policy, gate.renderer, args)
 		if not info.is_empty():

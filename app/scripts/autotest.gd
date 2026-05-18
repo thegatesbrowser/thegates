@@ -72,6 +72,10 @@ static func start(node: Node, gate_events: GateEvents) -> void:
 		cycle_state["last_tick_ms"] = now
 	)
 
+	gate_events.first_frame.connect(func():
+		print("%sFIRST-FRAME] ms=%d" % [TAG, Time.get_ticks_msec()])
+	)
+
 	gate_events.gate_entered.connect(func():
 		cycle_state["entered"] += 1
 		var idx: int = cycle_state["entered"]

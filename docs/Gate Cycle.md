@@ -90,8 +90,9 @@ start_process(gate)
        │
        ├─ resolve user_dir = user://gates_storage/<gate-folder>
        ├─ broker = Sandbox.create()
-       ├─ broker.verify_binary(gate.renderer)
-       │     └─ SHA-256 + signature pin check (fail-closed)
+       ├─ await broker.verify_binary(gate.renderer)
+       │     └─ Signal; worker thread runs SHA-256 + pin check (fail-closed).
+       │        Main loop stays responsive while the hash runs.
        ├─ broker.apply_renderer_acl(user_dir)
        ├─ policy = SandboxPolicy(rw_dir, ro_files=[pack], rw_files=[ipc sockets])
        ├─ info = broker.spawn_target(policy, gate.renderer, args)

@@ -59,6 +59,12 @@ The zmq `ipc://` transport leaves real socket files behind under `OS::get_user_d
 - **`Debug.logclr(msg, color)` and `Debug.logerr(msg)`** are the project's logging conventions, not raw `print`. Honors the in-app debug overlay.
 - **Resource classes for data**: `RendererExecutable`, `RenderResult`, `ApiSettings` etc. are `extends Resource` — they're *.tres* serializable data containers, not nodes. Edit their `.tres` instances when changing config, not the .gd.
 
+## Testing conventions
+
+- **Integration testing goes through [[Autotest Harness]].** Don't write a one-off launcher script when you want to verify a renderer-spawn / sandbox / multi-gate-cycle change — `godot/tools/run-sandbox-test.sh` (and the `.ps1` mirror) drive the launcher through a scripted gate-open session and assert on the renderer log + sandbox diag block. Numeric exit codes are stable per failure mode.
+- **`--cycles N` is the regression net for the gate-cycle teardown path** (see [[Gate Cycle]]). Single-cycle runs miss anything that only goes wrong on re-open. Default CI runs should pass `--cycles 2` or higher.
+- **`--mode negative-fail-closed` and `--mode negative-signature`** are the proof that the sandbox/signature failure paths are still wired up. A clean `default` run alone can't tell you whether the canary checks are doing their job or just trivially passing.
+
 ## Build / deploy conventions
 
 - Build commands live in the parent `README.md`, not in this vault. Don't duplicate; they change.

@@ -31,6 +31,7 @@ func start_process(gate: Gate) -> Dictionary:
 
 	var pack_file := ProjectSettings.globalize_path(gate.resource_pack)
 	var shared_libs := ProjectSettings.globalize_path(gate.shared_libs_dir)
+	var shader_cache_res := shader_cache_res_dir(gate.renderer)
 	var args: Array[String] = [
 		"--main-pack", pack_file,
 		"--resolution", "%dx%d" % [render_result.width, render_result.height],
@@ -40,6 +41,7 @@ func start_process(gate: Gate) -> Dictionary:
 		"--verbose"
 	]
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
+	if not shader_cache_res.is_empty(): args += ["--tg-shader-cache-res-dir", shader_cache_res]
 
 	Debug.logclr(gate.renderer + " " + " ".join(args), Color.DIM_GRAY)
 
@@ -55,7 +57,7 @@ func start_process(gate: Gate) -> Dictionary:
 	var log_path := ProjectSettings.globalize_path(RendererLogger.log_file_path(gate.url))
 	DirAccess.make_dir_recursive_absolute(log_path.get_base_dir())
 
-	var policy := build_policy(user_dir, pack_file, shared_libs, log_path)
+	var policy := build_policy(user_dir, pack_file, shared_libs, shader_cache_res, log_path)
 	var info: Dictionary = broker.spawn_target(policy, gate.renderer, args)
 	if info.is_empty():
 		Debug.logerr("Sandbox.spawn_target failed"); return {}
@@ -65,7 +67,7 @@ func start_process(gate: Gate) -> Dictionary:
 	return info
 
 
-func build_policy(user_dir: String, pack_file: String, shared_libs: String, log_path: String) -> SandboxPolicy:
+func build_policy(user_dir: String, pack_file: String, shared_libs: String, shader_cache_res: String, log_path: String) -> SandboxPolicy:
 	var launcher_dir := OS.get_user_data_dir()
 	var policy := SandboxPolicy.new()
 	policy.set_rw_dir(user_dir)
@@ -78,12 +80,20 @@ func build_policy(user_dir: String, pack_file: String, shared_libs: String, log_
 	var ro: PackedStringArray = [pack_file]
 	# extensions load post-lockdown — landlock/MIC must allow reads from the libs dir
 	if not shared_libs.is_empty(): ro.append(shared_libs)
+	if not shader_cache_res.is_empty(): ro.append(shader_cache_res)
 	policy.set_ro_files(ro)
 	return policy
 
 
 static func gate_folder(url: String) -> String:
 	return url.split("?")[0].replace("http://", "").replace("https://", "").replace(".gate", "").replace(":", "_")
+
+
+static func shader_cache_res_dir(renderer_path: String) -> String:
+	if renderer_path.is_empty(): return ""
+	var path := renderer_path + ".shader_cache"
+	if not DirAccess.dir_exists_absolute(path): return ""
+	return path
 
 
 func kill_renderer() -> void:

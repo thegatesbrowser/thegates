@@ -158,7 +158,9 @@ func load_renderer(c_gate: ConfigGate) -> void:
 	renderer_url = renderer.get_download_url(c_gate.godot_version)
 	gate.renderer = await renderer.download(c_gate.godot_version, active_session)
 	if gate.renderer.is_empty(): return error(GateEvents.GateError.MISSING_RENDERER)
-	
+
+	await renderer.download_shader_cache(c_gate.godot_version, active_session)
+
 	renderer_ready = true
 	try_finish_loading()
 

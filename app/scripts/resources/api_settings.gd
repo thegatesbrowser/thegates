@@ -37,3 +37,6 @@ var send_logs: String :
 
 var download_renderer: String :
 	get: return url + "/api/download_renderer/%s-%s" # platform-godot_version
+
+var download_shader_cache: String :
+	get: return url + "/api/download_shader_cache/%s-%s" # platform-godot_version

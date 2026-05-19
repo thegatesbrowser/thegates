@@ -52,6 +52,36 @@ func get_download_url(godot_version: String) -> String:
 	return api_settings.download_renderer % [Platform.get_platform_string(), godot_version]
 
 
+# Best-effort: 404 / network failure is logged and ignored — the gate boots
+# without the shared cache, falling back to compile-from-source on first use.
+func download_shader_cache(godot_version: String, active_session: FileDownloader.DownloadSession) -> void:
+	if godot_version not in supported_godot_versions: return
+	if Platform.get_platform() not in supported_platforms: return
+
+	var renderer_path := get_renderer_path(godot_version)
+	var target_dir := renderer_path + ".shader_cache"
+	if DirAccess.dir_exists_absolute(target_dir): return
+
+	var url := api_settings.download_shader_cache % [Platform.get_platform_string(), godot_version]
+	var result: Dictionary = await FileDownloader.download_with_status(url, 0.0, false, active_session)
+
+	var status: int = result.get("status", 0)
+	if status != 200:
+		Debug.logclr("Shader cache not downloaded (status=%d) for %s" % [status, godot_version], Color.DIM_GRAY)
+		return
+
+	var zip_path: String = result.get("path", "")
+	if zip_path.is_empty():
+		Debug.logclr("Shader cache download returned no path for %s" % [godot_version], Color.DIM_GRAY)
+		return
+
+	if not UnZip.extract_to_dir(zip_path, target_dir):
+		Debug.logclr("Shader cache extraction failed for %s" % [godot_version], Color.DIM_GRAY)
+		return
+
+	Debug.logclr("Shader cache installed at %s" % [target_dir], Color.DIM_GRAY)
+
+
 func get_renderer_path(godot_version: String) -> String:
 	var dir = get_renderer_dir(godot_version)
 	match Platform.get_platform():

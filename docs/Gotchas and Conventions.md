@@ -53,6 +53,30 @@ This means:
 ### Stale AF_UNIX socket files
 The zmq `ipc://` transport leaves real socket files behind under `OS::get_user_data_dir()` (or `/tmp` on Linux): `command_sync`, `input_sync`, `external_texture`. They aren't lock files and don't prevent re-launch — libzmq unlinks-and-recreates on bind. They can be confusing on inspection; leave them.
 
+### `class_name X` is invisible until the editor regenerates the global cache
+
+Godot maintains a per-project registry at `app/.godot/global_script_class_cache.cfg` (gitignored) that maps `class_name` declarations to script paths. The cache only refreshes when the editor scans the filesystem. If you add a new `class_name Foo` and immediately run the launcher headlessly (via `godot/tools/run-sandbox-test.{sh,ps1}` or any direct `--headless` invocation), references to `Foo` from other scripts fail at parse time:
+
+```
+SCRIPT ERROR: Parse Error: Identifier "Foo" not declared in the current scope.
+ERROR: Failed to load script "res://scripts/<caller>.gd" with error "Parse error".
+```
+
+Same trap fires on a fresh `git pull` of a branch that introduced a new `class_name` script. Fix is to regenerate the cache once via a headless editor pass — no GUI needed:
+
+```bash
+# macOS
+( cd app && ../godot/bin/godot.macos.editor.dev.$(uname -m) --headless --quit-after 60 --import )
+
+# Linux
+( cd app && ../godot/bin/godot.linuxbsd.editor.dev.x86_64.llvm --headless --quit-after 60 --import )
+
+# Windows (pwsh)
+Push-Location app; ..\godot\bin\godot.windows.editor.dev.x86_64.llvm.console.exe --headless --quit-after 60 --import; Pop-Location
+```
+
+A line like `update_scripts_classes | Foo` in the output confirms the new class registered. Re-run the failing command; the parse error is gone. Do **not** "fix" it by switching the caller to `const Foo := preload("res://scripts/foo.gd")` — that's a workaround the codebase doesn't use elsewhere; regenerating the cache restores the project's convention.
+
 ## GDScript / engine API conventions used in `app/`
 
 - **Event buses are autoload singletons.** `GateEvents`, `CommandEvents`, `AppEvents`, `UiEvents` etc. — find them in `project.godot`'s `[autoload]` section.

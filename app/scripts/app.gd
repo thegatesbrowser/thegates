@@ -1,8 +1,5 @@
 extends Node
 
-# TODO: restore `class_name Autotest` once the editor regenerates the global class cache.
-const Autotest := preload("res://scripts/autotest.gd")
-
 @export var gate_events: GateEvents
 @export var home: PackedScene
 @export var search_results: PackedScene
@@ -17,8 +14,7 @@ func _ready() -> void:
 
 	switch_scene(home)
 
-	if Autotest.is_enabled():
-		Autotest.start(self, gate_events)
+	Autotest.attach(self, gate_events)
 
 
 func switch_scene(scene: PackedScene) -> void:

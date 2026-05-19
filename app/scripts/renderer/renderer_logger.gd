@@ -39,12 +39,16 @@ func start(_pipe: Dictionary, _gate: Gate) -> void:
 
 
 func create_log_file() -> void:
-	var path = LOG_FOLDER + "/" + RendererManager.gate_folder(gate.url) + "/" + LOG_FILE
-	var global_path = ProjectSettings.globalize_path(path)
+	var path := log_file_path(gate.url)
+	var global_path := ProjectSettings.globalize_path(path)
 	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
 
 	log_file = FileAccess.open(path, FileAccess.WRITE_READ)
 	Debug.logclr("Logs written to [url]%s[/url]" % [global_path], Color.GRAY)
+
+
+static func log_file_path(url: String) -> String:
+	return LOG_FOLDER.path_join(RendererManager.gate_folder(url)).path_join(LOG_FILE)
 
 
 # READING FROM PIPES

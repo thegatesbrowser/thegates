@@ -6,7 +6,7 @@ class_name RendererManager
 @export var renderer_logger: RendererLogger
 
 var renderer_pid: int
-var sandbox_broker: Sandbox
+var sandbox: Sandbox
 
 
 func _ready() -> void:
@@ -14,11 +14,11 @@ func _ready() -> void:
 
 
 func start_renderer(gate: Gate) -> void:
-	var pipe: Dictionary = await start_process(gate)
-	if pipe.is_empty(): return
+	var info: Dictionary = await start_process(gate)
+	if info.is_empty(): return
 
-	renderer_pid = pipe["pid"]
-	renderer_logger.call_thread_safe("start", pipe, gate)
+	renderer_pid = info["pid"]
+	renderer_logger.call_thread_safe("start", info, gate)
 	gate_events.gate_entered_emit()
 
 
@@ -26,8 +26,7 @@ func start_process(gate: Gate) -> Dictionary:
 	if not FileAccess.file_exists(gate.renderer):
 		Debug.logerr("Renderer executable not found at " + gate.renderer); return {}
 
-	var folder := gate_folder(gate.url)
-	var user_dir := ProjectSettings.globalize_path("user://gates_storage/" + folder)
+	var user_dir := ProjectSettings.globalize_path("user://gates_storage/" + gate_folder(gate.url))
 	DirAccess.make_dir_recursive_absolute(user_dir)
 
 	var pack_file := ProjectSettings.globalize_path(gate.resource_pack)
@@ -44,40 +43,43 @@ func start_process(gate: Gate) -> Dictionary:
 
 	Debug.logclr(gate.renderer + " " + " ".join(args), Color.DIM_GRAY)
 
-	var broker: Sandbox = Sandbox.create()
-	if broker != null and not broker.is_target():
-		var verify_err: int = await broker.verify_binary(gate.renderer)
-		if verify_err != OK:
-			Debug.logerr("Sandbox.verify_binary refused %s (err=%d); refusing to spawn" % [gate.renderer, verify_err])
-			return {}
+	var broker := Sandbox.create()
+	if broker == null: return OS.execute_with_pipe(gate.renderer, args)
 
-		broker.apply_renderer_acl(user_dir)
+	var verify_err: int = await broker.verify_binary(gate.renderer)
+	if verify_err != OK:
+		Debug.logerr("Sandbox.verify_binary refused %s (err=%d)" % [gate.renderer, verify_err]); return {}
 
-		var log_path := ProjectSettings.globalize_path("user://logs/" + folder + "/log.txt")
-		DirAccess.make_dir_recursive_absolute(log_path.get_base_dir())
+	broker.apply_renderer_acl(user_dir)
 
-		var launcher_dir := OS.get_user_data_dir()
-		var policy := SandboxPolicy.new()
-		policy.set_rw_dir(user_dir)
-		policy.set_child_stdout_log_path(log_path)
-		policy.set_rw_files(PackedStringArray([
-			launcher_dir.path_join("command_sync"),
-			launcher_dir.path_join("input_sync"),
-			launcher_dir.path_join("external_texture"),
-		]))
-		var ro: PackedStringArray = [pack_file]
-		# Extensions now load post-lockdown — landlock/MIC must allow reads from the libs dir.
-		if not shared_libs.is_empty(): ro.append(shared_libs)
-		policy.set_ro_files(ro)
+	var log_path := ProjectSettings.globalize_path(RendererLogger.log_file_path(gate.url))
+	DirAccess.make_dir_recursive_absolute(log_path.get_base_dir())
 
-		var info: Dictionary = broker.spawn_target(policy, gate.renderer, args)
-		if not info.is_empty():
-			sandbox_broker = broker
-			Debug.logclr("Renderer launched as sandbox target pid=%s" % [info["pid"]], Color.DIM_GRAY)
-			return {"pid": info["pid"]}
-		Debug.logerr("Sandbox.spawn_target failed; falling back to OS.execute_with_pipe")
+	var policy := build_policy(user_dir, pack_file, shared_libs, log_path)
+	var info: Dictionary = broker.spawn_target(policy, gate.renderer, args)
+	if info.is_empty():
+		Debug.logerr("Sandbox.spawn_target failed"); return {}
 
-	return OS.execute_with_pipe(gate.renderer, args)
+	sandbox = broker
+	Debug.logclr("Sandbox target spawned pid=%s" % [info["pid"]], Color.DIM_GRAY)
+	return info
+
+
+func build_policy(user_dir: String, pack_file: String, shared_libs: String, log_path: String) -> SandboxPolicy:
+	var launcher_dir := OS.get_user_data_dir()
+	var policy := SandboxPolicy.new()
+	policy.set_rw_dir(user_dir)
+	policy.set_child_stdout_log_path(log_path)
+	policy.set_rw_files(PackedStringArray([
+		launcher_dir.path_join("command_sync"),
+		launcher_dir.path_join("input_sync"),
+		launcher_dir.path_join("external_texture"),
+	]))
+	var ro: PackedStringArray = [pack_file]
+	# extensions load post-lockdown — landlock/MIC must allow reads from the libs dir
+	if not shared_libs.is_empty(): ro.append(shared_libs)
+	policy.set_ro_files(ro)
+	return policy
 
 
 static func gate_folder(url: String) -> String:
@@ -85,11 +87,11 @@ static func gate_folder(url: String) -> String:
 
 
 func kill_renderer() -> void:
-	if sandbox_broker != null:
-		if sandbox_broker.is_target_running():
-			sandbox_broker.kill_target()
+	if sandbox != null:
+		if sandbox.is_target_running():
+			sandbox.kill_target()
 			Debug.logclr("Sandbox target killed pid=%d" % [renderer_pid], Color.DIM_GRAY)
-		sandbox_broker = null
+		sandbox = null
 	elif OS.is_process_running(renderer_pid):
 		OS.kill(renderer_pid)
 		Debug.logclr("Process killed %d" % [renderer_pid], Color.DIM_GRAY)
@@ -98,8 +100,8 @@ func kill_renderer() -> void:
 
 
 func is_process_running() -> bool:
-	if sandbox_broker != null:
-		return sandbox_broker.is_target_running()
+	if sandbox != null:
+		return sandbox.is_target_running()
 	return OS.is_process_running(renderer_pid)
 
 

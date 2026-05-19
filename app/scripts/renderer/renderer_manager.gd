@@ -24,7 +24,8 @@ func start_renderer(gate: Gate) -> void:
 
 func start_process(gate: Gate) -> Dictionary:
 	if not FileAccess.file_exists(gate.renderer):
-		Debug.logerr("Renderer executable not found at " + gate.renderer); return {}
+		Debug.logerr("Renderer executable not found at " + gate.renderer)
+		gate_events.gate_error_emit(GateEvents.GateError.MISSING_RENDERER); return {}
 
 	var user_dir := ProjectSettings.globalize_path("user://gates_storage/" + gate_folder(gate.url))
 	DirAccess.make_dir_recursive_absolute(user_dir)
@@ -48,7 +49,8 @@ func start_process(gate: Gate) -> Dictionary:
 
 	var verify_err: int = await broker.verify_binary(gate.renderer)
 	if verify_err != OK:
-		Debug.logerr("Sandbox.verify_binary refused %s (err=%d)" % [gate.renderer, verify_err]); return {}
+		Debug.logerr("Sandbox.verify_binary refused %s (err=%d)" % [gate.renderer, verify_err])
+		gate_events.gate_error_emit(GateEvents.GateError.MISSING_RENDERER); return {}
 
 	broker.apply_renderer_acl(user_dir)
 
@@ -58,7 +60,8 @@ func start_process(gate: Gate) -> Dictionary:
 	var policy := build_policy(user_dir, pack_file, shared_libs, log_path)
 	var info: Dictionary = broker.spawn_target(policy, gate.renderer, args)
 	if info.is_empty():
-		Debug.logerr("Sandbox.spawn_target failed"); return {}
+		Debug.logerr("Sandbox.spawn_target failed")
+		gate_events.gate_error_emit(GateEvents.GateError.MISSING_RENDERER); return {}
 
 	sandbox = broker
 	Debug.logclr("Sandbox target spawned pid=%s" % [info["pid"]], Color.DIM_GRAY)

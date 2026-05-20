@@ -8,6 +8,10 @@ extends Node
 
 
 func _ready() -> void:
+	if NetworkDiagnostic.is_enabled():
+		NetworkDiagnostic.run_and_quit()
+		return
+
 	gate_events.search.connect(func(_query): switch_scene(search_results))
 	gate_events.open_gate_app.connect(func(_url): switch_scene(world_scene))
 	gate_events.exit_gate.connect(func(): switch_scene(home))

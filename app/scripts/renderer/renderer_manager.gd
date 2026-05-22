@@ -78,6 +78,9 @@ func build_policy(user_dir: String, pack_file: String, shared_libs: String, log_
 		launcher_dir.path_join("input_sync"),
 		launcher_dir.path_join("external_texture"),
 	]))
+	# Renderer binds external_texture during recv_filehandle. Launcher cleans
+	# it between respawns since the AppContainer can't always unlink its own.
+	policy.add_renderer_bound_file(launcher_dir.path_join("external_texture"))
 	var ro: PackedStringArray = [pack_file]
 	# extensions load post-lockdown — landlock/MIC must allow reads from the libs dir
 	if not shared_libs.is_empty(): ro.append(shared_libs)

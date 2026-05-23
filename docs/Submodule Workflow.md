@@ -18,7 +18,7 @@ Inside the submodule (`godot/`):
 | `tg-4.2` | Older Godot 4.2-based work (kept for reference). |
 | `chromium-sandboxing` / `chromium-sandboxing-4.3-old` | Ongoing sandboxing experiments (in-progress per the security model docs). |
 
-`.gitmodules` pins `branch = tg-4.2`. This is stale — it predates the 4.3 → 4.5 upgrades and hasn't been bumped. The actual checkout floats on whatever the parent's submodule pointer says, which is currently a commit on `tg-4.5`. You can ignore the `.gitmodules` branch line until / unless someone wants to clean it up.
+`.gitmodules` pins `branch = tg-4.5`. The `branch =` line is only consulted by `git submodule update --remote` — the default `git submodule update` ignores it and checks out the SHA the parent's submodule pointer records (detached HEAD).
 
 `origin/HEAD` on the submodule points to `tg-master`. A fresh `git submodule update --init` checks out the commit the parent points to (detached HEAD), not `tg-master` — that's normal submodule behavior.
 
@@ -55,6 +55,19 @@ The submodule-pointer bump shows up in `git status` as `modified: godot (new com
 
 The docs reorg on 2026-05-14 used the deferred pattern: the parent commit updated `CLAUDE.md` + `docs/Index.md` + removed the moved notes, but did NOT bump the submodule pointer.
 
+## Pulling latest changes
+
+**Don't use `git submodule update` to pull the submodule.** It checks out the SHA recorded in the parent (detached HEAD) — that's what submodules do; they're pinned by commit, not branch. The right shape is two `git pull`s on the two branches:
+
+```bash
+git pull                                                # parent on its branch
+cd godot && git checkout tg-4.5 && git pull --ff-only   # submodule on its branch
+```
+
+If `git status` in the parent then reports `modified: godot (new commits)`, that's normal — the submodule's `tg-4.5` HEAD is now ahead of the SHA the parent commit pinned. Either make a parent commit bumping the pointer, or leave it alone if you're not ready to bump it (see [The cross-repo commit pattern](#the-cross-repo-commit-pattern)).
+
+`git submodule update --remote --merge` is the one-shot version that honors `.gitmodules`'s `branch = tg-4.5` and fast-forwards on it. It works, but `cd godot && git pull` is more transparent — you always see which branch you ended up on.
+
 ## Gotchas
 
 ### `git mv` doesn't work across the submodule boundary
@@ -75,7 +88,7 @@ After committing inside the submodule, the parent's `git status` shows `modified
 
 ### Detached HEAD after `submodule update`
 
-A fresh `git submodule update` checks out the commit the parent points to, not a named branch. To start working: `cd godot && git checkout tg-4.5` (or whatever branch you want). Committing on a detached HEAD silently dangles the commit until you `git checkout -b ...`.
+A fresh `git submodule update` checks out the commit the parent points to, not a named branch. To start working: `cd godot && git checkout tg-4.5` (or whatever branch you want). Committing on a detached HEAD silently dangles the commit until you `git checkout -b ...`. See [Pulling latest changes](#pulling-latest-changes) for the workflow that avoids this on a normal pull.
 
 ## When in doubt
 

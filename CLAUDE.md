@@ -91,6 +91,17 @@ Day-to-day, from `godot/`:
 
 Output binaries land in `godot/bin/`. The `.console.exe` variants (Windows) are invaluable for renderer logging — see [`docs/Renderer Process.md`](./docs/Renderer%20Process.md).
 
+## Pulling latest changes
+
+**Don't use `git submodule update` to update `godot/`.** It checks out the SHA the parent pins (detached HEAD), not a branch. Pull each repo on its own branch:
+
+```bash
+git pull                                                # parent
+cd godot && git checkout tg-4.5 && git pull --ff-only   # submodule on its branch
+```
+
+If the parent then reports `modified: godot (new commits)`, that's normal — the submodule is ahead of the SHA the parent pinned. See [`docs/Submodule Workflow.md`](./docs/Submodule%20Workflow.md) for what to do with it.
+
 ## When the user corrects your code: the docs-update loop
 
 If the user pushes back on a style choice, naming, pattern, or architecture decision you made, treat the correction as a signal that **a rule may be missing or unclear in the docs**. The style guide is a living document — it does not yet cover every case the user has in their head, and your job is to surface gaps.

@@ -12,7 +12,7 @@ func _ready() -> void:
 	gate_events.call_or_subscribe(GateEvents.Early.ENTERED, socket_bind)
 
 
-func _physics_process(_delta: float) -> void:
+func _process(_delta: float) -> void:
 	receive_commands()
 
 

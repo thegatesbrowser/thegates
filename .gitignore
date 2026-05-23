@@ -1,4 +1,5 @@
 .DS_Store
+.context/
 
 # add to skip-worktree to ignore local changes
 .vscode/settings.json

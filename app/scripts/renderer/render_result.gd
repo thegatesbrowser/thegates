@@ -41,12 +41,6 @@ func create_external_texture() -> void:
 	t_format.depth = 1
 	var t_view: RDTextureView = RDTextureView.new()
 	
-	# For some reason when switching scene something is not freed
-	# So need to wait to free that up
-	await get_tree().process_frame
-	await get_tree().process_frame
-	await get_tree().process_frame
-	
 	ext_texure = TGExternalTexture.new()
 	var err = ext_texure.create(t_format, t_view)
 	if err: Debug.logerr("Cannot create external texture")
@@ -59,7 +53,7 @@ func send_filehandle(filehandle_path: String) -> void:
 	while not sent:
 		if not is_instance_valid(ext_texure): return
 		sent = ext_texure.send_filehandle(filehandle_path)
-		await get_tree().process_frame
+		if not sent: await get_tree().process_frame
 	Debug.logclr("filehandle was sent", Color.DIM_GRAY)
 
 

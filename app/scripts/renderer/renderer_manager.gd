@@ -38,19 +38,20 @@ func start_process(gate: Gate) -> Dictionary:
 		"--url", gate.url,
 		"--tg-ipc-dir", OS.get_user_data_dir(),
 		"--tg-user-data-dir", user_dir,
-		"--verbose"
 	]
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
+	if OS.is_stdout_verbose(): args.append("--verbose")
 
 	Debug.logclr(gate.renderer + " " + " ".join(args), Color.DIM_GRAY)
 
 	var broker := Sandbox.create()
 	if broker == null: return OS.execute_with_pipe(gate.renderer, args)
 
-	var verify_err: int = await broker.verify_binary(gate.renderer)
-	if verify_err != OK:
-		Debug.logerr("Sandbox.verify_binary refused %s (err=%d)" % [gate.renderer, verify_err])
-		gate_events.gate_error_emit(GateEvents.GateError.MISSING_RENDERER); return {}
+	# TODO: re-enable once Windows/macOS signing keys + tg_signature_pin are set.
+	# var verify_err: int = await broker.verify_binary(gate.renderer)
+	# if verify_err != OK:
+	# 	Debug.logerr("Sandbox.verify_binary refused %s (err=%d)" % [gate.renderer, verify_err])
+	# 	gate_events.gate_error_emit(GateEvents.GateError.MISSING_RENDERER); return {}
 
 	broker.apply_renderer_acl(user_dir)
 

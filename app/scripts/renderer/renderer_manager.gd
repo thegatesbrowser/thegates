@@ -41,18 +41,15 @@ func start_process(gate: Gate) -> Dictionary:
 	]
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
 	if OS.is_stdout_verbose(): args.append("--verbose")
+	var driver := Platform.preferred_renderer_display_driver()
+	if driver: args += ["--display-driver", driver]
 
 	Debug.logclr(gate.renderer + " " + " ".join(args), Color.DIM_GRAY)
 
 	var broker := Sandbox.create()
 	if broker == null: return OS.execute_with_pipe(gate.renderer, args)
 
-	# TODO: re-enable once Windows/macOS signing keys + tg_signature_pin are set.
-	# var verify_err: int = await broker.verify_binary(gate.renderer)
-	# if verify_err != OK:
-	# 	Debug.logerr("Sandbox.verify_binary refused %s (err=%d)" % [gate.renderer, verify_err])
-	# 	gate_events.gate_error_emit(GateEvents.GateError.MISSING_RENDERER); return {}
-
+	# TODO: call broker.verify_binary(gate.renderer) once signing keys are pinned cross-platform.
 	broker.apply_renderer_acl(user_dir)
 
 	var log_path := ProjectSettings.globalize_path(RendererLogger.log_file_path(gate.url))
@@ -79,12 +76,10 @@ func build_policy(user_dir: String, pack_file: String, shared_libs: String, log_
 		launcher_dir.path_join("input_sync"),
 		launcher_dir.path_join("external_texture"),
 	]))
-	# Renderer binds external_texture during recv_filehandle. Launcher cleans
-	# it between respawns since the AppContainer can't always unlink its own.
+	# Launcher unlinks this between respawns — Windows AppContainer can't unlink its own bind socket.
 	policy.add_renderer_bound_file(launcher_dir.path_join("external_texture"))
 	var ro: PackedStringArray = [pack_file]
-	# extensions load post-lockdown — landlock/MIC must allow reads from the libs dir
-	if not shared_libs.is_empty(): ro.append(shared_libs)
+	if not shared_libs.is_empty(): ro.append(shared_libs) # GDExtensions load post-lockdown.
 	policy.set_ro_files(ro)
 	return policy
 

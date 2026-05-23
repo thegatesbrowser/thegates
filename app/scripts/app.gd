@@ -12,6 +12,9 @@ func _ready() -> void:
 		NetworkDiagnostic.run_and_quit()
 		return
 
+	if not Autotest.is_enabled():
+		Platform.notify_x11_sandbox_caveat()
+
 	gate_events.search.connect(func(_query): switch_scene(search_results))
 	gate_events.open_gate_app.connect(func(_url): switch_scene(world_scene))
 	gate_events.exit_gate.connect(func(): switch_scene(home))

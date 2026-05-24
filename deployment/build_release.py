@@ -27,6 +27,44 @@ def parse_version(project_path: Path) -> str:
 	raise RuntimeError(f"Failed to parse version from {project_path}")
 
 
+def parse_preset_template_path(preset_path: Path, preset_name: str) -> Path:
+	"""Read custom_template/release from a named preset in export_presets.cfg.
+
+	The preset file is the single source of truth for which template binary
+	gets used during export. Reading it here keeps the deployment pipeline
+	(e.g., the Windows manifest patch step) in sync with whatever Godot
+	itself will pick up — no parallel hardcoded path to drift.
+	"""
+	target_idx: str | None = None
+	current_section: str | None = None
+	for raw in preset_path.read_text(encoding="utf-8", errors="ignore").splitlines():
+		line = raw.strip()
+		if line.startswith("[") and line.endswith("]"):
+			current_section = line[1:-1]
+			continue
+		if current_section is None:
+			continue
+		# Find the [preset.N] block matching preset_name.
+		if (
+			target_idx is None
+			and current_section.startswith("preset.")
+			and "." not in current_section[len("preset.") :]
+			and line == f'name="{preset_name}"'
+		):
+			target_idx = current_section[len("preset.") :]
+			continue
+		# Then pull custom_template/release from [preset.N.options].
+		if (
+			target_idx is not None
+			and current_section == f"preset.{target_idx}.options"
+			and line.startswith('custom_template/release="')
+		):
+			return Path(line.split('"', 2)[1])
+	raise RuntimeError(
+		f"custom_template/release not found for preset {preset_name!r} in {preset_path}"
+	)
+
+
 def build_expected_zip_paths(builds_dir: Path, version: str, os_name: str) -> list[Path]:
 	paths: list[Path] = []
 	if os_name == "Linux":
@@ -101,9 +139,21 @@ def main() -> int:
 	elif os_name == "Windows":
 		builds_dir = Path("D:/Projects/thegates-folder/AppBuilds")
 		compress_script = repo_root / "deployment" / "compress_build_windows.py"
+		manifest_script = repo_root / "deployment" / "patch_windows_manifest.py"
+		exported_exe = builds_dir / "Windows" / "TheGates.exe"
+		template_exe = parse_preset_template_path(
+			app_dir / "export_presets.cfg", "Windows Desktop"
+		)
 
 		print(f"==> Switching to builds dir: {builds_dir}")
 		builds_dir.mkdir(parents=True, exist_ok=True)
+
+		# Godot's exporter (TemplateModifier::_create_resources) drops the RT_MANIFEST
+		# resource when application/modify_resources=true. Reinject it from the
+		# launcher template so chromium-sandbox's BrokerServices::SpawnTarget can
+		# set up AppContainer in the exported broker process.
+		print(f"==> Patching manifest in: {exported_exe}")
+		run([sys.executable, str(manifest_script), str(template_exe), str(exported_exe)], cwd=repo_root)
 
 		print(f"==> Compressing Windows build with version {version}...")
 		run([sys.executable, str(compress_script), version, "--force"], cwd=builds_dir)

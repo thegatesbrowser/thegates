@@ -38,9 +38,9 @@ func start_process(gate: Gate) -> Dictionary:
 		"--url", gate.url,
 		"--tg-ipc-dir", OS.get_user_data_dir(),
 		"--tg-user-data-dir", user_dir,
+		"--verbose"
 	]
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
-	if OS.is_stdout_verbose(): args.append("--verbose")
 	var driver := Platform.preferred_renderer_display_driver()
 	if driver: args += ["--display-driver", driver]
 

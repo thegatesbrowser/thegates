@@ -12,3 +12,7 @@ deployment/upload_api.key
 
 # Obsidian per-user workspace state (vault root is thegates/)
 /.obsidian/
+
+# Python bytecode (deployment scripts)
+__pycache__/
+*.pyc

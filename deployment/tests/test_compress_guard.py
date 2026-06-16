@@ -36,6 +36,34 @@ def test_host_bundle_missing_build_raises(tmp_path):
         assert "build output" in str(e).lower()
 
 
+def test_verify_host_bundle_for_release_matches(tmp_path):
+    cur = rc.current_godot_version()
+    bundle = tmp_path / "Linux" / rc.bundle_renderer_relpath("linux", cur)
+    host = tmp_path / "build.x86_64"
+    _write(bundle, b"SAME" * 1000); _write(host, b"SAME" * 1000)
+    rc.verify_host_bundle_for_release("linux", host, builds_root=tmp_path)  # must not raise
+
+
+def test_verify_host_bundle_for_release_requires_host_build(tmp_path):
+    try:
+        rc.verify_host_bundle_for_release("linux", None, builds_root=tmp_path)
+        assert False, "should have raised"
+    except SystemExit as e:
+        assert "host-renderer-build" in str(e)
+
+
+def test_verify_host_bundle_for_release_stale_raises(tmp_path):
+    cur = rc.current_godot_version()
+    bundle = tmp_path / "Linux" / rc.bundle_renderer_relpath("linux", cur)
+    host = tmp_path / "build.x86_64"
+    _write(bundle, b"OLD" * 1000); _write(host, b"NEW" * 1000)
+    try:
+        rc.verify_host_bundle_for_release("linux", host, builds_root=tmp_path)
+        assert False, "should have raised"
+    except SystemExit as e:
+        assert "stale" in str(e).lower()
+
+
 def _run_all():
     import tempfile
     failures = 0

@@ -63,3 +63,14 @@ def guard_host_bundle(bundle_renderer: Path, build_output: Path) -> None:
             f"[STALE-RENDERER] bundle renderer is stale (does not match the freshly-built "
             f"{build_output.name}). Run stage_renderer.py for this release."
         )
+
+
+def verify_host_bundle_for_release(platform_key: str, host_build, builds_root: Path = Path(".")) -> None:
+    """Renderer-side release guard for the host platform's own bundle: require the
+    freshly-built renderer and fail unless the staged bundle matches it byte-for-byte.
+    Resolves the bundle path the same way stage_renderer.py wrote it, so the two
+    sides can't drift. ``host_build`` is the path passed via --host-renderer-build."""
+    if host_build is None:
+        raise SystemExit("--host-renderer-build is required with --renderer-release")
+    bundle = Path(builds_root) / os_dir(platform_key) / bundle_renderer_relpath(platform_key, current_godot_version())
+    guard_host_bundle(bundle, host_build)

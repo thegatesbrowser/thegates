@@ -1,123 +1,57 @@
 #!/usr/bin/env python3
-"""
-Zip builder for TheGates builds.
+"""Zip the Linux and Windows release builds.
 
 Usage:
-  python3 compress_builds_linux.py 0.17.2
+  python3 compress_builds_linux.py 1.0.4 [--force]
+  python3 compress_builds_linux.py 1.0.4 --force --renderer-release --host-renderer-build PATH
 
-Creates, in-place:
-  Linux/TheGates_Linux_<version>.zip  containing: TheGates.x86_64, renderer/
-  Windows/TheGates_Windows_<version>.zip containing: TheGates.exe, TheGates.pck, renderer/
+Run with the builds directory (AppBuilds) as the working directory. Creates:
+  Linux/TheGates_Linux_<version>.zip      (TheGates.x86_64 + renderer/)
+  Windows/TheGates_Windows_<version>.zip  (TheGates.exe + TheGates.pck + renderer/)
 
-By default, refuses to overwrite existing zip files. Use --force to overwrite.
+With --renderer-release the Linux bundle renderer is verified against the freshly
+-built one and the cross-built Windows zip is skipped — its renderer can't be built
+on a Linux host, so Windows is released from its own machine.
 """
-
 from __future__ import annotations
 
 import argparse
-import re
+import sys
 from pathlib import Path
-from zipfile import ZipFile, ZIP_DEFLATED
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_zip
+import renderer_config as rc
 
-def validate_version(version: str) -> None:
-    pattern = re.compile(r"^[0-9]+(\.[0-9]+){1,3}$")
-    if not pattern.match(version):
-        raise ValueError(
-            f"Invalid version '{version}'. Expected format like 0.17.2"
-        )
-
-
-def ensure_exists(path: Path) -> None:
-    if not path.exists():
-        raise FileNotFoundError(f"Missing required path: {path}")
-
-
-def zip_entries(base_dir: Path, entries: list[str], output_zip: Path, overwrite: bool) -> None:
-    if output_zip.exists():
-        if not overwrite:
-            raise FileExistsError(
-                f"Output already exists: {output_zip}. Use --force to overwrite."
-            )
-        output_zip.unlink()
-
-    # Ensure base directory exists
-    ensure_exists(base_dir)
-
-    with ZipFile(output_zip, mode="w", compression=ZIP_DEFLATED) as zf:
-        for entry_name in entries:
-            entry_path = base_dir / entry_name
-            ensure_exists(entry_path)
-
-            if entry_path.is_file():
-                # Store at top-level inside the archive
-                zf.write(entry_path, arcname=entry_name)
-            else:
-                # Walk directory and add files with relative paths rooted at base_dir
-                for file_path in entry_path.rglob("*"):
-                    if file_path.is_file():
-                        arcname = file_path.relative_to(base_dir)
-                        zf.write(file_path, arcname=str(arcname))
-
-
-def build_linux_zip(version: str, overwrite: bool) -> Path:
-    linux_dir = Path("Linux")
-    output_zip = linux_dir / f"TheGates_Linux_{version}.zip"
-    entries = [
-        "TheGates.x86_64",
-        "renderer",
-    ]
-    zip_entries(linux_dir, entries, output_zip, overwrite)
-    return output_zip
-
-
-def build_windows_zip(version: str, overwrite: bool) -> Path:
-    windows_dir = Path("Windows")
-    output_zip = windows_dir / f"TheGates_Windows_{version}.zip"
-    entries = [
-        "TheGates.exe",
-        "TheGates.pck",
-        "renderer",
-    ]
-    zip_entries(windows_dir, entries, output_zip, overwrite)
-    return output_zip
+LINUX_ENTRIES = ["TheGates.x86_64", "renderer"]
+WINDOWS_ENTRIES = ["TheGates.exe", "TheGates.pck", "renderer"]
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Zip Linux and Windows builds.")
-    parser.add_argument("version", help="App version, e.g. 0.17.2")
-    parser.add_argument("--force", action="store_true", help="Overwrite existing zip files if they exist.")
+    parser.add_argument("version", help="App version, e.g. 1.0.4")
+    parser.add_argument("--force", action="store_true", help="Overwrite existing zip files.")
     parser.add_argument("--renderer-release", action="store_true",
-                        help="Renderer-side release: verify the Linux bundle renderer is freshly staged; skip the cross-built Windows zip (stale).")
+                        help="Verify the Linux bundle renderer is freshly staged; skip the cross-built Windows zip.")
     parser.add_argument("--host-renderer-build", type=Path, default=None,
                         help="Path to the freshly-built Linux renderer (required with --renderer-release).")
     return parser.parse_args()
 
 
 def main() -> None:
-    import sys
-    sys.path.insert(0, str(Path(__file__).resolve().parent))
-    import renderer_config as rc
-
     args = parse_args()
-    validate_version(args.version)
+    build_zip.validate_version(args.version)
 
     if args.renderer_release:
-        if args.host_renderer_build is None:
-            raise SystemExit("--host-renderer-build is required with --renderer-release")
-        cur = rc.current_godot_version()
-        bundle = Path("Linux") / rc.bundle_renderer_relpath("linux", cur)
-        rc.guard_host_bundle(bundle, args.host_renderer_build)
+        rc.verify_host_bundle_for_release("linux", args.host_renderer_build)
 
-    linux_zip = build_linux_zip(args.version, args.force)
-    print(f"Created: {linux_zip}")
+    print(f"Created: {build_zip.build_zip(Path('.'), 'Linux', LINUX_ENTRIES, args.version, args.force)}")
 
     if args.renderer_release:
         print("[STALE-RENDERER] Windows: cross-built on a Linux host cannot carry a freshly-built "
               "Windows renderer — skipping Windows zip. Build + publish Windows on its own machine.")
     else:
-        windows_zip = build_windows_zip(args.version, args.force)
-        print(f"Created: {windows_zip}")
+        print(f"Created: {build_zip.build_zip(Path('.'), 'Windows', WINDOWS_ENTRIES, args.version, args.force)}")
 
 
 if __name__ == "__main__":

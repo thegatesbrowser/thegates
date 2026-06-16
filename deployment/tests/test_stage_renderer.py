@@ -15,7 +15,7 @@ linux = "renderer/Renderer-godot_v%s.x86_64"
 
 def _fake_renderer(path: Path):
     # contains the RENDERER-START marker the staging sanity-check looks for
-    path.write_bytes(b"ELF\x00padding...RENDERER-START..." + b"\x00" * 4096)
+    path.write_bytes(b"ELF\x00padding...RENDERER-START..." + b"\x00" * (1024 * 1024 + 1))
 
 
 def _run(args, tres):
@@ -66,7 +66,7 @@ def test_rejects_non_renderer_input():
     with tempfile.TemporaryDirectory() as d:
         tmp = Path(d)
         tres = tmp / "r.tres"; tres.write_text(FAKE_TRES)
-        bogus = tmp / "notrenderer.bin"; bogus.write_bytes(b"x" * 4096)  # no RENDERER-START
+        bogus = tmp / "notrenderer.bin"; bogus.write_bytes(b"x" * (1024 * 1024 + 1))  # no RENDERER-START
         r = _run(["--built", str(bogus), "--godot-version", "4.5",
                   "--platform", "linux", "--app-builds", str(tmp / "AppBuilds"),
                   "--server-zip-dir", str(tmp)], tres)

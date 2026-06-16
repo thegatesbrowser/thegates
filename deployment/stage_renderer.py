@@ -21,7 +21,7 @@ RENDERER_MARKER = b"RENDERER-START"
 def _sanity_check(built: Path) -> None:
     if not built.is_file():
         raise SystemExit(f"--built not found: {built}")
-    if built.stat().st_size < 1024:
+    if built.stat().st_size < 1_048_576:
         raise SystemExit(f"--built too small to be a renderer: {built}")
     if RENDERER_MARKER not in built.read_bytes():
         raise SystemExit(f"--built does not contain {RENDERER_MARKER.decode()} (not a renderer?): {built}")

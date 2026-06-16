@@ -15,7 +15,11 @@ shipped 1.0.2; reproduce it faithfully.
 **Starting assumption:** the code fix is already committed on `godot` `tg-4.5`.
 `/publish` takes it from there. `$ARGUMENTS` may carry `[version] [changelog]`.
 
-## Machine layout (matches the deployment scripts' assumptions)
+> **On a Mac?** Steps 0–7 are the **Linux release box** (Linux + Windows launchers
+> + Flathub) and can't build the macOS app. For the macOS launcher, skip to the
+> **macOS release** section near the bottom — a separate, simpler flow.
+
+## Machine layout — Linux release box (matches the deployment scripts' assumptions)
 - Parent app + deployment: `/home/nordup/projects/thegates-folder/thegates` (branch `main`)
 - Engine submodule: `…/thegates/godot` (dev `tg-4.5`, integration `tg-master`, legacy renderer base `tg-4.3`)
 - Build container: `/home/nordup/projects/thegates-folder/thegates-build-containers` → `./run_build_image.sh <profile>` (profiles: `launcher-release`, `renderer-release`; `BUILD_NAME=4.3` for the 4.3 renderer)
@@ -85,6 +89,52 @@ renderer into the app bundle AND makes its server zip from the same binary):
 
 ## Step 7 — Report
 Print a table of what shipped where (Linux launcher, Windows launcher, Flathub; Linux renderers if `RENDERER_RELEASE`), the version, and the sha. Explicitly list what is **NOT** covered this run: macOS launcher (needs a Mac), and mac/win renderers if it was a renderer-side change. Surface every STOP/flag the user must follow up on.
+
+---
+
+## macOS release — run on a Mac (independent of Steps 0–7)
+
+Steps 0–7 run on the Linux box and ship Linux + Windows + Flathub; they **cannot**
+build the macOS app. The macOS launcher is a separate, simpler flow you run **on a
+Mac** — the "needs a Mac" hand-off Step 7 flags. Same discipline: verify the real
+artifact after each step, log `[OK] …`, stop only on a red check.
+
+### Mac machine layout
+- Parent + deployment: `/Users/nordup/Projects/thegates-folder/thegates` (branch `main`)
+- Builds dir: `/Users/nordup/Projects/thegates-folder/AppBuilds`
+- Build: `python godot/tools/macos/build_macos.py` — runs 4 compiles (launcher+renderer × arm64+x86_64), lipos each pair to a universal, bakes launcher → `.app/Contents/MacOS` and renderer → `.app/Contents/Frameworks/Renderer-godot_v<ver>.universal`, and writes the export template `godot/bin/macos.zip`. `--renderer-only` builds just the renderer (for download-only branches like `tg-4.3`).
+- **Renderer delivery (the load-bearing fact):** for the **current** godot version the renderer is **bundled** in the app and used as-is; the launcher downloads a renderer only for **non-current** versions (e.g. 4.3). ⇒ a renderer change reaches mac users **only by re-shipping the launcher** with the new renderer baked in — uploading a server zip does nothing for the current version.
+
+### mac-Step 0 — Pre-flight (no side effects)
+Pull parent + all three engine branches (`tg-4.5`, `tg-master`, `tg-4.3`); fast-forward the submodule to the pin in `main`. Version comes from `app/project.godot` (already bumped by the Linux release — don't re-bump). Pick scope:
+- **Launcher-only** (usual parity ship): no renderer-side engine change since the last mac build → skip mac-Step 1.
+- **Renderer-included**: renderer engine code changed and mac users should get it (e.g. new logs/instrumentation). Diff the submodule since the last mac build over `modules/the_gates/renderer/`, `modules/the_gates/ipc/`, `#ifdef TG_RENDERER`, `drivers/`, `servers/rendering/` (ignore `platform/linuxbsd|windows`). If touched → do mac-Step 1 first.
+
+### mac-Step 1 — Build the universal template (renderer-included only)
+`python godot/tools/macos/build_macos.py` (background it; launcher compiles are near-instant when no launcher C++ changed — the renderer recompiles the changed files, then 4 relinks + 2 lipos).
+- **VERIFY:** `godot/bin/macos.zip` freshly written AND `godot/bin/godot.macos.template_release.renderer.universal` contains a marker string from the diff (e.g. a new log tag) via `grep -c`. Skip entirely for a launcher-only ship.
+
+### mac-Step 2 — Export + upload to app.thegates.io  ⚠ IRREVERSIBLE
+- **[CRITICAL CHECK]** Publishes the macOS launcher to all mac users. Log the blast radius, then run.
+- `python deployment/build_release.py` (export → compress → upload; the `--renderer-release` flag is a Linux-only no-op here).
+- **VERIFY:** `Uploaded TheGates_MacOS_<ver>.zip: HTTP 201` AND `==> Done.`. Then `curl -s -r 0-0 -D - -o /dev/null https://thegates.io/downloads/macos-latest` → `filename="TheGates_MacOS_<ver>.zip"` with a `content-range` total equal to the local zip's byte size.
+- **Same-version note:** re-publishing the *same* version with a new bundled renderer won't re-update users already on it (auto-update is version-keyed); it reaches everyone updating from an older version + fresh installs. To force it to current-version users, bump the version.
+
+### mac-Step 3 — Refresh the renderer server zips (renderer-included releases)
+The bundled renderer (mac-Step 1) covers the **current** version for fresh launchers, but the server also serves renderers for download: the current version as a fallback when the bundle is missing, and **non-current versions (4.3) that are download-only** — a 4.3 gate on macOS has *no* bundled renderer, so it must come from the server. Keep both in parity with Linux, which refreshes them on every renderer release.
+
+- **Server (from a Mac):** `ssh thegates@188.245.188.59` (user `thegates`; the bare `thegates` alias only exists on the Linux box — from a Mac use the IP host already in `~/.ssh/config`). Renderers live in `~/projects/the-gates-backend/staticfiles/builds/renderers/`, served at `https://thegates.io/api/download_renderer/macos-<ver>`.
+- **4.5 (current):** stage from the renderer you just built —
+  `python deployment/stage_renderer.py --built godot/bin/godot.macos.template_release.renderer.universal --godot-version 4.5 --platform macos --app-builds /Users/nordup/Projects/thegates-folder/AppBuilds --server-zip-dir godot/bin` → `godot/bin/macos-4.5.zip`.
+- **4.3 (download-only):** build it on its branch, then stage —
+  `git -C godot checkout tg-4.3 && python godot/tools/macos/build_macos.py --renderer-only && git -C godot checkout tg-4.5`, then
+  `python deployment/stage_renderer.py --built godot/bin/Renderer-godot_v4.3.universal --godot-version 4.3 --platform macos --app-builds /Users/nordup/Projects/thegates-folder/AppBuilds --server-zip-dir godot/bin` → `godot/bin/macos-4.3.zip`.
+  Stage 4.5 **before** building 4.3 — the 4.3 build overwrites `…renderer.universal`.
+- **VERIFY each zip:** `unzip -p godot/bin/macos-<ver>.zip Renderer-godot_v<ver>.universal | grep -ac <marker>` (a new log tag) > 0 and `lipo -info` shows `x86_64 arm64`.
+- **Back up, then upload** (mirrors the Linux `.bak-pre-<ver>` convention):
+  `ssh thegates@188.245.188.59 'cd ~/projects/the-gates-backend/staticfiles/builds/renderers && cp macos-4.3.zip macos-4.3.zip.bak-pre-<ver>; cp macos-4.5.zip macos-4.5.zip.bak-pre-<ver>'`, then
+  `scp godot/bin/macos-4.3.zip godot/bin/macos-4.5.zip thegates@188.245.188.59:~/projects/the-gates-backend/staticfiles/builds/renderers/`.
+- **VERIFY served:** `curl -s -r 0-0 -D - -o /dev/null https://thegates.io/api/download_renderer/macos-4.5` (and `…/macos-4.3`) → `content-range` byte total equals the uploaded zip.
 
 ## Non-negotiables
 - Verify+report every step; STOP only on failed verification, never to ask permission to continue a green run.

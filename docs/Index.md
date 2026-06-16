@@ -26,6 +26,7 @@ The starting point. Every note in the vault is reachable from here.
 - [[Gate Format and Lifecycle]] — what a `.gate` file is, how it's downloaded, why each gate ships its own renderer binary
 - [[Gate Cycle]] — runtime event sequence when a gate opens / re-opens: triggers, `clear_current_gate`, `switch_scene`, renderer spawn, the Early events
 - [[Build System]] — `scons` flags, build variants, output binaries
+- [[Release and Deployment]] — how built artifacts reach users: the per-platform release split, renderer delivery (bundled vs downloaded), the servers/endpoints, and the `deployment/` scripts. Backs the `/publish` command.
 
 ## The fork
 

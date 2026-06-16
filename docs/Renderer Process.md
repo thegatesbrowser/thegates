@@ -45,7 +45,12 @@ The result: the renderer is a "headless-ish" Godot — a real Godot with a real 
 
 ## Per-gate binaries (important)
 
-The renderer binary is **not bundled with the launcher**. Each `.gate` declares which Godot version it needs (currently 4.3 or 4.5 per the [.gate spec](https://docs.thegates.io/en/latest/reference/gate_file.html)), and the launcher downloads a matching renderer binary lazily via `app/scripts/renderer/renderer_executable.gd`. They cache under `user://` (or, for the version that matches the launcher itself, alongside the launcher exe).
+Each `.gate` declares which Godot version it needs (currently 4.3 or 4.5 per the [.gate spec](https://docs.thegates.io/en/latest/reference/gate_file.html)). How the launcher gets that renderer depends on whether it's the *current* version (the one the launcher itself was built against) — decided in `app/scripts/renderer/renderer_executable.gd`:
+
+- **Current version** → ships **with the launcher**: bundled in the macOS `.app` (`Contents/Frameworks/Renderer-godot_v<ver>.universal`) or alongside the launcher executable on Linux/Windows. The launcher downloads it only if that bundled file is missing.
+- **Non-current versions** (e.g. an old 4.3 gate) → **downloaded lazily** from the renderer server and cached under `user://`.
+
+So a renderer fix reaches current-version users only when the launcher is re-shipped with the new renderer baked in; older download-only renderers are refreshed on the server. See [[Release and Deployment]] for the delivery mechanism, servers, and endpoints.
 
 Implications:
 - Multiple renderer binaries can coexist on disk — one per Godot version the user has visited gates for.

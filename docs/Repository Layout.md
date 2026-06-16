@@ -13,7 +13,7 @@ thegates/
 ├── screenshots/         ← screenshots used in the parent README
 ├── godot/               ← Godot fork (submodule of upstream Godot Engine)
 ├── app/                 ← The launcher's Godot project (the browser UI itself)
-├── deployment/          ← Deployment / packaging scripts (not covered here yet)
+├── deployment/          ← Export / package / upload scripts (see [[Release and Deployment]])
 └── docs/                ← This vault
 ```
 
@@ -66,7 +66,11 @@ The `app/renderer/` *folder* on disk is just where Windows named-pipe placeholde
 
 ## `deployment/`
 
-Out of scope here — see commit history and any inline READMEs in that folder.
+The export → package → upload scripts that turn built binaries into the zips users
+download. `build_release.py` is the orchestrator; `stage_renderer.py` /
+`renderer_config.py` keep the bundled and server-side renderers in sync;
+`upload_build.py` posts to the backend. Full breakdown of each script, the servers,
+and the renderer-delivery model is in [[Release and Deployment]].
 
 ## `docs/`
 

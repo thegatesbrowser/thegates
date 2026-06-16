@@ -72,7 +72,7 @@ renderer into the app bundle AND makes its server zip from the same binary):
 ## Step 5 — Launcher release to app.thegates.io  ⚠ IRREVERSIBLE
 - **[CRITICAL CHECK]** This publishes to all users (Linux + Windows auto-update; macOS unchanged). The pipeline also packages a Windows zip reusing the existing `TheGates.exe` + a fresh pck. Confirm the scope is right (version, platforms) and log the blast radius, then run it.
 - `python deployment/build_release.py --renderer-release`  (export → compress → upload). The compress step now **verifies** the Linux bundle renderer matches the freshly-built one and **skips the cross-built Windows zip** (stale on a Linux host) — Windows is released from its own machine. Omit `--renderer-release` for launcher-only releases.
-- **VERIFY:** `Uploaded TheGates_Linux_<ver>.zip: HTTP 201` AND `…Windows…: HTTP 201` AND `==> Done.` Then unzip the published `…Linux_<ver>.zip` from `/media/common/Projects/thegates-folder/AppBuilds/Linux/` and confirm `TheGates.x86_64` has the fix marker and `renderer/Renderer-godot_v4.5.x86_64` is bundled.
+- **VERIFY:** `Uploaded TheGates_Linux_<ver>.zip: HTTP 201` AND `==> Done.` (with `--renderer-release` the Windows zip is skipped — no Windows upload; on a launcher-only release you also get `…Windows…: HTTP 201`). Then unzip the published `…Linux_<ver>.zip` from `/media/common/Projects/thegates-folder/AppBuilds/Linux/` and confirm `TheGates.x86_64` has the fix marker and `renderer/Renderer-godot_v4.5.x86_64` is bundled.
 
 ## Step 6 — Flathub  ⚠ IRREVERSIBLE on merge
 - Confirm `https://thegates.io/downloads/linux-latest` now serves `TheGates_Linux_<ver>.zip` (content-disposition filename + content-length match the uploaded zip). If not, the server hasn't promoted it — STOP.

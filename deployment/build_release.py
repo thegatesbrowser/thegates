@@ -108,6 +108,12 @@ def main() -> int:
 	uploader = repo_root / "deployment" / "upload_build.py"
 
 	os_name = platform.system()
+
+	ap = argparse.ArgumentParser(description="Export + compress + upload a release.")
+	ap.add_argument("--renderer-release", action="store_true",
+	                help="Renderer-side release: verify/stage the bundle renderer and skip cross-built non-host zips.")
+	cli = ap.parse_args()
+
 	print(f"==> Using repo root: {repo_root}")
 	print(f"==> Detected OS: {os_name}")
 
@@ -132,7 +138,11 @@ def main() -> int:
 		builds_dir.mkdir(parents=True, exist_ok=True)
 
 		print(f"==> Compressing Linux/Windows builds with version {version}...")
-		run([sys.executable, str(compress_script), version, "--force"], cwd=builds_dir)
+		compress_cmd = [sys.executable, str(compress_script), version, "--force"]
+		if cli.renderer_release:
+			host_renderer = repo_root / "godot" / "bin" / "godot.linuxbsd.template_release.renderer.x86_64"
+			compress_cmd += ["--renderer-release", "--host-renderer-build", str(host_renderer)]
+		run(compress_cmd, cwd=builds_dir)
 
 		uploaded = build_expected_zip_paths(builds_dir, version, os_name)
 

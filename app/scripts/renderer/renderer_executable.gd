@@ -1,6 +1,8 @@
 extends Resource
 class_name RendererExecutable
 
+const DOWNLOAD_ATTEMPTS := 3
+
 @export var api_settings: ApiSettings
 @export var supported_godot_versions: Array[String]
 @export var current_godot_version: String
@@ -27,25 +29,24 @@ func download(godot_version: String, active_session: FileDownloader.DownloadSess
 		Debug.logclr("Renderer platform %s is not supported" % [Platform.get_platform_string()], Color.RED)
 		return ""
 	
-	var renderer_path = get_renderer_path(godot_version)
+	var renderer_path := get_renderer_path(godot_version)
 	if not need_download(renderer_path, godot_version): return renderer_path
-	
-	var url = get_download_url(godot_version)
-	var renderer_result = await FileDownloader.download_with_status(url, 0.0, false, active_session)
-	
-	var status = renderer_result.get("status", 0)
-	if status == 304 or status == 0:
-		Debug.logclr("Renderer is already downloaded", Color.DIM_GRAY)
-		return renderer_path
-	elif status != 200:
-		Debug.logclr("Failed to download renderer. Code: " + str(status), Color.RED)
-		return ""
-	
-	var renderer_zip = renderer_result.get("path", "")
-	var extracted = UnZip.extract_renderer_files(renderer_zip, renderer_path)
-	if not extracted: return ""
-	
-	return renderer_path
+
+	var url := get_download_url(godot_version)
+	for attempt in DOWNLOAD_ATTEMPTS:
+		var force := attempt > 0
+		var result := await FileDownloader.download_with_status(url, 0.0, force, active_session)
+
+		if FileAccess.file_exists(renderer_path): return renderer_path
+
+		var renderer_zip: String = result.get("path", "")
+		if not renderer_zip.is_empty():
+			if UnZip.extract_renderer_files(renderer_zip, renderer_path): return renderer_path
+			DirAccess.remove_absolute(renderer_zip)
+
+		Debug.logclr("Renderer download attempt %d/%d failed" % [attempt + 1, DOWNLOAD_ATTEMPTS], Color.RED)
+
+	return ""
 
 
 func get_download_url(godot_version: String) -> String:

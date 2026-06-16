@@ -201,16 +201,25 @@ func create_request(url: String, save_path: String, timeout: float = 0, headers:
 	if err != OK: return err
 	
 	var completed = await http.request_completed
+	var result: int = completed[0]
 	var code: int = completed[1]
 	var response_headers: PackedStringArray = completed[2]
-	
-	progress.emit(url, http.get_body_size(), http.get_downloaded_bytes())
-	
+
+	var expected_bytes := http.get_body_size()
+	var received_bytes := http.get_downloaded_bytes()
+	progress.emit(url, expected_bytes, received_bytes)
+
 	timer.queue_free()
 	http.queue_free()
 	download_requests.erase(download_request)
 	if session != null: session.requests.erase(download_request)
-	
+
+	# a truncated transfer still reports HTTP 200
+	var full_body := expected_bytes < 0 or received_bytes == expected_bytes
+	if code == 200 and (result != HTTPRequest.RESULT_SUCCESS or not full_body):
+		Debug.logclr("Incomplete download %s (%d/%d bytes)" % [url, received_bytes, expected_bytes], Color.RED)
+		code = 0
+
 	if code == 200 or code == 304:
 		cache.update_from_response(save_path, url, response_headers, code)
 		recent_validated_ms_by_path[save_path] = Time.get_ticks_msec()

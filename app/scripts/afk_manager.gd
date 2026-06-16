@@ -3,58 +3,51 @@ extends Node
 
 signal state_changed(is_afk: bool)
 
-const AFK_TIMEOUT_SEC = 180
+const AFK_TIMEOUT_MSEC := 180 * 1000
+const TICK_SEC := 1.0
 
-var afk_check_timer: Timer
+var tick_timer: Timer
 
-var session_start_tick: int
-var last_key_tick: int
-var cumulative_afk_msec: int
-var afk_start_tick: int
+var last_input_msec: int
+var active_sec: float
+var is_afk: bool
 
 
 func _ready() -> void:
-	session_start_tick = Time.get_ticks_msec()
-	last_key_tick = session_start_tick
+	last_input_msec = Time.get_ticks_msec()
 
-	afk_check_timer = Timer.new()
-	afk_check_timer.one_shot = false
-	afk_check_timer.wait_time = 1.0
-	add_child(afk_check_timer)
-	
-	afk_check_timer.timeout.connect(check_afk)
-	afk_check_timer.start()
+	tick_timer = Timer.new()
+	tick_timer.wait_time = TICK_SEC
+	add_child(tick_timer)
+	tick_timer.timeout.connect(on_tick)
+	tick_timer.start()
 
 
 func _input(_event: InputEvent) -> void:
-	var now := Time.get_ticks_msec()
-	last_key_tick = now
-	if afk_start_tick != 0:
-		leave_afk(now)
+	last_input_msec = Time.get_ticks_msec()
+	if is_afk:
+		leave_afk()
 
 
-func check_afk() -> void:
-	var now := Time.get_ticks_msec()
-	if afk_start_tick == 0 and now - last_key_tick >= AFK_TIMEOUT_SEC * 1000:
-		enter_afk(now)
+# only runs while active (timer is stopped on afk); a stalled app just stops ticking
+func on_tick() -> void:
+	if Time.get_ticks_msec() - last_input_msec >= AFK_TIMEOUT_MSEC:
+		enter_afk()
+		return
+	active_sec += TICK_SEC
 
 
-func enter_afk(now: int) -> void:
-	afk_start_tick = now
+func enter_afk() -> void:
+	is_afk = true
+	tick_timer.stop()
 	state_changed.emit(true)
 
 
-func leave_afk(now: int) -> void:
-	if afk_start_tick == 0:
-		return
-	
-	cumulative_afk_msec += now - afk_start_tick
-	afk_start_tick = 0
+func leave_afk() -> void:
+	is_afk = false
+	tick_timer.start()
 	state_changed.emit(false)
 
 
 func get_active_sec() -> float:
-	var now := Time.get_ticks_msec()
-	var afk_current := (now - afk_start_tick) if afk_start_tick != 0 else 0
-	var active_msec := (now - session_start_tick) - cumulative_afk_msec - afk_current
-	return max(0.0, float(active_msec) / 1000.0)
+	return active_sec

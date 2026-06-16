@@ -20,12 +20,12 @@ func start() -> void:
 func start_heartbeat() -> void:
 	heartbeat_timer = Timer.new()
 	add_child(heartbeat_timer)
-	heartbeat_timer.timeout.connect(send_hearbeat)
+	heartbeat_timer.timeout.connect(send_heartbeat)
 	heartbeat_timer.start(HEARTBEAT_DELAY)
 
 
-func send_hearbeat() -> void:
-	var time_spent = AfkManager.get_active_sec()
+func send_heartbeat() -> void:
+	var time_spent := AfkManager.get_active_sec()
 	analytics.send_event(AnalyticsEvents.heartbeat(time_spent))
 
 
@@ -46,6 +46,6 @@ func send_saved_app_exit() -> void:
 
 func _exit_tree() -> void:
 	# Save to send on open
-	var time_spent = AfkManager.get_active_sec()
-	var event = AnalyticsEvents.app_exit(time_spent)
+	var time_spent := AfkManager.get_active_sec()
+	var event := AnalyticsEvents.app_exit(time_spent)
 	DataSaver.set_value("analytics", "app_exit", JSON.stringify(event))

@@ -41,6 +41,7 @@ The starting point. Every note in the vault is reachable from here.
 - [[Gotchas and Conventions]] — non-obvious things that bite. Read before debugging.
 - [[Submodule Workflow]] — branch landscape inside `godot/`, the cross-repo commit pattern, and the submodule-specific gotchas.
 - [[Autotest Harness]] — the de-facto integration test runner: drives the launcher through a scripted gate-open session and verifies the sandbox + renderer + multi-cycle behaviour.
+- [[Triaging Gate Errors]] — Mixpanel → server logs → code: how to find, read, and root-cause user-reported gate errors. Backs the `/triage-errors` command.
 
 ## Style and patterns (mandatory before writing code)
 

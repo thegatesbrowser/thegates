@@ -74,17 +74,28 @@ def build_windows_zip(version: str, overwrite: bool) -> Path:
 def parse_args() -> argparse.Namespace:
 	parser = argparse.ArgumentParser(description="Zip Windows build.")
 	parser.add_argument("version", help="App version, e.g. 0.17.2")
-	parser.add_argument(
-		"--force",
-		action="store_true",
-		help="Overwrite existing zip file if it exists.",
-	)
+	parser.add_argument("--force", action="store_true", help="Overwrite existing zip file if it exists.")
+	parser.add_argument("--renderer-release", action="store_true",
+						help="Renderer-side release: verify the Windows bundle renderer is freshly staged.")
+	parser.add_argument("--host-renderer-build", type=Path, default=None,
+						help="Path to the freshly-built Windows renderer (required with --renderer-release).")
 	return parser.parse_args()
 
 
 def main() -> None:
+	import sys
+	sys.path.insert(0, str(Path(__file__).resolve().parent))
+	import renderer_config as rc
+
 	args = parse_args()
 	validate_version(args.version)
+
+	if args.renderer_release:
+		if args.host_renderer_build is None:
+			raise SystemExit("--host-renderer-build is required with --renderer-release")
+		cur = rc.current_godot_version()
+		bundle = Path("Windows") / rc.bundle_renderer_relpath("windows", cur)
+		rc.guard_host_bundle(bundle, args.host_renderer_build)
 
 	windows_zip = build_windows_zip(args.version, args.force)
 	print(f"Created: {windows_zip}")

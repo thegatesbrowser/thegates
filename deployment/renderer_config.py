@@ -45,3 +45,21 @@ def file_md5(path: Path) -> str:
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def guard_host_bundle(bundle_renderer: Path, build_output: Path) -> None:
+    """Fail (SystemExit) unless the bundled renderer is byte-identical to the
+    freshly-built renderer. Catches a skipped staging step on a renderer-side
+    release (the original stale-bundle bug)."""
+    if not Path(build_output).is_file():
+        raise SystemExit(
+            f"[STALE-RENDERER] renderer build output missing: {build_output}. "
+            f"Build the renderer before releasing, or drop --renderer-release."
+        )
+    if not Path(bundle_renderer).is_file():
+        raise SystemExit(f"[STALE-RENDERER] bundle renderer missing: {bundle_renderer}. Run stage_renderer.py.")
+    if file_md5(bundle_renderer) != file_md5(build_output):
+        raise SystemExit(
+            f"[STALE-RENDERER] bundle renderer is stale (does not match the freshly-built "
+            f"{build_output.name}). Run stage_renderer.py for this release."
+        )

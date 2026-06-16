@@ -86,23 +86,38 @@ def build_windows_zip(version: str, overwrite: bool) -> Path:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Zip Linux and Windows builds.")
     parser.add_argument("version", help="App version, e.g. 0.17.2")
-    parser.add_argument(
-        "--force",
-        action="store_true",
-        help="Overwrite existing zip files if they exist.",
-    )
+    parser.add_argument("--force", action="store_true", help="Overwrite existing zip files if they exist.")
+    parser.add_argument("--renderer-release", action="store_true",
+                        help="Renderer-side release: verify the Linux bundle renderer is freshly staged; skip the cross-built Windows zip (stale).")
+    parser.add_argument("--host-renderer-build", type=Path, default=None,
+                        help="Path to the freshly-built Linux renderer (required with --renderer-release).")
     return parser.parse_args()
 
 
 def main() -> None:
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import renderer_config as rc
+
     args = parse_args()
     validate_version(args.version)
+
+    if args.renderer_release:
+        if args.host_renderer_build is None:
+            raise SystemExit("--host-renderer-build is required with --renderer-release")
+        cur = rc.current_godot_version()
+        bundle = Path("Linux") / rc.bundle_renderer_relpath("linux", cur)
+        rc.guard_host_bundle(bundle, args.host_renderer_build)
 
     linux_zip = build_linux_zip(args.version, args.force)
     print(f"Created: {linux_zip}")
 
-    windows_zip = build_windows_zip(args.version, args.force)
-    print(f"Created: {windows_zip}")
+    if args.renderer_release:
+        print("[STALE-RENDERER] Windows: cross-built on a Linux host cannot carry a freshly-built "
+              "Windows renderer — skipping Windows zip. Build + publish Windows on its own machine.")
+    else:
+        windows_zip = build_windows_zip(args.version, args.force)
+        print(f"Created: {windows_zip}")
 
 
 if __name__ == "__main__":

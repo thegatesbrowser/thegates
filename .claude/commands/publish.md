@@ -55,16 +55,23 @@ Edit `app/project.godot` `config/version` → target version.
 
 ## Step 4 — Linux renderers (only if `RENDERER_RELEASE=yes`)
 Skip entirely otherwise.
-- **4.5:** `./run_build_image.sh renderer-release` → `godot/bin/godot.linuxbsd.template_release.renderer.x86_64` → copy to `Renderer-godot_v4.5.x86_64` → `zip linux-4.5.zip Renderer-godot_v4.5.x86_64`.
-- **4.3:** `git -C godot checkout tg-4.3` (carries the cherry-picked fix) → `BUILD_NAME=4.3 ./run_build_image.sh renderer-release` → `Renderer-godot_v4.3.x86_64` → `linux-4.3.zip`. Then `git -C godot checkout tg-4.5`.
-- **[CRITICAL CHECK]** before upload: `unzip -l` each zip shows the expected `Renderer-godot_v4.{3,5}.x86_64`, and the `scp` target path is correct. Then upload to `thegates:…/renderers/`.
-- Upload: `scp linux-4.{3,5}.zip thegates:/home/thegates/projects/the-gates-backend/staticfiles/builds/renderers/`
+For each renderer you build, stage it with the single entrypoint (it puts the
+renderer into the app bundle AND makes its server zip from the same binary):
+
+- **4.5:** `./run_build_image.sh renderer-release` → then
+  `python deployment/stage_renderer.py --built godot/bin/godot.linuxbsd.template_release.renderer.x86_64 --godot-version 4.5 --app-builds /media/common/Projects/thegates-folder/AppBuilds --server-zip-dir godot/bin`
+  (produces `godot/bin/linux-4.5.zip` AND refreshes `AppBuilds/Linux/renderer/`).
+- **4.3:** `git -C godot checkout tg-4.3` (carries the cherry-picked fix) → `BUILD_NAME=4.3 ./run_build_image.sh renderer-release` → then
+  `python deployment/stage_renderer.py --built godot/bin/godot.linuxbsd.template_release.renderer.4.3.x86_64 --godot-version 4.3 --app-builds /media/common/Projects/thegates-folder/AppBuilds --server-zip-dir godot/bin`
+  (4.3 is download-only → server zip only). Then `git -C godot checkout tg-4.5`.
+- **[CRITICAL CHECK]** `unzip -l godot/bin/linux-4.{3,5}.zip` shows the expected `Renderer-godot_v4.{3,5}.x86_64`. Then `scp godot/bin/linux-4.{3,5}.zip thegates:/home/thegates/projects/the-gates-backend/staticfiles/builds/renderers/`.
 - **VERIFY:** `/api/download_renderer/linux-4.5` and `…/linux-4.3` (via `thegates.io`) serve the new zips (sha match).
 - **FLAG (cannot do from this box):** `macos-4.{3,5}.zip` and `windows-4.{3,5}.zip` need their own machines. Print a checklist for handling them; do not claim they're done.
+  The Linux bundle renderer is now refreshed by `stage_renderer.py`; the compress guard will refuse to ship a stale Linux bundle and will skip the cross-built Windows zip. Build the Windows/macOS renderers + launchers on their own machines (their `/publish` runs stage their own bundles).
 
 ## Step 5 — Launcher release to app.thegates.io  ⚠ IRREVERSIBLE
 - **[CRITICAL CHECK]** This publishes to all users (Linux + Windows auto-update; macOS unchanged). The pipeline also packages a Windows zip reusing the existing `TheGates.exe` + a fresh pck. Confirm the scope is right (version, platforms) and log the blast radius, then run it.
-- `python deployment/build_release.py`  (export → compress → upload)
+- `python deployment/build_release.py --renderer-release`  (export → compress → upload). The compress step now **verifies** the Linux bundle renderer matches the freshly-built one and **skips the cross-built Windows zip** (stale on a Linux host) — Windows is released from its own machine. Omit `--renderer-release` for launcher-only releases.
 - **VERIFY:** `Uploaded TheGates_Linux_<ver>.zip: HTTP 201` AND `…Windows…: HTTP 201` AND `==> Done.` Then unzip the published `…Linux_<ver>.zip` from `/media/common/Projects/thegates-folder/AppBuilds/Linux/` and confirm `TheGates.x86_64` has the fix marker and `renderer/Renderer-godot_v4.5.x86_64` is bundled.
 
 ## Step 6 — Flathub  ⚠ IRREVERSIBLE on merge

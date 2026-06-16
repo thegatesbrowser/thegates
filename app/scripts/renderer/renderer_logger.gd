@@ -113,12 +113,29 @@ func flush_logs() -> void:
 func send_logs() -> void:
 	if log_file == null or logs_sent: return
 	logs_sent = true
-	
+
 	flush_logs()
-	var data = FileAccess.get_file_as_bytes(log_file.get_path())
-	var length = data.size()
-	
-	await send_logs_request(data, length)
+	var data := FileAccess.get_file_as_bytes(log_file.get_path())
+
+	var body := build_log_header().to_utf8_buffer()
+	body.append_array(data)
+	await send_logs_request(body, body.size())
+
+
+func build_log_header() -> String:
+	var sandboxed: bool = pipe.get("sandboxed", true)
+	var lines: Array[String] = [
+		"=== TheGates renderer crash ===",
+		"app_version: %s (%d)" % [AnalyticsEvents.app_version, AnalyticsEvents.app_version_code],
+		"os: %s %s" % [OS.get_name(), OS.get_version()],
+		"gate: %s" % [gate.url],
+		"renderer: %s" % [gate.renderer.get_file()],
+		"sandboxed: %s" % [sandboxed],
+		"===============================",
+		"",
+		"",
+	]
+	return "\n".join(lines)
 
 
 func send_logs_request(data: PackedByteArray, length: int) -> void:

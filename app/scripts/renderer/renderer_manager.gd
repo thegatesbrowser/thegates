@@ -47,7 +47,11 @@ func start_process(gate: Gate) -> Dictionary:
 	Debug.logclr(gate.renderer + " " + " ".join(args), Color.DIM_GRAY)
 
 	var broker := Sandbox.create()
-	if broker == null: return OS.execute_with_pipe(gate.renderer, args)
+	if broker == null:
+		Debug.logclr("Sandbox unavailable; renderer spawned without isolation or fd-limit raise", Debug.WARN_CLR)
+		var unsandboxed := OS.execute_with_pipe(gate.renderer, args)
+		if not unsandboxed.is_empty(): unsandboxed["sandboxed"] = false
+		return unsandboxed
 
 	# TODO: call broker.verify_binary(gate.renderer) once signing keys are pinned cross-platform.
 	broker.apply_renderer_acl(user_dir)
@@ -62,6 +66,7 @@ func start_process(gate: Gate) -> Dictionary:
 		gate_events.gate_error_emit(GateEvents.GateError.MISSING_RENDERER); return {}
 
 	sandbox = broker
+	info["sandboxed"] = true
 	Debug.logclr("Sandbox target spawned pid=%s" % [info["pid"]], Color.DIM_GRAY)
 	return info
 

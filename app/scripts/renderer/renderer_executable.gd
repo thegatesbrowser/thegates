@@ -36,8 +36,11 @@ func download(godot_version: String, active_session: FileDownloader.DownloadSess
 	for attempt in DOWNLOAD_ATTEMPTS:
 		var force := attempt > 0
 		var result := await FileDownloader.download_with_status(url, 0.0, force, active_session)
+		var status: int = int(result.get("status", 0))
 
-		if FileAccess.file_exists(renderer_path): return renderer_path
+		# 200 means the server zip changed, re-extract over the old binary
+		if status != HTTPClient.RESPONSE_OK and FileAccess.file_exists(renderer_path):
+			return renderer_path
 
 		var renderer_zip: String = result.get("path", "")
 		if not renderer_zip.is_empty():
@@ -46,7 +49,7 @@ func download(godot_version: String, active_session: FileDownloader.DownloadSess
 
 		Debug.logclr("Renderer download attempt %d/%d failed" % [attempt + 1, DOWNLOAD_ATTEMPTS], Color.RED)
 
-	return ""
+	return renderer_path if FileAccess.file_exists(renderer_path) else ""
 
 
 func get_download_url(godot_version: String) -> String:

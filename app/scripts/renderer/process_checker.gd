@@ -6,11 +6,13 @@ extends Node
 
 # Timeout intervals for child process responsiveness
 const BOOTUP_CHECK_SEC = 3
+const BOOT_TIMEOUT_SEC = 30
 const HEARTBEAT_INTERVAL_SEC = 10
 const WAIT_INTERVAL_SEC = 30
 
 var bootup_timer: Timer
 var heartbeat_timer: Timer
+var boot_start_ms: int
 
 
 func _ready() -> void:
@@ -28,12 +30,17 @@ func _ready() -> void:
 
 
 func start_bootup_check() -> void:
+	boot_start_ms = Time.get_ticks_msec()
 	bootup_timer.start(BOOTUP_CHECK_SEC)
 
 
 func bootup_check() -> void:
-	if renderer_manager.is_process_running(): return
-	
+	if renderer_manager.is_process_running():
+		if Time.get_ticks_msec() - boot_start_ms < BOOT_TIMEOUT_SEC * 1000: return
+		bootup_timer.stop()
+		on_timeout("Gate boot timed out")
+		return
+
 	bootup_timer.stop()
 	on_timeout("Gate crashed on bootup")
 

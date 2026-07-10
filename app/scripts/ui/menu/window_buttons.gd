@@ -25,7 +25,7 @@ func on_maximize() -> void:
 
 
 func on_exit() -> void:
-	get_tree().quit()
+	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
 
 func restore_from_maximized() -> void:

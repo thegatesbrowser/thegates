@@ -58,6 +58,15 @@ the .app, so the launcher must be re-shipped. Version is already **1.0.7**; don'
       only real NVIDIA verification available — the dev box is AMD and cannot stage the bug.
 - [ ] Watch Mixpanel (project `3024833`, event `error`, Linux) for versions ≥1.0.6 — the
       bootup-crash signal should disappear. Mixpanel reports ~UTC+7; server logs are UTC.
-- [ ] Hard renderer crashes upload no server log (Digit's SEGV session left nothing; only his
-      pasted coredump made diagnosis possible). Find why the bootup-crash path can skip
-      `renderer_logger.gd::send_logs` and make crash sessions upload whatever log exists.
+- [x] Hard renderer crashes upload no server log — **diagnosed and fixed 2026-07-10** (Linux box,
+      unreleased). Server nginx logs show zero rejected `send_logs` POSTs — crash sessions never
+      *attempted* an upload. Three client-side holes closed: (1) alive-but-stuck boots (museum
+      error-spam, Wayland suspend) never fired `not_responding` — now a 30s boot timeout does;
+      (2) navigating away / reloading killed a dead-or-stuck renderer without uploading — teardown
+      now uploads (`died_unnoticed` / `exited_before_first_frame`, 10s grace); (3) app quit dropped
+      in-flight uploads — window close now flushes pending requests (≤3s). Uploads are tail-capped
+      at 1 MB (Django's 2.5 MB body limit would reject spam logs) and the header gained `reason` /
+      `uptime_sec` / `first_frame` / `process_running` / `log_bytes`. Regression net:
+      `python godot/tools/run-sandbox-test.py crash-upload`. Ships with the next launcher release
+      (GDScript only, no engine rebuild). Consider hardening the server too:
+      `logs.py` decodes strict UTF-8 (one bad byte → 500, log lost) — write bytes instead.

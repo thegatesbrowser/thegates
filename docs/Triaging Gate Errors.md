@@ -46,7 +46,12 @@ Build queries with `Run-Query` (report_type `insights`; call `Get-Query-Schema` 
 
 ## Step 2 — Server logs: the actual crash detail
 
-Every `not_responding`/bootup failure POSTs the full renderer log to `https://app.thegates.io/api/send_logs?url=<gate>` (launcher side: `renderer_logger.gd::send_logs`, fired by `gate_events.not_responding`). The Django backend (`the-gates-backend/src/api/logs.py`) writes it on the Hetzner box:
+Every failed renderer session POSTs its log (tail-capped at 1 MB) to `https://app.thegates.io/api/send_logs?url=<gate>` (launcher side: `renderer_logger.gd::send_logs`). Upload triggers (as of 2026-07, post-1.0.7):
+
+- `gate_events.not_responding` — dead process on bootup/heartbeat check, alive-but-unresponsive heartbeat, or a boot that never reached first frame within 30s.
+- Gate teardown (navigate away / reload / app quit) when the renderer had died unnoticed, or was still boot-looping past a 10s grace. App quit waits up to 3s for in-flight uploads. Versions ≤ 1.0.7 uploaded **only** on `not_responding` with a dead-or-silent process — stuck-alive boots, quits, and navigations lost the log entirely; expect no server logs from those sessions on old versions.
+
+The Django backend (`the-gates-backend/src/api/logs.py`) writes it on the Hetzner box:
 
 ```
 ssh thegates       # 188.245.188.59, user root
@@ -55,7 +60,7 @@ BASE=/home/thegates/projects/the-gates-backend/staticfiles/logs
 ```
 
 - One file per renderer session. Filenames are **UTC**.
-- Each upload now opens with a header (added 2026-06): `app_version`, `os`, `gate`, `renderer` (filename → 4.3 vs 4.5), `sandboxed`. Use it to confirm the version instead of guessing.
+- Each upload now opens with a header (added 2026-06): `app_version`, `os`, `gate`, `renderer` (filename → 4.3 vs 4.5), `sandboxed`. Added 2026-07: `reason` (`not_responding` / `died_unnoticed` / `exited_before_first_frame`), `uptime_sec`, `first_frame`, `process_running`, `log_bytes` (if larger than the 1 MB cap, the body is the tail). Use it to confirm the version instead of guessing.
 - **Scope to the right day(s).** Drop logs that predate the version under investigation — old logs muddy the categorization. `find "$BASE" -name "log__2026_06_15*.txt"`.
 
 The renderer was given `--verbose` since 1.0.1, which is *why* these logs are rich.

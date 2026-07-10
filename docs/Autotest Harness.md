@@ -44,6 +44,10 @@ godot/tools/run-sandbox-test.sh --mode negative-fail-closed
 
 # Negative: forced verify_binary failure, expect broker refuses to spawn:
 godot/tools/run-sandbox-test.sh --mode negative-signature
+
+# Crash-log delivery: kill the renderer mid-session, assert the crash log
+# reaches a local API sink before the launcher exits:
+python godot/tools/run-sandbox-test.py crash-upload
 ```
 
 PowerShell mirror is `godot/tools/run-sandbox-test.ps1` with the same flags, same `[VERIFY-*]` tags, and the same exit codes.
@@ -87,6 +91,8 @@ godot/bin/godot.linuxbsd.editor.dev.x86_64.llvm \
 | `--autotest-timeout SEC` | Wall-clock deadline. When it fires, prints `[AUTOTEST-TIMEOUT]` + `[AUTOTEST-EXIT] reason=timeout` and calls `get_tree().quit(0)`. |
 | `--autotest-cycles N` | Extra re-opens beyond the first gate-enter. After every `gate_entered`, if there's a cycle budget left, schedules an `open_gate_emit(url)` after `--autotest-cycle-delay`. |
 | `--autotest-cycle-delay SEC` | Per-cycle re-open delay. Default 5.0. |
+| `--autotest-quit-close-request` | Deadline quits via a window close request instead of `quit(0)`, exercising the graceful-quit path (world teardown + pending-upload flush). Used by `crash-upload` mode. |
+| `--api-url URL` | Read by `app.gd`, not the harness: overrides the backend API base URL (all `/api/*` calls). `crash-upload` points it at a local sink so uploads never hit production. |
 
 ## The tagged stdout language
 
@@ -156,6 +162,7 @@ The runner returns 0 on `[VERIFY-OK]` and a unique non-zero per failure mode:
 | 30 | `negative_signature_renderer_started` (broker spawned a renderer when it shouldn't have) |
 | 31 | `multi_gate_cycles_missing` (got fewer `[AUTOTEST-GATE-ENTERED]` than `cycles + 1`) |
 | 32 | `main_thread_frozen` (`max_tick_gap` > 500 ms during a gate switch) |
+| 50 / 51 / 52 | `crash_upload_missing` / `crash_upload_malformed` / `crash_upload_kill_failed` (crash-upload mode) |
 
 Codes are stable. CI grepping for a specific code (e.g. "did we regress the sibling-gate canary?") is a supported pattern.
 
@@ -171,6 +178,9 @@ Sets env `TG_SANDBOX_FORCE_FAIL=1`. The renderer's `Sandbox::lower_token()` is w
 Sets env `TG_SIGNATURE_FORCE_FAIL=1`. The launcher's `Sandbox.verify_binary()` is wired to fail when this is set, so the broker should refuse to spawn at all. **Expectation:** no renderer log file appears with `mtime >= LAUNCH_START_EPOCH`. If a log is found → fail with `negative_signature_renderer_started` (code 30). Otherwise pass.
 
 Both negative modes are useful in CI for confirming the failure paths are still wired up — a positive `default` run alone can't tell you whether the sandbox is doing its job or whether the assertion was just trivially passing.
+
+### `crash-upload`
+The regression net for crash-log delivery. The runner starts a local HTTP sink and passes `--api-url` so every API call (uploads, analytics) hits the sink instead of production. A watcher thread waits for `[AUTOTEST-FIRST-FRAME]`, then SIGKILLs the renderer pid parsed from the launcher log. The heartbeat check detects the dead process, the launcher uploads the crash log, and the deadline quits via close request (graceful-quit flush). **Expectation:** at least one `POST /api/send_logs` reaches the sink containing the `=== TheGates renderer crash ===` header with a `reason:` field. Received bodies are saved as `upload_NN.txt` in the results dir.
 
 ## Multi-gate cycles + the responsiveness invariant
 

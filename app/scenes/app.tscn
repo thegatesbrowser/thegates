@@ -29,6 +29,7 @@
 [node name="App" type="Node" node_paths=PackedStringArray("scenes_root")]
 script = ExtResource("1_skc7d")
 gate_events = ExtResource("2_cdryv")
+api = ExtResource("10_04o5h")
 home = ExtResource("3_i66gl")
 search_results = ExtResource("4_phjpd")
 world_scene = ExtResource("4_p75rl")

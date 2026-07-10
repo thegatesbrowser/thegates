@@ -5,6 +5,8 @@ class_name RendererManager
 @export var render_result: RenderResult
 @export var renderer_logger: RendererLogger
 
+const EXIT_BEFORE_FRAME_GRACE_SEC = 10
+
 var renderer_pid: int
 var sandbox: Sandbox
 
@@ -93,7 +95,17 @@ static func gate_folder(url: String) -> String:
 	return url.split("?")[0].replace("http://", "").replace("https://", "").replace(".gate", "").replace(":", "_")
 
 
+func send_final_logs() -> void:
+	if renderer_pid == 0: return
+	if not is_process_running():
+		renderer_logger.send_logs("died_unnoticed")
+	elif not renderer_logger.first_frame_reached:
+		if Time.get_ticks_msec() - renderer_logger.start_ms < EXIT_BEFORE_FRAME_GRACE_SEC * 1000: return
+		renderer_logger.send_logs("exited_before_first_frame")
+
+
 func kill_renderer() -> void:
+	send_final_logs()
 	if sandbox != null:
 		if sandbox.is_target_running():
 			sandbox.kill_target()

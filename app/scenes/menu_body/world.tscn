@@ -148,11 +148,10 @@ gate_events = ExtResource("2_q7cvi")
 render_result = NodePath("../WorldCanvas/RenderResult")
 renderer_logger = NodePath("../RendererLogger")
 
-[node name="RendererLogger" type="Node" parent="." node_paths=PackedStringArray("renderer_manager")]
+[node name="RendererLogger" type="Node" parent="."]
 script = ExtResource("9_fikc8")
 gate_events = ExtResource("2_q7cvi")
 api = ExtResource("10_vhc7k")
-renderer_manager = NodePath("../RendererManager")
 
 [node name="ProcessChecker" type="Node" parent="." node_paths=PackedStringArray("renderer_manager")]
 script = ExtResource("11_72cjp")

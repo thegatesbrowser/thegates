@@ -7,7 +7,6 @@ var url: String
 var timeout: float
 var cycle_delay: float
 var cycles_remaining: int
-var quit_close_request: bool
 
 var entered_count: int
 var entered_ms: int
@@ -36,8 +35,6 @@ static func parse_args() -> Dictionary:
 			out["cycles"] = int(all[i + 1]); i += 2
 		elif a == "--autotest-cycle-delay" and i + 1 < all.size():
 			out["cycle_delay"] = float(all[i + 1]); i += 2
-		elif a == "--autotest-quit-close-request":
-			out["quit_close_request"] = true; i += 1
 		elif a == "--autotest":
 			out["enabled"] = true; i += 1
 		else:
@@ -64,7 +61,6 @@ func _ready() -> void:
 	timeout = args.get("timeout", 0.0)
 	cycles_remaining = args.get("cycles", 0)
 	cycle_delay = args.get("cycle_delay", 5.0)
-	quit_close_request = args.get("quit_close_request", false)
 	print("%sSTART] args=%s ms=%d" % [TAG, str(args), Time.get_ticks_msec()])
 
 	get_tree().process_frame.connect(sample_tick)
@@ -151,7 +147,4 @@ func arm_deadline() -> void:
 func on_deadline() -> void:
 	print("%sTIMEOUT] elapsed=%.1f" % [TAG, timeout])
 	print("%sEXIT] reason=timeout" % TAG)
-	if quit_close_request:
-		get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
-	else:
-		get_tree().quit(0)
+	get_tree().quit(0)

@@ -59,14 +59,17 @@ the .app, so the launcher must be re-shipped. Version is already **1.0.7**; don'
 - [ ] Watch Mixpanel (project `3024833`, event `error`, Linux) for versions ≥1.0.6 — the
       bootup-crash signal should disappear. Mixpanel reports ~UTC+7; server logs are UTC.
 - [x] Hard renderer crashes upload no server log — **diagnosed and fixed 2026-07-10** (Linux box,
-      unreleased). Server nginx logs show zero rejected `send_logs` POSTs — crash sessions never
-      *attempted* an upload. Three client-side holes closed: (1) alive-but-stuck boots (museum
-      error-spam, Wayland suspend) never fired `not_responding` — now a 30s boot timeout does;
-      (2) navigating away / reloading killed a dead-or-stuck renderer without uploading — teardown
-      now uploads (`died_unnoticed` / `exited_before_first_frame`, 10s grace); (3) app quit dropped
-      in-flight uploads — window close now flushes pending requests (≤3s). Uploads are tail-capped
-      at 1 MB (Django's 2.5 MB body limit would reject spam logs) and the header gained `reason` /
-      `uptime_sec` / `first_frame` / `process_running` / `log_bytes`. Regression net:
+      unreleased). Detected crashes (dead process) DID upload once per session — event≫log counts
+      are just the `logs_sent` latch (~17 bootup-crash sessions ↔ ~18 uploads over 14 days). The
+      real loss is the *undetected* class: an alive renderer stuck before first frame (museum
+      error-spam, Wayland suspend) fired no `not_responding`, no Mixpanel event, no upload —
+      invisible in both datasets (Digit's museum hang). Closed: (1) 30s boot timeout detects
+      alive-but-stuck boots; (2) teardown uploads when the renderer died unnoticed or was stuck
+      past a 10s grace (`died_unnoticed` / `exited_before_first_frame`); (3) window close flushes
+      in-flight uploads (≤3s). Uploads tail-capped at 1 MB (Django's 2.5 MB body limit would
+      reject spam logs); header gained `reason` / `uptime_sec` / `first_frame` / `process_running`
+      / `log_bytes`. **Expect Mixpanel error counts to RISE post-release** (new "Gate boot timed
+      out" events = new visibility, not regression). Regression net:
       `python godot/tools/run-sandbox-test.py crash-upload`. Ships with the next launcher release
       (GDScript only, no engine rebuild). Consider hardening the server too:
       `logs.py` decodes strict UTF-8 (one bad byte → 500, log lost) — write bytes instead.

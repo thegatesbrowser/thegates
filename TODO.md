@@ -38,7 +38,16 @@ the parity-pass "Shipped + remaining" section below. Steps that were run (record
 4. Verify served sha via `https://app.thegates.io/api/download_renderer/windows-4.5` and `-4.3`
    (**app.**thegates.io — bare thegates.io serves the website, not the API).
 
-### macOS machine — run `/publish` (renderer-included flow)
+### macOS machine — `/publish` ✅ DONE 2026-07-18
+
+Shipped on the Mac: rebuilt the universal launcher + both renderers (4.5 on `tg-4.5`; 4.3 on
+`tg-4.3` via cherry-pick `55acb7e49e1`) carrying the env-leak fix, published
+`TheGates_MacOS_1.0.7.zip` (app.thegates.io: env filter in the launcher + a fresh crash-logger'd 4.5
+renderer bundled, replacing the 1.0.5 zip) plus `macos-4.5.zip` and `macos-4.3.zip` server renderers
+(`.bak-pre-1.0.7` backups on the box). Verified: served `macos-latest` → 1.0.7 (byte-match) and
+`app.thegates.io/api/download_renderer/macos-4.{3,5}` byte-match; the shipped app binary carries the
+env filter and the bundled renderer carries the crash logger. macOS is now at sandbox parity with
+Linux/Windows. Steps that were run (record):
 
 A server zip alone does **not** reach current-version mac users — the 4.5 renderer is baked into
 the .app, so the launcher must be re-shipped. Version is already **1.0.7**; don't re-bump.
@@ -150,6 +159,11 @@ from `godot/`), pass `python tools/run-sandbox-test.py` (default + `negative-fai
   via `app.thegates.io/api/download_renderer/windows-4.{3,5}`. Closes the 54-day binary gap.
 - Pre-existing (not from this pass): the `negative-signature` self-test fails on a no-pin dev build
   (broker-side `verify_binary` force-fail path); confirm on a signed release build.
-- [ ] **macOS `/publish`** — the last platform (renderer-included flow, "macOS machine" section
-  above). macOS launcher still serves 1.0.5; needs a Mac to build the universal launcher + 4.5/4.3
-  renderers. Bundle guard now covers the macOS ship path too (`59447dd`) but is unverified on a Mac.
+- DONE (2026-07-18, Mac): **macOS `/publish`** — env-leak fix on `tg-4.5` (`efdf0e90e91`) +
+  docs (`743a3e47cc2`), mirrored to `tg-master` (`40d94b45558`/`971493310c4`) and `tg-4.3`
+  (`55acb7e49e1`, code only). Published `TheGates_MacOS_1.0.7.zip` (app.thegates.io: env filter in
+  the launcher + crash-logger'd 4.5 renderer bundled, replacing the 1.0.5 zip) plus `macos-4.5.zip`
+  and `macos-4.3.zip` server renderers (`.bak-pre-1.0.7` backups). Served size verified via
+  `app.thegates.io/api/download_renderer/macos-4.{3,5}` and `macos-latest` → 1.0.7. The macOS crash
+  logger was also build- + runtime-verified (forced `SIGSEGV` → `[RENDERER-CRASH]`). Sandbox parity
+  is now complete on all three platforms; macOS launcher moves 1.0.5 → 1.0.7.

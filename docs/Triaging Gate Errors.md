@@ -49,7 +49,7 @@ Build queries with `Run-Query` (report_type `insights`; call `Get-Query-Schema` 
 Every `not_responding`/bootup failure POSTs the full renderer log to `https://app.thegates.io/api/send_logs?url=<gate>` (launcher side: `renderer_logger.gd::send_logs`, fired by `gate_events.not_responding`). The Django backend (`the-gates-backend/src/api/logs.py`) writes it on the Hetzner box:
 
 ```
-ssh thegates       # 188.245.188.59, user root
+ssh thegates       # 188.245.188.59, user thegates
 BASE=/home/thegates/projects/the-gates-backend/staticfiles/logs
 # layout: $BASE/<gate-host>/<gate-path>/log__<UTC-YYYY_MM_DD__HH_MM_SS>.txt
 ```

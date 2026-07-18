@@ -23,10 +23,12 @@ Full write-up: [[Triaging Gate Errors]] methodology; engine commits below.
   renderer updates only reached first-time visitors. Verified against the shipped binary.
   Shipped: Linux launcher (app.thegates.io + Flathub PR #109), Windows zip (fresh pck, old exe).
 
-### Windows machine — run `/publish`
+### Windows machine — `/publish` ✅ DONE 2026-07-18
 
-Today's Windows 1.0.7 zip reuses the **old `TheGates.exe`** — it carries the GDScript re-extract fix
-but **not** the C++ fixes (they live in the exe and the renderer binaries).
+Shipped on the Windows box: rebuilt `launcher-release` + both renderers (4.5 on `tg-4.5`; 4.3 on
+`tg-4.3` via cherry-pick `1b2ec6ca36`), published `TheGates_Windows_1.0.7.zip` (fresh exe + bundled
+4.5 renderer, replacing the old-exe zip) and `windows-4.{3,5}.zip` server renderers. Full result in
+the parity-pass "Shipped + remaining" section below. Steps that were run (record):
 
 1. Pull parent `main`; godot `tg-4.5` and `tg-4.3` (fix commits above).
 2. Rebuild launcher exe (`launcher-release`) and both renderers (`renderer-release`, `tg-4.3`
@@ -140,8 +142,14 @@ from `godot/`), pass `python tools/run-sandbox-test.py` (default + `negative-fai
 ### Shipped + remaining
 
 - DONE (merged + pushed): godot `tg-4.5` (`3a1a5f0479`) mirrored to `tg-master` (`752996ab8c`),
-  `tg-4.3` (`758386a516`), parent `main` (`a06c875`, godot bump).
+  `tg-4.3` (`1b2ec6ca36`, Windows env-filter + deny-log cherry-pick), parent `main` (`a06c875` godot
+  bump; `59447dd` bundle guard on the Windows + macOS ship paths).
+- DONE (2026-07-18, Windows box): Windows `/publish` — published `TheGates_Windows_1.0.7.zip`
+  (app.thegates.io: env-filter fix in the broker + fresh 4.5 renderer bundled) plus `windows-4.5.zip`
+  and `windows-4.3.zip` server renderers (`.bak-pre-1.0.7` backups on the box). Served sha verified
+  via `app.thegates.io/api/download_renderer/windows-4.{3,5}`. Closes the 54-day binary gap.
 - Pre-existing (not from this pass): the `negative-signature` self-test fails on a no-pin dev build
   (broker-side `verify_binary` force-fail path); confirm on a signed release build.
-- [ ] Run the Windows `/publish` (the ticket-0002 rollout section above) to build + upload the
-  rebuilt Windows binaries — ships this parity work AND closes the 54-day binary gap.
+- [ ] **macOS `/publish`** — the last platform (renderer-included flow, "macOS machine" section
+  above). macOS launcher still serves 1.0.5; needs a Mac to build the universal launcher + 4.5/4.3
+  renderers. Bundle guard now covers the macOS ship path too (`59447dd`) but is unverified on a Mac.

@@ -61,7 +61,7 @@ See [[Gate Format and Lifecycle]].
 ## What the renderer can and can't do
 
 - **Can**: render anything Godot can render in Vulkan; use any GDExtension declared in the `.gate`'s `[libraries]` section.
-- **Can't**: show its own window, present to the OS swapchain, escape its sandbox (Linux only today — see [security model docs](https://docs.thegates.io/en/latest/about/security.html)), use D3D12 or OpenGL. The Vulkan-only constraint is hardcoded — see [[Custom Godot Fork]].
+- **Can't**: show its own window, present to the OS swapchain, escape its sandbox (enforced on all three platforms — see [security model docs](https://docs.thegates.io/en/latest/about/security.html)), use D3D12 or OpenGL. The Vulkan-only constraint is hardcoded — see [[Custom Godot Fork]].
 
 ## Operational tip
 

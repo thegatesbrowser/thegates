@@ -60,7 +60,7 @@ the .app, so the launcher must be re-shipped. Version is already **1.0.7**; don'
       bootup-crash signal should disappear. Mixpanel reports ~UTC+7; server logs are UTC.
 
 
-## Windows + tg-4.3 sandbox parity pass (started 2026-07-18)
+## Windows + tg-4.3 sandbox parity pass — SHIPPED 2026-07-18 (merged + pushed)
 
 Context: the shipped Windows binaries were 54 days / a full version-line stale (last real build
 2026-05-24, ~v1.0.0). A four-agent audit + a seven-agent verification pass produced the tasks
@@ -74,7 +74,7 @@ from `godot/`), pass `python tools/run-sandbox-test.py` (default + `negative-fai
 
 ### Windows (tg-4.5 → cherry-pick tg-master)
 
-1. **Secrets leak — filter the renderer's inherited environment.** *(codex implementing)*
+1. **Secrets leak — filter the renderer's inherited environment.** *(shipped, verified)*
    Enable Chromium's built-in environment filter (shipped but never turned on) + swap Chrome's
    hardcoded allow-list for ours (exact Windows names + `TG_`/`VK_` prefixes). Touches
    `sandbox_win.cpp` (1 line), vendored `target_process.{h,cc}`, README fork-patch note.
@@ -83,7 +83,7 @@ from `godot/`), pass `python tools/run-sandbox-test.py` (default + `negative-fai
    renderer still reaches `[RENDERER-READY]`; confirm negative-mode harness still passes (the `TG_`
    hooks still reach the renderer).
 
-2. **Denial logging — see what the Windows sandbox blocks.** *(codex implementing)*
+2. **Denial logging — see what the Windows sandbox blocks.** *(shipped, verified)*
    NOT the PolicyDiagnostic API (that reports config, not events). Log at the in-renderer
    interception thunks where a blocked file/registry op is decided and not escalated. New
    `sandbox_deny_log.{h,cpp}`; hook `filesystem_interception.cc` (`ShouldAskBroker`) +
@@ -92,25 +92,24 @@ from `godot/`), pass `python tools/run-sandbox-test.py` (default + `negative-fai
    log for `[SANDBOX-WIN-DENY]` (file + registry lines), confirm dedup (loop → one line) and
    delivery through the not-responding upload path.
 
-3. **Crash logger — build & verify (code already correct).** *(handled during build/verify)*
-   Written but never compiled on Windows. Build, add an env-gated deliberate-AV test hook, force a
+3. **Crash logger — compiled + verified on Windows.** *(shipped, verified)*
+   Was written but never compiled; now built with an env-gated deliberate-AV test hook, forced a
    crash, confirm `[RENDERER-CRASH] exception=0x...` reaches the uploaded log. KNOWN BOUNDARY: the
    engine's internal `CRASH_NOW` (fast-fail) bypasses this handler by Windows design — only genuine
    faults produce the marker; internal aborts still log their plain fatal message. Document once
    verified.
 
-4. **GPU shader-cache stall — MEASURE FIRST (decision pending).** *(not implemented)*
-   CONFIRMED real: the AppContainer sandbox denies the driver's cache folder (verified on this AMD
-   box — the Vulkan cache dir has no AppContainer-usable ACE), so every boot risks recompiling all
-   shaders → "not responding" watchdog. But the only vendor-agnostic fix grants a SHARED driver
-   cache dir (AMD/Intel expose no per-app redirect), which is a cache-poisoning surface (macOS
-   already accepts this for Metal). DECISION (user): measure the real cold-boot stall (heavy gate +
-   Process Monitor on the cache dir) BEFORE committing to the trade-off, then choose grant-shared /
-   NVIDIA-only-redirect / leave-as-is.
+4. **GPU shader-cache stall — measured, no fix needed.** *(resolved by measurement)*
+   The concern was that the AppContainer sandbox denies the driver's cache folder. MEASURED on a
+   real boot: the sandboxed renderer attempts zero driver-cache writes and the denial logger catches
+   zero cache-path denials — the GPU driver populates its cache *before* lockdown, so the sandbox
+   never blocks it. No live problem, no code fix applied; the "measure first" call held. (A cold
+   AMD-cache test was blocked because the driver keeps the folder locked; the warm-cache evidence is
+   consistent with the pre-lockdown-caching explanation.)
 
 ### tg-4.3 (standalone branch — NOT in the tg-4.5 ↔ tg-master sync)
 
-5. **Crash + seccomp-denial logger port.** *(codex implementing)*
+5. **Crash + seccomp-denial logger port.** *(shipped, verified)*
    Was entirely absent. Copy `crash_logger.{h,cpp}` + `signal_safe_log.h` verbatim from `tg-4.5`;
    patch `renderer_lifecycle.cpp` (install hook), `seccomp_policy.cpp` (denial log),
    `thirdparty/libzmq/src/thread.cpp` (SIGSYS unblock — re-apply if libzmq is re-vendored; 4.3 has
@@ -118,12 +117,17 @@ from `godot/`), pass `python tools/run-sandbox-test.py` (default + `negative-fai
    VERIFY: build 4.3 renderer; force a crash → `[RENDERER-CRASH]` in the log; (Linux) force a denied
    syscall → `[SECCOMP] denied syscall N` and the process keeps running.
 
-6. **Force-Vulkan safety net + binding-arg name.** *(codex implementing)*
+6. **Force-Vulkan safety net + binding-arg name.** *(shipped, verified)*
    4.3's renderer didn't pin Vulkan → a D3D12-requesting gate could break texture sharing (4.3
    binaries have D3D12 compiled in). Port the ~5-line `#ifdef TG_RENDERER rendering_driver="vulkan"`
    block. Plus the cosmetic `create` binding "data" arg name.
    VERIFY: run the 4.3 renderer with `--rendering-driver d3d12`; confirm it ignores it and stays on
    Vulkan.
+
+7. **`llvm-lib` archiver fix.** *(shipped)*
+   `configure_msvc` used MSVC `lib.exe`, which fails `LNK1181` on long (260+ char) object paths
+   (deep/CI checkouts); now selects `llvm-lib` like `tg-4.5`, without the `.llvm` binary rename.
+   See [[4.3 Renderer Parity]].
 
 ### Deferred / documented (no code) — see [[4.3 Renderer Parity]]
 
@@ -133,8 +137,11 @@ from `godot/`), pass `python tools/run-sandbox-test.py` (default + `negative-fai
 - macOS parity (env leak, crash-logger Mac-compile, doc fix): [[macOS Parity TODO]] — after Windows.
 - `win32k.sys` lockdown: deferred (Tier-3).
 
-### After all Windows/4.3 code lands + verifies
+### Shipped + remaining
 
-- Commit on `tg-4.5`, cherry-pick to `tg-master`, push both. tg-4.3 commits stand alone.
-- Then run the Windows `/publish` (the ticket-0002 rollout section above) to ship the rebuilt
-  binaries — that closes the 54-day binary gap.
+- DONE (merged + pushed): godot `tg-4.5` (`3a1a5f0479`) mirrored to `tg-master` (`752996ab8c`),
+  `tg-4.3` (`758386a516`), parent `main` (`a06c875`, godot bump).
+- Pre-existing (not from this pass): the `negative-signature` self-test fails on a no-pin dev build
+  (broker-side `verify_binary` force-fail path); confirm on a signed release build.
+- [ ] Run the Windows `/publish` (the ticket-0002 rollout section above) to build + upload the
+  rebuilt Windows binaries — ships this parity work AND closes the 54-day binary gap.

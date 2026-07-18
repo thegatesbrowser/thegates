@@ -57,7 +57,7 @@ See [[Two-Process Model]] for what flows over each channel and [[External Textur
 A `.gate` is untrusted user content. Running it in-process with the launcher would let any third-party world crash, exploit, or eavesdrop on the browser. Spinning up a separate renderer process gives us:
 
 1. **Crash isolation.** Renderer dies → launcher shows "not responding," kills it, navigates away.
-2. **Sandboxing.** The renderer process can be locked down (seccomp on Linux today; chromium-style sandbox on other OSes is in development per the [security model docs](https://docs.thegates.io/en/latest/about/security.html)).
+2. **Sandboxing.** The renderer process is locked down on all three platforms — seccomp + landlock + capability drop on Linux, the Chromium restricted-token + AppContainer sandbox on Windows, and Seatbelt on macOS. See the [security model docs](https://docs.thegates.io/en/latest/about/security.html).
 3. **Per-gate engine version.** Each `.gate` declares which Godot version it needs (4.3 or 4.5). The launcher downloads the matching renderer binary and runs that — see [[Gate Format and Lifecycle]].
 4. **Browser stays responsive.** UI never blocks on world-load.
 

@@ -65,12 +65,21 @@ def guard_host_bundle(bundle_renderer: Path, build_output: Path) -> None:
         )
 
 
-def verify_host_bundle_for_release(platform_key: str, host_build, builds_root: Path = Path(".")) -> None:
+def verify_host_bundle_for_release(
+    platform_key: str, host_build, builds_root: Path = Path("."), bundle_path: Path | None = None
+) -> None:
     """Renderer-side release guard for the host platform's own bundle: require the
     freshly-built renderer and fail unless the staged bundle matches it byte-for-byte.
     Resolves the bundle path the same way stage_renderer.py wrote it, so the two
-    sides can't drift. ``host_build`` is the path passed via --host-renderer-build."""
+    sides can't drift. ``host_build`` is the path passed via --host-renderer-build.
+    ``bundle_path``, if given, overrides the resolved path outright — for layouts
+    that don't mirror stage_renderer.py's AppBuilds/<OS>/<relpath> layout (macOS,
+    where the shipped renderer lives inside the exported .app)."""
     if host_build is None:
         raise SystemExit("--host-renderer-build is required with --renderer-release")
-    bundle = Path(builds_root) / os_dir(platform_key) / bundle_renderer_relpath(platform_key, current_godot_version())
+    bundle = (
+        Path(bundle_path)
+        if bundle_path is not None
+        else Path(builds_root) / os_dir(platform_key) / bundle_renderer_relpath(platform_key, current_godot_version())
+    )
     guard_host_bundle(bundle, host_build)

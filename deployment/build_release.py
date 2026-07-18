@@ -166,7 +166,11 @@ def main() -> int:
 		run([sys.executable, str(manifest_script), str(template_exe), str(exported_exe)], cwd=repo_root)
 
 		print(f"==> Compressing Windows build with version {version}...")
-		run([sys.executable, str(compress_script), version, "--force"], cwd=builds_dir)
+		compress_cmd = [sys.executable, str(compress_script), version, "--force"]
+		if cli.renderer_release:
+			host_renderer = repo_root / "godot" / "bin" / "godot.windows.template_release.renderer.x86_64.llvm.exe"
+			compress_cmd += ["--renderer-release", "--host-renderer-build", str(host_renderer)]
+		run(compress_cmd, cwd=builds_dir)
 
 		uploaded = build_expected_zip_paths(builds_dir, version, os_name)
 
@@ -178,7 +182,11 @@ def main() -> int:
 		builds_dir.mkdir(parents=True, exist_ok=True)
 
 		print(f"==> Compressing macOS build with version {version}...")
-		run([sys.executable, str(compress_script), version], cwd=builds_dir)
+		compress_cmd = [sys.executable, str(compress_script), version]
+		if cli.renderer_release:
+			host_renderer = repo_root / "godot" / "bin" / "godot.macos.template_release.renderer.universal"
+			compress_cmd += ["--renderer-release", "--host-renderer-build", str(host_renderer)]
+		run(compress_cmd, cwd=builds_dir)
 
 		uploaded = build_expected_zip_paths(builds_dir, version, os_name)
 

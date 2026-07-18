@@ -1,16 +1,26 @@
 #!/usr/bin/env python3
 """
 Script to extract TheGates.app from DMG file, compress it, and rename with version.
-Usage: python compress_build_macos.py <version>
+
+Usage:
+  python compress_build_macos.py <version>
+  python compress_build_macos.py <version> --renderer-release --host-renderer-build PATH
 Example: python compress_build_macos.py 0.17.1
+
+With --renderer-release the renderer bundled inside TheGates.app/Contents/Frameworks
+is verified against the freshly-built one.
 """
 
+import argparse
 import sys
 import os
 import subprocess
 import shutil
 import zipfile
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import renderer_config as rc
 
 def run_command(command, check=True):
 	"""Run a shell command and return the result."""
@@ -93,35 +103,47 @@ def compress_app(version):
 	shutil.rmtree(app_path)
 	print("Cleanup completed!")
 
+def parse_args():
+	"""Parse command line arguments."""
+	parser = argparse.ArgumentParser(description="Extract TheGates.app from DMG and compress it for release.")
+	parser.add_argument("version", help="App version, e.g. 0.17.2")
+	parser.add_argument("--renderer-release", action="store_true",
+						help="Verify the renderer bundled inside TheGates.app is freshly staged.")
+	parser.add_argument("--host-renderer-build", type=Path, default=None,
+						help="Path to the freshly-built macOS renderer (required with --renderer-release).")
+	return parser.parse_args()
+
 def main():
 	"""Main function to orchestrate the extraction and compression process."""
-	if len(sys.argv) != 2:
-		print("Usage: python compress_build_macos.py <version>")
-		print("Example: python compress_build_macos.py 0.17.1")
-		sys.exit(1)
-	
-	version = sys.argv[1]
+	args = parse_args()
+	version = args.version
 	dmg_path = "TheGates.app.dmg"
-	
+
 	# Check if DMG file exists
 	if not os.path.exists(dmg_path):
 		print(f"Error: {dmg_path} not found in current directory")
 		sys.exit(1)
-	
+
 	print(f"Starting extraction and compression for version {version}")
 	print(f"DMG file: {dmg_path}")
 	print("-" * 50)
-	
+
 	try:
 		# Step 1: Extract TheGates.app from DMG
 		extract_dmg(dmg_path)
-		
-		# Step 2: Compress TheGates.app
+
+		# Step 2: Verify the bundled renderer (renderer-side release only)
+		if args.renderer_release:
+			basename = Path(rc.bundle_renderer_relpath("macos_framework", rc.current_godot_version())).name
+			bundle_path = Path("TheGates.app") / "Contents" / "Frameworks" / basename
+			rc.verify_host_bundle_for_release("macos", args.host_renderer_build, bundle_path=bundle_path)
+
+		# Step 3: Compress TheGates.app
 		compress_app(version)
-		
+
 		print("-" * 50)
 		print(f"Successfully created: TheGates_MacOS_{version}.zip")
-		
+
 	except Exception as e:
 		print(f"An error occurred: {e}")
 		sys.exit(1)

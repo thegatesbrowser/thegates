@@ -58,3 +58,83 @@ the .app, so the launcher must be re-shipped. Version is already **1.0.7**; don'
       only real NVIDIA verification available — the dev box is AMD and cannot stage the bug.
 - [ ] Watch Mixpanel (project `3024833`, event `error`, Linux) for versions ≥1.0.6 — the
       bootup-crash signal should disappear. Mixpanel reports ~UTC+7; server logs are UTC.
+
+
+## Windows + tg-4.3 sandbox parity pass (started 2026-07-18)
+
+Context: the shipped Windows binaries were 54 days / a full version-line stale (last real build
+2026-05-24, ~v1.0.0). A four-agent audit + a seven-agent verification pass produced the tasks
+below. `win32k.sys` lockdown is explicitly OUT OF SCOPE (deferred Tier-3). Sibling-platform docs:
+[[macOS Parity TODO]], [[4.3 Renderer Parity]].
+
+Each Windows task, after implementation, must: build (`python tools/build.py launcher` + `renderer`
+from `godot/`), pass `python tools/run-sandbox-test.py` (default + `negative-fail-closed` +
+`negative-signature`), then its task-specific check. Then commit on `tg-4.5` and cherry-pick to
+`tg-master` (mandatory branch-sync rule).
+
+### Windows (tg-4.5 → cherry-pick tg-master)
+
+1. **Secrets leak — filter the renderer's inherited environment.** *(codex implementing)*
+   Enable Chromium's built-in environment filter (shipped but never turned on) + swap Chrome's
+   hardcoded allow-list for ours (exact Windows names + `TG_`/`VK_` prefixes). Touches
+   `sandbox_win.cpp` (1 line), vendored `target_process.{h,cc}`, README fork-patch note.
+   VERIFY: plant a canary secret in the launcher env; boot a gate whose script dumps
+   `OS.get_environment(...)` into its writable dir; confirm the canary is ABSENT post-fix and the
+   renderer still reaches `[RENDERER-READY]`; confirm negative-mode harness still passes (the `TG_`
+   hooks still reach the renderer).
+
+2. **Denial logging — see what the Windows sandbox blocks.** *(codex implementing)*
+   NOT the PolicyDiagnostic API (that reports config, not events). Log at the in-renderer
+   interception thunks where a blocked file/registry op is decided and not escalated. New
+   `sandbox_deny_log.{h,cpp}`; hook `filesystem_interception.cc` (`ShouldAskBroker`) +
+   `registry_interception.cc` (2 sites); delete stray vendored `wprintf` debug lines; README note.
+   VERIFY: the always-on boot canaries already hit both paths — run the harness, grep the uploaded
+   log for `[SANDBOX-WIN-DENY]` (file + registry lines), confirm dedup (loop → one line) and
+   delivery through the not-responding upload path.
+
+3. **Crash logger — build & verify (code already correct).** *(handled during build/verify)*
+   Written but never compiled on Windows. Build, add an env-gated deliberate-AV test hook, force a
+   crash, confirm `[RENDERER-CRASH] exception=0x...` reaches the uploaded log. KNOWN BOUNDARY: the
+   engine's internal `CRASH_NOW` (fast-fail) bypasses this handler by Windows design — only genuine
+   faults produce the marker; internal aborts still log their plain fatal message. Document once
+   verified.
+
+4. **GPU shader-cache stall — MEASURE FIRST (decision pending).** *(not implemented)*
+   CONFIRMED real: the AppContainer sandbox denies the driver's cache folder (verified on this AMD
+   box — the Vulkan cache dir has no AppContainer-usable ACE), so every boot risks recompiling all
+   shaders → "not responding" watchdog. But the only vendor-agnostic fix grants a SHARED driver
+   cache dir (AMD/Intel expose no per-app redirect), which is a cache-poisoning surface (macOS
+   already accepts this for Metal). DECISION (user): measure the real cold-boot stall (heavy gate +
+   Process Monitor on the cache dir) BEFORE committing to the trade-off, then choose grant-shared /
+   NVIDIA-only-redirect / leave-as-is.
+
+### tg-4.3 (standalone branch — NOT in the tg-4.5 ↔ tg-master sync)
+
+5. **Crash + seccomp-denial logger port.** *(codex implementing)*
+   Was entirely absent. Copy `crash_logger.{h,cpp}` + `signal_safe_log.h` verbatim from `tg-4.5`;
+   patch `renderer_lifecycle.cpp` (install hook), `seccomp_policy.cpp` (denial log),
+   `thirdparty/libzmq/src/thread.cpp` (SIGSYS unblock — re-apply if libzmq is re-vendored; 4.3 has
+   no `CLAUDE.md` to carry that warning, so it lives in [[4.3 Renderer Parity]]).
+   VERIFY: build 4.3 renderer; force a crash → `[RENDERER-CRASH]` in the log; (Linux) force a denied
+   syscall → `[SECCOMP] denied syscall N` and the process keeps running.
+
+6. **Force-Vulkan safety net + binding-arg name.** *(codex implementing)*
+   4.3's renderer didn't pin Vulkan → a D3D12-requesting gate could break texture sharing (4.3
+   binaries have D3D12 compiled in). Port the ~5-line `#ifdef TG_RENDERER rendering_driver="vulkan"`
+   block. Plus the cosmetic `create` binding "data" arg name.
+   VERIFY: run the 4.3 renderer with `--rendering-driver d3d12`; confirm it ignores it and stays on
+   Vulkan.
+
+### Deferred / documented (no code) — see [[4.3 Renderer Parity]]
+
+- 4.3 open-file-limit, XAUTHORITY, Linux shader-cache redirect: already handled by the launcher
+  (always built from 4.5) — do NOT port.
+- 4.3 Wayland suspend: independently fixed on 4.3 already — do NOT stack the 4.5 override.
+- macOS parity (env leak, crash-logger Mac-compile, doc fix): [[macOS Parity TODO]] — after Windows.
+- `win32k.sys` lockdown: deferred (Tier-3).
+
+### After all Windows/4.3 code lands + verifies
+
+- Commit on `tg-4.5`, cherry-pick to `tg-master`, push both. tg-4.3 commits stand alone.
+- Then run the Windows `/publish` (the ticket-0002 rollout section above) to ship the rebuilt
+  binaries — that closes the 54-day binary gap.

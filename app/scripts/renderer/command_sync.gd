@@ -54,6 +54,10 @@ func _execute_function(command: Command) -> Variant:
 			if wrong_args_count(command, 1): return ERR_INVALID_PARAMETER
 			command_events.highlight_button_emit(command.args[0])
 			
+		"exit_gate":
+			if wrong_args_count(command, 0): return ERR_INVALID_PARAMETER
+			gate_events.exit_gate_emit.call_deferred()
+			
 		_:
 			Debug.logerr("Command %s not implemented" % [command.name])
 			return ERR_METHOD_NOT_FOUND

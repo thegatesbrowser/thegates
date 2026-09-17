@@ -43,6 +43,8 @@ func start_process(gate: Gate) -> Dictionary:
 	if not shared_libs.is_empty(): args += ["--gdext-libs-dir", shared_libs]
 	var driver := Platform.preferred_renderer_display_driver()
 	if driver: args += ["--display-driver", driver]
+	
+	if gate.godot_version.begins_with("3."): args.append("--no-window")
 
 	Debug.logclr(gate.renderer + " " + " ".join(args), Color.DIM_GRAY)
 

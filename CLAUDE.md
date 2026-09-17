@@ -17,6 +17,7 @@ For everything else, the knowledge vault is the source of truth. App-side and pr
 | `app/**/*.gd` | [GDScript Style Guide](./docs/GDScript%20Style%20Guide.md) **and** [Event Architecture](./docs/Event%20Architecture.md) |
 | `godot/**/*.cpp`, `*.h`, `*.mm` | [C++ Style Guide](./godot/notes/C%2B%2B%20Style%20Guide.md) |
 | Anything under `godot/modules/the_gates/` | also [Custom Godot Module](./godot/notes/Custom%20Godot%20Module.md) |
+| Code on the `tg-3.6` branch of `godot/` | [C++ Style Guide](./godot/notes/C%2B%2B%20Style%20Guide.md) **and** [Godot 3 Renderer](./docs/Godot%203%20Renderer.md). Same rules, but this code compiles into **Godot 3.6**, not the 4.5 fork: include guards instead of `#pragma once`, `Reference` instead of `RefCounted`, `String::empty()` instead of `is_empty()`, `String::sprintf` instead of `vformat`, and no `Callable`. Match Godot 3.6 upstream, not `godot/` on `tg-4.5`. |
 | Code inside an `#ifdef TG_RENDERER` block in upstream files | also [Custom Godot Fork](./godot/notes/Custom%20Godot%20Fork.md) |
 
 If the user pushes back on something stylistic — naming, comment shape, signal pattern — **re-read the matching guide before responding**. The rule almost certainly exists in the doc and you missed it. Ignoring this is the single most common source of revert-and-redo cycles in this repo.

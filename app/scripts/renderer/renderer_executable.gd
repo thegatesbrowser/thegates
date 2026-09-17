@@ -2,6 +2,8 @@ extends Resource
 class_name RendererExecutable
 
 const DOWNLOAD_ATTEMPTS := 3
+# preview builds only: the backend does not host 3.x renderers yet
+const GODOT3_RENDERER_URL := "https://github.com/icarito/godot-box3d-3/releases/download/v0.2.6-nightly7/%s-%s"
 
 @export var api_settings: ApiSettings
 @export var supported_godot_versions: Array[String]
@@ -53,6 +55,8 @@ func download(godot_version: String, active_session: FileDownloader.DownloadSess
 
 
 func get_download_url(godot_version: String) -> String:
+	if godot_version.begins_with("3.") and api_settings.host_type != ApiSettings.HostType.Local:
+		return GODOT3_RENDERER_URL % [Platform.get_platform_string(), godot_version]
 	return api_settings.download_renderer % [Platform.get_platform_string(), godot_version]
 
 

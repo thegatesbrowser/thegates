@@ -6,6 +6,17 @@ const KEY_DESCRIPTION = "description"
 const KEY_ICON = "icon"
 const KEY_IS_SPECIAL = "is_special"
 
+# preview builds only: starred once, so unstarring it sticks
+const PREVIEW_SECTION = "preview"
+const PREVIEW_STARRED_KEY = "odisea_starred"
+const PREVIEW_GATE = {
+	KEY_URL: "https://icarito.github.io/Odisea/world.gate",
+	KEY_TITLE: "Odisea: El Arca Silenciosa",
+	KEY_DESCRIPTION: "Godot 3.6 gate with Box3D physics",
+	KEY_ICON: "https://icarito.github.io/Odisea/thegates-icon.png",
+	KEY_IS_SPECIAL: false,
+}
+
 @export var api: ApiSettings
 @export var bookmarks: Bookmarks
 
@@ -18,8 +29,11 @@ func _ready() -> void:
 
 
 func on_bookmarks_ready() -> void:
-	if bookmarks.gates.size() > 0: return
-	
+	if bookmarks.gates.size() == 0: await star_featured_gates()
+	await star_preview_gate()
+
+
+func star_featured_gates() -> void:
 	await featured_gates_request()
 	Debug.logclr("======== Featured gates ========", Color.LIGHT_SEA_GREEN)
 	
@@ -31,6 +45,14 @@ func on_bookmarks_ready() -> void:
 	for gate in gates:
 		Debug.logr(gate["url"])
 		star_gate(gate)
+
+
+func star_preview_gate() -> void:
+	if DataSaver.get_value(PREVIEW_SECTION, PREVIEW_STARRED_KEY, false): return
+	
+	DataSaver.set_value(PREVIEW_SECTION, PREVIEW_STARRED_KEY, true)
+	DataSaver.save_data()
+	await star_gate(PREVIEW_GATE)
 
 
 func featured_gates_request() -> void:

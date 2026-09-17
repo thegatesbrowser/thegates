@@ -1,0 +1,11 @@
+config_version=4
+
+[application]
+
+config/name="Godot 3 Test Gate"
+run/main_scene="res://main.tscn"
+
+[rendering]
+
+quality/driver/driver_name="GLES3"
+environment/default_clear_color=Color( 0.05, 0.05, 0.1, 1 )

@@ -17,7 +17,7 @@ description = "..."
 icon = "icon.png"
 image = "preview.png"
 resource_pack = "world.zip"
-godot_version = "4.5"        ; either "4.3" or "4.5" today
+godot_version = "4.5"        ; "3.6", "4.3" or "4.5" today
 discoverable = true
 
 [libraries]

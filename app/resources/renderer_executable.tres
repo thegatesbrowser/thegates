@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_q0dqh")
 api_settings = ExtResource("1_l5jt7")
-supported_godot_versions = Array[String](["4.3", "4.5"])
+supported_godot_versions = Array[String](["3.6", "4.3", "4.5"])
 current_godot_version = "4.5"
 linux = "renderer/Renderer-godot_v%s.x86_64"
 linux_debug = "godot.linuxbsd.template_debug.dev.renderer.x86_64.llvm"

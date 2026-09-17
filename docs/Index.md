@@ -19,6 +19,7 @@ The starting point. Every note in the vault is reachable from here.
 - [[Two-Process Model]] — launcher + renderer, why two processes, what flows between them
 - [[External Texture Sharing]] — how a Vulkan-rendered framebuffer in one process becomes a `Texture2D` in another, with no CPU copy
 - [[Renderer Process]] — what the sandboxed renderer build does differently from a normal Godot game
+- [[Godot 3 Renderer]] — the upstream Godot 3.6.3 renderer for `godot_version = "3.6"` gates: out-of-tree module, Vulkan-to-GL frame transport, input translation
 - [[Launcher App]] — the Godot project under `app/` that *is* the browser UI
 
 ## What we ship

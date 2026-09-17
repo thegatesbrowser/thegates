@@ -156,6 +156,7 @@ func load_lib(config_url: String, lib: String) -> void:
 
 func load_renderer(c_gate: ConfigGate) -> void:
 	renderer_url = renderer.get_download_url(c_gate.godot_version)
+	gate.godot_version = c_gate.godot_version
 	gate.renderer = await renderer.download(c_gate.godot_version, active_session)
 	if gate.renderer.is_empty(): return error(GateEvents.GateError.MISSING_RENDERER)
 	

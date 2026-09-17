@@ -11,9 +11,10 @@ thegates/
 ├── README.md            ← top-level "how to build" pointer
 ├── LICENSE
 ├── screenshots/         ← screenshots used in the parent README
-├── godot/               ← Godot fork (submodule of upstream Godot Engine)
+├── godot/               ← Godot fork (submodule of upstream Godot Engine); branch tg-3.6 holds the 3.6 renderer
 ├── app/                 ← The launcher's Godot project (the browser UI itself)
 ├── deployment/          ← Export / package / upload scripts (see [[Release and Deployment]])
+├── tests/               ← Integration harnesses (tests/godot3/ for the 3.6 renderer)
 └── docs/                ← This vault
 ```
 
@@ -35,6 +36,28 @@ godot/
 ├── thirdparty/          ← upstream
 └── bin/                 ← built binaries land here (multiple variants — see [[Build System]])
 ```
+
+## The Godot 3.6 renderer
+
+Not a second submodule. `tg-3.6` is a branch of the `godot/` fork — like
+`tg-4.5` and the download-only `tg-4.3` — based on upstream Godot 3.6.3, with
+the module and its thirdparty vendored in-tree:
+
+```
+godot/ (branch tg-3.6)
+├── SConstruct           ← tg_renderer option, TG_RENDERER define, .renderer suffix
+├── main/main.cpp        ← TG_RENDERER blocks, --tg-ipc-dir / --tg-user-data-dir globals
+├── tools/build.py       ← renderer / renderer-release profiles
+├── modules/the_gates/   ← ipc, renderer, network, sandbox
+└── thirdparty/          ← libzmq, cppzmq, flingfd, chromium-sandbox, vulkan
+```
+
+Build it from the branch (or a worktree) with `python tools/build.py renderer`.
+See [[Godot 3 Renderer]].
+
+`tests/` holds the integration harnesses; `tests/godot3/` is the 3.6 one
+(`testgate/` serves a gate and renderer for end-to-end runs, `test_keycode_map.py`
+checks the input translation table against both engines).
 
 ## `app/` — the browser project
 

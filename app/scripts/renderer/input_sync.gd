@@ -4,9 +4,6 @@ extends Node
 @export var ui_events: UiEvents
 @export var render_result: RenderResult
 
-var scale: float
-var offset: Vector2
-
 var input_sync: InputSync
 var should_send := false
 
@@ -20,9 +17,7 @@ func start_server() -> void:
 	input_sync = InputSync.new()
 	input_sync.socket_bind()
 
-	scale = DisplayServer.screen_get_scale()
-	offset = render_result.global_position
-	Debug.logclr("Mouse position scale: %.2f. Offset: %.2f" % [scale, offset.y], Color.DIM_GRAY)
+	Debug.logclr("Render area %s for %dx%d" % [render_result.size, render_result.width, render_result.height], Color.DIM_GRAY)
 
 
 func on_ui_mode_changed(mode: UiEvents.UiMode) -> void:
@@ -51,8 +46,21 @@ func update_mouse_position() -> void:
 	input_sync.send_input_event(event)
 
 
-func get_scaled_mouse_pos(position : Vector2) -> Vector2:
-	return (position - offset) * scale
+func get_scaled_mouse_pos(position: Vector2) -> Vector2:
+	# RenderResult is STRETCH_KEEP_ASPECT_CENTERED: the gate's frame is scaled to
+	# fit the node and centred, with bars where the aspects differ. The renderer
+	# keeps rendering at the resolution it was spawned with, so input has to be
+	# mapped from the current rect into that frame, letterbox included — a resize
+	# moves and scales the rect, and a stale offset left clicks landing off.
+	var rect: Rect2 = render_result.get_global_rect()
+	var frame: Vector2 = Vector2(render_result.width, render_result.height)
+	if rect.size.x <= 0.0 or rect.size.y <= 0.0 or frame.x <= 0.0 or frame.y <= 0.0:
+		return Vector2.ZERO
+
+	var fit: float = minf(rect.size.x / frame.x, rect.size.y / frame.y)
+	var drawn: Vector2 = frame * fit
+	var origin: Vector2 = rect.position + (rect.size - drawn) * 0.5
+	return (position - origin) / fit
 
 
 func _exit_tree() -> void:

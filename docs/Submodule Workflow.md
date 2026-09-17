@@ -15,6 +15,7 @@ Inside the submodule (`godot/`):
 | `tg-master` | Default branch on origin. The integration branch tracking upstream Godot's stable, with TheGates' patches on top. |
 | `tg-4.5` | Active dev branch for the current Godot 4.5-based renderer. **Current branch as of writing.** |
 | `tg-4.3` | Older Godot 4.3-based work (kept for reference). |
+| `tg-3.6` | Godot 3.6-based renderer for gates declaring `godot_version = "3.6"`. Based on upstream 3.6.3 with the module and thirdparty in-tree; see [[Godot 3 Renderer]]. |
 | `tg-4.2` | Older Godot 4.2-based work (kept for reference). |
 | `chromium-sandboxing` / `chromium-sandboxing-4.3-old` | Superseded — the sandboxing work landed on `tg-4.5`/`tg-master` (and the parity port on `tg-4.3`). Kept as historical pointers. |
 
